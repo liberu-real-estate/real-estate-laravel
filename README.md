@@ -1,3 +1,11 @@
+### Other active projects
+* https://github.com/liberu-accounting/accounting-laravel
+* https://github.com/liberu-automation/automation-laravel
+* https://github.com/liberu-cms/cms-laravel
+* https://github.com/liberu-crm/crm-laravel
+* https://github.com/liberu-ecommerce/ecommerce-laravel
+* https://github.com/liberu-maintenance/maintenance-laravel
+
 ### Description
 Welcome to Liberu Real Estate, our revolutionary open-source project that reshapes the real estate industry through the integration of Laravel 11, PHP 8.3, Livewire 3, and Filament 3. Liberu Real Estate is not just a software solution for property management; it's a dynamic platform designed to empower real estate professionals, property owners, and investors with innovative tools and seamless workflows.
 
