@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 
 class TenantResource extends Resource
+/**
+ * Defines the Filament resource for Tenant management, including forms for login, registration, email verification, and password reset.
+ */
 {
     protected static ?string $model = Tenant::class;
 
@@ -53,6 +56,12 @@ class TenantResource extends Resource
                             ->form('resetForm'),
                     ]),
             ]);
+        /**
+         * Creates the form schema for tenant management, including login, registration, email verification, and password reset forms.
+         * 
+         * @param Form $form The form builder instance.
+         * @return Form The form schema.
+         */
     }
 
     protected static function handleLogin(array $data)
@@ -85,3 +94,25 @@ class TenantResource extends Resource
         }
     }
 }
+        /**
+         * Handles the login logic for a tenant.
+         * 
+         * @param array $data The login credentials.
+         * @throws ValidationException If authentication fails.
+         */
+        /**
+         * Handles the registration logic for a tenant.
+         * 
+         * @param array $data The registration data.
+         */
+        /**
+         * Handles the email verification logic for a tenant.
+         * 
+         * @param array $data The verification data.
+         */
+        /**
+         * Handles the password reset logic for a tenant.
+         * 
+         * @param array $data The data for password reset.
+         * @throws ValidationException If reset link sending fails.
+         */
