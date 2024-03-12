@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * PaymentController.php
+ *
+ * The PaymentController class is responsible for handling payment-related actions within the real estate application.
+ * This includes creating payment sessions and processing successful payments.
+ */
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
