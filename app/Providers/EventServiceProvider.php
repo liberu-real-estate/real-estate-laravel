@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        BuyerRegistered::class => [
+            SendBuyerWelcomeEmail::class,
+        ],
     ];
 
     /**
@@ -36,3 +39,5 @@ class EventServiceProvider extends ServiceProvider
         return false;
     }
 }
+use App\Events\BuyerRegistered;
+use App\Listeners\SendBuyerWelcomeEmail;
