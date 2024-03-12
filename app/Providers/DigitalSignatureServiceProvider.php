@@ -1,11 +1,18 @@
 <?php
 
+/**
+ * Service provider for registering the DigitalSignatureService singleton.
+ */
+
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Config;
 
-class DigitalSignatureServiceProvider extends ServiceProvider
+    /**
+     * Register the DigitalSignatureService singleton in the service container.
+     */
+    class DigitalSignatureServiceProvider extends ServiceProvider
 {
     public function register()
     {
