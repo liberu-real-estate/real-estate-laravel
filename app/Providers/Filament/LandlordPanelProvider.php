@@ -26,7 +26,8 @@ class LandlordPanelProvider extends PanelProvider
             ->default()
             ->id('landlord')
             ->path('landlord')
-            ->login()->register()->resetPasswords()->verifyEmails()
+            ->register()->resetPasswords()->verifyEmails()
+            ->configureLogin($panel)
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -59,3 +60,8 @@ class LandlordPanelProvider extends PanelProvider
             ]);
     }
 }
+    protected function configureLogin(Panel $panel): Panel
+    {
+        // Define the login logic here to make it more modular
+        return $panel->login();
+    }
