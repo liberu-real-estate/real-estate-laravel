@@ -44,11 +44,10 @@ class Property extends Model
         return $this->hasMany(Image::class, 'property_id');
     }
 
-    /**
-     * Define the one-to-many relationship with Favorite.
-     * A property can be favorited by multiple users.
-     */
     public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'property_id');
+    }
     /**
      * Scope a query to only include properties that match the search criteria.
      *
@@ -77,7 +76,6 @@ class Property extends Model
     {
         return $this->hasMany(Transaction::class, 'property_id');
     }
-
     public function reviews()
     {
         return $this->hasMany(Review::class, 'property_id');
