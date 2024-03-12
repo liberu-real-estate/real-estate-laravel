@@ -11,6 +11,12 @@ use Filament\Resources\Table;
 use Filament\Tables;
 
 class BookingResource extends Resource
+/**
+ * Configures the Filament admin panel for managing bookings.
+ * 
+ * This file defines the BookingResource class, which configures the forms and tables
+ * used in the Filament admin panel for creating, editing, and listing bookings.
+ */
 {
     protected static ?string $model = Booking::class;
 
@@ -36,6 +42,12 @@ class BookingResource extends Resource
     }
 
     public static function table(Table $table): Table
+    /**
+     * Configures the form used for creating or editing bookings.
+     * 
+     * @param Form $form The form builder instance.
+     * @return Form The configured form instance.
+     */
     {
         return $table
             ->columns([
@@ -59,3 +71,9 @@ class BookingResource extends Resource
         ];
     }
 }
+    /**
+     * Configures the table used for listing bookings.
+     * 
+     * @param Table $table The table builder instance.
+     * @return Table The configured table instance.
+     */
