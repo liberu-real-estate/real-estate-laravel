@@ -18,29 +18,30 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-// Configuration for the admin panel
-class AdminPanelProvider extends PanelProvider
+class LandlordPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('landlord')
+            ->path('landlord')
             ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/Resources/Landlords'), for: 'App\\Filament\\Resources\\Landlords')
+            ->discoverPages(in: app_path('Filament/Pages/Landlords'), for: 'App\\Filament\\Pages\\Landlords')
             ->pages([
-                Pages\Dashboard::class,
+                // Assuming Pages\LandlordDashboard exists for landlord-specific dashboard
+                Pages\LandlordDashboard::class,
             ])
-            ->resource(TenantResource::class)
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Widgets/Landlords'), for: 'App\\Filament\\Widgets\\Landlords')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Assuming Widgets\LandlordAccountWidget exists for landlord-specific account widget
+                Widgets\LandlordAccountWidget::class,
+                // Assuming Widgets\LandlordInfoWidget exists for displaying landlord-specific information
+                Widgets\LandlordInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

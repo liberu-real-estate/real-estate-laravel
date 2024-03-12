@@ -1,0 +1,30 @@
+{{-- resources/views/landlord/login.blade.php --}}
+<form method="POST" action="{{ route('landlord.login') }}">
+    @csrf
+    <input type="email" name="email" required placeholder="Email">
+    <input type="password" name="password" required placeholder="Password">
+    <button type="submit">Login</button>
+</form>
+
+{{-- resources/views/landlord/register.blade.php --}}
+<form method="POST" action="{{ route('landlord.register') }}">
+    @csrf
+    <input type="text" name="name" required placeholder="Name">
+    <input type="email" name="email" required placeholder="Email">
+    <input type="password" name="password" required placeholder="Password">
+    <input type="password" name="password_confirmation" required placeholder="Confirm Password">
+    <button type="submit">Register</button>
+</form>
+
+{{-- resources/views/landlord/password_reset.blade.php --}}
+<form method="POST" action="{{ route('landlord.password.email') }}">
+    @csrf
+    <input type="email" name="email" required placeholder="Email">
+    <button type="submit">Send Password Reset Link</button>
+</form>
+
+{{-- resources/views/landlord/dashboard.blade.php --}}
+<div>
+    <h1>Welcome to Your Dashboard</h1>
+    <!-- Dashboard content goes here -->
+</div>
