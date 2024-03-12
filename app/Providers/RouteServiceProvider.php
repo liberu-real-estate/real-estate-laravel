@@ -38,3 +38,23 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 }
+        $this->routes(function () {
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/api.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/web.php'));
+
+            $this->mapLandlordRoutes();
+        });
+    /**
+     * Define the "landlord" routes for the application.
+     *
+     * These routes are typically stateless.
+     */
+    protected function mapLandlordRoutes()
+    {
+        Route::middleware('web')
+             ->group(base_path('routes/landlord.php'));
+    }
