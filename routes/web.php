@@ -27,4 +27,5 @@ Route::get('/bookings', [\App\Http\Controllers\BookingController::class, 'index'
 Route::get('/properties/{property}/book', \App\Http\Livewire\PropertyBooking::class)->name('property.book');
 Route::post('/payments/session', [\App\Http\Controllers\PaymentController::class, 'createSession']);
 Route::get('/payments/success', [\App\Http\Controllers\PaymentController::class, 'handlePaymentSuccess']);
+Route::get('/booking-calendar', \App\Http\Livewire\BookingCalendar::class)->middleware('auth')->name('booking.calendar');
 
