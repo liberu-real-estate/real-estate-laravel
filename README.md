@@ -28,6 +28,8 @@ Welcome to Liberu Real Estate, our revolutionary open-source project that reshap
 
 4. **Transaction Tracking and Reporting:** Streamline transactions and stay informed with Liberu Real Estate's comprehensive tracking and reporting features. Monitor property sales, leases, and financial transactions, ensuring accurate and up-to-date financial records.
 
+5. **Contractor Panel:** Provides contractors with a dedicated portal for managing their information, accessing resources, and more. This feature aims to streamline operations and enhance communication between contractors and property managers.
+
 5. **Customizable Listings and Search:** Tailor property listings and search functionalities to match your real estate business's unique needs. Liberu Real Estate empowers users to create customizable listings and search parameters, ensuring a personalized and efficient property search experience.
 
 Liberu Real Estate is open source, released under the permissive MIT license. We invite real estate professionals, developers, and property management teams to contribute to the evolution of real estate software. Together, let's redefine the standards of property management and create a platform that adapts to the unique needs of every real estate professional.
