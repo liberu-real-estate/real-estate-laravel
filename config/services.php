@@ -32,3 +32,7 @@ return [
     ],
 
 ];
+    'stripe' => [
+        'secret_key' => config('stripe.secret_key'),
+        'publishable_key' => config('stripe.publishable_key'),
+    ],
