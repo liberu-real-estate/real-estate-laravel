@@ -21,4 +21,5 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/properties', \App\Http\Livewire\PropertyList::class);
 });
+use App\Http\Controllers\HomeController;
 
