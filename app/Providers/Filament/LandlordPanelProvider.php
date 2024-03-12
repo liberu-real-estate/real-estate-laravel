@@ -26,7 +26,7 @@ class LandlordPanelProvider extends PanelProvider
             ->default()
             ->id('landlord')
             ->path('landlord')
-            ->login()
+            ->login()->register()->resetPasswords()->verifyEmails()
             ->colors([
                 'primary' => Color::Amber,
             ])
