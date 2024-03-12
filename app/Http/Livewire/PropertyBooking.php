@@ -17,6 +17,9 @@ class PropertyBooking extends Component
         'selectedDate' => 'required|date|after_or_equal:today',
     ];
 
+    /**
+     * Mounts the component with initial property data.
+     */
     public function mount($propertyId)
     {
         $this->propertyId = $propertyId;
@@ -24,12 +27,18 @@ class PropertyBooking extends Component
         $this->availableDates = Property::find($this->propertyId)->getAvailableDates();
     }
 
+    /**
+     * Sets the selected date for booking and validates it.
+     */
     public function selectDate($date)
     {
         $this->selectedDate = $date;
         $this->validate();
     }
 
+    public function bookViewing()
+     * Creates a booking for the selected date and property.
+     */
     public function bookViewing()
     {
         $this->validate();
@@ -44,6 +53,9 @@ class PropertyBooking extends Component
         $this->reset('selectedDate');
     }
 
+    /**
+     * Renders the property booking view with available dates.
+     */
     public function render()
     {
         return view('livewire.property-booking', [

@@ -33,3 +33,6 @@
         <button type="submit" class="btn btn-primary">Book Viewing</button>
     </form>
 </div>
+{{-- 
+    This template provides a form for users to book a viewing for a property, including date selection and user contact information.
+--}}
