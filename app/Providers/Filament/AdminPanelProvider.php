@@ -57,3 +57,4 @@ class AdminPanelProvider extends PanelProvider
             ]);
     }
 }
+            ->registerResource(\App\Filament\Resources\BuyerResource::class)
