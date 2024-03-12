@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Creates the 'tenants' table in the database, defining its structure.
+ */
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
