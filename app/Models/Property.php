@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Property extends Model
@@ -43,6 +41,21 @@ class Property extends Model
     }
 
     public function favorites()
+    /**
+     * Scope a query to only include properties that match the search criteria.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $search
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $search)
+    {
+        return $query->where(function ($query) use ($search) {
+            $query->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('description', 'like', '%' . $search . '%')
+                  ->orWhere('location', 'like', '%' . $search . '%');
+        });
+    }
     {
         return $this->hasMany(Favorite::class, 'property_id');
     }
