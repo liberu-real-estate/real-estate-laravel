@@ -60,6 +60,11 @@ class Property extends Model
         return $this->hasMany(Favorite::class, 'property_id');
     }
 
+    public function viewings()
+    {
+        return $this->hasMany(Viewing::class, 'property_id');
+    }
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'property_id');
