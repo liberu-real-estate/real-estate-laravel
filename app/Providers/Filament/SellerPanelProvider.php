@@ -1,3 +1,8 @@
+/**
+ * SellerPanelProvider configures the Filament panel for sellers.
+ *
+ * This class is responsible for setting up the panel's appearance, resources, pages, widgets, and middleware specific to the seller's panel within the Filament application.
+ */
 <?php
 
 namespace App\Providers\Filament;
