@@ -21,4 +21,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/properties', \App\Http\Livewire\PropertyList::class);
 });
+Route::get('/properties/{property}/availability', [ViewingController::class, 'checkAvailability'])->name('properties.availability');
+Route::post('/properties/{property}/book-viewing', [ViewingController::class, 'store'])->name('properties.book-viewing');
 
