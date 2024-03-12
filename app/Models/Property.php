@@ -35,12 +35,19 @@ class Property extends Model
         return $this->belongsTo(User::class, 'agent_id');
     }
 
+    /**
+     * Define the one-to-many relationship with Image.
+     * A property can have multiple images.
+     */
     public function images()
     {
         return $this->hasMany(Image::class, 'property_id');
     }
 
     public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'property_id');
+    }
     /**
      * Scope a query to only include properties that match the search criteria.
      *
@@ -69,7 +76,6 @@ class Property extends Model
     {
         return $this->hasMany(Transaction::class, 'property_id');
     }
-
     public function reviews()
     {
         return $this->hasMany(Review::class, 'property_id');
