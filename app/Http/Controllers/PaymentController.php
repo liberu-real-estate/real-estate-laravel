@@ -27,6 +27,16 @@ class PaymentController extends Controller
         return response()->json(['clientSecret' => $paymentIntent->client_secret]);
     }
 
+    /**
+     * Handles the successful payment process and records transaction details.
+     * 
+     * This method validates the payment success request, records the transaction details including property ID, 
+     * buyer ID, seller ID, transaction date, and amount in the database, and returns a success message.
+     * 
+     * @param Request $request Contains the property ID, transaction ID, and amount.
+     * @return \
+Illuminate\Http\JsonResponse Returns a JSON response with the message of success.
+     */
     public function handlePaymentSuccess(Request $request)
             'transaction_id' => 'required|string',
             'amount' => 'required|numeric',
