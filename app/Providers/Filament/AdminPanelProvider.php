@@ -27,7 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login()->register()->resetPasswords()->verifyEmails()
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -59,4 +59,5 @@ class AdminPanelProvider extends PanelProvider
     }
 }
             ->registerResource(\App\Filament\Resources\BuyerResource::class)
+            ->registerResource(\App\Filament\Resources\DocumentTemplateResource::class)
             ->registerResource(\App\Filament\Resources\DigitalSignatureResource::class)

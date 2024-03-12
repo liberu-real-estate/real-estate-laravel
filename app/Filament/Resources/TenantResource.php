@@ -55,33 +55,33 @@ class TenantResource extends Resource
             ]);
     }
 
-    protected static function handleLogin(array $data)
-    {
-        if (!Auth::attempt($data)) {
-            throw ValidationException::withMessages([
-                'email' => [__('auth.failed')],
-            ]);
-        }
-    }
+    // protected static function handleLogin(array $data)
+    // {
+    //     if (!Auth::attempt($data)) {
+    //         throw ValidationException::withMessages([
+    //             'email' => [__('auth.failed')],
+    //         ]);
+    //     }
+    // }
 
-    protected static function handleRegister(array $data)
-    {
-        // Registration logic here
-    }
+    // protected static function handleRegister(array $data)
+    // {
+    //     // Registration logic here
+    // }
 
-    protected static function handleVerification(array $data)
-    {
-        // Verification logic here
-    }
+    // protected static function handleVerification(array $data)
+    // {
+    //     // Verification logic here
+    // }
 
-    protected static function handleReset(array $data)
-    {
-        $status = Password::sendResetLink($data);
+    // protected static function handleReset(array $data)
+    // {
+    //     $status = Password::sendResetLink($data);
 
-        if ($status !== Password::RESET_LINK_SENT) {
-            throw ValidationException::withMessages([
-                'email' => [__($status)],
-            ]);
-        }
-    }
+    //     if ($status !== Password::RESET_LINK_SENT) {
+    //         throw ValidationException::withMessages([
+    //             'email' => [__($status)],
+    //         ]);
+    //     }
+    // }
 }
