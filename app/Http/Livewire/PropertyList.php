@@ -10,6 +10,9 @@ class PropertyList extends Component
     public $properties;
     public $search = '';
 
+    /**
+     * Mount the component and initialize properties with all Property records.
+     */
     public function mount()
     {
         $this->properties = Property::all();
