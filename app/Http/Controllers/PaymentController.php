@@ -18,9 +18,9 @@ class PaymentController extends Controller
             'amount' => 'required|numeric',
         ]);
 
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        $paymentIntent = PaymentIntent::create([
+        $this->stripe->setApiKey(env('STRIPE_SECRET'));
+        
+        $paymentIntent = $this->stripe->paymentIntents->create([
             'amount' => $request->amount * 100, // Convert amount to cents
             'currency' => 'usd',
             'metadata' => ['property_id' => $request->property_id],
@@ -30,6 +30,12 @@ class PaymentController extends Controller
     }
 
     public function handlePaymentSuccess(Request $request)
+    protected $stripe;
+
+    public function __construct(\Stripe\StripeClient $stripe)
+    {
+        $this->stripe = $stripe;
+    }
     {
         $request->validate([
             'property_id' => 'required|integer',
@@ -39,7 +45,7 @@ class PaymentController extends Controller
 
         $transaction = new Transaction();
         $transaction->property_id = $request->property_id;
-        $transaction->buyer_id = Auth::id();
+        $transaction->buyer_id = $this->auth->id();
         $transaction->seller_id = $this->getSellerIdFromProperty($request->property_id);
         $transaction->transaction_date = now();
         $transaction->transaction_amount = $request->amount;
@@ -47,11 +53,23 @@ class PaymentController extends Controller
 
         return response()->json(['message' => 'Payment successful and transaction recorded.']);
     }
+    protected $auth;
+
+    public function __construct(\Illuminate\Contracts\Auth\Factory $auth)
+    {
+        $this->auth = $auth;
+    }
 
     private function getSellerIdFromProperty($propertyId)
     {
         // Assuming there's a method to fetch the seller's ID based on the property ID.
         // This is a placeholder for the actual implementation.
-        return Property::find($propertyId)->seller_id;
+        return $this->propertyRepository->find($propertyId)->seller_id;
     }
 }
+    protected $propertyRepository;
+
+    public function __construct(\App\Repositories\PropertyRepository $propertyRepository)
+    {
+        $this->propertyRepository = $propertyRepository;
+    }
