@@ -55,6 +55,27 @@ class PaymentController extends Controller
      *
      * @param Request $request
      */
+    /**
+     * Creates a payment session for a property purchase.
+     * 
+     * This method validates the session creation request, sets the Stripe API key,
+     * creates a payment intent with the specified amount and property ID, and returns
+     * a response containing the client secret for the payment intent.
+     * 
+     * @param Request $request Contains the amount and property ID for the payment session.
+     * @return \Illuminate\Http\JsonResponse Returns a JSON response with the client secret.
+     */
+    /**
+     * Handles the successful payment process.
+     * 
+     * This method validates the payment success request, creates a new transaction record
+     * with the property ID, buyer ID, seller ID, transaction date, and amount, and saves
+     * it to the database. It then returns a JSON response indicating the payment was successful
+     * and the transaction was recorded.
+     * 
+     * @param Request $request Contains the property ID, transaction ID, and amount.
+     * @return \Illuminate\Http\JsonResponse Returns a JSON response indicating success.
+     */
     private function validateHandlePaymentSuccessRequest(Request $request)
     {
         $request->validate([
