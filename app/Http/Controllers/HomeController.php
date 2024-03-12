@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    /**
+    * Displays the home page with featured properties.
+    *
+    * @return \Illuminate\View\View The view of the home page with featured properties.
+    */
     public function index()
     {
         $featuredProperties = Property::where('is_featured', true)->get();
