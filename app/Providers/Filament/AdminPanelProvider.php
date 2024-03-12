@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Configures the Filament admin panel for the application.
+ *
+ * This file provides the service provider responsible for configuring the Filament admin panel,
+ * including its resources, pages, widgets, and middleware.
+ */
+
 namespace App\Providers\Filament;
 
 use Filament\Http\Middleware\Authenticate;
@@ -17,6 +24,16 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+
+/**
+ * Configures the Filament panel with resources, pages, and widgets.
+ *
+ * This method sets up the Filament panel, defining its path, resources, pages, widgets, and middleware.
+ * It is responsible for the overall configuration of the Filament admin panel within the application.
+ *
+ * @param Panel $panel The Filament panel instance.
+ * @return Panel The configured panel instance.
+ */
 
 // Configuration for the admin panel
 class AdminPanelProvider extends PanelProvider
