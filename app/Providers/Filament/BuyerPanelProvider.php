@@ -17,6 +17,16 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+/**
+ * Configures the buyer panel for the Filament admin dashboard, including middleware, resources, pages, and widgets specific to buyers.
+ */
+
+/**
+ * Sets up the buyer panel with designated paths, resources, pages, widgets, and middleware for buyer-specific functionality.
+ * 
+ * @param Panel $panel The panel instance to configure for buyers.
+ * @return Panel The configured panel instance.
+ */
 
 class BuyerPanelProvider extends PanelProvider
 {
