@@ -1,3 +1,9 @@
+/**
+ * Configures the Filament panel for the buyer role.
+ *
+ * This class is responsible for setting up the Filament panel specific to buyers, including defining its appearance,
+ * resources, pages, widgets, and middleware configurations to ensure a tailored administrative experience for buyers.
+ */
 <?php
 
 namespace App\Providers\Filament;
@@ -20,6 +26,12 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class BuyerPanelProvider extends PanelProvider
 {
+    /**
+     * Configures and returns the Filament panel for the buyer role.
+     *
+     * @param Panel $panel The initial panel instance.
+     * @return Panel The configured panel instance for the buyer role, including appearance settings, resources, pages, widgets, and middleware.
+     */
     public function panel(Panel $panel): Panel
     {
         return $panel
