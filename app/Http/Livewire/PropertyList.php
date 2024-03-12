@@ -37,3 +37,7 @@ class PropertyList extends Component
         ]);
     }
 }
+    /**
+     * Render the Livewire component view.
+     * Returns the view with properties data to be displayed.
+     */
