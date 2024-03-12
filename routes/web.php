@@ -21,4 +21,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/properties', \App\Http\Livewire\PropertyList::class);
 });
+Route::post('/bookings', [\App\Http\Controllers\BookingController::class, 'store']);
+Route::put('/bookings/{booking}', [\App\Http\Controllers\BookingController::class, 'update']);
+Route::get('/bookings', [\App\Http\Controllers\BookingController::class, 'index']);
 
