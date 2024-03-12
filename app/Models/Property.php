@@ -35,11 +35,19 @@ class Property extends Model
         return $this->belongsTo(User::class, 'agent_id');
     }
 
+    /**
+     * Define the one-to-many relationship with Image.
+     * A property can have multiple images.
+     */
     public function images()
     {
         return $this->hasMany(Image::class, 'property_id');
     }
 
+    /**
+     * Define the one-to-many relationship with Favorite.
+     * A property can be favorited by multiple users.
+     */
     public function favorites()
     /**
      * Scope a query to only include properties that match the search criteria.
