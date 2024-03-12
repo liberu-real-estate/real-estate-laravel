@@ -1,5 +1,10 @@
 &lt;?php
 
+/**
+ * Manages the login page for tenants using Filament resources.
+ * Provides UI for tenant authentication.
+ */
+
 namespace App\Filament\Resources\TenantResource\Pages;
 
 use Filament\Resources\Pages\Page;
@@ -37,6 +42,21 @@ class Login extends Page
         if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
             return Redirect::to($this->redirectTo);
         }
+
+        $this->notify('danger', 'Invalid credentials.');
+    }
+
+    protected string $redirectTo = '/dashboard';
+}
+
+        $this->notify('danger', 'Invalid credentials.');
+    }
+
+    protected string $redirectTo = '/dashboard';
+}
+
+    protected string $redirectTo = '/dashboard';
+}
 
         $this->notify('danger', 'Invalid credentials.');
     }
