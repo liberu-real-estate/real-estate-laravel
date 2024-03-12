@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Web routes for the real estate application.
+ * Includes routes for home, property listings, bookings, and payment processing.
+ */
+
 use Illuminate\Support\Facades\Route;
 
 /*
