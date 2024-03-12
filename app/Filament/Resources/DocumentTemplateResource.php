@@ -12,6 +12,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 
 class DocumentTemplateResource extends Resource
+/**
+ * This file defines the Filament resource for Document Templates, including its form and table configurations.
+ */
 {
     protected static ?string $model = DocumentTemplate::class;
 
@@ -36,6 +39,12 @@ class DocumentTemplateResource extends Resource
     }
 
     protected static function table(Table $table): Table
+    /**
+     * Defines the form schema for Document Templates.
+     * 
+     * @param Form $form The form builder instance.
+     * @return Form The configured form instance.
+     */
     {
         return $table
             ->columns([
@@ -53,3 +62,9 @@ class DocumentTemplateResource extends Resource
         return __('Administration');
     }
 }
+    /**
+     * Defines the table schema for Document Templates.
+     * 
+     * @param Table $table The table builder instance.
+     * @return Table The configured table instance.
+     */
