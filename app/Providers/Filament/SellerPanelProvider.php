@@ -31,7 +31,7 @@ class SellerPanelProvider extends PanelProvider
             ->default()
             ->id('seller')
             ->path('seller')
-            ->login()
+            ->login()->register()->resetPasswords()->verifyEmails()
             ->colors([
                 'primary' => Color::Amber,
             ])
