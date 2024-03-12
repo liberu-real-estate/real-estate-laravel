@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Configures the Filament admin panel.
+ * Registers resources, pages, widgets, and middleware for the admin panel.
+ */
+
 namespace App\Providers\Filament;
 
 use Filament\Http\Middleware\Authenticate;
@@ -17,6 +22,12 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+
+    /**
+     * Configures the default settings for the Filament admin panel.
+     * @param Panel $panel The panel builder instance.
+     * @return Panel The configured panel instance.
+     */
 
 // Configuration for the admin panel
 class AdminPanelProvider extends PanelProvider
