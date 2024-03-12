@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Livewire component for booking properties.
+ * Handles property booking operations including selecting a date for booking and initiating the booking process.
+ */
+
 namespace App\Http\Livewire;
 
 use Livewire\Component;
@@ -57,3 +62,8 @@ class PropertyBooking extends Component
     }
 }
 }
+/**
+ * Renders the Livewire component.
+ *
+ * @return \Illuminate\View\View The view to render.
+ */
