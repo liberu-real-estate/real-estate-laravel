@@ -4,10 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Migration for creating the 'digital_signatures' table in the database.
+ */
+
 class CreateDigitalSignaturesTable extends Migration
 {
     /**
      * Run the migrations.
+     */
+    /**
+     * Run the migrations to create the table.
      */
     public function up()
     {
@@ -22,6 +29,9 @@ class CreateDigitalSignaturesTable extends Migration
 
     /**
      * Reverse the migrations.
+     */
+    /**
+     * Reverse the migrations by dropping the 'digital_signatures' table.
      */
     public function down()
     {
