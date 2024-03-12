@@ -5,9 +5,10 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
+use App\Filament\Resources\Handlers\TenantLoginHandler;
+use App\Filament\Resources\Handlers\TenantRegisterHandler;
+use App\Filament\Resources\Handlers\TenantVerificationHandler;
+use App\Filament\Resources\Handlers\TenantResetHandler;
 use Illuminate\Validation\ValidationException;
 
 class TenantResource extends Resource
@@ -26,10 +27,10 @@ class TenantResource extends Resource
                         Forms\Components\PasswordInput::make('password')
                             ->required(),
                         Forms\Components\Button::make('Login')
-                            ->submit()
+                            ->action([TenantLoginHandler::class, 'handle'])
                             ->form('loginForm'),
                         Forms\Components\Button::make('Register')
-                            ->submit()
+                            ->action([TenantRegisterHandler::class, 'handle'])
                             ->form('registerForm'),
                     ]),
                 Forms\Components\Card::make()
@@ -40,7 +41,7 @@ class TenantResource extends Resource
                         Forms\Components\TextInput::make('token')
                             ->required(),
                         Forms\Components\Button::make('Verify Email')
-                            ->submit()
+                            ->action([TenantVerificationHandler::class, 'handle'])
                             ->form('verificationForm'),
                     ]),
                 Forms\Components\Card::make()
@@ -55,33 +56,7 @@ class TenantResource extends Resource
             ]);
     }
 
-    // protected static function handleLogin(array $data)
-    // {
-    //     if (!Auth::attempt($data)) {
-    //         throw ValidationException::withMessages([
-    //             'email' => [__('auth.failed')],
-    //         ]);
-    //     }
-    // }
-
-    // protected static function handleRegister(array $data)
-    // {
-    //     // Registration logic here
-    // }
-
-    // protected static function handleVerification(array $data)
-    // {
-    //     // Verification logic here
-    // }
-
-    // protected static function handleReset(array $data)
-    // {
-    //     $status = Password::sendResetLink($data);
-
-    //     if ($status !== Password::RESET_LINK_SENT) {
-    //         throw ValidationException::withMessages([
-    //             'email' => [__($status)],
-    //         ]);
-    //     }
-    // }
+                        Forms\Components\Button::make('Reset Password')
+                            ->action([TenantResetHandler::class, 'handle'])
+                            ->form('resetForm'),
 }
