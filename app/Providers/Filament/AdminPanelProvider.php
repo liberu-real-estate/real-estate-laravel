@@ -59,4 +59,5 @@ class AdminPanelProvider extends PanelProvider
     }
 }
             ->registerResource(\App\Filament\Resources\BuyerResource::class)
+            ->registerResource(\App\Filament\Resources\DocumentTemplateResource::class)
             ->registerResource(\App\Filament\Resources\DigitalSignatureResource::class)
