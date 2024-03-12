@@ -54,3 +54,4 @@ $app->singleton(
 
 return $app;
 $app->register(App\Providers\Filament\BuyerPanelProvider::class);
+$app->register(App\Providers\Filament\SellerPanelProvider::class);
