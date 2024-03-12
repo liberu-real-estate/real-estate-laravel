@@ -18,30 +18,21 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-// Configuration for the admin panel
-class AdminPanelProvider extends PanelProvider
+class SellerPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('seller')
+            ->path('seller')
             ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
-            ->resource(TenantResource::class)
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-            ])
+            ->discoverResources(in: app_path('Filament/Resources/Sellers'), for: 'App\\Filament\\Resources\\Sellers')
+            ->discoverPages(in: app_path('Filament/Pages/Sellers'), for: 'App\\Filament\\Pages\\Sellers')
+            ->discoverWidgets(in: app_path('Filament/Widgets/Sellers'), for: 'App\\Filament\\Widgets\\Sellers')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -58,5 +49,3 @@ class AdminPanelProvider extends PanelProvider
             ]);
     }
 }
-            ->registerResource(\App\Filament\Resources\BuyerResource::class)
-            ->registerResource(\App\Filament\Resources\DigitalSignatureResource::class)
