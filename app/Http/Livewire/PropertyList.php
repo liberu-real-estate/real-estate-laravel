@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Displays a list of properties, supports searching by title, location, or description.
+ */
+
 namespace App\Http\Livewire;
 
 use Livewire\Component;
@@ -30,6 +34,15 @@ class PropertyList extends Component
         ]);
     }
 }
+        ])->with(['bookingLink' => function($property) {
+            return route('livewire.property-booking', ['propertyId' => $property->id]);
+        }]);
+        ])->with(['bookingLink' => function($property) {
+            return route('livewire.property-booking', ['propertyId' => $property->id]);
+        }]);
+        ])->with(['bookingLink' => function($property) {
+            return route('livewire.property-booking', ['propertyId' => $property->id]);
+        }]);
         ])->with(['bookingLink' => function($property) {
             return route('livewire.property-booking', ['propertyId' => $property->id]);
         }]);
