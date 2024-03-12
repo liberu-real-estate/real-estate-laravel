@@ -26,7 +26,7 @@ class BuyerPanelProvider extends PanelProvider
             ->default()
             ->id('buyer')
             ->path('buyer')
-            ->login()
+            ->login()->register()->resetPasswords()->verifyEmails()
             ->colors([
                 'primary' => Color::Amber,
             ])
