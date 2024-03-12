@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Represents the Tenant entity in the database, including its relationships and properties.
+ * This model is responsible for handling the data of tenants.
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
