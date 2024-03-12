@@ -23,6 +23,12 @@ class BookingController extends Controller
     }
 
     public function update(Request $request, $id)
+    /**
+     * Stores a new booking in the database.
+     * 
+     * @param Request $request The HTTP request containing the booking data.
+     * @return \Illuminate\Http\JsonResponse JSON response indicating success or failure.
+     */
     {
         $validated = $request->validate([
             'date' => 'required|date',
@@ -43,4 +49,19 @@ class BookingController extends Controller
         $bookings = Booking::all();
         return response()->json(['bookings' => $bookings], 200);
     }
+/**
+ * BookingController handles booking-related actions such as storing and updating bookings.
+ */
 }
+    /**
+     * Retrieves all bookings from the database.
+     * 
+     * @return \Illuminate\Http\JsonResponse JSON response containing all bookings.
+     */
+    /**
+     * Updates an existing booking in the database.
+     * 
+     * @param Request $request The HTTP request containing the updated booking data.
+     * @param int $id The ID of the booking to update.
+     * @return \Illuminate\Http\JsonResponse JSON response indicating success or failure.
+     */
