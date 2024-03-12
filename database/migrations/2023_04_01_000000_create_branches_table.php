@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Migration for creating the branches table in the database.
+ *
+ * This migration file is responsible for creating the structure of the branches table
+ * in the application's database, including its columns and data types.
+ */
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +24,18 @@ class CreateBranchesTable extends Migration
         });
     }
 
+    public function down()
+    {
+        Schema::dropIfExists('branches');
+    }
+}
+
+    public function down()
+    {
+        Schema::dropIfExists('branches');
+    }
+}
+     */
     public function down()
     {
         Schema::dropIfExists('branches');
