@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 
 class TenantResource extends Resource
+/**
+ * TenantResource defines the form and actions for managing tenants in the Filament admin panel.
+ */
 {
     protected static ?string $model = Tenant::class;
 
@@ -53,6 +56,12 @@ class TenantResource extends Resource
                             ->form('resetForm'),
                     ]),
             ]);
+    /**
+     * Builds the form schema for tenant management.
+     * 
+     * @param Form $form The form builder instance.
+     * @return Form The configured form instance.
+     */
     }
 
     // protected static function handleLogin(array $data)
