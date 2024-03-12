@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Model representing a document template in the application.
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

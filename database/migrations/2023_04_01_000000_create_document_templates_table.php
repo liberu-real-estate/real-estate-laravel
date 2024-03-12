@@ -22,3 +22,12 @@ class CreateDocumentTemplatesTable extends Migration
         Schema::dropIfExists('document_templates');
     }
 }
+/**
+ * Migration for creating the 'document_templates' table in the database.
+ */
+    /**
+     * Run the migrations to create the table.
+     */
+    /**
+     * Reverse the migrations and drop the table.
+     */

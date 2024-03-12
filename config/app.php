@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Application configuration settings, including environment, providers, and aliases.
+ */
+
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
