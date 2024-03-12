@@ -30,3 +30,6 @@ class PropertyList extends Component
         ]);
     }
 }
+        ])->with(['bookingLink' => function($property) {
+            return route('livewire.property-booking', ['propertyId' => $property->id]);
+        }]);
