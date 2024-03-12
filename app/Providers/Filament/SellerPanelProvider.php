@@ -17,6 +17,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+/**
+ * Sets up the seller panel within the Filament admin dashboard, including specific middleware, resources, pages, and widgets for sellers.
+ */
 
 class SellerPanelProvider extends PanelProvider
 {
@@ -49,3 +52,9 @@ class SellerPanelProvider extends PanelProvider
             ]);
     }
 }
+    /**
+     * Configures the seller panel with dedicated settings for paths, resources, pages, widgets, and middleware tailored for seller interactions.
+     * 
+     * @param Panel $panel The panel instance to be configured for sellers.
+     * @return Panel The configured panel instance.
+     */
