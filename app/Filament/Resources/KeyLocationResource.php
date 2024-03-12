@@ -11,6 +11,10 @@ use Filament\Tables;
 
 class KeyLocationResource extends Resource
 {
+/**
+ * Resource class for managing key locations in the Filament admin panel.
+ * Provides forms and tables for creating, editing, and listing key locations.
+ */
     protected static ?string $model = KeyLocation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-key';
@@ -49,3 +53,17 @@ class KeyLocationResource extends Resource
         ];
     }
 }
+    /**
+     * Provides the routes for key location resource pages.
+     * @return array The array of page routes.
+     */
+            'create' => Pages\CreateKeyLocation::route('/create'),
+            'edit' => Pages\EditKeyLocation::route('/{record}/edit'),
+        ];
+    }
+}
+    /**
+     * Defines the table used for listing key locations.
+     * @param Table $table The table builder instance.
+     * @return Table The configured table instance.
+     */
