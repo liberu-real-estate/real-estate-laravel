@@ -11,6 +11,9 @@ use Filament\Tables;
 
 class ContractorResource extends Resource
 {
+/**
+ * ContractorResource file defines the form and table schema for contractor resources in the Filament admin.
+ */
     protected static ?string $model = Contractor::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-office-building';
@@ -36,6 +39,12 @@ class ContractorResource extends Resource
     }
 
     public static function table(Table $table): Table
+    /**
+     * Returns the form schema for editing contractor resources.
+     *
+     * @param Form $form
+     * @return Form
+     */
     {
         return $table
             ->columns([
@@ -54,3 +63,14 @@ class ContractorResource extends Resource
         return 'Management';
     }
 }
+    /**
+     * Returns the navigation group name under which the contractor resource should be grouped in the Filament sidebar.
+     *
+     * @return ?string
+     */
+    /**
+     * Returns the table schema for displaying contractor resources.
+     *
+     * @param Table $table
+     * @return Table
+     */
