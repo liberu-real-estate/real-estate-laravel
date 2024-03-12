@@ -30,3 +30,6 @@
         <env name="TELESCOPE_ENABLED" value="false"/>
     </php>
 </phpunit>
+        <testsuite name="Filament">
+            <directory>tests/Unit/Filament</directory>
+        </testsuite>
