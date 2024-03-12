@@ -54,3 +54,11 @@ class SellerPanelProvider extends PanelProvider
             ]);
     }
 }
+/**
+ * Configures the panel for the SellerPanelProvider.
+ *
+ * This method sets up the default configuration for the seller's panel, including its ID, path, login requirement, color scheme, resources, pages, widgets, and middleware.
+ *
+ * @param Panel $panel The panel instance to configure.
+ * @return Panel The configured panel instance.
+ */
