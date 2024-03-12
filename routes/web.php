@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Defines web routes for the application.
+ * 
+ * This file is responsible for mapping URLs to their corresponding actions or views within the application.
+ */
+
 use Illuminate\Support\Facades\Route;
 
 /*
