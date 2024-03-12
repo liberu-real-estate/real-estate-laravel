@@ -32,7 +32,14 @@ return [
     ],
 
 ];
+
     'stripe' => [
         'secret_key' => config('stripe.secret_key'),
         'publishable_key' => config('stripe.publishable_key'),
+
+    'digital_signature' => [
+        'api_key' => env('DIGITAL_SIGNATURE_API_KEY'),
+        'endpoint' => env('DIGITAL_SIGNATURE_ENDPOINT'),
+        // Add any other necessary configuration options here
+
     ],

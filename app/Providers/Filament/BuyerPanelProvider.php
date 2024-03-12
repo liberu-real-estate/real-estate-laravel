@@ -2,12 +2,12 @@
 
 namespace App\Providers\Filament;
 
+use Filament\PanelProvider;
+use Filament\Panel;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
-use Filament\Panel;
-use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -18,29 +18,26 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-// Configuration for the admin panel
-class AdminPanelProvider extends PanelProvider
+class BuyerPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('buyer')
+            ->path('buyer')
             ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/Resources/Buyers'), for: 'App\\Filament\\Resources\\Buyers')
+            ->discoverPages(in: app_path('Filament/Pages/Buyers'), for: 'App\\Filament\\Pages\\Buyers')
             ->pages([
-                Pages\Dashboard::class,
+                Pages\BuyerDashboard::class,
             ])
-            ->resource(TenantResource::class)
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Widgets/Buyers'), for: 'App\\Filament\\Widgets\\Buyers')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                Widgets\BuyerAccountWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -58,5 +55,3 @@ class AdminPanelProvider extends PanelProvider
             ]);
     }
 }
-            ->registerResource(\App\Filament\Resources\BuyerResource::class)
-            ->registerResource(\App\Filament\Resources\DigitalSignatureResource::class)
