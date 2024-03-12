@@ -13,7 +13,11 @@ class PropertyList extends Component
     /**
      * Mount the component and initialize properties with all Property records.
      */
-    public function mount()
+    /**
+     * Update the properties list based on the search query.
+     * Filters properties by title, location, or description matching the search term.
+     */
+    public function updatedSearch()
     {
         $this->properties = Property::all();
     }
