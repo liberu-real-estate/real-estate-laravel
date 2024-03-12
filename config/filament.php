@@ -56,6 +56,7 @@ class BookingResource extends Resource
             'index' => Pages\ListBookings::route('/'),
             'create' => Pages\CreateBooking::route('/create'),
             'edit' => Pages\EditBooking::route('/{record}/edit'),
+            'manageCalendar' => Pages\ManageBookingCalendar::route('/calendar'),
         ];
     }
 }
