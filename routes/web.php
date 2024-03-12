@@ -24,4 +24,5 @@ Route::get('/properties', \App\Http\Livewire\PropertyList::class);
 Route::post('/bookings', [\App\Http\Controllers\BookingController::class, 'store']);
 Route::put('/bookings/{booking}', [\App\Http\Controllers\BookingController::class, 'update']);
 Route::get('/bookings', [\App\Http\Controllers\BookingController::class, 'index']);
+Route::get('/properties/{property}/book', \App\Http\Livewire\PropertyBooking::class)->name('property.book');
 
