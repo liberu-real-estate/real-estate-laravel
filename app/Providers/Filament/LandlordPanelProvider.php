@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * LandlordPanelProvider configures the Filament panel for landlord users, including resources, pages, widgets, and color schemes.
+ */
+
 namespace App\Providers\Filament;
 
 use Filament\Http\Middleware\Authenticate;
@@ -20,6 +24,12 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class LandlordPanelProvider extends PanelProvider
 {
+    /**
+     * Configures the Filament panel for landlords.
+     * 
+     * @param Panel $panel The panel instance.
+     * @return Panel The configured panel instance for landlords.
+     */
     public function panel(Panel $panel): Panel
     {
         return $panel
