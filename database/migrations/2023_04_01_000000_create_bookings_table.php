@@ -27,3 +27,18 @@ class CreateBookingsTable extends Migration
         Schema::dropIfExists('bookings');
     }
 }
+/**
+ * Migration for creating the bookings table in the database.
+ * 
+ * This migration sets up the schema for the bookings table, including its relationships.
+ */
+    /**
+     * Creates the bookings table.
+     * 
+     * @return void
+     */
+    /**
+     * Reverts the database migration by dropping the bookings table.
+     * 
+     * @return void
+     */
