@@ -23,7 +23,7 @@ class ContractorPanelProvider extends PanelProvider
             ->default()
             ->id('contractor')
             ->path('contractor')
-            ->login()->register()->resetPasswords()->verifyEmails()
+            ->register()->resetPasswords()->verifyEmails()
             ->discoverResources(in: app_path('Filament/Resources/Contractors'), for: 'App\\Filament\\Resources\\Contractors')
             ->discoverPages(in: app_path('Filament/Pages/Contractors'), for: 'App\\Filament\\Pages\\Contractors')
             ->discoverWidgets(in: app_path('Filament/Widgets/Contractors'), for: 'App\\Filament\\Widgets\\Contractors')
@@ -43,3 +43,8 @@ class ContractorPanelProvider extends PanelProvider
             ]);
     }
 }
+    protected function configureLogin(Panel $panel): Panel
+    {
+        // Define the login logic here to make it more modular
+        return $panel->login();
+    }
