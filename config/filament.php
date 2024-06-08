@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Filament configuration for the real estate application.
+ * Defines resources and their configurations for the Filament admin panel.
+ */
+
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookingResource\Pages;
