@@ -18,13 +18,13 @@ class CreateBookingsTable extends Migration
             $table->timestamps();
 
             $table->foreign('staff_id')
-                  ->references('user_id')
+                  ->references('id')
                   ->on('users')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
 
             $table->foreign('user_id')
-                  ->references('user_id')
+                  ->references('id')
                   ->on('users')
                   ->onDelete('set null')
                   ->onUpdate('cascade');
