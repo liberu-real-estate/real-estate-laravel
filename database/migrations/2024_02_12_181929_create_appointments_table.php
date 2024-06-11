@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id('appointment_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('agent_id');
-            $table->unsignedBigInteger('property_id'); 
-            $table->foreign('user_id')->references('user_id')->on('users');
-            $table->foreign('agent_id')->references('user_id')->on('users');
-            $table->foreign('property_id')->references('property_id')->on('properties'); 
+            $table->unsignedBigInteger('property_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('agent_id')->references('id')->on('users');
+            $table->foreign('property_id')->references('property_id')->on('properties');
             $table->dateTime('appointment_date');
             $table->string('status');
             $table->timestamps();

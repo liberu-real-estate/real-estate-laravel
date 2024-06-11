@@ -41,6 +41,9 @@ class Property extends Model
     }
 
     public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'property_id');
+    }
     /**
      * Scope a query to only include properties that match the search criteria.
      *
@@ -56,9 +59,7 @@ class Property extends Model
                   ->orWhere('location', 'like', '%' . $search . '%');
         });
     }
-    {
-        return $this->hasMany(Favorite::class, 'property_id');
-    }
+  
 
     public function appointments()
     {

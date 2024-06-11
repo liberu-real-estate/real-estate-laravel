@@ -6,6 +6,13 @@
  */
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Livewire\PropertyList;
+use App\Http\Livewire\PropertyBooking;
+use App\Http\Livewire\BookingCalendar;
+
 
 /*
 |--------------------------------------------------------------------------

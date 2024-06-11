@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('review_id');
             $table->unsignedBigInteger('property_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('user_id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('property_id')->references('property_id')->on('properties');
             $table->integer('rating');
             $table->text('comment');
