@@ -4,10 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Models\KeyLocation;
 use Filament\Forms;
-use Filament\Resources\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+
 
 class KeyLocationResource extends Resource
 {
@@ -40,12 +41,12 @@ class KeyLocationResource extends Resource
             ]);
     }
 
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListKeyLocations::route('/'),
-            'create' => Pages\CreateKeyLocation::route('/create'),
-            'edit' => Pages\EditKeyLocation::route('/{record}/edit'),
-        ];
-    }
+    // public static function getPages(): array
+    // {
+    //     return [
+    //         'index' => Pages\ListKeyLocations::route('/'),
+    //         'create' => Pages\CreateKeyLocation::route('/create'),
+    //         'edit' => Pages\EditKeyLocation::route('/{record}/edit'),
+    //     ];
+    // }
 }

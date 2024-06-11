@@ -4,9 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Models\DocumentTemplate;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -17,7 +18,7 @@ class DocumentTemplateResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document';
 
-    protected static function form(Form $form): Form
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -35,7 +36,7 @@ class DocumentTemplateResource extends Resource
             ]);
     }
 
-    protected static function table(Table $table): Table
+    public static function table(Table $table): Table
     {
         return $table
             ->columns([

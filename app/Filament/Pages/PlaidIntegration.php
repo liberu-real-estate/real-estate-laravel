@@ -18,7 +18,7 @@ class PlaidIntegration extends Page
         $this->plaidEnvironment = config('services.plaid.env');
     }
 
-    protected function render(): View
+    public function render(): View
     {
         return view(static::$view, [
             // Data to be passed to the view, if any

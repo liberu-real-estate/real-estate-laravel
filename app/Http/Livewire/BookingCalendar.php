@@ -28,16 +28,6 @@ class BookingCalendar extends Component
     }
 
     public function bookProperty($propertyId, $date)
-/**
- * Adds a selected date to the dates collection.
- *
- * @param mixed $date The date to add.
- */
-    {
-        $this->dates = collect($this->dates)->push($date);
-    }
-
-    public function bookProperty($propertyId, $date)
     {
         $booking = Booking::create([
             'property_id' => $propertyId,
@@ -58,17 +48,3 @@ class BookingCalendar extends Component
         ]);
     }
 }
-/**
- * Initializes the component state with available dates and bookings.
- */
-/**
- * Creates a booking for a property on a given date.
- *
- * @param int $propertyId The ID of the property to book.
- * @param string $date The date on which to book the property.
- */
-/**
- * Renders the Livewire component.
- *
- * @return \Illuminate\View\View The view to render.
- */

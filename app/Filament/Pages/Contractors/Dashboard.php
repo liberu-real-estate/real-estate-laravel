@@ -13,7 +13,7 @@ class Dashboard extends Page
         // Initialize any data or states required for the contractor dashboard
     }
 
-    protected function render(): \Illuminate\Contracts\View\View
+    public function render(): \Illuminate\Contracts\View\View
     {
         return view(static::$view);
     }

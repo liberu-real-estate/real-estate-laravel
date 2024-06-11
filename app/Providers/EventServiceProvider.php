@@ -1,9 +1,5 @@
 <?php
 
-/**
- * EventServiceProvider handles event-listener mappings and event registration for the application.
- */
-
 namespace App\Providers;
 
 use Illuminate\Auth\Events\Registered;
