@@ -4,16 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Models\Buyer;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
 
 class BuyerResource extends Resource
 {
-/**
- * BuyerResource class defines the form and table schemas for managing `Buyer` entities within the Filament admin panel.
- */
     protected static ?string $model = Buyer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
@@ -34,12 +31,6 @@ class BuyerResource extends Resource
     }
 
     public static function table(Table $table): Table
-    /**
-     * Constructs the form schema for creating or editing a `Buyer` entity.
-     * 
-     * @param Form $form The form object to be modified.
-     * @return Form The modified form object with a schema for `Buyer`.
-     */
     {
         return $table
             ->columns([
@@ -57,9 +48,3 @@ class BuyerResource extends Resource
         return 'User Management';
     }
 }
-    /**
-     * Constructs the table schema for listing `Buyer` entities.
-     * 
-     * @param Table $table The table object to be modified.
-     * @return Table The modified table object with columns and filters for `Buyer`.
-     */

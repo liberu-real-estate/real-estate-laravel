@@ -1,9 +1,10 @@
-&lt;?php
+<?php
 
 namespace App\Filament\Resources\TenantResource\Pages;
 
 use Filament\Resources\Pages\Page;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -11,7 +12,7 @@ class Login extends Page
 {
     protected static string $view = 'filament.resources.tenant-resource.pages.login';
 
-    protected function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([

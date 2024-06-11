@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 
 /**
  * Defines routes specific to landlord functionalities within the application.

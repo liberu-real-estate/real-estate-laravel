@@ -36,8 +36,8 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
-    }
-}
+    
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')
@@ -48,6 +48,7 @@ class RouteServiceProvider extends ServiceProvider
 
             $this->mapLandlordRoutes();
         });
+    }
     /**
      * Define the "landlord" routes for the application.
      *
@@ -58,3 +59,4 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
              ->group(base_path('routes/landlord.php'));
     }
+}

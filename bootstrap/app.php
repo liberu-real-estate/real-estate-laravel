@@ -1,8 +1,3 @@
-/**
- * Bootstrap the Laravel application.
- *
- * This file creates the Laravel application instance, binds important interfaces to the service container, and returns the application instance. It serves as the entry point for setting up the application before handling any requests.
- */
 <?php
 
 /*
@@ -40,6 +35,7 @@ $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
+
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class

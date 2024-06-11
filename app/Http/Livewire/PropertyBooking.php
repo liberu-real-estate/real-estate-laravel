@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Livewire component for booking properties.
- * Handles property booking operations including selecting a date for booking and initiating the booking process.
- */
-
 namespace App\Http\Livewire;
 
 use Livewire\Component;
@@ -35,11 +30,12 @@ class PropertyBooking extends Component
         $this->validate();
     }
 
-    public function bookViewing()
+   
     public function loadBookingCalendar()
     {
         return $this->loadComponent('BookingCalendar', ['propertyId' => $this->propertyId]);
     }
+    public function bookViewing()
     {
         $this->validate();
 
@@ -61,9 +57,4 @@ class PropertyBooking extends Component
         ]);
     }
 }
-}
-/**
- * Renders the Livewire component.
- *
- * @return \Illuminate\View\View The view to render.
- */
+

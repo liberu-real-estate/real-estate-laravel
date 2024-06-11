@@ -16,9 +16,6 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class ContractorPanelProvider extends PanelProvider
-/**
- * ContractorPanelProvider configures the Filament panel for contractor users, defining resources, pages, and widgets.
- */
 {
     public function panel(Panel $panel): Panel
     {
@@ -46,9 +43,3 @@ class ContractorPanelProvider extends PanelProvider
             ]);
     }
 }
-    /**
-     * Configures the Filament panel for contractors.
-     * 
-     * @param Panel $panel The panel instance.
-     * @return Panel The configured panel instance for contractors.
-     */
