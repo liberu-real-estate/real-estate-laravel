@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id('image_id');
-            $table->unsignedBigInteger('property_id'); 
-            $table->foreign('property_id')->references('property_id')->on('properties'); 
+            $table->unsignedBigInteger('property_id');
+            $table->foreign('property_id')->references('property_id')->on('properties');
             $table->timestamps();
         });
     }

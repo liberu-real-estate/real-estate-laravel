@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('favorities', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->id('favorite_id');
-            $table->unsignedBigInteger('users');
-            $table->unsignedBigInteger('property_id'); 
-            $table->foreignId('user_id')->references('user_id')->on('users');
-            $table->foreign('property_id')->references('property_id')->on('properties'); 
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('property_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('property_id')->references('property_id')->on('properties');
             $table->timestamps();
         });
     }
