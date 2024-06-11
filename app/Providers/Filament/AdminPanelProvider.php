@@ -27,8 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()->register()->resetPasswords()->verifyEmails()
-            ->colors([
+            ->login()->colors([
                 'primary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -36,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->resource(TenantResource::class)
+          
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
@@ -58,11 +57,5 @@ class AdminPanelProvider extends PanelProvider
             ]);
     }
 }
-            ->registerResource(\App\Filament\Resources\BuyerResource::class)
-            ->registerResource(\App\Filament\Resources\DocumentTemplateResource::class)
-            ->registerResource(\App\Filament\Resources\DigitalSignatureResource::class)
-
-            ->registerResource(\App\Filament\Resources\BranchResource::class)
-
-            ->registerResource(\App\Filament\Resources\KeyLocationResource::class)
+           
 

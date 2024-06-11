@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 
 namespace App\Filament\Resources\BranchResource\Pages;
 
@@ -8,7 +8,7 @@ use Filament\Tables;
 
 class ListBranches extends ListRecords
 {
-    protected static $resource = BranchResource::class;
+    protected static string $resource = BranchResource::class;
 
     protected function getTableColumns(): array
     {

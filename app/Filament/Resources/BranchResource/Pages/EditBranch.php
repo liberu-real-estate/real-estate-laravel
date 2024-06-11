@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 
 namespace App\Filament\Resources\BranchResource\Pages;
 
@@ -7,5 +7,5 @@ use App\Filament\Resources\BranchResource;
 
 class EditBranch extends EditRecord
 {
-    protected static $resource = BranchResource::class;
+    protected static string $resource = BranchResource::class;
 }

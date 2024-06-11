@@ -4,9 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Models\Buyer;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
 
 class BuyerResource extends Resource

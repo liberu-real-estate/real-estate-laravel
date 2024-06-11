@@ -1,6 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Livewire\PropertyList;
+use App\Http\Livewire\PropertyBooking;
+use App\Http\Livewire\BookingCalendar;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,19 +19,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+// Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Property routes
+Route::get('/properties', PropertyList::class);
+Route::get('/properties/{property}/book', PropertyBooking::class)->name('property.book');
 
+// Booking routes
+Route::post('/bookings', [BookingController::class, 'store']);
+Route::put('/bookings/{booking}', [BookingController::class, 'update']);
+Route::get('/bookings', [BookingController::class, 'index']);
 
+// Payment routes
+Route::post('/payments/session', [PaymentController::class, 'createSession']);
+Route::get('/payments/success', [PaymentController::class, 'handlePaymentSuccess']);
 
-Route::get('/properties', \App\Http\Livewire\PropertyList::class);
-});
-Route::post('/bookings', [\App\Http\Controllers\BookingController::class, 'store']);
-Route::put('/bookings/{booking}', [\App\Http\Controllers\BookingController::class, 'update']);
-Route::get('/bookings', [\App\Http\Controllers\BookingController::class, 'index']);
-Route::get('/properties/{property}/book', \App\Http\Livewire\PropertyBooking::class)->name('property.book');
-Route::post('/payments/session', [\App\Http\Controllers\PaymentController::class, 'createSession']);
-Route::get('/payments/success', [\App\Http\Controllers\PaymentController::class, 'handlePaymentSuccess']);
-Route::get('/booking-calendar', \App\Http\Livewire\BookingCalendar::class)->middleware('auth')->name('booking.calendar');
-
+// Booking calendar route with authentication middleware
+Route::get('/booking-calendar', BookingCalendar::class)->middleware('auth')->name('booking.calendar');

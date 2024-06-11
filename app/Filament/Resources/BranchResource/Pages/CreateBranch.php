@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 
 namespace App\Filament\Resources\BranchResource\Pages;
 
@@ -7,5 +7,6 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateBranch extends CreateRecord
 {
-    protected static $resource = BranchResource::class;
+    protected static string $resource = BranchResource::class;
+
 }

@@ -3,17 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Models\Branch;
-use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
 
 class BranchResource extends Resource
 {
     protected static ?string $model = Branch::class;
 
-    protected static function form(Form $form): Form
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -30,7 +29,7 @@ class BranchResource extends Resource
             ]);
     }
 
-    protected static function table(Table $table): Table
+    public static function table(Table $table): Table
     {
         return $table
             ->columns([

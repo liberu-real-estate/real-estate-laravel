@@ -30,11 +30,12 @@ class PropertyBooking extends Component
         $this->validate();
     }
 
-    public function bookViewing()
+   
     public function loadBookingCalendar()
     {
         return $this->loadComponent('BookingCalendar', ['propertyId' => $this->propertyId]);
     }
+    public function bookViewing()
     {
         $this->validate();
 
@@ -56,4 +57,4 @@ class PropertyBooking extends Component
         ]);
     }
 }
-}
+
