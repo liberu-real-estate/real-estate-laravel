@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Tenant extends Model
 {
+    use HasFactory;
     protected $table = 'tenants';
 
     protected $fillable = [
@@ -15,10 +17,4 @@ class Tenant extends Model
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    // Define relationships here if necessary
-    // Example: 
-    // public function leases() {
-    //     return $this->hasMany(Lease::class);
-    // }
 }
