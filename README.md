@@ -11,14 +11,22 @@
 
 
 
-### Other active projects
+## Our Projects
+
 * https://github.com/liberu-accounting/accounting-laravel
 * https://github.com/liberu-automation/automation-laravel
+* https://github.com/liberu-billing/billing-laravel
+* https://github.com/liberusoftware/boilerplate
+* https://github.com/liberu-browser-game/browser-game-laravel
 * https://github.com/liberu-cms/cms-laravel
+* https://github.com/liberu-control-panel/control-panel-laravel
 * https://github.com/liberu-crm/crm-laravel
 * https://github.com/liberu-ecommerce/ecommerce-laravel
 * https://github.com/liberu-genealogy/genealogy-laravel
 * https://github.com/liberu-maintenance/maintenance-laravel
+* https://github.com/liberu-real-estate/real-estate-laravel
+* https://github.com/liberu-social-network/social-network-laravel
+
 
 ## Setup
 
