@@ -37,3 +37,4 @@ Route::post('/payments/session', [\App\Http\Controllers\PaymentController::class
 Route::get('/payments/success', [\App\Http\Controllers\PaymentController::class, 'handlePaymentSuccess']);
 Route::get('/booking-calendar', [\App\Http\Livewire\BookingCalendar::class])->middleware('auth')->name('booking.calendar');
 
+require __DIR__.'/socialstream.php';
