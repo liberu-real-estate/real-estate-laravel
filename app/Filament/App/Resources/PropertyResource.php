@@ -1,24 +1,3 @@
-<?php
-
-namespace App\Filament\Resources;
-
-use Filament\Forms;
-use Filament\Tables;
-use App\Models\Property;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\BelongsToSelect;
-use App\Filament\Resources\PropertyResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\PropertyResource\RelationManagers;
-
 class PropertyResource extends Resource
 {
     protected static ?string $model = Property::class;
@@ -131,6 +110,15 @@ class PropertyResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('compare')
+                        ->label('Compare Selected')
+                        ->action(function (Collection $records) {
+                            $propertyIds = $records->pluck('property_id')->join(',');
+                            return redirect()->route('property.compare', ['propertyIds' => $propertyIds]);
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->requiresConfirmation()
+                        ->icon('heroicon-o-scale'),
                 ]),
             ]);
     }
