@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('content');
             $table->timestamps();
         });
     }
