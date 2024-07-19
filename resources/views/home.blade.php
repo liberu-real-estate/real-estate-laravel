@@ -1,40 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
-@component('components.header')
-@endcomponent
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Welcome to Liberu Real Estate</h1>
 
-@component('components.navigation')
-@endcomponent
-
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <h2 class="text-center">Featured Properties</h2>
-            <div class="row">
-                @foreach($featuredProperties as $property)
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="{{ $property->image }}" class="card-img-top" alt="{{ $property->title }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $property->title }}</h5>
-                                <p class="card-text">{{ Str::limit($property->description, 100) }}</p>
-                                <a href="{{ url('/properties/'.$property->id) }}" class="btn btn-primary">View Details</a>
-                            </div>
-                        </div>
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Featured Properties</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($featuredProperties as $property)
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="{{ $property->images->first()->url ?? asset('images/placeholder.jpg') }}" alt="{{ $property->title }}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold mb-2">{{ $property->title }}</h3>
+                        <p class="text-gray-600 mb-4">{{ Str::limit($property->description, 100) }}</p>
+                        <a href="{{ url('/properties/'.$property->property_id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">View Details</a>
                     </div>
-                @endforeach
-            </div>
+                </div>
+            @endforeach
         </div>
-    </div>
-    <div class="row mt-5">
-        <div class="col-12">
-            <h2 class="text-center">About Our Business</h2>
-            <p class="text-center">Liberu Real Estate is revolutionizing the real estate industry with innovative tools and seamless workflows. Our platform empowers real estate professionals, property owners, and investors.</p>
-        </div>
-    </div>
-</div>
+    </section>
 
-@component('components.footer')
-@endcomponent
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">All Properties</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($properties as $property)
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="{{ $property->images->first()->url ?? asset('images/placeholder.jpg') }}" alt="{{ $property->title }}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold mb-2">{{ $property->title }}</h3>
+                        <p class="text-gray-600 mb-4">{{ Str::limit($property->description, 100) }}</p>
+                        <a href="{{ url('/properties/'.$property->property_id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">View Details</a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    <section class="mt-12">
+        <h2 class="text-2xl font-semibold mb-4">About Our Business</h2>
+        <p class="text-gray-600">Liberu Real Estate is revolutionizing the real estate industry with innovative tools and seamless workflows. Our platform empowers real estate professionals, property owners, and investors.</p>
+    </section>
+</div>
 @endsection
