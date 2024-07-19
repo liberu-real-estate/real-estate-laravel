@@ -1,22 +1,20 @@
 <div>
-    <form class="space-y-4" wire:submit.prevent="search">
-        <x-filament::form>
-            <x-filament::input
-                type="text"
-                placeholder="Search properties..."
-                wire:model="search"
-            />
-        </x-filament::form>
-    </form>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        @foreach ($properties as $property)
-            <div class="bg-white shadow rounded-lg p-4">
-                <h3 class="text-lg font-semibold">{{ $property->title }}</h3>
-                <p>{{ $property->location }}</p>
-                <div class="text-sm text-gray-600 mt-2">
-                    {{ $property->description }}
-                </div>
+    <livewire:advanced-property-search />
+    
+    <div class="mt-8">
+        @foreach($properties as $property)
+            <div class="mb-4 p-4 border rounded">
+                <h2 class="text-xl font-bold">{{ $property->title }}</h2>
+                <p>{{ $property->description }}</p>
+                <p>Location: {{ $property->location }}</p>
+                <p>Price: ${{ number_format($property->price, 2) }}</p>
+                <p>Bedrooms: {{ $property->bedrooms }}</p>
+                <p>Bathrooms: {{ $property->bathrooms }}</p>
+                <p>Area: {{ $property->area_sqft }} sqft</p>
+                <p>Type: {{ ucfirst($property->property_type) }}</p>
+                @if($property->features->isNotEmpty())
+                    <p>Amenities: {{ $property->features->pluck('feature_name')->implode(', ') }}</p>
+                @endif
             </div>
         @endforeach
     </div>
