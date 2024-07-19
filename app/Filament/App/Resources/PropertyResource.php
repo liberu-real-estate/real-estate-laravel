@@ -57,7 +57,7 @@ class PropertyResource extends Resource
                     ->relationship('user', 'name'),
                 BelongsToSelect::make('agent_id')
                     ->relationship('agent', 'name'),
-               
+
             ]);
     }
 
@@ -131,6 +131,15 @@ class PropertyResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('compare')
+                        ->label('Compare Selected')
+                        ->action(function (Collection $records) {
+                            $propertyIds = $records->pluck('property_id')->join(',');
+                            return redirect()->route('property.compare', ['propertyIds' => $propertyIds]);
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->requiresConfirmation()
+                        ->icon('heroicon-o-scale'),
                 ]),
             ]);
     }
