@@ -49,19 +49,33 @@ class PropertyList extends Component
 
     public function getPropertiesProperty()
     {
-        return Property::search($this->search)
-            ->priceRange($this->minPrice, $this->maxPrice)
-            ->bedrooms($this->minBedrooms, $this->maxBedrooms)
-            ->bathrooms($this->minBathrooms, $this->maxBathrooms)
-            ->areaRange($this->minArea, $this->maxArea)
-            ->when($this->propertyType, function ($query) {
-                return $query->propertyType($this->propertyType);
-            })
-            ->when($this->selectedAmenities, function ($query) {
-                return $query->hasAmenities($this->selectedAmenities);
-            })
-            ->with(['features', 'images'])
-            ->paginate(10);
+        try {
+            return Property::search($this->search)
+                ->priceRange($this->minPrice, $this->maxPrice)
+                ->bedrooms($this->minBedrooms, $this->maxBedrooms)
+                ->bathrooms($this->minBathrooms, $this->maxBathrooms)
+                ->areaRange($this->minArea, $this->maxArea)
+                ->when($this->propertyType, function ($query) {
+                    return $query->propertyType($this->propertyType);
+                })
+                ->when($this->selectedAmenities, function ($query) {
+                    return $query->hasAmenities($this->selectedAmenities);
+                })
+                ->with(['features', 'images'])
+                ->paginate(12);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching properties: ' . $e->getMessage());
+            session()->flash('error', 'An error occurred while fetching properties. Please try again.');
+            return collect();
+        }
+    }
+    
+    public function render()
+    {
+        return view('livewire.property-list', [
+            'properties' => $this->getPropertiesProperty(),
+            'amenities' => PropertyFeature::distinct('feature_name')->pluck('feature_name'),
+        ])->layout('layouts.app');
     }
 
     public function render()
