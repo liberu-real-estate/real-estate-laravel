@@ -85,16 +85,18 @@ class AdminPanelProvider extends PanelProvider
         /**
          * Selectively register Fortify routes.
          */
-        Fortify::routes($callback = null, ['prefix' => 'auth']);
+//        Fortify::routes($callback = null, ['prefix' => 'auth']);
 
         /**
          * Register login rate limiter.
          */
+
+/**
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
             return Limit::perMinute(5)->by($throttleKey);
         });
-
+**/
         /**
          * Disable Jetstream routes.
          */
