@@ -19,13 +19,17 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -82,7 +86,7 @@ class AdminPanelProvider extends PanelProvider
          * Selectively register Fortify routes.
          */
         Fortify::routes($callback = null, ['prefix' => 'auth']);
-    
+
         /**
          * Register login rate limiter.
          */
@@ -90,12 +94,11 @@ class AdminPanelProvider extends PanelProvider
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
             return Limit::perMinute(5)->by($throttleKey);
         });
-    
+
         /**
          * Disable Jetstream routes.
          */
         Jetstream::$registersRoutes = false;
-    
     }
 
     public function shouldRegisterMenuItem(): bool
