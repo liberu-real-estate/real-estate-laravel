@@ -87,6 +87,6 @@ class Property extends Model
             $query->whereIn('feature_name', $amenities);
         }, '=', count($amenities));
     }
-}
+
 }
 
