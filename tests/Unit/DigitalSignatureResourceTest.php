@@ -5,11 +5,10 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Filament\Resources\DigitalSignatureResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Filament\Testing\Tests\Resources\ResourceTest;
 
 class DigitalSignatureResourceTest extends TestCase
 {
-    use RefreshDatabase, ResourceTest;
+    use RefreshDatabase;
 
     public function testResourceIsCorrectlyRegistered()
     {
