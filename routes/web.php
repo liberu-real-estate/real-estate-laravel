@@ -38,6 +38,8 @@ Route::post('/payments/session', [\App\Http\Controllers\PaymentController::class
 Route::get('/payments/success', [\App\Http\Controllers\PaymentController::class, 'handlePaymentSuccess']);
 Route::get('/booking-calendar', [\App\Http\Livewire\BookingCalendar::class])->middleware('auth')->name('booking.calendar');
 
+Route::get('/properties/{property}', [\App\Http\Livewire\PropertyDetail::class])->name('property.detail');
+
 Route::get('/properties/compare/{propertyIds}', PropertyComparison::class)->name('property.compare');
 
 require __DIR__.'/socialstream.php';require __DIR__.'/socialstream.php';
