@@ -20,7 +20,7 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-xl font-bold text-green-600">${{ number_format($property->price, 2) }}</span>
-                            <a href="{{ route('property.detail', $property->property_id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">View Details</a>
+                            <a href="{{ route('property.detail', $property->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-xl font-bold text-green-600">${{ number_format($property->price, 2) }}</span>
-                            <a href="{{ route('property.detail', $property->property_id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">View Details</a>
+                            <a href="{{ route('property.detail', $property->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">View Details</a>
                         </div>
                     </div>
                 </div>
