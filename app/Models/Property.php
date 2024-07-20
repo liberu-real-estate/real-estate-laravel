@@ -23,6 +23,7 @@ class Property extends Model
         'user_id',
         'agent_id',
         'virtual_tour_url',
+        'is_featured',
     ];
 
     // Relationships
