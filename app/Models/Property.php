@@ -24,6 +24,7 @@ class Property extends Model
         'agent_id',
         'virtual_tour_url',
         'is_featured',
+        'rightmove_id',
     ];
 
     // Relationships
