@@ -91,13 +91,32 @@ class ImportProperties extends Page
     public function import()
     {
         $data = $this->form->getState();
-
+    
         $csv = Reader::createFromPath(Storage::path($data['csv_file']), 'r');
         $csv->setHeaderOffset(0);
-
+    
         $records = $csv->getRecords();
-
+    
         foreach ($records as $record) {
             $propertyData = [];
             foreach ($this->columnMapping as $field => $csvColumn) {
-                $propertyData
+                if (!empty($csvColumn) && isset($record[$csvColumn])) {
+                    $propertyData[$field] = $record[$csvColumn];
+                }
+            }
+    
+            // Validate and create the property
+            try {
+                $property = PropertyResource::getModel()::create($propertyData);
+                $this->notify('success', "Property '{$property->title}' imported successfully.");
+            } catch (\Exception $e) {
+                $this->notify('error', "Failed to import property: {$e->getMessage()}");
+            }
+        }
+    
+        // Delete the temporary CSV file
+        Storage::delete($data['csv_file']);
+    
+        $this->notify('success', 'Import completed.');
+        $this->redirect(PropertyResource::getUrl('index'));
+    }
