@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import laravel, { refreshPaths } from 'laravel-vite-plugin'
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 export default defineConfig({
     plugins: [
@@ -13,6 +14,14 @@ export default defineConfig({
                 'app/Infolists/Components/**',
                 'app/Providers/Filament/**',
                 'app/Tables/Columns/**',
+            ],
+        }),
+        viteStaticCopy({
+            targets: [
+                {
+                    src: "resources/images/*",
+                    dest: "images",
+                },
             ],
         }),
     ],
