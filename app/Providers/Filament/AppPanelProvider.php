@@ -119,15 +119,23 @@ class AppPanelProvider extends PanelProvider
     public function boot()
     {
         /**
-         * Disable Fortify routes.
+         * Selectively register Fortify routes.
          */
-        Fortify::$registersRoutes = false;
-
+        Fortify::routes($callback = null, ['prefix' => 'auth']);
+    
+        /**
+         * Register login rate limiter.
+         */
+        RateLimiter::for('login', function (Request $request) {
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+            return Limit::perMinute(5)->by($throttleKey);
+        });
+    
         /**
          * Disable Jetstream routes.
          */
         Jetstream::$registersRoutes = false;
-
+    
         /**
          * Listen and create personal team for new accounts.
          */
@@ -135,7 +143,7 @@ class AppPanelProvider extends PanelProvider
             Registered::class,
             CreatePersonalTeam::class,
         );
-
+    
         /**
          * Listen and switch team if tenant was changed.
          */
