@@ -142,6 +142,11 @@ class PropertyResource extends Resource
                     ->icon('heroicon-o-calculator')
                     ->url(fn (Property $record): string => route('filament.app.resources.properties.valuate', $record))
                     ->openUrlInNewTab(),
+                Tables\Actions\Action::make('mortgage_calculator')
+                    ->label('Mortgage Calculator')
+                    ->icon('heroicon-o-currency-pound')
+                    ->url(fn (Property $record): string => route('filament.app.resources.mortgage-calculator.index', ['property_price' => $record->price]))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
