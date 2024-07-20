@@ -1,78 +1,48 @@
-<style>
-    .btn-nav:hover {
-        color: #f7f7f7; /* Couleur du texte au survol */
-    }
-</style>
-
-    <nav class="bg-green-900 fixed w-full z-10"  x-data="{ isOpen: false }">
-        <div class="container mx-auto flex justify-between items-center py-4">
+<nav class="bg-green-900 fixed w-full z-10" x-data="{ isOpen: false, dropdownOpen: false }">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
             <a class="navbar-brand flex items-center" href="/">
                 <img src="{{ asset('/build/images/logo1.svg') }}" alt="Logo" class="h-8">
             </a>
-            <button onclick="toggleMenu()" class="lg:hidden text-white focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 fill-current">
-                    <path fill-rule="evenodd" d="M4 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 5h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 5h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
-                </svg>
-            </button>
-            <div class="hidden lg:flex lg:items-center lg:w-auto">
-                <a href="/" class="btn-nav">Home</a>
-                <span class="mx-2"></span>
-                <a href="/contact" class="btn-nav">Contact</a>
-                <span class="mx-2"></span>
-                <a href="/about" class="btn-nav">About</a>
-                <span class="mx-2"></span>
+            <div class="hidden lg:flex lg:items-center lg:space-x-4">
+                <a href="/" class="btn-nav text-white hover:text-gray-300">Home</a>
+                <a href="/contact" class="btn-nav text-white hover:text-gray-300">Contact</a>
+                <a href="/about" class="btn-nav text-white hover:text-gray-300">About</a>
                 @if(auth()->check())
-                    <div class="relative inline-block text-left">
-                        <button onclick="toggleDropdown()" class="btn-nav">
-                            <span class="text-white">
-                                <strong>Welcome, {{ auth()->user()->name }}</strong>
-                            </span>
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="btn-nav text-white hover:text-gray-300">
+                            Welcome, {{ auth()->user()->name }}
                         </button>
-                        <div class="ml-3 absolute hidden" id="moreDropdown">
-                            <a href="{{ route('filament.admin.tenant')}}" class="btn-nav">Dashboard</a>
+                        <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                            <a href="{{ route('filament.admin.tenant')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
                         </div>
                     </div>
                 @else
-                    <a href="/login" class="btn-nav">Login</a>
-                    <span class="mx-2"></span>
-                    <a href="/register" class="btn-nav">Register</a>
+                    <a href="/login" class="btn-nav text-white hover:text-gray-300">Login</a>
+                    <a href="/register" class="btn-nav text-white hover:text-gray-300">Register</a>
                 @endif
             </div>
-            <div id="mobile-menu" class="mobile-menu-container fixed bg-green-700 hidden" x-show="isOpen" @click.away="isOpen = false">
-                <div class="mobile-menu-content">
-                    <!-- Navigation Links -->
-                    <a href="/home" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Home</a>
-                    @if(auth()->check())
-                    <div class="relative inline-block text-left">
-                        <button onclick="toggleDropdown()" class="btn-nav">
-                            <span class="text-white">
-                                <strong>Welcome, {{ auth()->user()->name }}</strong>
-                            </span>
-                        </button>
-                        <div class="ml-3 absolute hidden" id="moreDropdown">
-                            <a href="{{ route('filament.admin.tenant')}}" class="btn-nav">Dashboard</a>
-                        </div>
-                    </div>
-                @else
-                    <a href="/login" class="btn-nav">Login</a>
-                    <span class="mx-2"></span>
-                    <a href="/register" class="btn-nav">Register</a>
-                @endif
-                    <a href="/about" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">About</a>
-                    <a href="/contact" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Contact</a>
-                </div>
+            <div class="lg:hidden">
+                <button @click="isOpen = !isOpen" class="text-white focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path x-show="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path x-show="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
         </div>
-    </nav>
-
-    <script>
-        function toggleDropdown() {
-            var dropdownMenu = document.getElementById("moreDropdown");
-            dropdownMenu.classList.toggle("hidden");
-        }
-
-        function toggleMenu() {
-            var dropdownMenu = document.getElementById("mobile-menu");
-            dropdownMenu.classList.toggle("hidden");
-        }
-    </script>
+    </div>
+    <div x-show="isOpen" class="lg:hidden">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            <a href="/" class="block px-3 py-2 text-white hover:bg-green-800">Home</a>
+            <a href="/contact" class="block px-3 py-2 text-white hover:bg-green-800">Contact</a>
+            <a href="/about" class="block px-3 py-2 text-white hover:bg-green-800">About</a>
+            @if(auth()->check())
+                <a href="{{ route('filament.admin.tenant')}}" class="block px-3 py-2 text-white hover:bg-green-800">Dashboard</a>
+            @else
+                <a href="/login" class="block px-3 py-2 text-white hover:bg-green-800">Login</a>
+                <a href="/register" class="block px-3 py-2 text-white hover:bg-green-800">Register</a>
+            @endif
+        </div>
+    </div>
+</nav>

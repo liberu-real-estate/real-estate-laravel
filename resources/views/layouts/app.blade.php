@@ -11,11 +11,10 @@
     @vite('resources/css/app.css')
 </head>
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        @include('components.header')
+    <div class="min-h-screen bg-gray-100 flex flex-col">
         @include('components.home-navbar')
 
-        <main>
+        <main class="flex-grow">
             @yield('content')
         </main>
 
