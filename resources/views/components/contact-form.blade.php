@@ -1,5 +1,5 @@
 <div>
-    <form action="/contact/send" method="POST">
+    <form action="{{ route('leads.store') }}" method="POST">
         @csrf
         <div class="mb-4">
             <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
