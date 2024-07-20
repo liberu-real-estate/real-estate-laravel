@@ -23,7 +23,7 @@ return new class extends Migration
             $table->year('year_built');
             $table->string('property_type');
             $table->string('status');
-            $table->date('list_date');
+            $table->date('list_date')->default(now());
             $table->date('sold_date')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->boolean('is_featured')->default(false);
