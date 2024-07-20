@@ -47,6 +47,11 @@ class Property extends Model
         return $this->hasMany(PropertyFeature::class, 'property_id');
     }
 
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
     // Scopes
     public function scopeSearch(Builder $query, $search): Builder
     {
