@@ -24,6 +24,7 @@ class PropertySeeder extends Seeder
                 'status' => 'For Sale',
                 'is_featured' => true,
                 'list_date' => now(),
+		'user_id' => 1,
             ],
             [
                 'title' => 'Modern Downtown Apartment',
@@ -38,6 +39,7 @@ class PropertySeeder extends Seeder
                 'status' => 'For Sale',
                 'is_featured' => true,
                 'list_date' => now(),
+		'user_id' => 1,
             ],
             [
                 'title' => 'Charming Suburban Home',
@@ -52,6 +54,7 @@ class PropertySeeder extends Seeder
                 'status' => 'For Sale',
                 'is_featured' => false,
                 'list_date' => now(),
+		'user_id' => 1,
             ],
         ];
 
