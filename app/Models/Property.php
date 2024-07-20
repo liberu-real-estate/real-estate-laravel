@@ -1,10 +1,3 @@
-<?php
-
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-
 class Property extends Model
 {
     protected $fillable = [
@@ -24,7 +17,12 @@ class Property extends Model
         'agent_id',
         'virtual_tour_url',
         'is_featured',
-        'rightmove_id',
+        'zoopla_id',
+        'last_synced_at',
+    ];
+
+    protected $casts = [
+        'last_synced_at' => 'datetime',
     ];
 
     // Relationships
@@ -95,5 +93,11 @@ class Property extends Model
         }, '=', count($amenities));
     }
 
+    public function scopeNeedsSyncing(Builder $query): Builder
+    {
+        return $query->where(function ($query) {
+            $query->whereNull('last_synced_at')
+                  ->orWhere('updated_at', '>', 'last_synced_at');
+        });
+    }
 }
-
