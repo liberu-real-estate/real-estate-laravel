@@ -135,11 +135,14 @@ RUN composer install \
 
 COPY .env.example ./.env
 
-RUN php artisan key:generate
-
 RUN chmod +x /usr/local/bin/start-container
 
 RUN cat .docker/utilities.sh >> ~/.bashrc
+
+# Add Octane-specific optimizations
+RUN echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/opcache.ini \
+    && echo "opcache.enable_cli=1" >> /usr/local/etc/php/conf.d/opcache.ini \
+    && echo "opcache.jit_buffer_size=100M" >> /usr/local/etc/php/conf.d/opcache.ini
 
 EXPOSE 8000
 
