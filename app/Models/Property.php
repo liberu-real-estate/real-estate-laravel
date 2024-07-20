@@ -1,4 +1,4 @@
-
+<?php
      * @param  mixed  $search
      * @return \Illuminate\Database\Eloquent\Builder
      */
