@@ -18,6 +18,9 @@ class Kernel extends ConsoleKernel
             $rightMoveService = app(RightMoveService::class);
             $rightMoveService->syncAllProperties();
         })->hourly();
+
+        // Sync properties with OnTheMarket daily
+        $schedule->job(new PropertySyncJob())->daily();
     }
 
     /**
