@@ -24,6 +24,9 @@ class Property extends Model
         'agent_id',
         'virtual_tour_url',
         'is_featured',
+        'rightmove_id',
+        'rightmove_status',
+        'rightmove_last_sync',
     ];
 
     // Relationships
@@ -94,5 +97,10 @@ class Property extends Model
         }, '=', count($amenities));
     }
 
+    public function syncToRightMove()
+    {
+        $rightMoveService = app(RightMoveService::class);
+        return $rightMoveService->updateProperty($this);
+    }
 }
 

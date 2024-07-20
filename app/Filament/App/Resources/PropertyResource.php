@@ -21,6 +21,9 @@ use App\Filament\App\Resources\PropertyResource\RelationManagers;
 use Filament\Forms\Components\FileUpload;
 use App\Services\ImageUploadService;
 
+use App\Services\RightMoveService;
+use Filament\Notifications\Notification;
+
 class PropertyResource extends Resource
 {
     protected static ?string $model = Property::class;
@@ -140,6 +143,13 @@ class PropertyResource extends Resource
                         ->label('Agent ID')
                         ->searchable()
                         ->sortable(),
+                TextColumn::make('rightmove_status')
+                    ->label('RightMove Status')
+                    ->sortable(),
+                TextColumn::make('rightmove_last_sync')
+                    ->label('Last Synced')
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -156,6 +166,22 @@ class PropertyResource extends Resource
                     ->icon('heroicon-o-currency-pound')
                     ->url(fn (Property $record): string => route('filament.app.resources.mortgage-calculator.index', ['property_price' => $record->price]))
                     ->openUrlInNewTab(),
+                Tables\Actions\Action::make('sync_to_rightmove')
+                    ->label('Sync to RightMove')
+                    ->icon('heroicon-o-arrow-path')
+                    ->action(function (Property $record) {
+                        if ($record->syncToRightMove()) {
+                            Notification::make()
+                                ->title('Property synced to RightMove')
+                                ->success()
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('Failed to sync property to RightMove')
+                                ->danger()
+                                ->send();
+                        }
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -177,6 +203,29 @@ class PropertyResource extends Resource
                     ->icon('heroicon-o-arrow-up-tray')
                     ->url(route('filament.app.resources.properties.import'))
                     ->openUrlInNewTab(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkAction::make('sync_to_rightmove')
+                    ->label('Sync to RightMove')
+                    ->icon('heroicon-o-arrow-path')
+                    ->action(function (Collection $records) {
+                        $rightMoveService = app(RightMoveService::class);
+                        $successCount = 0;
+                        $failCount = 0;
+
+                        foreach ($records as $record) {
+                            if ($rightMoveService->updateProperty($record)) {
+                                $successCount++;
+                            } else {
+                                $failCount++;
+                            }
+                        }
+
+                        Notification::make()
+                            ->title("Sync to RightMove completed")
+                            ->body("{$successCount} properties synced successfully, {$failCount} failed")
+                            ->send();
+                    }),
             ]);
     }
 

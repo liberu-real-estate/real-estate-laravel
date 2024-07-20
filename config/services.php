@@ -48,6 +48,14 @@ return [
         'sync_interval' => env('CRM_SYNC_INTERVAL', 15), // in minutes
     ],
 
+    'rightmove' => [
+        'api_key' => env('RIGHTMOVE_API_KEY'),
+        'endpoint' => env('RIGHTMOVE_ENDPOINT'),
+        'network_id' => env('RIGHTMOVE_NETWORK_ID'),
+        'branch_id' => env('RIGHTMOVE_BRANCH_ID'),
+        'sync_interval' => env('RIGHTMOVE_SYNC_INTERVAL', 60), // in minutes
+    ],
+
 ];
 
    
