@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 pt-24 pb-8">
     <h1 class="text-4xl font-bold mb-8 text-center">Welcome to Liberu Real Estate</h1>
 
     <section class="mb-12">
