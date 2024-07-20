@@ -79,15 +79,23 @@ class AdminPanelProvider extends PanelProvider
     public function boot()
     {
         /**
-         * Disable Fortify routes.
+         * Selectively register Fortify routes.
          */
-        Fortify::$registersRoutes = false;
-
+        Fortify::routes($callback = null, ['prefix' => 'auth']);
+    
+        /**
+         * Register login rate limiter.
+         */
+        RateLimiter::for('login', function (Request $request) {
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+            return Limit::perMinute(5)->by($throttleKey);
+        });
+    
         /**
          * Disable Jetstream routes.
          */
         Jetstream::$registersRoutes = false;
-
+    
     }
 
     public function shouldRegisterMenuItem(): bool
