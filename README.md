@@ -32,6 +32,7 @@ Welcome to Liberu Real Estate, our revolutionary open-source project that reshap
 * https://github.com/liberu-real-estate/real-estate-laravel
 * https://github.com/liberu-social-network/social-network-laravel
 
+![](https://agent.liberu.co.uk/build/images/screenshot.png)
 
 ## Setup
 
