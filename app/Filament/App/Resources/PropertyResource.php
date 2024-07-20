@@ -170,6 +170,13 @@ class PropertyResource extends Resource
                         ->requiresConfirmation()
                         ->icon('heroicon-o-scale'),
                 ]),
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('import')
+                    ->label('Import CSV')
+                    ->icon('heroicon-o-arrow-up-tray')
+                    ->url(route('filament.app.resources.properties.import'))
+                    ->openUrlInNewTab(),
             ]);
     }
 
