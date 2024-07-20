@@ -18,6 +18,8 @@ use Filament\Forms\Components\BelongsToSelect;
 use App\Filament\Resources\PropertyResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PropertyResource\RelationManagers;
+use Filament\Forms\Components\FileUpload;
+use App\Services\ImageUploadService;
 
 class PropertyResource extends Resource
 {
@@ -57,7 +59,15 @@ class PropertyResource extends Resource
                     ->relationship('user', 'name'),
                 BelongsToSelect::make('agent_id')
                     ->relationship('agent', 'name'),
-
+                FileUpload::make('images')
+                    ->multiple()
+                    ->image()
+                    ->maxSize(5120)
+                    ->directory('property-images')
+                    ->saveUploadedFileUsing(function ($file) {
+                        $imageUploadService = app(ImageUploadService::class);
+                        return $imageUploadService->uploadAndProcess($file);
+                    }),
             ]);
     }
 
