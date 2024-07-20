@@ -2,7 +2,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <a class="navbar-brand flex items-center" href="/">
-                <img src="{{ asset('/build/images/logo1.svg') }}" alt="Logo" class="h-8">
+                <img src="{{ asset('/build/images/logo.png') }}" alt="Logo" class="h-8">
             </a>
             <div class="hidden lg:flex lg:items-center lg:space-x-4">
                 <a href="/" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Home</a>
