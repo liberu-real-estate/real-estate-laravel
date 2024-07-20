@@ -26,6 +26,7 @@ return new class extends Migration
             $table->date('list_date');
             $table->date('sold_date')->nullable();
             $table->unsignedBigInteger('user_id');
+            $table->boolean('is_featured')->default(false);
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
