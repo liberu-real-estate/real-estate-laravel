@@ -23,7 +23,8 @@ class BookingControllerTest extends TestCase
 
         $response = $this->post('/bookings', $data);
 
-        $response->assertStatus(302); // Assuming redirect on success
+        $response->assertRedirect(route('bookings.index'));
+        $response->assertSessionHas('success', 'Booking created successfully.');
         $this->assertDatabaseHas('bookings', $data);
     }
 
@@ -31,7 +32,8 @@ class BookingControllerTest extends TestCase
     {
         $response = $this->post('/bookings', []);
 
-        $response->assertStatus(422); // Validation error status code
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['property_id', 'user_id', 'start_date', 'end_date']);
     }
 
     public function testUpdateActionWithValidData()
