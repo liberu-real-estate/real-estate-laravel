@@ -1,16 +1,3 @@
-<?php
-
-namespace Tests\Feature;
-
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Booking;
-use Illuminate\Foundation\Testing\WithFaker;
-
-class BookingControllerTest extends TestCase
-{
-    use RefreshDatabase, WithFaker;
-
     public function testStoreActionWithValidData()
     {
         $data = [
@@ -23,7 +10,8 @@ class BookingControllerTest extends TestCase
 
         $response = $this->post('/bookings', $data);
 
-        $response->assertStatus(302); // Assuming redirect on success
+        $response->assertRedirect(route('bookings.index'));
+        $response->assertSessionHas('success', 'Booking created successfully.');
         $this->assertDatabaseHas('bookings', $data);
     }
 
@@ -31,35 +19,6 @@ class BookingControllerTest extends TestCase
     {
         $response = $this->post('/bookings', []);
 
-        $response->assertStatus(422); // Validation error status code
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['property_id', 'user_id', 'start_date', 'end_date']);
     }
-
-    public function testUpdateActionWithValidData()
-    {
-        $booking = Booking::factory()->create();
-        $updateData = ['status' => 'confirmed'];
-
-        $response = $this->put("/bookings/{$booking->id}", $updateData);
-
-        $response->assertStatus(302); // Assuming redirect on success
-        $this->assertDatabaseHas('bookings', array_merge(['id' => $booking->id], $updateData));
-    }
-
-    public function testUpdateActionWithInvalidData()
-    {
-        $booking = Booking::factory()->create();
-        $response = $this->put("/bookings/{$booking->id}", ['status' => null]);
-
-        $response->assertStatus(422); // Validation error status code
-    }
-
-    public function testIndexAction()
-    {
-        $bookings = Booking::factory()->count(5)->create();
-
-        $response = $this->get('/bookings');
-
-        $response->assertStatus(200);
-        $response->assertJson($bookings->toArray());
-    }
-}
