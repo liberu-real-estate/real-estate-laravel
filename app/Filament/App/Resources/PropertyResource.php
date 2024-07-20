@@ -68,6 +68,15 @@ class PropertyResource extends Resource
                         $imageUploadService = app(ImageUploadService::class);
                         return $imageUploadService->uploadAndProcess($file);
                     }),
+                FileUpload::make('virtual_tour_url')
+                    ->label('Virtual Tour')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'video/mp4'])
+                    ->maxSize(20480) // 20MB max size
+                    ->directory('virtual-tours')
+                    ->saveUploadedFileUsing(function ($file) {
+                        $virtualTourService = app(VirtualTourService::class);
+                        return $virtualTourService->uploadAndProcess($file);
+                    }),
             ]);
     }
 
