@@ -137,6 +137,11 @@ class PropertyResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('valuate')
+                    ->label('Valuate')
+                    ->icon('heroicon-o-calculator')
+                    ->url(fn (Property $record): string => route('filament.app.resources.properties.valuate', $record))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
