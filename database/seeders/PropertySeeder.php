@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Property;
+use Carbon\Carbon;
 
 class PropertySeeder extends Seeder
 {
@@ -22,6 +23,7 @@ class PropertySeeder extends Seeder
                 'property_type' => 'Villa',
                 'status' => 'For Sale',
                 'is_featured' => true,
+                'list_date' => Carbon::now(),
             ],
             [
                 'title' => 'Modern Downtown Apartment',
@@ -35,6 +37,7 @@ class PropertySeeder extends Seeder
                 'property_type' => 'Apartment',
                 'status' => 'For Sale',
                 'is_featured' => true,
+                'list_date' => Carbon::now()->subDays(7),
             ],
             [
                 'title' => 'Charming Suburban Home',
@@ -48,6 +51,7 @@ class PropertySeeder extends Seeder
                 'property_type' => 'Single Family Home',
                 'status' => 'For Sale',
                 'is_featured' => false,
+                'list_date' => Carbon::now()->subDays(14),
             ],
         ];
 
