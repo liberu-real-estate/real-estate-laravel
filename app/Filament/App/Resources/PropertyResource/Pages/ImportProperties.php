@@ -120,3 +120,4 @@ class ImportProperties extends Page
         $this->notify('success', 'Import completed.');
         $this->redirect(PropertyResource::getUrl('index'));
     }
+}
