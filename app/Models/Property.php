@@ -25,6 +25,7 @@ class Property extends Model
         'virtual_tour_url',
         'is_featured',
         'zoopla_id',
+        'onthemarket_id',
         'last_synced_at',
     ];
 
