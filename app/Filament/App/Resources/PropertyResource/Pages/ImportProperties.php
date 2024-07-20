@@ -91,12 +91,16 @@ class ImportProperties extends Page
     public function import()
     {
         $data = $this->form->getState();
-    
+
         $csv = Reader::createFromPath(Storage::path($data['csv_file']), 'r');
         $csv->setHeaderOffset(0);
-    
+
         $records = $csv->getRecords();
-    
+        $batchSize = 100;
+        $batch = [];
+        $importedCount = 0;
+        $failedCount = 0;
+
         foreach ($records as $record) {
             $propertyData = [];
             foreach ($this->columnMapping as $field => $csvColumn) {
@@ -104,19 +108,57 @@ class ImportProperties extends Page
                     $propertyData[$field] = $record[$csvColumn];
                 }
             }
-    
-            // Validate and create the property
+
+            $batch[] = $propertyData;
+
+            if (count($batch) >= $batchSize) {
+                $this->processBatch($batch, $importedCount, $failedCount);
+                $batch = [];
+            }
+        }
+
+        // Process any remaining records
+        if (!empty($batch)) {
+            $this->processBatch($batch, $importedCount, $failedCount);
+        }
+
+        // Delete the temporary CSV file
+        Storage::delete($data['csv_file']);
+
+        $this->notify('success', "Import completed. {$importedCount} properties imported, {$failedCount} failed.");
+        $this->redirect(PropertyResource::getUrl('index'));
+    }
+
+    private function processBatch(array $batch, int &$importedCount, int &$failedCount)
+    {
+        foreach ($batch as $propertyData) {
+            $validator = Validator::make($propertyData, [
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'location' => 'required|string|max:255',
+                'price' => 'required|numeric|min:0',
+                'bedrooms' => 'nullable|integer|min:0',
+                'bathrooms' => 'nullable|integer|min:0',
+                'area_sqft' => 'nullable|numeric|min:0',
+                'year_built' => 'nullable|integer|min:1800|max:' . date('Y'),
+                'property_type' => 'required|string|max:255',
+                'status' => 'required|string|max:255',
+                'list_date' => 'nullable|date',
+                'sold_date' => 'nullable|date',
+            ]);
+
+            if ($validator->fails()) {
+                $failedCount++;
+                $this->notify('error', "Validation failed for property: " . implode(', ', $validator->errors()->all()));
+                continue;
+            }
+
             try {
-                $property = PropertyResource::getModel()::create($propertyData);
-                $this->notify('success', "Property '{$property->title}' imported successfully.");
+                PropertyResource::getModel()::create($propertyData);
+                $importedCount++;
             } catch (\Exception $e) {
+                $failedCount++;
                 $this->notify('error', "Failed to import property: {$e->getMessage()}");
             }
         }
-    
-        // Delete the temporary CSV file
-        Storage::delete($data['csv_file']);
-    
-        $this->notify('success', 'Import completed.');
-        $this->redirect(PropertyResource::getUrl('index'));
     }
