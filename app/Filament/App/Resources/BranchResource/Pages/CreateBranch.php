@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\BranchResource\Pages;
+namespace App\Filament\App\Resources\BranchResource\Pages;
 
-use App\Filament\Resources\BranchResource;
+use App\Filament\App\Resources\BranchResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateBranch extends CreateRecord

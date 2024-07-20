@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\BranchResource\Pages;
+namespace App\Filament\App\Resources\BranchResource\Pages;
 
 use Filament\Resources\Pages\ListRecords;
-use App\Filament\Resources\BranchResource;
+use App\Filament\App\Resources\BranchResource;
 use Filament\Tables;
 
 class ListBranches extends ListRecords

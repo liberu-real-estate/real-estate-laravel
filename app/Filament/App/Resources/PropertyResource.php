@@ -15,9 +15,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\BelongsToSelect;
-use App\Filament\Resources\PropertyResource\Pages;
+use App\Filament\App\Resources\PropertyResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\PropertyResource\RelationManagers;
+use App\Filament\App\Resources\PropertyResource\RelationManagers;
 use Filament\Forms\Components\FileUpload;
 use App\Services\ImageUploadService;
 

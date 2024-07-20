@@ -14,9 +14,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\BelongsToSelect;
-use App\Filament\Resources\ReviewResource\Pages;
+use App\Filament\App\Resources\ReviewResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ReviewResource\RelationManagers;
+use App\Filament\App\Resources\ReviewResource\RelationManagers;
 
 class ReviewResource extends Resource
 {

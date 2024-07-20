@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\FavoriteResource\Pages;
+namespace App\Filament\App\Resources\FavoriteResource\Pages;
 
-use App\Filament\Resources\FavoriteResource;
+use App\Filament\App\Resources\FavoriteResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

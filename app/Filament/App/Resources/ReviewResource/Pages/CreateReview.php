@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\ReviewResource\Pages;
+namespace App\Filament\App\Resources\ReviewResource\Pages;
 
-use App\Filament\Resources\ReviewResource;
+use App\Filament\App\Resources\ReviewResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

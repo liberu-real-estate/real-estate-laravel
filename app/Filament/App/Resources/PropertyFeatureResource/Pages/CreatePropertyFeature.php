@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\PropertyFeatureResource\Pages;
+namespace App\Filament\App\Resources\PropertyFeatureResource\Pages;
 
-use App\Filament\Resources\PropertyFeatureResource;
+use App\Filament\App\Resources\PropertyFeatureResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

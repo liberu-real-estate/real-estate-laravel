@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\AppointmentResource\Pages;
+namespace App\Filament\App\Resources\AppointmentResource\Pages;
 
-use App\Filament\Resources\AppointmentResource;
+use App\Filament\App\Resources\AppointmentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

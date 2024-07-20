@@ -18,11 +18,11 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Forms\Components\BelongsToSelect;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\AppointmentResource\Pages;
-use App\Filament\Resources\AppointmentResource\RelationManagers;
-use App\Filament\Resources\AppointmentResource\Pages\EditAppointment;
-use App\Filament\Resources\AppointmentResource\Pages\ListAppointments;
-use App\Filament\Resources\AppointmentResource\Pages\CreateAppointment;
+use App\Filament\App\Resources\AppointmentResource\Pages;
+use App\Filament\App\Resources\AppointmentResource\RelationManagers;
+use App\Filament\App\Resources\AppointmentResource\Pages\EditAppointment;
+use App\Filament\App\Resources\AppointmentResource\Pages\ListAppointments;
+use App\Filament\App\Resources\AppointmentResource\Pages\CreateAppointment;
 
 class AppointmentResource extends Resource
 {

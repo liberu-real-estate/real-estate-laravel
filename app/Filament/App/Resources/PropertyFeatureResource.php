@@ -13,8 +13,8 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\BelongsToSelect;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\PropertyFeatureResource\Pages;
-use App\Filament\Resources\PropertyFeatureResource\RelationManagers;
+use App\Filament\App\Resources\PropertyFeatureResource\Pages;
+use App\Filament\App\Resources\PropertyFeatureResource\RelationManagers;
 
 class PropertyFeatureResource extends Resource
 {

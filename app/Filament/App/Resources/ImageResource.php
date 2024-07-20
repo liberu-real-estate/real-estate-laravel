@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ImageResource\Pages;
-use App\Filament\Resources\ImageResource\RelationManagers;
+use App\Filament\App\Resources\ImageResource\Pages;
+use App\Filament\App\Resources\ImageResource\RelationManagers;
 use App\Models\Image;
 use Filament\Forms;
 use Filament\Forms\Form;

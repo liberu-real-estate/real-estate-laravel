@@ -17,11 +17,11 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Forms\Components\BelongsToSelect;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\TransactionResource\Pages;
-use App\Filament\Resources\TransactionResource\RelationManagers;
-use App\Filament\Resources\TransactionResource\Pages\EditTransaction;
-use App\Filament\Resources\TransactionResource\Pages\ListTransactions;
-use App\Filament\Resources\TransactionResource\Pages\CreateTransaction;
+use App\Filament\App\Resources\TransactionResource\Pages;
+use App\Filament\App\Resources\TransactionResource\RelationManagers;
+use App\Filament\App\Resources\TransactionResource\Pages\EditTransaction;
+use App\Filament\App\Resources\TransactionResource\Pages\ListTransactions;
+use App\Filament\App\Resources\TransactionResource\Pages\CreateTransaction;
 
 class TransactionResource extends Resource
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\PropertyResource\Pages;
+namespace App\Filament\App\Resources\PropertyResource\Pages;
 
-use App\Filament\Resources\PropertyResource;
+use App\Filament\App\Resources\PropertyResource;
 use App\Models\Property;
 use App\Services\PropertyValuationService;
 use Filament\Resources\Pages\Page;
