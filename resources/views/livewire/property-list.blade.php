@@ -38,7 +38,7 @@
                     <div class="text-sm text-gray-600 mb-4">
                         {{ Str::limit($property->description ?? 'No description available', 150) }}
                     </div>
-                    <a href="{{ route('property.show', $property->property_id) }}" class="block w-full text-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">
+                    <a href="{{ route('property.detail', $property->property_id) }}" class="block w-full text-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">
                         View Details
                     </a>
                 </div>
