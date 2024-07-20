@@ -5,12 +5,12 @@
                 <img src="{{ asset('/build/images/logo1.svg') }}" alt="Logo" class="h-8">
             </a>
             <div class="hidden lg:flex lg:items-center lg:space-x-4">
-                <a href="/" class="btn-nav text-white hover:text-gray-300">Home</a>
-                <a href="/contact" class="btn-nav text-white hover:text-gray-300">Contact</a>
-                <a href="/about" class="btn-nav text-white hover:text-gray-300">About</a>
+                <a href="/" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Home</a>
+                <a href="/contact" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Contact</a>
+                <a href="/about" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">About</a>
                 @if(auth()->check())
                     <div class="relative" x-data="{ open: false }">
-                        <button @click="open = !open" class="btn-nav text-white hover:text-gray-300">
+                        <button @click="open = !open" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">
                             Welcome, {{ auth()->user()->name }}
                         </button>
                         <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
@@ -18,8 +18,8 @@
                         </div>
                     </div>
                 @else
-                    <a href="/login" class="btn-nav text-white hover:text-gray-300">Login</a>
-                    <a href="/register" class="btn-nav text-white hover:text-gray-300">Register</a>
+                    <a href="/login" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Login</a>
+                    <a href="/register" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Register</a>
                 @endif
             </div>
             <div class="lg:hidden">
@@ -33,15 +33,15 @@
         </div>
     </div>
     <div x-show="isOpen" class="lg:hidden">
-        <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="/" class="block px-3 py-2 text-white hover:bg-green-800">Home</a>
-            <a href="/contact" class="block px-3 py-2 text-white hover:bg-green-800">Contact</a>
-            <a href="/about" class="block px-3 py-2 text-white hover:bg-green-800">About</a>
+        <div class="px-2 pt-2 pb-3 space-y-2">
+            <a href="/" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Home</a>
+            <a href="/contact" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Contact</a>
+            <a href="/about" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">About</a>
             @if(auth()->check())
-                <a href="{{ route('filament.admin.tenant')}}" class="block px-3 py-2 text-white hover:bg-green-800">Dashboard</a>
+                <a href="{{ route('filament.admin.tenant')}}" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Dashboard</a>
             @else
-                <a href="/login" class="block px-3 py-2 text-white hover:bg-green-800">Login</a>
-                <a href="/register" class="block px-3 py-2 text-white hover:bg-green-800">Register</a>
+                <a href="/login" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Login</a>
+                <a href="/register" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Register</a>
             @endif
         </div>
     </div>
