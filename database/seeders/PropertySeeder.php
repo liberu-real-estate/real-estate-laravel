@@ -10,6 +10,19 @@ class PropertySeeder extends Seeder
 {
     public function run()
     {
+        $placeholderImages = [
+            'property1.jpg',
+            'property2.jpg',
+            'property3.jpg',
+            'property4.jpg',
+            'property5.jpg',
+            'property6.jpg',
+            'property7.jpg',
+            'property8.jpg',
+            'property9.jpg',
+            'property10.jpg',
+        ];
+
         $properties = [
             [
                 'title' => 'Luxurious Beachfront Villa',
@@ -24,7 +37,8 @@ class PropertySeeder extends Seeder
                 'status' => 'For Sale',
                 'is_featured' => true,
                 'list_date' => now(),
-		'user_id' => 1,
+                'user_id' => 1,
+                'image' => $placeholderImages[0],
             ],
             [
                 'title' => 'Modern Downtown Apartment',
@@ -39,7 +53,8 @@ class PropertySeeder extends Seeder
                 'status' => 'For Sale',
                 'is_featured' => true,
                 'list_date' => now(),
-		'user_id' => 1,
+                'user_id' => 1,
+                'image' => $placeholderImages[1],
             ],
             [
                 'title' => 'Charming Suburban Home',
@@ -54,11 +69,13 @@ class PropertySeeder extends Seeder
                 'status' => 'For Sale',
                 'is_featured' => false,
                 'list_date' => now(),
-		'user_id' => 1,
+                'user_id' => 1,
+                'image' => $placeholderImages[2],
             ],
         ];
 
-        foreach ($properties as $property) {
+        foreach ($properties as $index => $property) {
+            $property['image'] = $placeholderImages[$index % count($placeholderImages)];
             Property::create($property);
         }
     }
