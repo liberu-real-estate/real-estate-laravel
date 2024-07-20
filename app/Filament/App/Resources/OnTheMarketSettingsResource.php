@@ -57,4 +57,14 @@ class OnTheMarketSettingsResource extends Resource
             'edit' => Pages\EditOnTheMarketSettings::route('/{record}/edit'),
         ];
     }
+    
+    protected static ?string $navigationIcon = 'heroicon-o-cog';
+    
+    protected static ?string $navigationLabel = 'On The Market Settings';
+    
+    protected static ?string $modelLabel = 'On The Market Setting';
+    
+    protected static ?string $pluralModelLabel = 'On The Market Settings';
+    
+    protected static ?string $navigationGroup = 'Settings';
 }
