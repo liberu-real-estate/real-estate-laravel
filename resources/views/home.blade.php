@@ -2,14 +2,14 @@
 
 @section('content')
 <div class="container mx-auto px-4 pt-24 pb-8">
-    <h1 class="text-4xl font-bold mb-8 text-center">Welcome to Liberu Real Estate</h1>
+    <h1 class="text-4xl font-bold mb-8 text-center">Welcome to {{config('app.name')}}</h1>
 
     <section class="mb-12">
         <h2 class="text-2xl font-semibold mb-6 text-center">Featured Properties</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($featuredProperties as $property)
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden transition duration-300 hover:shadow-xl">
-                    <img src="{{ $property->images?->first()?->url ?? asset('images/placeholder.jpg') }}" alt="{{ $property->title }}" class="w-full h-56 object-cover">
+                    <img src="{{ $property->images?->first()?->url ?? asset('images/property-placeholder.png') }}" alt="{{ $property->title }}" class="w-full h-56 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold mb-2">{{ $property->title }}</h3>
                         <p class="text-gray-600 mb-4">{{ Str::limit($property->description, 100) }}</p>
