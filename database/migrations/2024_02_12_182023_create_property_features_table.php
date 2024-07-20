@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('property_features', function (Blueprint $table) {
             $table->id('feature_id');
             $table->unsignedBigInteger('property_id');
-            $table->foreign('property_id')->references('property_id')->on('properties');
+            $table->foreign('property_id')->references('id')->on('properties');
             $table->string('feature_name');
             $table->timestamps();
         });

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('seller_id');
             $table->foreign('buyer_id')->references('id')->on('users');
             $table->foreign('seller_id')->references('id')->on('users');
-            $table->foreign('property_id')->references('property_id')->on('properties');
+            $table->foreign('property_id')->references('id')->on('properties');
             $table->dateTime('transaction_date');
             $table->decimal('transaction_amount', 10, 2);
             $table->timestamps();
