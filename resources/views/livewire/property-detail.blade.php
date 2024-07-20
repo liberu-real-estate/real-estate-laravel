@@ -21,6 +21,23 @@
                 </div>
             </div>
             <p class="text-gray-700 mb-6">{{ $property->description }}</p>
+            @if($property->virtual_tour_url)
+                <div class="mb-6">
+                    <h2 class="text-xl font-semibold mb-2">Virtual Tour</h2>
+                    <div class="aspect-w-16 aspect-h-9">
+                        @if(Str::endsWith($property->virtual_tour_url, ['.jpg', '.jpeg', '.png']))
+                            <img src="{{ Storage::url($property->virtual_tour_url) }}" alt="Virtual Tour" class="object-cover rounded-lg">
+                        @elseif(Str::endsWith($property->virtual_tour_url, '.mp4'))
+                            <video controls class="w-full">
+                                <source src="{{ Storage::url($property->virtual_tour_url) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        @else
+                            <iframe src="{{ $property->virtual_tour_url }}" frameborder="0" allowfullscreen class="w-full h-full"></iframe>
+                        @endif
+                    </div>
+                </div>
+            @endif
             <div class="mb-6">
                 <h2 class="text-xl font-semibold mb-2">Amenities</h2>
                 <ul class="grid grid-cols-2 gap-2">

@@ -63,5 +63,23 @@
     {
         return $this->hasMany(PropertyFeature::class, 'property_id');
     }
+
+    protected $fillable = [
+        'title',
+        'description',
+        'location',
+        'price',
+        'bedrooms',
+        'bathrooms',
+        'area_sqft',
+        'year_built',
+        'property_type',
+        'status',
+        'list_date',
+        'sold_date',
+        'user_id',
+        'agent_id',
+        'virtual_tour_url',
+    ];
 }
 
