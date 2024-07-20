@@ -18,6 +18,31 @@ class Kernel extends ConsoleKernel
             $rightMoveService = app(RightMoveService::class);
             $rightMoveService->syncAllProperties();
         })->hourly();
+    
+        // Sync properties with OnTheMarket
+        $schedule->call(function () {
+            $onTheMarketService = app(OnTheMarketService::class);
+            $onTheMarketService->syncAllProperties();
+        })->when(function () {
+            $frequency = config('services.onthemarket.sync_frequency', 'hourly');
+            return $frequency === 'hourly';
+        })->hourly();
+    
+        $schedule->call(function () {
+            $onTheMarketService = app(OnTheMarketService::class);
+            $onTheMarketService->syncAllProperties();
+        })->when(function () {
+            $frequency = config('services.onthemarket.sync_frequency', 'hourly');
+            return $frequency === 'daily';
+        })->daily();
+    
+        $schedule->call(function () {
+            $onTheMarketService = app(OnTheMarketService::class);
+            $onTheMarketService->syncAllProperties();
+        })->when(function () {
+            $frequency = config('services.onthemarket.sync_frequency', 'hourly');
+            return $frequency === 'weekly';
+        })->weekly();
     }
 
     /**

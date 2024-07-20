@@ -13,6 +13,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable
+{
+    use Notifiable;
+    // ... rest of the class
+}
 use JoelButcher\Socialstream\HasConnectedAccounts;
 use JoelButcher\Socialstream\SetsProfilePhotoFromUrl;
 use Laravel\Fortify\TwoFactorAuthenticatable;
