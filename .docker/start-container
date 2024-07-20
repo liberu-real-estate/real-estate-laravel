@@ -14,6 +14,11 @@ initialStuff() {
     php artisan config:cache; \
     php artisan route:cache;
 
+    # Generate application key if not set
+    if [ -z "$APP_KEY" ]; then
+        php artisan key:generate
+    fi
+
     if [ ${running_migrations_and_seeders} = "true" ]; then
         echo "Running migrations and seeding database ..."
         php artisan migrate --isolated --seed --force;
