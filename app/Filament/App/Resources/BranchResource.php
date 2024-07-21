@@ -60,6 +60,6 @@ class BranchResource extends Resource
 
     public static function getNavigationIcon(): string
     {
-        return 'heroicon-o-office-building';
+        return 'heroicon-o-building-office';
     }
 }

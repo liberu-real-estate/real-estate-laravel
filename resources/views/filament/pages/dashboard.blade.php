@@ -3,28 +3,28 @@
         <x-filament::grid.column>
             <x-filament::card>
                 <h2 class="text-lg font-semibold">Total Properties</h2>
-                <p class="text-3xl font-bold">{{ $totalProperties }}</p>
+                <p class="text-3xl font-bold">{{ $this->totalProperties }}</p>
             </x-filament::card>
         </x-filament::grid.column>
 
         <x-filament::grid.column>
             <x-filament::card>
                 <h2 class="text-lg font-semibold">Active Listings</h2>
-                <p class="text-3xl font-bold">{{ $activeListings }}</p>
+                <p class="text-3xl font-bold">{{ $this->activeListings }}</p>
             </x-filament::card>
         </x-filament::grid.column>
 
         <x-filament::grid.column>
             <x-filament::card>
                 <h2 class="text-lg font-semibold">Total Bookings</h2>
-                <p class="text-3xl font-bold">{{ $totalBookings }}</p>
+                <p class="text-3xl font-bold">{{ $this->totalBookings }}</p>
             </x-filament::card>
         </x-filament::grid.column>
 
         <x-filament::grid.column>
             <x-filament::card>
                 <h2 class="text-lg font-semibold">Total Revenue</h2>
-                <p class="text-3xl font-bold">{{ number_format($totalRevenue, 2) }}</p>
+                <p class="text-3xl font-bold">{{ number_format($this->totalRevenue, 2) }}</p>
             </x-filament::card>
         </x-filament::grid.column>
     </x-filament::grid>

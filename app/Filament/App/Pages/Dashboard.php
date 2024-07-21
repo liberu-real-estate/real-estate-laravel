@@ -15,6 +15,14 @@ class Dashboard extends Page
 {
     protected static string $view = 'filament.pages.dashboard';
 
+    public function mount(): void
+    {
+        $this->totalProperties = Property::count();
+        $this->activeListings = Property::where('status', 'active')->count();
+        $this->totalBookings = Booking::count();
+        $this->totalRevenue = Transaction::sum('transaction_amount');
+   }
+
     protected function getHeaderWidgets(): array
     {
         return [
