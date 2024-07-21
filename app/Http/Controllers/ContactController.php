@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -19,8 +20,10 @@ class ContactController extends Controller
             'message' => 'required|string',
         ]);
 
-        // Process the form submission (e.g., send email, save to database)
-        // Add your logic here
+        // Save the contact message to the database
+        ContactMessage::create($validated);
+
+        // TODO: Add email notification logic here if required
 
         return redirect()->back()->with('success', 'Your message has been sent successfully!');
     }
