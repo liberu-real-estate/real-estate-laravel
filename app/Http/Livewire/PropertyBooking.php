@@ -11,42 +11,54 @@ class PropertyBooking extends Component
 {
     public $propertyId;
     public $selectedDate;
+    public $userName;
+    public $userContact;
+    public $notes;
     public $availableDates = [];
 
     protected $rules = [
         'selectedDate' => 'required|date|after_or_equal:today',
+        'userName' => 'required|string|max:255',
+        'userContact' => 'required|string|max:255',
+        'notes' => 'nullable|string|max:1000',
     ];
 
     public function mount($propertyId)
     {
         $this->propertyId = $propertyId;
-        // Assuming a method exists in the Property model to get available dates
         $this->availableDates = Property::find($this->propertyId)->getAvailableDates();
     }
 
     public function selectDate($date)
     {
         $this->selectedDate = $date;
-        $this->validate();
+        $this->validate(['selectedDate' => $this->rules['selectedDate']]);
     }
 
-   
     public function loadBookingCalendar()
     {
         return $this->loadComponent('BookingCalendar', ['propertyId' => $this->propertyId]);
     }
+
     public function bookViewing()
     {
         $this->validate();
 
-        Booking::create([
-            'property_id' => $this->propertyId,
-            'date' => new Carbon($this->selectedDate),
-            'user_id' => auth()->id(),
-        ]);
+        try {
+            Booking::create([
+                'property_id' => $this->propertyId,
+                'date' => new Carbon($this->selectedDate),
+                'user_id' => auth()->id(),
+                'name' => $this->userName,
+                'contact' => $this->userContact,
+                'notes' => $this->notes,
+            ]);
 
-        session()->flash('message', 'Booking successful for ' . $this->selectedDate);
-        $this->reset('selectedDate');
+            session()->flash('message', 'Viewing scheduled successfully for ' . $this->selectedDate);
+            $this->reset(['selectedDate', 'userName', 'userContact', 'notes']);
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to schedule viewing. Please try again.');
+        }
     }
 
     public function render()
