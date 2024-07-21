@@ -38,28 +38,28 @@ class PropertyBooking extends Component
     public function bookViewing()
     {
         $this->validate();
-    
+
         try {
             // Check if the date is still available
             $availableDates = Property::find($this->propertyId)->getAvailableDates();
             if (!in_array($this->selectedDate, $availableDates)) {
                 throw new \Exception('Selected date is no longer available.');
             }
-    
+
             Booking::create([
                 'property_id' => $this->propertyId,
-                'date' => new Carbon($this->selectedDate),
+                'date' => Carbon::parse($this->selectedDate)->format('Y-m-d'),
                 'user_id' => auth()->id(),
                 'name' => $this->userName,
                 'contact' => $this->userContact,
                 'notes' => $this->notes,
             ]);
-    
+
             session()->flash('message', 'Viewing scheduled successfully for ' . $this->selectedDate);
             $this->reset(['selectedDate', 'userName', 'userContact', 'notes']);
         } catch (\Exception $e) {
             \Log::error('Booking failed: ' . $e->getMessage());
-    
+
             $errorMessage = 'Failed to schedule viewing. ';
             if ($e instanceof \Illuminate\Database\QueryException) {
                 $errorMessage .= 'A database error occurred. ';
@@ -71,7 +71,7 @@ class PropertyBooking extends Component
                 $errorMessage .= 'An unexpected error occurred. ';
             }
             $errorMessage .= 'Please try again or contact support if the problem persists.';
-    
+
             session()->flash('error', $errorMessage);
         }
     }
