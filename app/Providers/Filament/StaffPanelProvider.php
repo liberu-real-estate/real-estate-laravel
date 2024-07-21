@@ -3,13 +3,19 @@
 namespace App\Providers\Filament;
 
 use App\Filament\App\Pages;
+use App\Filament\App\Pages\EditProfile;
 use App\Http\Middleware\TeamsPermission;
+use App\Listeners\CreatePersonalTeam;
+use App\Listeners\SwitchTeam;
+use App\Models\Team;
+use Filament\Events\Auth\Registered;
+use Filament\Events\TenantSet;
 use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
-use Filament\Pages as FilamentPage;
+use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -20,35 +26,45 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Event;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Jetstream;
 
-class AdminPanelProvider extends PanelProvider
+class StaffPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('staff')
+            ->path('staff')
             ->login([AuthenticatedSessionController::class, 'create'])
+            ->registration()
             ->passwordReset()
             ->emailVerification()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
-            ->discoverWidgets(in: app_path('Filament/Admin/Widgets/Home'), for: 'App\\Filament\\Admin\\Widgets\\Home')
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Profile')
+                    ->icon('heroicon-o-user-circle')
+                    ->url(fn () => $this->shouldRegisterMenuItem()
+                        ? url(EditProfile::getUrl())
+                        : url($panel->getPath())),
+            ])
+            ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
+            ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')
             ->pages([
-                FilamentPage\Dashboard::class,
+                Dashboard::class,
                 Pages\EditProfile::class,
-                // Pages\ApiTokenManagerPage::class,
-            ])->widgets([
+            ])
+            ->discoverWidgets(in: app_path('Filament/Staff/Widgets/Home'), for: 'App\\Filament\\Staff\\Widgets\\Home')
+            ->widgets([
                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
@@ -65,6 +81,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                TeamsPermission::class,
+            ])
+            ->plugins([
+                // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
 
         // if (Features::hasApiFeatures()) {
@@ -78,7 +98,7 @@ class AdminPanelProvider extends PanelProvider
         //     ]);
         // }
 
-/**        if (Features::hasTeamFeatures()) {
+        if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
                 ->tenantRegistration(Pages\CreateTeam::class)
@@ -92,7 +112,7 @@ class AdminPanelProvider extends PanelProvider
                             : url($panel->getPath())),
                 ]);
         }
-**/
+
         return $panel;
     }
 
@@ -107,6 +127,22 @@ class AdminPanelProvider extends PanelProvider
          * Disable Jetstream routes.
          */
         Jetstream::$registersRoutes = false;
+
+        /**
+         * Listen and create personal team for new accounts.
+         */
+        Event::listen(
+            Registered::class,
+            CreatePersonalTeam::class,
+        );
+
+        /**
+         * Listen and switch team if tenant was changed.
+         */
+        Event::listen(
+            TenantSet::class,
+            SwitchTeam::class,
+        );
     }
 
     public function shouldRegisterMenuItem(): bool
