@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Property extends Model
 {
+use HasFactory;
+
     protected $fillable = [
         'title',
         'description',
