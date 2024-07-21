@@ -50,19 +50,42 @@ class PropertyList extends Component
     public function getPropertiesProperty()
     {
         try {
-            return Property::search($this->search)
-                ->priceRange($this->minPrice, $this->maxPrice)
-                ->bedrooms($this->minBedrooms, $this->maxBedrooms)
-                ->bathrooms($this->minBathrooms, $this->maxBathrooms)
-                ->areaRange($this->minArea, $this->maxArea)
-                ->when($this->propertyType, function ($query) {
-                    return $query->propertyType($this->propertyType);
-                })
-                ->when($this->selectedAmenities, function ($query) {
-                    return $query->hasAmenities($this->selectedAmenities);
-                })
-                ->with(['features', 'images'])
-                ->paginate(12);
+            $query = Property::query();
+
+            \Log::info('Initial query count: ' . $query->count());
+
+            $query->search($this->search);
+            \Log::info('After search filter count: ' . $query->count());
+
+            $query->priceRange($this->minPrice, $this->maxPrice);
+            \Log::info('After price range filter count: ' . $query->count());
+
+            $query->bedrooms($this->minBedrooms, $this->maxBedrooms);
+            \Log::info('After bedrooms filter count: ' . $query->count());
+
+            $query->bathrooms($this->minBathrooms, $this->maxBathrooms);
+            \Log::info('After bathrooms filter count: ' . $query->count());
+
+            $query->areaRange($this->minArea, $this->maxArea);
+            \Log::info('After area range filter count: ' . $query->count());
+
+            if ($this->propertyType) {
+                $query->propertyType($this->propertyType);
+                \Log::info('After property type filter count: ' . $query->count());
+            }
+
+            if ($this->selectedAmenities) {
+                $query->hasAmenities($this->selectedAmenities);
+                \Log::info('After amenities filter count: ' . $query->count());
+            }
+
+            $properties = $query->with(['features', 'images'])->paginate(12);
+
+            \Log::info('Final properties count: ' . $properties->count());
+            \Log::info('Current page: ' . $properties->currentPage());
+            \Log::info('Total pages: ' . $properties->lastPage());
+
+            return $properties;
         } catch (\Exception $e) {
             \Log::error('Error fetching properties: ' . $e->getMessage());
             session()->flash('error', 'An error occurred while fetching properties. Please try again.');
