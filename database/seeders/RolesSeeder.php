@@ -20,5 +20,29 @@ class RolesSeeder extends Seeder
         $freeRole = Role::firstOrCreate(['name' => 'free']);
         $freePermissions = Permission::where('guard_name', 'web')->pluck('id')->toArray();
         $freeRole->syncPermissions($freePermissions);
+
+        $buyerRole = Role::firstOrCreate(['name' => 'buyer']);
+        $buyerPermissions = Permission::where('guard_name', 'web')->pluck('id')->toArray();
+        $buyerRole->syncPermissions($buyerPermissions);
+
+
+        $sellerRole = Role::firstOrCreate(['name' => 'seller']);
+        $sellerPermissions = Permission::where('guard_name', 'web')->pluck('id')->toArray();
+        $sellerRole->syncPermissions($sellerPermissions);
+
+
+        $tenantRole = Role::firstOrCreate(['name' => 'tenant']);
+        $tenantPermissions = Permission::where('guard_name', 'web')->pluck('id')->toArray();
+        $tenantRole->syncPermissions($tenantPermissions);
+
+
+        $landlordRole = Role::firstOrCreate(['name' => 'landlord']);
+        $landlordPermissions = Permission::where('guard_name', 'web')->pluck('id')->toArray();
+        $landlordRole->syncPermissions($landlordPermissions);
+
+        $contractorRole = Role::firstOrCreate(['name' => 'contractor']);
+        $contractorPermissions = Permission::where('guard_name', 'web')->pluck('id')->toArray();
+        $contractorRole->syncPermissions($contractorPermissions);
+
     }
 }
