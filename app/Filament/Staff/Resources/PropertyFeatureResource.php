@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\App\Resources;
 
-use App\Filament\Staff\Resources\PropertyFeatureResource\Pages;
+use App\Filament\App\Resources\PropertyFeatureResource\Pages;
 use App\Models\PropertyFeature;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class PropertyFeatureResource extends Resource
 {
@@ -22,9 +21,8 @@ class PropertyFeatureResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('property_id')
-                    ->relationship('property', 'title')
-                    ->required()
-                    ->searchable(),
+                    ->relationship('property', 'name')
+                    ->required(),
                 Forms\Components\TextInput::make('feature_name')
                     ->required()
                     ->maxLength(255),
@@ -35,21 +33,45 @@ class PropertyFeatureResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('property.title')
-                    ->label('Property')
-                    ->searchable()
+                Tables\Columns\TextColumn::make('property.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('feature_name')
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('property')
-                    ->relationship('property', 'title'),
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListPropertyFeatures::route('/'),
+            'create' => Pages\CreatePropertyFeature::route('/create'),
+            'edit' => Pages\EditPropertyFeature::route('/{record}/edit'),
+        ];
+    }
+}
