@@ -13,7 +13,7 @@ class PropertyList extends Component
 
     public $search = '';
     public $minPrice = 0;
-    public $maxPrice = 1000000;
+    public $maxPrice = 10000000;
     public $minBedrooms = 0;
     public $maxBedrooms = 10;
     public $minBathrooms = 0;

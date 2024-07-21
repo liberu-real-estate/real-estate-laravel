@@ -14,7 +14,7 @@
                             {{ Str::limit($property->description, 150) }}
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-lg font-bold text-blue-600">${{ number_format($property->price) }}</span>
+                            <span class="text-lg font-bold text-blue-600">£{{ number_format($property->price) }}</span>
                             <a href="{{ route('property.detail', $property->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300">View Details</a>
                         </div>
                     </div>
