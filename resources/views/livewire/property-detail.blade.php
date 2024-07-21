@@ -49,7 +49,7 @@
             </div>
             <div class="flex justify-between items-center">
                 <a href="{{ route('contact.show') }}" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">Contact Agent</a>
-                <button class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-200">Schedule Viewing</button>
+                <livewire:property-booking :property-id="$property->id" />
             </div>
         </div>
     </div>
