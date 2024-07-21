@@ -6,7 +6,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($properties as $property)
                 <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
-                    <img src="{{ $property->images->first()->url ?? 'https://via.placeholder.com/300x200' }}" alt="{{ $property->title }}" class="w-full h-48 object-cover">
+                    <img src="{{ $property->images->first()->url ?? asset('build/images/property-placeholder.png') }}" alt="{{ $property->title }}" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold mb-2">{{ $property->title }}</h3>
                         <p class="text-gray-600 mb-4">{{ $property->location }}</p>
