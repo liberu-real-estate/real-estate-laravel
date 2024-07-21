@@ -30,7 +30,6 @@ use App\Http\Livewire\PropertyDetail;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/properties', PropertyList::class);
 Route::post('/bookings', [BookingController::class, 'store']);
 Route::put('/bookings/{booking}', [BookingController::class, 'update']);
 Route::get('/bookings', [BookingController::class, 'index']);
@@ -38,7 +37,6 @@ Route::get('/properties/{property}/book', PropertyBooking::class)->name('propert
 Route::post('/payments/session', [PaymentController::class, 'createSession']);
 Route::get('/payments/success', [PaymentController::class, 'handlePaymentSuccess']);
 Route::get('/booking-calendar', BookingCalendar::class)->middleware('auth')->name('booking.calendar');
-
 Route::get('/properties', PropertyList::class)->name('property.list');
 Route::get('/properties/{propertyId}', PropertyDetail::class)->name('property.detail');
 

@@ -1,5 +1,4 @@
 <div>
-    <livewire:advanced-property-search />
 
     @if(count($properties) > 0)
         @foreach ($properties as $property)
