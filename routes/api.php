@@ -18,9 +18,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::middleware('auth:sanctum')->group(function () {
-    Route::prefix('rightmove')->group(function () {
-        Route::get('/properties', [\App\Http\Controllers\RightmoveApiController::class, 'fetchProperties']);
-        Route::post('/listings', [\App\Http\Controllers\RightmoveApiController::class, 'createListing']);
-        Route::put('/listings/{listingId}', [\App\Http\Controllers\RightmoveApiController::class, 'updateListing']);
     });
 });
