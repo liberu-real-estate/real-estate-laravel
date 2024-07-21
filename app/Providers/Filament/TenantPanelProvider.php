@@ -39,8 +39,8 @@ class AppPanelProvider extends PanelProvider
     {
         $panel
             ->default()
-            ->id('contractor')
-            ->path('contractor')
+            ->id('tenant')
+            ->path('tenant')
             ->login([AuthenticatedSessionController::class, 'create'])
             ->registration()
             ->passwordReset()
@@ -57,13 +57,13 @@ class AppPanelProvider extends PanelProvider
                         ? url(EditProfile::getUrl())
                         : url($panel->getPath())),
             ])
-            ->discoverResources(in: app_path('Filament/Contractor/Resources'), for: 'App\\Filament\\App\\Resources')
-            ->discoverPages(in: app_path('Filament/Contractor/Pages'), for: 'App\\Filament\\App\\Pages')
+            ->discoverResources(in: app_path('Filament/Tenant/Resources'), for: 'App\\Filament\\App\\Resources')
+            ->discoverPages(in: app_path('Filament/Tenant/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([
                 Dashboard::class,
                 Pages\EditProfile::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Contractor/Widgets/Home'), for: 'App\\Filament\\App\\Widgets\\Home')
+            ->discoverWidgets(in: app_path('Filament/Tenant/Widgets/Home'), for: 'App\\Filament\\App\\Widgets\\Home')
             ->widgets([
                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
