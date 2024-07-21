@@ -1,3 +1,4 @@
+<?php
     public function testSetStripeApiKey()
     {
         $expectedApiKey = 'test_stripe_api_key';
