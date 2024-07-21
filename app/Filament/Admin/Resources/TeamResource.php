@@ -10,6 +10,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Admin\Resources\TeamResource\Pages;
 
 class TeamResource extends Resource
 {
@@ -62,9 +63,9 @@ class TeamResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => \App\Filament\Resources\Admin\TeamResource\Pages\ListTeams::class,
-            'create' => \App\Filament\Resources\Admin\TeamResource\Pages\CreateTeam::class,
-            'edit' => \App\Filament\Resources\Admin\TeamResource\Pages\EditTeam::class,
+            'index' => Pages\ListTeams::class,
+            'create' => Pages\CreateTeam::class,
+            'edit' => Pages\EditTeam::class,
         ];
-    }    
+    }
 }
