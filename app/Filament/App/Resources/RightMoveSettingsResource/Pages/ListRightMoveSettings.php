@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\RightMoveSettingsResource\Pages;
+namespace App\Filament\App\Resources\RightMoveSettingsResource\Pages;
 
-use App\Filament\Resources\RightMoveSettingsResource;
+use App\Filament\App\Resources\RightMoveSettingsResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 
