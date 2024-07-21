@@ -5,10 +5,20 @@
         <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <div class="mb-4 text-sm text-gray-600">
                 {{ __('Please sign in to access the admin panel.') }}
-            </div> 
+            </div>
+
+            @if ($errors->any())
+                <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <form method="POST" action="{{ route('login') }}">
-                @csrf 
+                @csrf
 
                 <div>
                     <label class="block font-medium text-sm text-gray-700" for="email">
