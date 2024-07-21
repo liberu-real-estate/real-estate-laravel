@@ -14,6 +14,11 @@ class PropertyDetail extends Component
         $this->property = Property::findOrFail($propertyId);
     }
 
+    public function initiateBooking()
+    {
+        return redirect()->route('property.booking', ['propertyId' => $this->property->id]);
+    }
+
     public function render()
     {
         return view('livewire.property-detail')->layout('layouts.app');

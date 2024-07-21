@@ -49,7 +49,7 @@
             </div>
             <div class="flex justify-between items-center">
                 <button class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">Contact Agent</button>
-                <button class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-200">Schedule Viewing</button>
+                <button wire:click="initiateBooking" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-200">Schedule Viewing</button>
             </div>
         </div>
     </div>
