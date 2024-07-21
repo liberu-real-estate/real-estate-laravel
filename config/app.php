@@ -174,6 +174,7 @@ return [
         App\Providers\Filament\ContractorPanelProvider::class,
         App\Providers\Filament\TenantPanelProvider::class,
         App\Providers\Filament\SellerPanelProvider::class,
+        App\Providers\Filament\StaffPanelProvider::class,
         App\Providers\Filament\LandlordPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
 

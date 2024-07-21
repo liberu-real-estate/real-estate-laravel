@@ -36,7 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login([AuthenticatedSessionController::class, 'create'])
             ->loginRouteSlug('login')
-            ->homeUrl('/admin/dashboard')
+            ->homeUrl('/admin')
             ->passwordReset()
             ->emailVerification()
             ->viteTheme('resources/css/filament/admin/theme.css')
