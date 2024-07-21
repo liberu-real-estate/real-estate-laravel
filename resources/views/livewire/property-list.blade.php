@@ -1,4 +1,5 @@
 <div class="container mx-auto px-4 py-8">
+@section
     <h1 class="text-3xl font-bold mb-8">Property Listings</h1>
 
     @if(count($properties) > 0)
@@ -37,4 +38,5 @@
             <p>{{ session('error') }}</p>
         </div>
     @endif
+@endsection
 </div>
