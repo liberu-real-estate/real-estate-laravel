@@ -33,7 +33,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($properties as $property)
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden transition duration-300 hover:shadow-xl">
-                    <img src="{{ $property->images?->first()?->url ?? asset('build/images/proprty-placeholder.png') }}" alt="{{ $property->title }}" class="w-full h-56 object-cover">
+                    <img src="{{ $property->images?->first()?->url ?? asset('build/images/property-placeholder.png') }}" alt="{{ $property->title }}" class="w-full h-56 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold mb-2">{{ $property->title }}</h3>
                         <p class="text-gray-600 mb-4">{{ Str::limit($property->description, 100) }}</p>
