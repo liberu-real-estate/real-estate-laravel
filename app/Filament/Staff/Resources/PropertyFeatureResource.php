@@ -2,7 +2,7 @@
 
 namespace App\Filament\StaffResources;
 
-use App\Filament\StaffResources\PropertyFeatureResource\Pages;
+use App\Filament\Staff\Resources\PropertyFeatureResource\Pages;
 use App\Models\PropertyFeature;
 use Filament\Forms;
 use Filament\Forms\Form;
