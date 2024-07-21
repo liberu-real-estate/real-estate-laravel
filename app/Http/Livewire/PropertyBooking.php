@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Property;
 use App\Models\Booking;
+use App\Models\User;
 use Carbon\Carbon;
 
 class PropertyBooking extends Component
