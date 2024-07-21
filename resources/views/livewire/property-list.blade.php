@@ -1,5 +1,5 @@
 <div>
-
+@section('content')
     @if(count($properties) > 0)
         @foreach ($properties as $property)
             <div class="bg-white shadow rounded-lg p-4">
@@ -27,4 +27,5 @@
             <p>{{ session('error') }}</p>
         </div>
     @endif
+@endsection
 </div>

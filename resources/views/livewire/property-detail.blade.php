@@ -1,4 +1,5 @@
 <div class="container mx-auto px-4 py-8">
+@section('content')
     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="relative pb-2/3">
             @if($property->images->isNotEmpty())
@@ -52,4 +53,5 @@
             </div>
         </div>
     </div>
+@endsection
 </div>
