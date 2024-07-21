@@ -9,6 +9,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use App\Services\SiteSettingsService;
+use App\Filament\Admin\Resources\SiteSettingsResource\Pages;
 
 class SiteSettingsResource extends Resource
 {
