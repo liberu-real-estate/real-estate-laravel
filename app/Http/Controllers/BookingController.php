@@ -14,7 +14,8 @@ class BookingController extends Controller
             'time' => 'required|date_format:H:i',
             'staff_id' => 'required|exists:users,id',
             'user_id' => 'nullable|exists:users,id',
-            'notes' => 'nullable|string'
+            'notes' => 'nullable|string',
+            'contact' => 'nullable|string|max:255'
         ]);
 
         $booking = Booking::create($validated);
@@ -29,7 +30,8 @@ class BookingController extends Controller
             'time' => 'required|date_format:H:i',
             'staff_id' => 'required|exists:users,id',
             'user_id' => 'nullable|exists:users,id',
-            'notes' => 'nullable|string'
+            'notes' => 'nullable|string',
+            'contact' => 'nullable|string|max:255'
         ]);
 
         $booking = Booking::findOrFail($id);
