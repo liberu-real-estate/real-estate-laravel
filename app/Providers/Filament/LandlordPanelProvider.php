@@ -33,7 +33,7 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Jetstream;
 
-class AppPanelProvider extends PanelProvider
+class LandlordPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
