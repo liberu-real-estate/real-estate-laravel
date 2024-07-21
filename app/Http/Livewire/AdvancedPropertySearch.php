@@ -3,147 +3,53 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\PropertyFeature;
 use App\Models\Property;
+use App\Models\PropertyFeature;
+use Livewire\WithPagination;
 
 class AdvancedPropertySearch extends Component
 {
+    use WithPagination;
+
     public $search = '';
     public $minPrice = 0;
-    public $maxPrice;
+    public $maxPrice = 1000000;
     public $minBedrooms = 0;
-    public $maxBedrooms;
+    public $maxBedrooms = 10;
     public $minBathrooms = 0;
-    public $maxBathrooms;
+    public $maxBathrooms = 10;
     public $minArea = 0;
-    public $maxArea;
+    public $maxArea = 10000;
     public $propertyType = '';
     public $selectedAmenities = [];
 
-    public function mount()
+    public function updatedSearch()
     {
-        $this->maxPrice = Property::max('price');
-        $this->maxBedrooms = Property::max('bedrooms');
-        $this->maxBathrooms = Property::max('bathrooms');
-        $this->maxArea = Property::max('area_sqft');
+        $this->resetPage();
+    }
+
+    public function getPropertiesProperty()
+    {
+        return Property::search($this->search)
+            ->priceRange($this->minPrice, $this->maxPrice)
+            ->bedrooms($this->minBedrooms, $this->maxBedrooms)
+            ->bathrooms($this->minBathrooms, $this->maxBathrooms)
+            ->areaRange($this->minArea, $this->maxArea)
+            ->when($this->propertyType, function ($query) {
+                return $query->propertyType($this->propertyType);
+            })
+            ->when($this->selectedAmenities, function ($query) {
+                return $query->hasAmenities($this->selectedAmenities);
+            })
+            ->with(['features', 'images'])
+            ->paginate(12);
     }
 
     public function render()
     {
-        $amenities = PropertyFeature::distinct('feature_name')->pluck('feature_name');
-        $propertyTypes = Property::distinct('property_type')->pluck('property_type');
-
         return view('livewire.advanced-property-search', [
-            'amenities' => $amenities,
-            'propertyTypes' => $propertyTypes,
-        ]);
-    }
-
-    public function updatedSearch()
-    {
-        $this->emitSearch();
-    }
-
-    public function updatedMinPrice()
-    {
-        $this->validatePrice();
-        $this->emitSearch();
-    }
-
-    public function updatedMaxPrice()
-    {
-        $this->validatePrice();
-        $this->emitSearch();
-    }
-
-    public function updatedMinBedrooms()
-    {
-        $this->validateBedrooms();
-        $this->emitSearch();
-    }
-
-    public function updatedMaxBedrooms()
-    {
-        $this->validateBedrooms();
-        $this->emitSearch();
-    }
-
-    public function updatedMinBathrooms()
-    {
-        $this->validateBathrooms();
-        $this->emitSearch();
-    }
-
-    public function updatedMaxBathrooms()
-    {
-        $this->validateBathrooms();
-        $this->emitSearch();
-    }
-
-    public function updatedMinArea()
-    {
-        $this->validateArea();
-        $this->emitSearch();
-    }
-
-    public function updatedMaxArea()
-    {
-        $this->validateArea();
-        $this->emitSearch();
-    }
-
-    public function updatedPropertyType()
-    {
-        $this->emitSearch();
-    }
-
-    public function updatedSelectedAmenities()
-    {
-        $this->emitSearch();
-    }
-
-    private function validatePrice()
-    {
-        if ($this->minPrice > $this->maxPrice) {
-            $this->minPrice = $this->maxPrice;
-        }
-    }
-
-    private function validateBedrooms()
-    {
-        if ($this->minBedrooms > $this->maxBedrooms) {
-            $this->minBedrooms = $this->maxBedrooms;
-        }
-    }
-
-    private function validateBathrooms()
-    {
-        if ($this->minBathrooms > $this->maxBathrooms) {
-            $this->minBathrooms = $this->maxBathrooms;
-        }
-    }
-
-    private function validateArea()
-    {
-        if ($this->minArea > $this->maxArea) {
-            $this->minArea = $this->maxArea;
-        }
-    }
-
-    private function emitSearch()
-    {
-        $this->emitTo('property-list', 'applyAdvancedFilters', [
-            'search' => $this->search,
-            'minPrice' => $this->minPrice,
-            'maxPrice' => $this->maxPrice,
-            'minBedrooms' => $this->minBedrooms,
-            'maxBedrooms' => $this->maxBedrooms,
-            'minBathrooms' => $this->minBathrooms,
-            'maxBathrooms' => $this->maxBathrooms,
-            'minArea' => $this->minArea,
-            'maxArea' => $this->maxArea,
-            'propertyType' => $this->propertyType,
-            'selectedAmenities' => $this->selectedAmenities,
-        ]);
+            'properties' => $this->getPropertiesProperty(),
+            'amenities' => PropertyFeature::distinct('feature_name')->pluck('feature_name'),
+        ])->layout('layouts.app');
     }
 }
