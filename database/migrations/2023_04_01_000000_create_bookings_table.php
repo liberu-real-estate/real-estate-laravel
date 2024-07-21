@@ -11,18 +11,18 @@ class CreateBookingsTable extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->time('time');
+            $table->time('time')->nullable();
             $table->unsignedBigInteger('staff_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
-
+        
             $table->foreign('staff_id')
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
-
+        
             $table->foreign('user_id')
                   ->references('id')
                   ->on('users')
