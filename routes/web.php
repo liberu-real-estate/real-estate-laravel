@@ -42,4 +42,7 @@ Route::get('/properties/{propertyId}', PropertyDetail::class)->name('property.de
 
 Route::get('/properties/compare/{propertyIds}', PropertyComparison::class)->name('property.compare');
 
+Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
 require __DIR__.'/socialstream.php';
