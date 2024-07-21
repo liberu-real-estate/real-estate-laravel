@@ -24,4 +24,6 @@ class MortgageCalculatorTest extends TestCase
         $this->assertEquals(147975.60, round($result['total_interest'], 2));
 
         // Test the amortization schedule
-        $this->assertCount(360, $result['amortization_schedule
+        $this->assertCount(360, $result['amortization_schedule']);
+    }
+}
