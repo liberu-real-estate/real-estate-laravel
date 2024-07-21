@@ -35,11 +35,6 @@ class PropertyBooking extends Component
         $this->validate(['selectedDate' => $this->rules['selectedDate']]);
     }
 
-    public function loadBookingCalendar()
-    {
-        return $this->loadComponent('BookingCalendar', ['propertyId' => $this->propertyId]);
-    }
-
     public function bookViewing()
     {
         $this->validate();
@@ -65,7 +60,6 @@ class PropertyBooking extends Component
     {
         return view('livewire.property-booking', [
             'availableDates' => $this->availableDates,
-            'bookingCalendar' => $this->loadBookingCalendar(),
         ]);
     }
 }
