@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\StaffResources;
+namespace App\Filament\Staff\Resources;
 
 use App\Filament\Staff\Resources\PropertyFeatureResource\Pages;
 use App\Models\PropertyFeature;
