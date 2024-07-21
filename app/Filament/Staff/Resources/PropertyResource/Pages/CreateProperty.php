@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Admin\Resources\PropertyResource\Pages;
+namespace App\Filament\Staff\Resources\PropertyResource\Pages;
 
-use App\Filament\Admin\Resources\PropertyResource;
+use App\Filament\Staff\Resources\PropertyResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateProperty extends CreateRecord

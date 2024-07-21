@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Admin\Resources\PropertyFeatureResource\Pages;
+namespace App\Filament\Staff\Resources\PropertyFeatureResource\Pages;
 
-use App\Filament\Admin\Resources\PropertyFeatureResource;
+use App\Filament\Staff\Resources\PropertyFeatureResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
