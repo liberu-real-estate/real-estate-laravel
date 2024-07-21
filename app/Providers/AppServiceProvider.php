@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\SiteSettingsService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Livewire;
