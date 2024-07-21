@@ -79,7 +79,7 @@ class PropertyList extends Component
                 \Log::info('After amenities filter count: ' . $query->count());
             }
 
-            $properties = $query->with(['features', 'images'])->paginate(12);
+            $properties = $query->with(['features', 'images']);
 
             \Log::info('Final properties count: ' . $properties->count());
             \Log::info('Current page: ' . $properties->currentPage());
