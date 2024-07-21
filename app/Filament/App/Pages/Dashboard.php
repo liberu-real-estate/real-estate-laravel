@@ -26,16 +26,16 @@ class Dashboard extends Page
     protected function getHeaderWidgets(): array
     {
         return [
-            StatsOverview::class,
+//            StatsOverview::class,
         ];
     }
 
     protected function getFooterWidgets(): array
     {
         return [
-            LatestProperties::class,
-            RecentBookings::class,
-            RecentActivity::class,
+//            LatestProperties::class,
+//            RecentBookings::class,
+//            RecentActivity::class,
         ];
     }
 }
