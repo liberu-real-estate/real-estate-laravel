@@ -42,6 +42,8 @@ class TenantPanelProvider extends PanelProvider
             ->id('tenant')
             ->path('tenant')
             ->login([AuthenticatedSessionController::class, 'create'])
+            ->loginRouteSlug('login')
+            ->homeUrl('/tenant')
             ->registration()
             ->passwordReset()
             ->emailVerification()

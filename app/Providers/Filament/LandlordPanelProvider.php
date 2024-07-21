@@ -42,6 +42,8 @@ class LandlordPanelProvider extends PanelProvider
             ->id('landlord')
             ->path('landlord')
             ->login([AuthenticatedSessionController::class, 'create'])
+            ->loginRouteSlug('login')
+            ->homeUrl('landlord')
             ->registration()
             ->passwordReset()
             ->emailVerification()

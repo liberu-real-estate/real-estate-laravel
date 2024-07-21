@@ -42,6 +42,8 @@ class StaffPanelProvider extends PanelProvider
             ->id('staff')
             ->path('staff')
             ->login([AuthenticatedSessionController::class, 'create'])
+            ->loginRouteSlug('login')
+            ->homeUrl('/staff')
             ->registration()
             ->passwordReset()
             ->emailVerification()

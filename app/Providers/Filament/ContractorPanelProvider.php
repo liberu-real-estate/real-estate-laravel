@@ -42,6 +42,8 @@ class ContractorPanelProvider extends PanelProvider
             ->id('contractor')
             ->path('contractor')
             ->login([AuthenticatedSessionController::class, 'create'])
+            ->loginRouteSlug('login')
+            ->homeUrl('/contractor')
             ->registration()
             ->passwordReset()
             ->emailVerification()

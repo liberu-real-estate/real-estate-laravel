@@ -42,6 +42,8 @@ class BuyerPanelProvider extends PanelProvider
             ->id('buyer')
             ->path('buyer')
             ->login([AuthenticatedSessionController::class, 'create'])
+            ->loginRouteSlug('login')
+            ->homeUrl('/buyer')
             ->registration()
             ->passwordReset()
             ->emailVerification()

@@ -42,6 +42,8 @@ class SellerPanelProvider extends PanelProvider
             ->id('seller')
             ->path('seller')
             ->login([AuthenticatedSessionController::class, 'create'])
+            ->loginRouteSlug('login')
+            ->homeUrl('/seller')
             ->registration()
             ->passwordReset()
             ->emailVerification()
