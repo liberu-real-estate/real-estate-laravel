@@ -8,24 +8,24 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleBasedRedirect
 {
+    protected $roleRedirects = [
+        'admin' => '/admin',
+        'staff' => '/staff',
+        'buyer' => '/buyer',
+        'seller' => '/seller',
+        'tenant' => '/tenant',
+        'landlord' => '/landlord',
+        'contractor' => '/contractor',
+    ];
+
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
             $user = Auth::user();
-            if ($user->hasRole('admin')) {
-                return redirect('/admin');
-            } elseif ($user->hasRole('staff')) {
-                return redirect('/staff');
-            } elseif ($user->hasRole('buyer')) {
-                return redirect('/buyer');
-            } elseif ($user->hasRole('seller')) {
-                return redirect('/seller');
-            } elseif ($user->hasRole('tenant')) {
-                return redirect('/tenant');
-            } elseif ($user->hasRole('landlord')) {
-                return redirect('/landlord');
-            } elseif ($user->hasRole('contractor')) {
-                return redirect('/contractor');
+            foreach ($this->roleRedirects as $role => $redirect) {
+                if ($user->hasRole($role)) {
+                    return redirect($redirect);
+                }
             }
             // If user has 'free' role or no specific role, allow them to access /app
             return $next($request);

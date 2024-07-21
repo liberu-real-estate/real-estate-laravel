@@ -10,6 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RedirectIfAuthenticated
 {
+    protected $roleRedirects = [
+        'admin' => '/admin',
+        'staff' => '/staff',
+        'buyer' => '/buyer',
+        'seller' => '/seller',
+        'tenant' => '/tenant',
+        'landlord' => '/landlord',
+        'contractor' => '/contractor',
+    ];
+
     /**
      * Handle an incoming request.
      *
@@ -18,30 +28,20 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $guards = empty($guards) ? [null] : $guards;
-    
+
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 $user = Auth::guard($guard)->user();
-                if ($user->hasRole('admin')) {
-                    return redirect('/admin');
-                } elseif ($user->hasRole('staff')) {
-                    return redirect('/staff');
-                } elseif ($user->hasRole('buyer')) {
-                    return redirect('/buyer');
-                } elseif ($user->hasRole('seller')) {
-                    return redirect('/seller');
-                } elseif ($user->hasRole('tenant')) {
-                    return redirect('/tenant');
-                } elseif ($user->hasRole('landlord')) {
-                    return redirect('/landlord');
-                } elseif ($user->hasRole('contractor')) {
-                    return redirect('/contractor');
+                foreach ($this->roleRedirects as $role => $redirect) {
+                    if ($user->hasRole($role)) {
+                        return redirect($redirect);
+                    }
                 }
                 // If user has 'free' role or no specific role, redirect to default home
                 return redirect(RouteServiceProvider::HOME);
             }
         }
-    
+
         return $next($request);
     }
 }
