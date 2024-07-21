@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Filament\App\Resources\Contractors\Pages;
 
 class ContractorResource extends Resource
 {
@@ -52,5 +53,14 @@ class ContractorResource extends Resource
     public static function getNavigationGroup(): ?string
     {
         return 'Management';
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListContractors::route('/'),
+            'create' => Pages\CreateContractor::route('/create'),
+            'edit' => Pages\EditContractor::route('/{record}/edit'),
+        ];
     }
 }
