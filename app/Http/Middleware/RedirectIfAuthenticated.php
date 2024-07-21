@@ -18,13 +18,30 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $guards = empty($guards) ? [null] : $guards;
-
+    
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                $user = Auth::guard($guard)->user();
+                if ($user->hasRole('admin')) {
+                    return redirect('/admin/dashboard');
+                } elseif ($user->hasRole('staff')) {
+                    return redirect('/staff');
+                } elseif ($user->hasRole('buyer')) {
+                    return redirect('/buyer');
+                } elseif ($user->hasRole('seller')) {
+                    return redirect('/seller');
+                } elseif ($user->hasRole('tenant')) {
+                    return redirect('/tenant');
+                } elseif ($user->hasRole('landlord')) {
+                    return redirect('/landlord');
+                } elseif ($user->hasRole('contractor')) {
+                    return redirect('/contractor');
+                }
+                // If user has 'free' role or no specific role, redirect to default home
                 return redirect(RouteServiceProvider::HOME);
             }
         }
-
+    
         return $next($request);
     }
 }
