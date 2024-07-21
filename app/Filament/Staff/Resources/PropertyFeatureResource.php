@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\App\Resources;
+namespace App\Filament\StaffResources;
 
-use App\Filament\App\Resources\PropertyFeatureResource\Pages;
+use App\Filament\StaffResources\PropertyFeatureResource\Pages;
 use App\Models\PropertyFeature;
 use Filament\Forms;
 use Filament\Forms\Form;
