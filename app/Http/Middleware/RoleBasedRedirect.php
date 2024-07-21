@@ -29,8 +29,15 @@ class RoleBasedRedirect
             }
             // If user has 'free' role or no specific role, allow them to access /app
             return $next($request);
+        } else {
+            // Handle unauthenticated visitors
+            if ($request->is('login') || $request->is('register') || $request->is('password/*')) {
+                // Allow access to authentication-related routes
+                return $next($request);
+            } else {
+                // Redirect unauthenticated visitors to the login page
+                return redirect('/login');
+            }
         }
-
-        return $next($request);
     }
 }
