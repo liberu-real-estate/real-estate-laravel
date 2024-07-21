@@ -36,6 +36,21 @@
         <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mt-4" role="alert">
             <p class="font-bold">Error</p>
             <p>{{ session('error') }}</p>
+            @if(app()->environment('local'))
+                <p class="mt-2 text-sm">
+                    <strong>Debug info:</strong> {{ session('error_details') ?? 'No additional details available.' }}
+                </p>
+            @endif
+        </div>
+    @endif
+
+    @if(app()->environment('local'))
+        <div class="bg-gray-100 p-4 mt-4">
+            <p class="font-bold">Debug Information:</p>
+            <p>Total properties: {{ $properties->total() }}</p>
+            <p>Current page: {{ $properties->currentPage() }}</p>
+            <p>Last page: {{ $properties->lastPage() }}</p>
+            <p>Properties on this page: {{ $properties->count() }}</p>
         </div>
     @endif
 @endsection
