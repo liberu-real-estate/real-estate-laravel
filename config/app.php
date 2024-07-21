@@ -170,6 +170,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\Filament\AppPanelProvider::class,
+        App\Providers\Filament\BuyerPanelProvider::class,
+        App\Providers\Filament\ContractorPanelProvider::class,
+        App\Providers\Filament\TenantPanelProvider::class,
+        App\Providers\Filament\SellerPanelProvider::class,
+        App\Providers\Filament\LandlordPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\TeamServiceProvider::class,
