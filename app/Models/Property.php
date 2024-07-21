@@ -62,6 +62,11 @@ use HasFactory;
         return $this->hasMany(Image::class);
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     // Scopes
     public function scopeSearch(Builder $query, $search): Builder
     {
@@ -110,5 +115,21 @@ use HasFactory;
             $query->whereNull('last_synced_at')
                   ->orWhere('updated_at', '>', 'last_synced_at');
         });
+    }
+
+    public function getAvailableDates()
+    {
+        $bookedDates = $this->bookings()->pluck('date')->toArray();
+        $availableDates = [];
+        $startDate = now();
+        $endDate = now()->addMonths(3);
+
+        for ($date = $startDate; $date <= $endDate; $date->addDay()) {
+            if (!in_array($date->format('Y-m-d'), $bookedDates)) {
+                $availableDates[] = $date->format('Y-m-d');
+            }
+        }
+
+        return $availableDates;
     }
 }
