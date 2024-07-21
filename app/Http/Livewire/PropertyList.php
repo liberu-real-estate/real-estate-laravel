@@ -77,15 +77,4 @@ class PropertyList extends Component
             'amenities' => PropertyFeature::distinct('feature_name')->pluck('feature_name'),
         ])->layout('layouts.app');
     }
-
-    public function render()
-    {
-        return view('livewire.property-list', [
-            'properties' => $this->getPropertiesProperty(),
-            'amenities' => PropertyFeature::distinct('feature_name')->pluck('feature_name'),
-        ]);
-    }
 }
-        // ])->with(['bookingLink' => function($property) {
-        //     return route('livewire.property-booking', ['propertyId' => $property->id]);
-        // }]);
