@@ -3,7 +3,7 @@
 namespace App\Filament\App\Pages;
 
 use Filament\Pages\Page;
-use App\Filament\Widgets\StatsOverview;
+// use App\Filament\Widgets\StatsOverview;
 use App\Filament\Widgets\LatestProperties;
 use App\Filament\Widgets\RecentBookings;
 use App\Models\Property;
@@ -24,13 +24,13 @@ class Dashboard extends Page
         $this->totalProperties = Property::count();
         $this->activeListings = Property::where('status', 'active')->count();
         $this->totalBookings = Booking::count();
-        $this->totalRevenue = Transaction::sum('amount');
+        $this->totalRevenue = Transaction::sum('transaction_amount');
     }
 
     protected function getHeaderWidgets(): array
     {
         return [
-            StatsOverview::class,
+          //  StatsOverview::class,
         ];
     }
 

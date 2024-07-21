@@ -31,6 +31,5 @@
 
     <x-filament::card class="mt-6">
         <h2 class="text-lg font-semibold mb-4">Recent Activity</h2>
-        <livewire:recent-activity-list />
     </x-filament::card>
 </x-filament-panels::page>
