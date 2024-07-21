@@ -38,4 +38,14 @@ class Booking extends Model
     {
         return $this->belongsTo(Property::class, 'property_id');
     }
+
+    public function setStaffIdAttribute($value)
+    {
+        $this->attributes['staff_id'] = $value ?? $this->getDefaultStaffId();
+    }
+
+    private function getDefaultStaffId()
+    {
+        return User::where('role', 'staff')->first()->id ?? null;
+    }
 }
