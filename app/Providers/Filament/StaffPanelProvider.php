@@ -103,6 +103,18 @@ class StaffPanelProvider extends PanelProvider
         if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
+        ->tenantRoutePrefix('/{tenant}')
+        ->tenantMiddleware([
+            function ($request, $next) {
+                if (!Filament::getTenant() && auth()->check()) {
+                    $defaultTeam = auth()->user()->currentTeam ?? auth()->user()->ownedTeams()->first();
+                    if ($defaultTeam) {
+                        Filament::setTenant($defaultTeam);
+                    }
+                }
+                return $next($request);
+            },
+        ])
                 ->tenantRegistration(Pages\CreateTeam::class)
                 ->tenantProfile(Pages\EditTeam::class)
                 ->userMenuItems([

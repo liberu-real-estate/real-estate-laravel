@@ -28,5 +28,25 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         $staffUser->assignRole('staff');
+
+        // Create teams for admin and staff users
+        $this->createTeamForUser($adminUser);
+        $this->createTeamForUser($staffUser);
+
+        // Create additional users with teams
+        User::factory(8)->create()->each(function ($user) {
+            $this->createTeamForUser($user);
+        });
+    }
+
+    private function createTeamForUser($user)
+    {
+        $team = Team::create([
+            'name' => $user->name . "'s Team",
+            'user_id' => $user->id,
+            'personal_team' => true,
+        ]);
+        $user->current_team_id = $team->id;
+        $user->save();
     }
 }
