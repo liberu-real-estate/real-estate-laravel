@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             UserSeeder::class,
             PropertySeeder::class,
+            DefaultTeamSeeder::class,
             // Add other seeders here if needed
         ]);
     }
