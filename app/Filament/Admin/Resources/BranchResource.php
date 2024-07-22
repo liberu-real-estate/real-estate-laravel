@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Filament\App\Resources\BranchResource\Pages;
 
 class BranchResource extends Resource
 {
@@ -61,5 +62,14 @@ class BranchResource extends Resource
     public static function getNavigationIcon(): string
     {
         return 'heroicon-o-building-office';
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListBranches::route('/'),
+            'create' => Pages\CreateBranch::route('/create'),
+            'edit' => Pages\EditBranch::route('/{record}/edit'),
+        ];
     }
 }
