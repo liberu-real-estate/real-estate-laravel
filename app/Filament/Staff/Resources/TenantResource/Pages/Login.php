@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Resources\TenantResource\Pages;
+namespace App\Filament\Staff\Resources\TenantResource\Pages;
 
 use Filament\Resources\Pages\Page;
 use Filament\Forms;
