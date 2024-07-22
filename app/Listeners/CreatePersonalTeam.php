@@ -16,9 +16,11 @@ class CreatePersonalTeam
 
         if (!$user->belongsToTeam()) {
             $defaultTeam = Team::first();
-            if ($defaultTeam) {
+            if ($defaultTeam instanceof Team) {
                 $user->teams()->attach($defaultTeam);
                 $user->switchTeam($defaultTeam);
+            } else {
+                \Log::error("Failed to retrieve a valid default team");
             }
         }
     }
