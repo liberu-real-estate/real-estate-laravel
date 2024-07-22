@@ -34,6 +34,7 @@ use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Jetstream;
+use Illuminate\Routing\Router;
 
 class TenantPanelProvider extends PanelProvider
 {
@@ -72,6 +73,9 @@ class TenantPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
+            ->routes(function (Router $router) {
+                $router->get('/profile', Pages\EditProfile::class)->name('filament.admin.tenant.profile');
+            })
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
