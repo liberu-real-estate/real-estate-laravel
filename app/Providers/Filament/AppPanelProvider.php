@@ -59,7 +59,7 @@ class AppPanelProvider extends PanelProvider
         if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
-                ->tenantRoutePrefix('/{tenant}')
+                ->tenantRoutePrefix('')
                 ->tenantMiddleware([
                     AssignDefaultTeam::class,
                 ])
