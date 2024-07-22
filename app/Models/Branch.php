@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Branch extends Model
 {
@@ -10,8 +11,11 @@ class Branch extends Model
         'name',
         'address',
         'phone_number',
-        // Add other relevant details here
+        'team_id',
     ];
 
-    // Define relationships and business logic here if necessary
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
 }
