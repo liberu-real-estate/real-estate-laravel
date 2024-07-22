@@ -113,11 +113,8 @@ class TenantPanelProvider extends PanelProvider
                     MenuItem::make()
                         ->label('Team Settings')
                         ->icon('heroicon-o-cog-6-tooth')
-                        ->url(fn () => $this->shouldRegisterMenuItem()
-                            ? url(Pages\EditTeam::getUrl())
-                            : url($panel->getPath())),
-                ]);
-        }
+                        ->url(Pages\EditTeam::getUrl()),
+                ]);        }
 
         return $panel;
     }

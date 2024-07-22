@@ -106,7 +106,7 @@ class LandlordPanelProvider extends PanelProvider
                 ->tenant(Team::class, ownershipRelationship: 'team')
                 ->tenantRoutePrefix('/{tenant}')
                 ->tenantMiddleware([
-                    \App\Http\Middleware\AssignDefaultTeam::class,
+                    AssignDefaultTeam::class,
                 ])
                 ->tenantRegistration(Pages\CreateTeam::class)
                 ->tenantProfile(Pages\EditTeam::class)
