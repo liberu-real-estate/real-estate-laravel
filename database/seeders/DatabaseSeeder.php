@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
             PermissionsSeeder::class,
             RolesSeeder::class,
             UserSeeder::class,
-            PropertySeeder::class,
             DefaultTeamSeeder::class,
+            PropertySeeder::class,
             // Add other seeders here if needed
         ]);
     }

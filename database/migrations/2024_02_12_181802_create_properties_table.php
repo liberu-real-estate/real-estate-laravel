@@ -26,7 +26,7 @@ return new class extends Migration
             $table->date('list_date')->default(now());
             $table->date('sold_date')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('team_id');
+            $table->unsignedBigInteger('team_id')->default(1);
             $table->boolean('is_featured')->default(false);
             $table->string('rightmove_id')->nullable();
             $table->string('zoopla_id')->nullable();
