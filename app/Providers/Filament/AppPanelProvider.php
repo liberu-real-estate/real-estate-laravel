@@ -57,8 +57,8 @@ class AppPanelProvider extends PanelProvider
                     ->label('Profile')
                     ->icon('heroicon-o-user-circle')
                     ->url(fn () => $this->shouldRegisterMenuItem()
-                        ? url(EditProfile::getUrl())
-                        : url($panel->getPath())),
+                        ? EditProfile::getUrl()
+                        : $panel->getUrl()),
             ]);
 
         if (Features::hasTeamFeatures()) {
