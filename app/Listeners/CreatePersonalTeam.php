@@ -2,26 +2,20 @@
 
 namespace App\Listeners;
 
-use App\Models\Team;
-use Illuminate\Auth\Events\Registered;
+use App\Services\TeamManagementService;
+use Filament\Events\Auth\Registered;
 
 class CreatePersonalTeam
 {
-    /**
-     * Handle the event.
-     */
+    protected $teamManagementService;
+
+    public function __construct(TeamManagementService $teamManagementService)
+    {
+        $this->teamManagementService = $teamManagementService;
+    }
+
     public function handle(Registered $event): void
     {
-        $user = $event->user;
-
-        if (!$user->belongsToTeam()) {
-            $defaultTeam = Team::first();
-            if ($defaultTeam instanceof Team) {
-                $user->teams()->attach($defaultTeam);
-                $user->switchTeam($defaultTeam);
-            } else {
-                \Log::error("Failed to retrieve a valid default team");
-            }
-        }
+        $this->teamManagementService->assignUserToDefaultTeam($event->user);
     }
 }
