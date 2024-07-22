@@ -3,7 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\App\Pages;
-use App\Http\Middleware\TeamsPermission;
+// use App\Http\Middleware\TeamsPermission;
 use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -127,10 +127,10 @@ class AdminPanelProvider extends PanelProvider
         /**
          * Add listener to assign user to office team
          */
-        Event::listen(Registered::class, function ($event) {
-            $teamManagementService = app(TeamManagementService::class);
-            $teamManagementService->assignUserToOfficeTeam($event->user);
-        });
+   //     Event::listen(Registered::class, function ($event) {
+  //          $teamManagementService = app(TeamManagementService::class);
+  //          $teamManagementService->assignUserToOfficeTeam($event->user);
+//        });
     }
 
     public function shouldRegisterMenuItem(): bool
