@@ -25,21 +25,33 @@ class ZooplaApiService
         ]);
     }
 
-    public function uploadProperty(Property $property)
+    public function uploadProperty(Property $property, $retries = 3)
     {
-        try {
-            $response = $this->client->post('properties', [
-                'json' => $this->preparePropertyData($property),
-            ]);
-
-            if ($response->getStatusCode() === 201) {
-                $property->zoopla_id = json_decode($response->getBody())->id;
-                $property->save();
-                return true;
+        for ($attempt = 1; $attempt <= $retries; $attempt++) {
+            try {
+                $response = $this->client->post('properties', [
+                    'json' => $this->preparePropertyData($property),
+                ]);
+    
+                if ($response->getStatusCode() === 201) {
+                    $property->zoopla_id = json_decode($response->getBody())->id;
+                    $property->save();
+                    Log::info("Property uploaded to Zoopla successfully", ['property_id' => $property->id, 'zoopla_id' => $property->zoopla_id]);
+                    return true;
+                }
+            } catch (\Exception $e) {
+                Log::warning("Zoopla API Error (Attempt $attempt/$retries): " . $e->getMessage(), [
+                    'property_id' => $property->id,
+                    'exception' => get_class($e),
+                ]);
+    
+                if ($attempt === $retries) {
+                    Log::error("Failed to upload property to Zoopla after $retries attempts", ['property_id' => $property->id]);
+                    return false;
+                }
+    
+                sleep(pow(2, $attempt)); // Exponential backoff
             }
-        } catch (\Exception $e) {
-            Log::error('Zoopla API Error: ' . $e->getMessage());
-            return false;
         }
     }
 
@@ -74,7 +86,7 @@ class ZooplaApiService
 
     protected function preparePropertyData(Property $property)
     {
-        return [
+        $data = [
             'title' => $property->title,
             'description' => $property->description,
             'property_type' => $property->property_type,
@@ -87,5 +99,13 @@ class ZooplaApiService
             'images' => $property->images->pluck('url')->toArray(),
             // Add more fields as required by Zoopla API
         ];
+    
+        Log::info('Preparing Zoopla property data', [
+            'property_id' => $property->id,
+            'zoopla_id' => $property->zoopla_id,
+            'data' => $data,
+        ]);
+    
+        return $data;
     }
 }
