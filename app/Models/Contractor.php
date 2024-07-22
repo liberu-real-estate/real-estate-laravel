@@ -14,5 +14,11 @@ class Contractor extends Model
         'email',
         'phone',
         'address',
+        'team_id',
     ];
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

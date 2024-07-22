@@ -75,5 +75,10 @@ class Appointment extends Model
     {
         return $query->where('status', $status);
     }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }
 

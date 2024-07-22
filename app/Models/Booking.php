@@ -48,4 +48,9 @@ class Booking extends Model
     {
         return User::where('role', 'staff')->first()->id ?? null;
     }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }
