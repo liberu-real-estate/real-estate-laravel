@@ -220,4 +220,9 @@ class Team extends JetstreamTeam
     {
         return $this->hasMany(Tree::class);
     }
+
+    public function branches(): HasMany
+    {
+        return $this->hasMany(Branch::class);
+    }
 }
