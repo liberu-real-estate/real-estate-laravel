@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Resources\FavoriteResource\Pages;
+namespace App\Filament\Staff\Resources\FavoriteResource\Pages;
 
 use App\Filament\App\Resources\FavoriteResource;
 use Filament\Actions;
