@@ -27,10 +27,15 @@ class TeamsPermission
             // Attempt to set a default team
             $defaultTeam = $user->ownedTeams()->first();
             if ($defaultTeam) {
-                $user->current_team_id = $defaultTeam->id;
-                $user->save();
-                app(PermissionRegistrar::class)->setPermissionsTeamId($defaultTeam->id);
-                \Log::info("Set default team ID to: " . $defaultTeam->id);
+                $teamId = $defaultTeam->id;
+                if (is_string($teamId) || is_int($teamId)) {
+                    $user->current_team_id = $teamId;
+                    $user->save();
+                    app(PermissionRegistrar::class)->setPermissionsTeamId($teamId);
+                    \Log::info("Set default team ID to: " . $teamId);
+                } else {
+                    \Log::error("Invalid team ID type: " . gettype($teamId));
+                }
             } else {
                 \Log::error("User has no teams: " . $user->id);
             }
