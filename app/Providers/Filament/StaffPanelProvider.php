@@ -71,7 +71,7 @@ class StaffPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')
             ->pages([
-                Dashboard::class,
+                \App\Filament\Staff\Pages\Dashboard::class,
                 Pages\EditProfile::class,
                 Profile::class,
             ])

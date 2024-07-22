@@ -1,9 +1,9 @@
 <x-filament-panels::page>
-    <x-filament::grid columns="4">
+    <x-filament::grid columns="3">
         <x-filament::grid.column>
             <x-filament::card>
-                <h2 class="text-lg font-semibold">Total Properties</h2>
-                <p class="text-3xl font-bold">{{ $this->totalProperties }}</p>
+                <h2 class="text-lg font-semibold">My Properties</h2>
+                <p class="text-3xl font-bold">{{ $this->myProperties }}</p>
             </x-filament::card>
         </x-filament::grid.column>
 
@@ -20,17 +20,10 @@
                 <p class="text-3xl font-bold">{{ $this->totalBookings }}</p>
             </x-filament::card>
         </x-filament::grid.column>
-
-        <x-filament::grid.column>
-            <x-filament::card>
-                <h2 class="text-lg font-semibold">Total Revenue</h2>
-                <p class="text-3xl font-bold">{{ number_format($this->totalRevenue, 2) }}</p>
-            </x-filament::card>
-        </x-filament::grid.column>
     </x-filament::grid>
 
     <x-filament::card class="mt-6">
-        <h2 class="text-lg font-semibold mb-4">App Recent Activity</h2>
-        <!-- Add app-specific recent activity content here -->
+        <h2 class="text-lg font-semibold mb-4">Seller Recent Activity</h2>
+        <!-- Add seller-specific recent activity content here -->
     </x-filament::card>
 </x-filament-panels::page>
