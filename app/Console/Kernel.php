@@ -4,8 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Services\RightMoveService;
-use App\Services\OnTheMarketService;
+use App\Jobs\SyncRightMoveProperties;
+use App\Jobs\SyncOnTheMarketProperties;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,35 +15,29 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // Sync properties with RightMove every hour
-        $schedule->call(function () {
-            $rightMoveService = app(RightMoveService::class);
-            $rightMoveService->syncAllProperties();
-        })->hourly();
-    
+        $schedule->job(new SyncRightMoveProperties)->hourly();
+
         // Sync properties with OnTheMarket
-        $schedule->call(function () {
-            $onTheMarketService = app(OnTheMarketService::class);
-            $onTheMarketService->syncAllProperties();
-        })->when(function () {
-            $frequency = config('services.onthemarket.sync_frequency', 'hourly');
-            return $frequency === 'hourly';
-        })->hourly();
-    
-        $schedule->call(function () {
-            $onTheMarketService = app(OnTheMarketService::class);
-            $onTheMarketService->syncAllProperties();
-        })->when(function () {
-            $frequency = config('services.onthemarket.sync_frequency', 'hourly');
-            return $frequency === 'daily';
-        })->daily();
-    
-        $schedule->call(function () {
-            $onTheMarketService = app(OnTheMarketService::class);
-            $onTheMarketService->syncAllProperties();
-        })->when(function () {
-            $frequency = config('services.onthemarket.sync_frequency', 'hourly');
-            return $frequency === 'weekly';
-        })->weekly();
+        $schedule->job(new SyncOnTheMarketProperties)
+            ->when(function () {
+                $frequency = config('services.onthemarket.sync_frequency', 'hourly');
+                return $frequency === 'hourly';
+            })
+            ->hourly();
+
+        $schedule->job(new SyncOnTheMarketProperties)
+            ->when(function () {
+                $frequency = config('services.onthemarket.sync_frequency', 'hourly');
+                return $frequency === 'daily';
+            })
+            ->daily();
+
+        $schedule->job(new SyncOnTheMarketProperties)
+            ->when(function () {
+                $frequency = config('services.onthemarket.sync_frequency', 'hourly');
+                return $frequency === 'weekly';
+            })
+            ->weekly();
     }
 
     /**
