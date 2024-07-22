@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\App\Pages;
 use App\Filament\App\Pages\EditProfile;
+use App\Filament\App\Pages\Tenant\Profile;
 use App\Http\Middleware\TeamsPermission;
 use App\Http\Middleware\AssignDefaultTeam;
 use App\Listeners\CreatePersonalTeam;
@@ -17,7 +18,6 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
-use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -66,6 +66,7 @@ class TenantPanelProvider extends PanelProvider
             ->pages([
                 Dashboard::class,
                 Pages\EditProfile::class,
+                Profile::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Tenant/Widgets/Home'), for: 'App\\Filament\\App\\Widgets\\Home')
             ->widgets([

@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\App\Pages;
 use App\Filament\App\Pages\EditProfile;
+use App\Filament\App\Pages\Tenant\Profile;
 use App\Http\Middleware\TeamsPermission;
 use App\Http\Middleware\AssignDefaultTeam;
 use App\Listeners\CreatePersonalTeam;
