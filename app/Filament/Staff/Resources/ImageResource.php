@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Resources;
+namespace App\Filament\Staff\Resources;
 
 use App\Filament\App\Resources\ImageResource\Pages;
 use App\Filament\App\Resources\ImageResource\RelationManagers;
