@@ -1,24 +1,3 @@
-<?php
-
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-
-/**
- * Represents an appointment in the real estate application.
- *
- * @property int $appointment_id
- * @property int $user_id
- * @property int $agent_id
- * @property int $property_id
- * @property \DateTime $appointment_date
- * @property string $status
- * @property-read \App\Models\User $user
- * @property-read \App\Models\User $agent
- * @property-read \App\Models\Property $property
- */
 class Appointment extends Model
 {
     use HasFactory;
@@ -31,6 +10,7 @@ class Appointment extends Model
         'property_id',
         'appointment_date',
         'status',
+        'team_id',
     ];
 
     protected $casts = [
@@ -52,28 +32,7 @@ class Appointment extends Model
         return $this->belongsTo(Property::class, 'property_id');
     }
 
-    /**
-     * Scope a query to only include upcoming appointments.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-
-    public function scopeUpcoming(Builder $query): Builder
+    public function team()
     {
-        return $query->where('appointment_date', '>', now());
+        return $this->belongsTo(Team::class);
     }
-
-    /**
-     * Scope a query to only include appointments with a specific status.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $status
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeStatus(Builder $query, string $status): Builder
-    {
-        return $query->where('status', $status);
-    }
-}
-

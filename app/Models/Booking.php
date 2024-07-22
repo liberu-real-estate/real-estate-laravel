@@ -1,13 +1,3 @@
-<?php
-
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\User;
-use App\Models\Property;
-use App\Models\Team;
-
 class Booking extends Model
 {
     protected $fillable = [
@@ -42,18 +32,7 @@ class Booking extends Model
         return $this->belongsTo(Property::class, 'property_id');
     }
 
-    public function team(): BelongsTo
+    public function team()
     {
         return $this->belongsTo(Team::class);
     }
-
-    public function setStaffIdAttribute($value)
-    {
-        $this->attributes['staff_id'] = $value ?? $this->getDefaultStaffId();
-    }
-
-    private function getDefaultStaffId()
-    {
-        return User::where('role', 'staff')->first()->id ?? null;
-    }
-}

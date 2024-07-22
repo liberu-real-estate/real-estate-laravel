@@ -1,10 +1,3 @@
-<?php
-
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class Activity extends Model
 {
     use HasFactory;
@@ -16,6 +9,7 @@ class Activity extends Model
         'description',
         'scheduled_at',
         'completed_at',
+        'team_id',
     ];
 
     protected $casts = [
@@ -31,5 +25,10 @@ class Activity extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
     }
 }
