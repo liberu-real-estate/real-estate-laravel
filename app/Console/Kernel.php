@@ -12,8 +12,10 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
+
     protected function schedule(Schedule $schedule): void
     {
+
         // Sync properties with RightMove every hour
         $schedule->call(function () {
             $rightMoveService = app(RightMoveService::class);
@@ -44,6 +46,7 @@ class Kernel extends ConsoleKernel
             $frequency = config('services.onthemarket.sync_frequency', 'hourly');
             return $frequency === 'weekly';
         })->weekly();
+
     }
 
     /**
