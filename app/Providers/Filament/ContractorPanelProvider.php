@@ -71,7 +71,7 @@ class ContractorPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Contractor/Resources'), for: 'App\\Filament\\Contractor\\Resources')
             ->discoverPages(in: app_path('Filament/Contractor/Pages'), for: 'App\\Filament\\Contractor\\Pages')
             ->pages([
-                Dashboard::class,
+                \App\Filament\Contractor\Pages\Dashboard::class,
                 Pages\EditProfile::class,
                 Profile::class,
             ])
