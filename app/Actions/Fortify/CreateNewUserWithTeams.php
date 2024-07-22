@@ -40,11 +40,12 @@ class CreateNewUserWithTeams implements CreatesNewUsers
     }
 
     /**
-     * Create a personal team for the user.
+     * Create teams for the user.
      */
     protected function createTeam(User $user): void
     {
         $teamManagementService = app(TeamManagementService::class);
-        $teamManagementService->assignUserToOfficeTeam($user);
+        $teamManagementService->assignUserToDefaultTeam($user);
+        $teamManagementService->createPersonalTeamForUser($user);
     }
 }
