@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OnTheMarketSettings extends Model
 {
@@ -13,5 +14,11 @@ class OnTheMarketSettings extends Model
         'api_key',
         'base_uri',
         'sync_frequency',
+        'team_id',
     ];
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

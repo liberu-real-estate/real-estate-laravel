@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
 use App\Models\Property;
+use App\Models\Team;
 
 class Booking extends Model
 {
@@ -17,6 +19,7 @@ class Booking extends Model
         'property_id',
         'name',
         'contact',
+        'team_id',
     ];
 
     protected $casts = [
@@ -37,6 +40,11 @@ class Booking extends Model
     public function property()
     {
         return $this->belongsTo(Property::class, 'property_id');
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 
     public function setStaffIdAttribute($value)
