@@ -16,6 +16,7 @@ class DefaultTeamSeeder extends Seeder
         $team = Team::create([
             'name' => 'default',
             'personal_team' => false,
+	    'user_id' => 1,
         ]);
 
         Branch::create([

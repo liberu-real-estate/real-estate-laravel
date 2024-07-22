@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Resources;
+namespace App\Filament\Admin\Resources;
 
 use App\Models\Branch;
 use Filament\Forms\Form;

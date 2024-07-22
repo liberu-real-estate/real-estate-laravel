@@ -30,12 +30,12 @@ class UserSeeder extends Seeder
         $staffUser->assignRole('staff');
 
         // Create teams for admin and staff users
-        $this->createTeamForUser($adminUser);
-        $this->createTeamForUser($staffUser);
+//        $this->createTeamForUser($adminUser);
+ //       $this->createTeamForUser($staffUser);
 
         // Create additional users with teams
-        User::factory(8)->create()->each(function ($user) {
-            $this->createTeamForUser($user);
+   //     User::factory(8)->create()->each(function ($user) {
+   //         $this->createTeamForUser($user);
         });
     }
 
