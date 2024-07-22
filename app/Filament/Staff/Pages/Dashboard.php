@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Pages;
+namespace App\Filament\Staff\Pages;
 
 use Filament\Pages\Page;
 use App\Models\Property;
@@ -9,7 +9,7 @@ use App\Models\Transaction;
 
 class Dashboard extends Page
 {
-    protected static string $view = 'filament.pages.dashboard';
+    protected static string $view = 'filament.staff.dashboard';
 
     public function mount(): void
     {
@@ -22,14 +22,14 @@ class Dashboard extends Page
     protected function getHeaderWidgets(): array
     {
         return [
-            // Add any app-specific widgets here
+            // Add any staff-specific widgets here
         ];
     }
 
     protected function getFooterWidgets(): array
     {
         return [
-            // Add any app-specific widgets here
+            // Add any staff-specific widgets here
         ];
     }
 }

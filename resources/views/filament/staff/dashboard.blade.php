@@ -30,7 +30,7 @@
     </x-filament::grid>
 
     <x-filament::card class="mt-6">
-        <h2 class="text-lg font-semibold mb-4">App Recent Activity</h2>
-        <!-- Add app-specific recent activity content here -->
+        <h2 class="text-lg font-semibold mb-4">Staff Recent Activity</h2>
+        <!-- Add staff-specific recent activity content here -->
     </x-filament::card>
 </x-filament-panels::page>
