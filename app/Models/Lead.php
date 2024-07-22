@@ -14,6 +14,7 @@ class Lead extends Model
         'email',
         'message',
         'status',
+        'team_id',
     ];
 
     public function activities()
@@ -24,5 +25,10 @@ class Lead extends Model
     public function buyer()
     {
         return $this->belongsTo(Buyer::class);
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
     }
 }

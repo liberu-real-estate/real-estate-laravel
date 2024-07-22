@@ -20,6 +20,7 @@ class CreateDigitalSignaturesTable extends Migration
     {
         Schema::create('digital_signatures', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('team_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('document_id')->constrained();
             $table->text('signature_data');

@@ -10,5 +10,11 @@ class DocumentTemplate extends Model
         'name',
         'file_path',
         'description',
+        'team_id',
     ];
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }
