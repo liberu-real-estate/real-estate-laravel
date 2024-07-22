@@ -12,12 +12,17 @@ class AssignDefaultTeam
     public function handle(Request $request, Closure $next)
     {
         if (!Filament::getTenant() && auth()->check()) {
-            $defaultTeam = auth()->user()->currentTeam ?? auth()->user()->ownedTeams()->first();
-            if ($defaultTeam instanceof Team) {
-                Filament::setTenant($defaultTeam);
-            } else {
-                \Log::warning("Unable to set default team for user: " . auth()->id());
+            $user = auth()->user();
+            $defaultTeam = $user->currentTeam ?? $user->ownedTeams()->first();
+            if (!$defaultTeam) {
+                $defaultTeam = $user->ownedTeams()->create([
+                    'name' => $user->name . "'s Team",
+                    'personal_team' => true,
+                ]);
+                $user->current_team_id = $defaultTeam->id;
+                $user->save();
             }
+            Filament::setTenant($defaultTeam);
         }
         return $next($request);
     }
