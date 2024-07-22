@@ -58,8 +58,8 @@ class StaffPanelProvider extends PanelProvider
                     ->label('Profile')
                     ->icon('heroicon-o-user-circle')
                     ->url(fn () => $this->shouldRegisterMenuItem()
-                        ? url(EditProfile::getUrl())
-                        : url($panel->getPath())),
+                        ? EditProfile::getUrl()
+                        : $panel->getUrl()),
             ])
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')
