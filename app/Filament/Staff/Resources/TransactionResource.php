@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 namespace App\Filament\App\Resources;
@@ -92,23 +91,13 @@ class TransactionResource extends Resource
             //
         ];
     }
-=======
->>>>>>> refs/remotes/origin/main
-
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListTransactions::route('/'),
             'create' => Pages\CreateTransaction::route('/create'),
-<<<<<<< HEAD
             'edit' => Pages\EditTransaction::route('/{record}/edit'),
-        ];
-    }
-}
-=======
             'view' => Pages\ViewTransaction::route('/{record}'),
-            'edit' => Pages\EditTransaction::route('/{record}/edit'),
         ];
     }
 }
->>>>>>> refs/remotes/origin/main

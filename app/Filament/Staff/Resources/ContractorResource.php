@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 namespace App\Filament\App\Resources\Contractors;
@@ -56,21 +55,12 @@ class ContractorResource extends Resource
         return 'Management';
     }
 
-=======
->>>>>>> refs/remotes/origin/main
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListContractors::route('/'),
             'create' => Pages\CreateContractor::route('/create'),
-<<<<<<< HEAD
             'edit' => Pages\EditContractor::route('/{record}/edit'),
         ];
     }
 }
-=======
-            'view' => Pages\ViewContractor::route('/{record}'),
-            'edit' => Pages\EditContractor::route('/{record}/edit'),
-        ];
-    }
->>>>>>> refs/remotes/origin/main

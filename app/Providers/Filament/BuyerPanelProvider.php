@@ -59,7 +59,7 @@ class BuyerPanelProvider extends PanelProvider
         if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
-                //->tenantRoutePrefix('/{tenant}')
+              //  ->tenantRoutePrefix('/{tenant}')
                 ->tenantMiddleware([
                     AssignDefaultTeam::class,
                 ])
@@ -99,6 +99,29 @@ class BuyerPanelProvider extends PanelProvider
                 // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
 
-        // Add the BuyerResource to the panel
-        $panel->resources([
-            \App\Filament\Staff\Resources\B
+        return $panel;
+    }
+
+    public function boot()
+    {
+
+        /**
+         * Disable Fortify routes.
+         */
+        Fortify::$registersRoutes = false;
+
+        /**
+         * Disable Jetstream routes.
+         */
+        Jetstream::$registersRoutes = false;
+    }
+
+    // This method has been removed
+
+    public function shouldRegisterMenuItem(): bool
+    {
+        return true; //auth()->user()?->hasVerifiedEmail() && Filament::hasTenancy() && Filament::getTenant();
+    }
+
+
+}

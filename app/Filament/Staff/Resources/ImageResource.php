@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 namespace App\Filament\App\Resources;
@@ -51,8 +50,6 @@ class ImageResource extends Resource
     {
         return [
             //
-=======
->>>>>>> refs/remotes/origin/main
         ];
     }
 
@@ -61,15 +58,8 @@ class ImageResource extends Resource
         return [
             'index' => Pages\ListImages::route('/'),
             'create' => Pages\CreateImage::route('/create'),
-<<<<<<< HEAD
             'edit' => Pages\EditImage::route('/{record}/edit'),
-        ];
-    }
-}
-=======
             'view' => Pages\ViewImage::route('/{record}'),
-            'edit' => Pages\EditImage::route('/{record}/edit'),
         ];
     }
 }
->>>>>>> refs/remotes/origin/main
