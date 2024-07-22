@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Resources\TenantResource\Pages;
+namespace App\Filament\Staff\Resources\TenantResource\Pages;
 
 use App\Filament\App\Resources\TenantResource;
 use Filament\Resources\Pages\CreateRecord;
