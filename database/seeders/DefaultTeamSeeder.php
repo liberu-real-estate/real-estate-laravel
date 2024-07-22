@@ -14,6 +14,7 @@ class DefaultTeamSeeder extends Seeder
     public function run(): void
     {
         $team = Team::create([
+	    'id' => 1,
             'name' => 'default',
             'personal_team' => false,
 	    'user_id' => 1,

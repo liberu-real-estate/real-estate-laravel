@@ -5,7 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\App\Pages;
 use App\Filament\App\Pages\EditProfile;
 use App\Filament\App\Pages\CreateTeam;
-use App\Filament\App\Pages\EditTeam;
+use App\Filament\App\Pages\Tenancy\EditTeam;
 use App\Filament\App\Pages\Tenant\Profile;
 use App\Http\Middleware\TeamsPermission;
 use App\Http\Middleware\AssignDefaultTeam;
@@ -62,9 +62,9 @@ class AppPanelProvider extends PanelProvider
 //                ->tenantRoutePrefix('/{tenant}')
                 ->tenantMiddleware([
                     AssignDefaultTeam::class,
-                ])
-                ->tenantRegistration(CreateTeam::class)
-                ->tenantProfile(EditTeam::class);
+                ]);
+              //  ->tenantRegistration(CreateTeam::class)
+              //  ->tenantProfile(EditTeam::class);
         }
 
         $panel
