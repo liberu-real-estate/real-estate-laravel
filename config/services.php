@@ -56,8 +56,7 @@ return [
         'api_key' => env('CRM_API_KEY'),
         'endpoint' => env('CRM_ENDPOINT'),
         'sync_interval' => env('CRM_SYNC_INTERVAL', 15), // in minutes
-    ],
+    ];
 
-];
 
 
