@@ -11,6 +11,7 @@ use Filament\Tables;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use App\Filament\Staff\Resources\DocumentTemplateResource\Pages;
 
 class DocumentTemplateResource extends Resource
 {
@@ -52,5 +53,14 @@ class DocumentTemplateResource extends Resource
     public static function getNavigationGroup(): string
     {
         return __('Administration');
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListDocumentTemplates::route('/'),
+            'create' => Pages\CreateDocumentTemplate::route('/create'),
+            'edit' => Pages\EditDocumentTemplate::route('/{record}/edit'),
+        ];
     }
 }
