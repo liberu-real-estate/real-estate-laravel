@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $agent_id
  * @property string|null $virtual_tour_url
  * @property bool $is_featured
+ * @property string|null $rightmove_id
  * @property string|null $zoopla_id
  * @property string|null $onthemarket_id
  * @property \DateTime|null $last_synced_at
@@ -59,6 +60,7 @@ use HasFactory, SoftDeletes;
         'agent_id',
         'virtual_tour_url',
         'is_featured',
+        'rightmove_id',
         'zoopla_id',
         'onthemarket_id',
         'last_synced_at',
