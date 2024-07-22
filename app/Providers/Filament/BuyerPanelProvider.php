@@ -99,29 +99,6 @@ class BuyerPanelProvider extends PanelProvider
                 // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
 
-        return $panel;
-    }
-
-    public function boot()
-    {
-
-        /**
-         * Disable Fortify routes.
-         */
-        Fortify::$registersRoutes = false;
-
-        /**
-         * Disable Jetstream routes.
-         */
-        Jetstream::$registersRoutes = false;
-    }
-
-    // This method has been removed
-
-    public function shouldRegisterMenuItem(): bool
-    {
-        return true; //auth()->user()?->hasVerifiedEmail() && Filament::hasTenancy() && Filament::getTenant();
-    }
-
-
-}
+        // Add the BuyerResource to the panel
+        $panel->resources([
+            \App\Filament\Staff\Resources\B
