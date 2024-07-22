@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Services\SiteSettingsService;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use App\Http\Livewire\PropertyBooking;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        //
+        Livewire::component('property-booking', PropertyBooking::class);
     }
 }
