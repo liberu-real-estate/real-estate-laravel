@@ -41,9 +41,8 @@ class UserSeeder extends Seeder
 
     private function createTeamForUser($user)
     {
-        $team = Team::create([
+        $team = $user->ownedTeams()->create([
             'name' => $user->name . "'s Team",
-            'user_id' => $user->id,
             'personal_team' => true,
         ]);
         $user->current_team_id = $team->id;

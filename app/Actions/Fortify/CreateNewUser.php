@@ -74,25 +74,17 @@ class CreateNewUser implements CreatesNewUsers
     protected function assignOrCreateTeam(User $user): Team
     {
         try {
-            $firstTeam = Team::first();
-
-            if ($firstTeam) {
-                $user->teams()->attach($firstTeam);
-                return $firstTeam;
-            }
-
-            return $user->ownedTeams()->save(Team::forceCreate([
-                'user_id'       => $user->id,
-                'name'          => explode(' ', $user->name, 2)[0]."'s Team",
+            return $user->ownedTeams()->create([
+                'name' => $user->name . "'s Team",
                 'personal_team' => true,
-            ]));
+            ]);
         } catch (Exception $e) {
-            Log::error('Failed to assign or create team', [
+            Log::error('Failed to create personal team', [
                 'user_id' => $user->id,
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
-            throw new Exception('Failed to assign or create team. Please try again later.');
+            throw new Exception('Failed to create personal team. Please try again later.');
         }
     }
 }
