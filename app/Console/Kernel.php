@@ -6,6 +6,8 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\SyncRightMoveProperties;
 use App\Jobs\SyncOnTheMarketProperties;
+use App\Jobs\SyncZooplaProperties;
+use App\Models\ZooplaSettings;
 
 class Kernel extends ConsoleKernel
 {
@@ -37,6 +39,31 @@ class Kernel extends ConsoleKernel
         $schedule->job(new SyncOnTheMarketProperties)
             ->when(function () {
                 $frequency = config('services.onthemarket.sync_frequency', 'hourly');
+                return $frequency === 'weekly';
+            })
+            ->weekly();
+
+        // Sync properties with Zoopla
+        $schedule->job(new SyncZooplaProperties)
+            ->when(function () {
+                $zooplaSettings = ZooplaSettings::first();
+                $frequency = $zooplaSettings ? $zooplaSettings->sync_frequency : 'hourly';
+                return $frequency === 'hourly';
+            })
+            ->hourly();
+
+        $schedule->job(new SyncZooplaProperties)
+            ->when(function () {
+                $zooplaSettings = ZooplaSettings::first();
+                $frequency = $zooplaSettings ? $zooplaSettings->sync_frequency : 'hourly';
+                return $frequency === 'daily';
+            })
+            ->daily();
+
+        $schedule->job(new SyncZooplaProperties)
+            ->when(function () {
+                $zooplaSettings = ZooplaSettings::first();
+                $frequency = $zooplaSettings ? $zooplaSettings->sync_frequency : 'hourly';
                 return $frequency === 'weekly';
             })
             ->weekly();
