@@ -6,7 +6,7 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Resources\Pages\Page;
 use App\Services\MortgageCalculatorService;
-use App\Filament\App\Resources\MortgageCalculatorResource\Pages;
+use App\Filament\Staff\Resources\MortgageCalculatorResource\Pages;
 
 class MortgageCalculatorResource extends Resource
 {

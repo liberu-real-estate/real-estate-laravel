@@ -2,7 +2,7 @@
 
 namespace App\Filament\Staff\Resources\MortgageCalculatorResource\Pages;
 
-use App\Filament\App\Resources\MortgageCalculatorResource;
+use App\Filament\Staff\Resources\MortgageCalculatorResource;
 use App\Services\MortgageCalculatorService;
 use Filament\Resources\Pages\Page;
 use Filament\Forms\Contracts\HasForms;

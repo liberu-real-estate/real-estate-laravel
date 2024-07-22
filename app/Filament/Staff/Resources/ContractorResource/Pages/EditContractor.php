@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\Contractors\Pages;
+namespace App\Filament\Staff\Resources\ContractorResource\Pages;
 
-use App\Filament\Staff\Resources\Contractors\ContractorResource;
+use App\Filament\Staff\Resources\ContractorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
