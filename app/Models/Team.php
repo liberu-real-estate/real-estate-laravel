@@ -1,74 +1,6 @@
-<?php
-
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laravel\Jetstream\Events\TeamCreated;
-use Laravel\Jetstream\Events\TeamDeleted;
-use Laravel\Jetstream\Events\TeamUpdated;
-use Laravel\Jetstream\Team as JetstreamTeam;
-
-class Team extends JetstreamTeam
-{
-    use HasFactory;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'personal_team',
-    ];
-
-    /**
-     * The event map for the model.
-     *
-     * @var array<string, class-string>
-     */
-    protected $dispatchesEvents = [
-        'created' => TeamCreated::class,
-        'updated' => TeamUpdated::class,
-        'deleted' => TeamDeleted::class,
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'personal_team' => 'boolean',
-        ];
-    }
-
     public function branches(): HasMany
     {
         return $this->hasMany(Branch::class);
-    }
-
-    public function bookings(): HasMany
-    {
-        return $this->hasMany(Booking::class);
-    }
-
-    public function onTheMarketSettings(): HasMany
-    {
-        return $this->hasMany(OnTheMarketSettings::class);
-    }
-
-    public function rightMoveSettings(): HasMany
-    {
-        return $this->hasMany(RightMoveSettings::class);
-    }
-
-    public function zooplaSettings(): HasMany
-    {
-        return $this->hasMany(ZooplaSettings::class);
     }
 
     public function activities(): HasMany
@@ -136,6 +68,11 @@ class Team extends JetstreamTeam
         return $this->hasMany(Review::class);
     }
 
+    public function rightMoveSettings(): HasMany
+    {
+        return $this->hasMany(RightMoveSettings::class);
+    }
+
     public function siteSettings(): HasMany
     {
         return $this->hasMany(SiteSettings::class);
@@ -149,5 +86,10 @@ class Team extends JetstreamTeam
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function zooplaSettings(): HasMany
+    {
+        return $this->hasMany(ZooplaSettings::class);
     }
 }
