@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\App\Pages;
 use App\Filament\App\Pages\EditProfile;
 use App\Http\Middleware\TeamsPermission;
+use App\Http\Middleware\AssignDefaultTeam;
 use App\Listeners\CreatePersonalTeam;
 use App\Listeners\SwitchTeam;
 use App\Models\Team;
@@ -65,7 +66,7 @@ class AppPanelProvider extends PanelProvider
                 ->tenant(Team::class, ownershipRelationship: 'team')
                 ->tenantRoutePrefix('/{tenant}')
                 ->tenantMiddleware([
-                    \App\Http\Middleware\AssignDefaultTeam::class,
+                    AssignDefaultTeam::class,
                 ])
                 ->tenantRegistration(Pages\CreateTeam::class)
                 ->tenantProfile(Pages\EditTeam::class)
@@ -125,11 +126,6 @@ class AppPanelProvider extends PanelProvider
          * Disable Jetstream routes.
          */
         Jetstream::$registersRoutes = false;
-
-        Filament::registerRenderHook(
-            'panels::body.start',
-            fn (): string => $this->checkDefaultTeam()
-        );
     }
 
     // This method has been removed

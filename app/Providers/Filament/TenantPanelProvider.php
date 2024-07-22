@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\App\Pages;
 use App\Filament\App\Pages\EditProfile;
 use App\Http\Middleware\TeamsPermission;
+use App\Http\Middleware\AssignDefaultTeam;
 use App\Listeners\CreatePersonalTeam;
 use App\Listeners\SwitchTeam;
 use App\Models\Team;
@@ -104,6 +105,9 @@ class TenantPanelProvider extends PanelProvider
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
                 ->tenantRegistration(Pages\CreateTeam::class)
+                ->tenantMiddleware([
+                    AssignDefaultTeam::class,
+                ])
                 ->tenantProfile(Pages\EditTeam::class)
                 ->userMenuItems([
                     MenuItem::make()
@@ -145,12 +149,15 @@ class TenantPanelProvider extends PanelProvider
             TenantSet::class,
             SwitchTeam::class,
         );
+/**
             Filament::registerRenderHook(
             'panels::body.start',
             fn (): string => $this->checkDefaultTeam()
         );
+**/
     }
 
+/**
     private function checkDefaultTeam(): string
     {
         $user = auth()->user();
@@ -163,7 +170,7 @@ class TenantPanelProvider extends PanelProvider
         }
         return '';
     }
-
+**/
     public function shouldRegisterMenuItem(): bool
     {
         return true; //auth()->user()?->hasVerifiedEmail() && Filament::hasTenancy() && Filament::getTenant();
