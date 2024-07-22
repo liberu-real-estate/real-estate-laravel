@@ -48,6 +48,12 @@ return [
         'sync_interval' => env('CRM_SYNC_INTERVAL', 15), // in minutes
     ],
 
+    'onthemarket' => [
+        'base_uri' => env('ONTHEMARKET_BASE_URI'),
+        'api_key' => env('ONTHEMARKET_API_KEY'),
+        'sync_frequency' => env('ONTHEMARKET_SYNC_FREQUENCY', 'hourly'),
+    ],
+
 ];
 
    
