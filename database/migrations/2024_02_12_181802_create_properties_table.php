@@ -26,11 +26,13 @@ return new class extends Migration
             $table->date('list_date')->default(now());
             $table->date('sold_date')->nullable();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('team_id');
             $table->boolean('is_featured')->default(false);
             $table->string('rightmove_id')->nullable();
             $table->string('zoopla_id')->nullable();
             $table->string('onthemarket_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('team_id')->references('id')->on('teams');
             $table->softDeletes();
             $table->timestamps();
         });

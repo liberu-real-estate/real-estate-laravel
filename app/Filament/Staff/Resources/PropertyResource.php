@@ -109,7 +109,6 @@ class PropertyResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('property_type'),
                 Tables\Filters\SelectFilter::make('status'),
-                Tables\Filters\NumberFilter::make('price'),
                 Tables\Filters\Filter::make('is_featured')
                     ->query(fn (Builder $query): Builder => $query->where('is_featured', true)),
             ])

@@ -57,6 +57,7 @@ use HasFactory, SoftDeletes;
         'list_date',
         'sold_date',
         'user_id',
+        'team_id',
         'agent_id',
         'virtual_tour_url',
         'is_featured',
