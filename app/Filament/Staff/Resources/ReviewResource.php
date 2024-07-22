@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<< HEAD
 namespace App\Filament\App\Resources;
+=======
+namespace App\Filament\Staff\Resources;
+>>>>>>> refs/remotes/origin/main
 
 use Filament\Forms;
 use Filament\Tables;
@@ -14,9 +18,15 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\BelongsToSelect;
+<<<<<<< HEAD
 use App\Filament\App\Resources\ReviewResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\ReviewResource\RelationManagers;
+=======
+use App\Filament\Staff\Resources\ReviewResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Staff\Resources\ReviewResource\RelationManagers;
+>>>>>>> refs/remotes/origin/main
 
 class ReviewResource extends Resource
 {
@@ -91,4 +101,8 @@ class ReviewResource extends Resource
             'edit' => Pages\EditReview::route('/{record}/edit'),
         ];
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refs/remotes/origin/main
