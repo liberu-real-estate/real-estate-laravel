@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Resources\Contractors;
+namespace App\Filament\Staff\Resources\Contractors;
 
 use App\Models\Contractor;
 use Filament\Forms;

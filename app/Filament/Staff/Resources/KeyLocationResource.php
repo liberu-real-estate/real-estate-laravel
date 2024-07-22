@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Resources;
+namespace App\Filament\Staff\Resources;
 
 use App\Models\KeyLocation;
 use Filament\Forms;
