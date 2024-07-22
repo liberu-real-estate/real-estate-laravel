@@ -1,18 +1,11 @@
-<?php
-
-namespace Database\Seeders;
-
-use App\Models\User;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-
-class UserSeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        $defaultTeam = Team::where('name', 'default')->first();
+
+        if (!$defaultTeam) {
+            throw new Exception('Default team not found. Please run the DefaultTeamSeeder first.');
+        }
+
         $adminUser = User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
@@ -29,23 +22,19 @@ class UserSeeder extends Seeder
         ]);
         $staffUser->assignRole('staff');
 
-        // Create teams for admin and staff users
-        $this->createTeamForUser($adminUser);
-        $this->createTeamForUser($staffUser);
+        // Assign admin and staff users to the default team
+        $this->assignUserToDefaultTeam($adminUser, $defaultTeam);
+        $this->assignUserToDefaultTeam($staffUser, $defaultTeam);
 
-        // Create additional users with teams
-        User::factory(8)->create()->each(function ($user) {
-            $this->createTeamForUser($user);
+        // Create additional users and assign them to the default team
+        User::factory(8)->create()->each(function ($user) use ($defaultTeam) {
+            $this->assignUserToDefaultTeam($user, $defaultTeam);
         });
     }
 
-    private function createTeamForUser($user)
+    private function assignUserToDefaultTeam($user, $defaultTeam)
     {
-        $team = $user->ownedTeams()->create([
-            'name' => $user->name . "'s Team",
-            'personal_team' => true,
-        ]);
-        $user->current_team_id = $team->id;
+        $user->teams()->attach($defaultTeam);
+        $user->current_team_id = $defaultTeam->id;
         $user->save();
     }
-}
