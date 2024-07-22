@@ -64,6 +64,7 @@ use HasFactory, SoftDeletes;
         'zoopla_id',
         'onthemarket_id',
         'last_synced_at',
+        'team_id',
     ];
 
     protected $casts = [
@@ -168,5 +169,10 @@ use HasFactory, SoftDeletes;
         }
 
         return $availableDates;
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 }
