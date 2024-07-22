@@ -25,12 +25,17 @@ class RoleBasedRedirect
             foreach ($this->roleRedirects as $role => $redirect) {
                 if ($user->hasRole($role)) {
                     return redirect($redirect);
-                }            }
+                }
+            }
             // If user has 'free' role or no specific role, allow them to access /app
-               return $next($request);
-
+            if ($user->hasRole('free') || $user->roles->isEmpty()) {
+                return $next($request);
+            }
+            // If user doesn't have any recognized role, redirect to a default page
+            return redirect('/dashboard');
         }
-
-        return $next($request);
+    
+        // If not authenticated, redirect to login
+        return redirect()->route('login');
     }
 }
