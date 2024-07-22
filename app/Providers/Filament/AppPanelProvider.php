@@ -58,7 +58,28 @@ class AppPanelProvider extends PanelProvider
                     ->url(fn () => $this->shouldRegisterMenuItem()
                         ? url(EditProfile::getUrl())
                         : url($panel->getPath())),
-            ])
+            ]);
+
+        if (Features::hasTeamFeatures()) {
+            $panel
+                ->tenant(Team::class, ownershipRelationship: 'team')
+                ->tenantRoutePrefix('/{tenant}')
+                ->tenantMiddleware([
+                    \App\Http\Middleware\AssignDefaultTeam::class,
+                ])
+                ->tenantRegistration(Pages\CreateTeam::class)
+                ->tenantProfile(Pages\EditTeam::class)
+                ->userMenuItems([
+                    MenuItem::make()
+                        ->label('Team Settings')
+                        ->icon('heroicon-o-cog-6-tooth')
+                        ->url(fn () => $this->shouldRegisterMenuItem()
+                            ? url(Pages\EditTeam::getUrl())
+                            : url($panel->getPath())),
+                ]);
+        }
+
+        $panel
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([
@@ -89,8 +110,8 @@ class AppPanelProvider extends PanelProvider
                 // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
 
-return $panel;
-}
+        return $panel;
+    }
 
     public function boot()
     {
@@ -111,18 +132,7 @@ return $panel;
         );
     }
 
-    private function checkDefaultTeam(): string
-    {
-        $user = auth()->user();
-        if ($user && !$user->currentTeam) {
-            $defaultTeam = $user->teams()->first();
-            if ($defaultTeam) {
-                $user->switchTeam($defaultTeam);
-                return "<script>window.location.reload();</script>";
-            }
-        }
-        return '';
-    }
+    // This method has been removed
 
     public function shouldRegisterMenuItem(): bool
     {

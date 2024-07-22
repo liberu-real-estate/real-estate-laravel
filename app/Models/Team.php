@@ -46,4 +46,8 @@ class Team extends JetstreamTeam
         ];
     }
 
+    public function branches(): HasMany
+    {
+        return $this->hasMany(Branch::class);
+    }
 }
