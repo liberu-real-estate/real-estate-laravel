@@ -34,8 +34,9 @@ class RoleBasedRedirect
             // If user doesn't have any recognized role, redirect to a default page
             return redirect('/dashboard');
         }
+                return $next($request);
     
         // If not authenticated, redirect to login
-        return redirect()->route('login');
+//        return redirect()->route('login');
     }
 }
