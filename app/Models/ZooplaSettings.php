@@ -18,7 +18,6 @@ class ZooplaSettings extends Model
     use HasFactory;
 
     protected $fillable = [
-        'api_key',
         'base_uri',
         'sync_frequency',
     ];
