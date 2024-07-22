@@ -143,7 +143,8 @@ return [
         'driver' => 'file',
         // 'store' => 'redis',
     App\Providers\RouteDebugServiceProvider::class,
-    ],
+    App\Providers\RouteDebugServiceProvider::class,
+],
 
     /*
     |--------------------------------------------------------------------------
