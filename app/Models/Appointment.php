@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property-read \App\Models\User $user
  * @property-read \App\Models\User $agent
  * @property-read \App\Models\Property $property
+ * @property-read \App\Models\Team $team
  */
 class Appointment extends Model
 {
@@ -31,11 +32,17 @@ class Appointment extends Model
         'property_id',
         'appointment_date',
         'status',
+        'team_id',
     ];
 
     protected $casts = [
         'appointment_date' => 'datetime',
     ];
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
 
     public function user()
     {

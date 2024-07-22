@@ -51,26 +51,6 @@ class Team extends JetstreamTeam
         return $this->hasMany(Branch::class);
     }
 
-    public function bookings(): HasMany
-    {
-        return $this->hasMany(Booking::class);
-    }
-
-    public function onTheMarketSettings(): HasMany
-    {
-        return $this->hasMany(OnTheMarketSettings::class);
-    }
-
-    public function rightMoveSettings(): HasMany
-    {
-        return $this->hasMany(RightMoveSettings::class);
-    }
-
-    public function zooplaSettings(): HasMany
-    {
-        return $this->hasMany(ZooplaSettings::class);
-    }
-
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class);
@@ -136,6 +116,11 @@ class Team extends JetstreamTeam
         return $this->hasMany(Review::class);
     }
 
+    public function rightMoveSettings(): HasMany
+    {
+        return $this->hasMany(RightMoveSettings::class);
+    }
+
     public function siteSettings(): HasMany
     {
         return $this->hasMany(SiteSettings::class);
@@ -149,5 +134,10 @@ class Team extends JetstreamTeam
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function zooplaSettings(): HasMany
+    {
+        return $this->hasMany(ZooplaSettings::class);
     }
 }
