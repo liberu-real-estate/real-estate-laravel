@@ -20,6 +20,7 @@ class CreateBranchesTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('phone_number');
+            $table->foreignId('team_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
