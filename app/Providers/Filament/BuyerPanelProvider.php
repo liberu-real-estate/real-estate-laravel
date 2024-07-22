@@ -165,7 +165,7 @@ class BuyerPanelProvider extends PanelProvider
         return '';
     }
 
-}
+
 
 
 
