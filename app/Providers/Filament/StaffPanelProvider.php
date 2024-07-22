@@ -4,6 +4,8 @@ namespace App\Providers\Filament;
 
 use App\Filament\App\Pages;
 use App\Filament\App\Pages\EditProfile;
+use App\Filament\App\Pages\CreateTeam;
+use App\Filament\App\Pages\EditTeam;
 use App\Filament\App\Pages\Tenant\Profile;
 use App\Http\Middleware\TeamsPermission;
 use App\Http\Middleware\AssignDefaultTeam;
@@ -52,15 +54,20 @@ class StaffPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
-            ])
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Profile')
-                    ->icon('heroicon-o-user-circle')
-                    ->url(fn () => $this->shouldRegisterMenuItem()
-                        ? EditProfile::getUrl()
-                        : $panel->getUrl()),
-            ])
+            ]);
+
+        if (Features::hasTeamFeatures()) {
+            $panel
+                ->tenant(Team::class, ownershipRelationship: 'team')
+                ->tenantRoutePrefix('/{tenant}')
+                ->tenantMiddleware([
+                    AssignDefaultTeam::class,
+                ])
+                ->tenantRegistration(CreateTeam::class)
+                ->tenantProfile(EditTeam::class);
+        }
+
+        $panel
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')
             ->pages([
@@ -92,39 +99,12 @@ class StaffPanelProvider extends PanelProvider
                 // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
 
-        // if (Features::hasApiFeatures()) {
-        //     $panel->userMenuItems([
-        //         MenuItem::make()
-        //             ->label('API Tokens')
-        //             ->icon('heroicon-o-key')
-        //             ->url(fn () => $this->shouldRegisterMenuItem()
-        //                 ? url(Pages\ApiTokenManagerPage::getUrl())
-        //                 : url($panel->getPath())),
-        //     ]);
-        // }
-
-        if (Features::hasTeamFeatures()) {
-            $panel
-                ->tenant(Team::class, ownershipRelationship: 'team')
-                ->tenantRoutePrefix('/{tenant}')
-                ->tenantMiddleware([
-                    AssignDefaultTeam::class,
-                ])
-                ->tenantRegistration(Pages\CreateTeam::class)
-                ->tenantProfile(Pages\EditTeam::class)
-                ->userMenuItems([
-                    MenuItem::make()
-                        ->label('Team Settings')
-                        ->icon('heroicon-o-cog-6-tooth')
-                        ->url(Pages\EditTeam::getUrl()),
-                ]);
-        }
-
         return $panel;
     }
 
     public function boot()
     {
+
         /**
          * Disable Fortify routes.
          */
@@ -134,26 +114,14 @@ class StaffPanelProvider extends PanelProvider
          * Disable Jetstream routes.
          */
         Jetstream::$registersRoutes = false;
-
-        /**
-         * Listen and create personal team for new accounts.
-         */
-        Event::listen(
-            Registered::class,
-            CreatePersonalTeam::class,
-        );
-
-        /**
-         * Listen and switch team if tenant was changed.
-         */
-        Event::listen(
-            TenantSet::class,
-            SwitchTeam::class,
-        );
     }
+
+    // This method has been removed
 
     public function shouldRegisterMenuItem(): bool
     {
         return true; //auth()->user()?->hasVerifiedEmail() && Filament::hasTenancy() && Filament::getTenant();
     }
+
+
 }

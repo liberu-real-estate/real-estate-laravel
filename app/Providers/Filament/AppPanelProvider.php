@@ -4,6 +4,8 @@ namespace App\Providers\Filament;
 
 use App\Filament\App\Pages;
 use App\Filament\App\Pages\EditProfile;
+use App\Filament\App\Pages\CreateTeam;
+use App\Filament\App\Pages\EditTeam;
 use App\Filament\App\Pages\Tenant\Profile;
 use App\Http\Middleware\TeamsPermission;
 use App\Http\Middleware\AssignDefaultTeam;
@@ -52,14 +54,6 @@ class AppPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
-            ])
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Profile')
-                    ->icon('heroicon-o-user-circle')
-                    ->url(fn () => $this->shouldRegisterMenuItem()
-                        ? EditProfile::getUrl()
-                        : $panel->getUrl()),
             ]);
 
         if (Features::hasTeamFeatures()) {
@@ -69,14 +63,8 @@ class AppPanelProvider extends PanelProvider
                 ->tenantMiddleware([
                     AssignDefaultTeam::class,
                 ])
-                ->tenantRegistration(Pages\CreateTeam::class)
-                ->tenantProfile(Pages\EditTeam::class)
-                ->userMenuItems([
-                    MenuItem::make()
-                        ->label('Team Settings')
-                        ->icon('heroicon-o-cog-6-tooth')
-                        ->url(Pages\EditTeam::getUrl()),
-                ]);
+                ->tenantRegistration(CreateTeam::class)
+                ->tenantProfile(EditTeam::class);
         }
 
         $panel

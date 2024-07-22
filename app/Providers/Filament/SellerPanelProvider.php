@@ -4,6 +4,8 @@ namespace App\Providers\Filament;
 
 use App\Filament\App\Pages;
 use App\Filament\App\Pages\EditProfile;
+use App\Filament\App\Pages\CreateTeam;
+use App\Filament\App\Pages\EditTeam;
 use App\Filament\App\Pages\Tenant\Profile;
 use App\Http\Middleware\TeamsPermission;
 use App\Http\Middleware\AssignDefaultTeam;
@@ -52,23 +54,28 @@ class SellerPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
-            ])
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Profile')
-                    ->icon('heroicon-o-user-circle')
-                    ->url(fn () => $this->shouldRegisterMenuItem()
-                        ? url(EditProfile::getUrl())
-                        : url($panel->getPath())),
-            ])
-            ->discoverResources(in: app_path('Filament/Seller/Resources'), for: 'App\\Filament\\App\\Resources')
-            ->discoverPages(in: app_path('Filament/Seller/Pages'), for: 'App\\Filament\\App\\Pages')
+            ]);
+
+        if (Features::hasTeamFeatures()) {
+            $panel
+                ->tenant(Team::class, ownershipRelationship: 'team')
+                ->tenantRoutePrefix('/{tenant}')
+                ->tenantMiddleware([
+                    AssignDefaultTeam::class,
+                ])
+                ->tenantRegistration(CreateTeam::class)
+                ->tenantProfile(EditTeam::class);
+        }
+
+        $panel
+            ->discoverResources(in: app_path('Filament/Seller/Resources'), for: 'App\\Filament\\Seller\\Resources')
+            ->discoverPages(in: app_path('Filament/Seller/Pages'), for: 'App\\Filament\\Seller\\Pages')
             ->pages([
                 Dashboard::class,
                 Pages\EditProfile::class,
                 Profile::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Seller/Widgets/Home'), for: 'App\\Filament\\App\\Widgets\\Home')
+            ->discoverWidgets(in: app_path('Filament/Seller/Widgets/Home'), for: 'App\\Filament\\Seller\\Widgets\\Home')
             ->widgets([
                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
@@ -92,40 +99,12 @@ class SellerPanelProvider extends PanelProvider
                 // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
 
-        // if (Features::hasApiFeatures()) {
-        //     $panel->userMenuItems([
-        //         MenuItem::make()
-        //             ->label('API Tokens')
-        //             ->icon('heroicon-o-key')
-        //             ->url(fn () => $this->shouldRegisterMenuItem()
-        //                 ? url(Pages\ApiTokenManagerPage::getUrl())
-        //                 : url($panel->getPath())),
-        //     ]);
-        // }
-
-        if (Features::hasTeamFeatures()) {
-            $panel
-                ->tenant(Team::class, ownershipRelationship: 'team')
-                ->tenantRegistration(Pages\CreateTeam::class)
-                ->tenantMiddleware([
-                    AssignDefaultTeam::class,
-                ])
-                ->tenantProfile(Pages\EditTeam::class)
-                ->userMenuItems([
-                    MenuItem::make()
-                        ->label('Team Settings')
-                        ->icon('heroicon-o-cog-6-tooth')
-                        ->url(fn () => $this->shouldRegisterMenuItem()
-                            ? url(Pages\EditTeam::getUrl())
-                            : url($panel->getPath())),
-                ]);
-        }
-
         return $panel;
     }
 
     public function boot()
     {
+
         /**
          * Disable Fortify routes.
          */
@@ -135,26 +114,14 @@ class SellerPanelProvider extends PanelProvider
          * Disable Jetstream routes.
          */
         Jetstream::$registersRoutes = false;
-
-        /**
-         * Listen and create personal team for new accounts.
-         */
-        Event::listen(
-            Registered::class,
-            CreatePersonalTeam::class,
-        );
-
-        /**
-         * Listen and switch team if tenant was changed.
-         */
-        Event::listen(
-            TenantSet::class,
-            SwitchTeam::class,
-        );
     }
+
+    // This method has been removed
 
     public function shouldRegisterMenuItem(): bool
     {
         return true; //auth()->user()?->hasVerifiedEmail() && Filament::hasTenancy() && Filament::getTenant();
     }
+
+
 }

@@ -4,6 +4,8 @@ namespace App\Providers\Filament;
 
 use App\Filament\App\Pages;
 use App\Filament\App\Pages\EditProfile;
+use App\Filament\App\Pages\CreateTeam;
+use App\Filament\App\Pages\EditTeam;
 use App\Filament\App\Pages\Tenant\Profile;
 use App\Http\Middleware\TeamsPermission;
 use App\Http\Middleware\AssignDefaultTeam;
@@ -45,29 +47,35 @@ class LandlordPanelProvider extends PanelProvider
             ->path('landlord')
             ->login([AuthenticatedSessionController::class, 'create'])
             ->loginRouteSlug('login')
-            ->homeUrl('landlord')
+            ->homeUrl('/landlord')
             ->registration()
             ->passwordReset()
             ->emailVerification()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
-            ])
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Profile')
-                    ->icon('heroicon-o-user-circle')
-                    ->url(fn () => $this->shouldRegisterMenuItem()
-                        ? url(EditProfile::getUrl())
-                        : url($panel->getPath())),
-            ])
-            ->discoverResources(in: app_path('Filament/Landlord/Resources'), for: 'App\\Filament\\App\\Resources')
-            ->discoverPages(in: app_path('Filament/Landlord/Pages'), for: 'App\\Filament\\App\\Pages')
+            ]);
+
+        if (Features::hasTeamFeatures()) {
+            $panel
+                ->tenant(Team::class, ownershipRelationship: 'team')
+                ->tenantRoutePrefix('/{tenant}')
+                ->tenantMiddleware([
+                    AssignDefaultTeam::class,
+                ])
+                ->tenantRegistration(CreateTeam::class)
+                ->tenantProfile(EditTeam::class);
+        }
+
+        $panel
+            ->discoverResources(in: app_path('Filament/Landlord/Resources'), for: 'App\\Filament\\Landlord\\Resources')
+            ->discoverPages(in: app_path('Filament/Landlord/Pages'), for: 'App\\Filament\\Landlord\\Pages')
             ->pages([
                 Dashboard::class,
                 Pages\EditProfile::class,
+                Profile::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Landlord/Widgets/Home'), for: 'App\\Filament\\App\\Widgets\\Home')
+            ->discoverWidgets(in: app_path('Filament/Landlord/Widgets/Home'), for: 'App\\Filament\\Landlord\\Widgets\\Home')
             ->widgets([
                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
@@ -91,39 +99,12 @@ class LandlordPanelProvider extends PanelProvider
                 // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
 
-        // if (Features::hasApiFeatures()) {
-        //     $panel->userMenuItems([
-        //         MenuItem::make()
-        //             ->label('API Tokens')
-        //             ->icon('heroicon-o-key')
-        //             ->url(fn () => $this->shouldRegisterMenuItem()
-        //                 ? url(Pages\ApiTokenManagerPage::getUrl())
-        //                 : url($panel->getPath())),
-        //     ]);
-        // }
-
-        if (Features::hasTeamFeatures()) {
-            $panel
-                ->tenant(Team::class, ownershipRelationship: 'team')
-                ->tenantRoutePrefix('/{tenant}')
-                ->tenantMiddleware([
-                    AssignDefaultTeam::class,
-                ])
-                ->tenantRegistration(Pages\CreateTeam::class)
-                ->tenantProfile(Pages\EditTeam::class)
-                ->userMenuItems([
-                    MenuItem::make()
-                        ->label('Team Settings')
-                        ->icon('heroicon-o-cog-6-tooth')
-                        ->url(Pages\EditTeam::getUrl()),
-                ]);
-        }
-
         return $panel;
     }
 
     public function boot()
     {
+
         /**
          * Disable Fortify routes.
          */
@@ -133,26 +114,14 @@ class LandlordPanelProvider extends PanelProvider
          * Disable Jetstream routes.
          */
         Jetstream::$registersRoutes = false;
-
-        /**
-         * Listen and create personal team for new accounts.
-         */
-        Event::listen(
-            Registered::class,
-            CreatePersonalTeam::class,
-        );
-
-        /**
-         * Listen and switch team if tenant was changed.
-         */
-        Event::listen(
-            TenantSet::class,
-            SwitchTeam::class,
-        );
     }
+
+    // This method has been removed
 
     public function shouldRegisterMenuItem(): bool
     {
         return true; //auth()->user()?->hasVerifiedEmail() && Filament::hasTenancy() && Filament::getTenant();
     }
+
+
 }

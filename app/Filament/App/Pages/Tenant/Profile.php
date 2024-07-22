@@ -44,4 +44,13 @@ class Profile extends Page
 
         $this->notify('success', 'Profile updated successfully.');
     }
+
+    public static function getUrl(array $parameters = [], bool $isAbsolute = true, ?string $panel = null, $tenant = null): string
+    {
+        if ($tenant) {
+            $parameters['tenant'] = $tenant;
+        }
+        return parent::getUrl($parameters, $isAbsolute, $panel);
+    }
+
 }
