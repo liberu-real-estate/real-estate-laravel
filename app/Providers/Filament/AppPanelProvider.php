@@ -66,7 +66,7 @@ class AppPanelProvider extends PanelProvider
                 ->tenant(Team::class, ownershipRelationship: 'team')
                 ->tenantRoutePrefix('/{tenant}')
                 ->tenantMiddleware([
-                    AssignDefaultTeam::class,
+                    \App\Http\Middleware\AssignDefaultTeam::class,
                 ])
                 ->tenantRegistration(Pages\CreateTeam::class)
                 ->tenantProfile(Pages\EditTeam::class)
@@ -74,9 +74,7 @@ class AppPanelProvider extends PanelProvider
                     MenuItem::make()
                         ->label('Team Settings')
                         ->icon('heroicon-o-cog-6-tooth')
-                        ->url(fn () => $this->shouldRegisterMenuItem()
-                            ? url(Pages\EditTeam::getUrl())
-                            : url($panel->getPath())),
+                        ->url(Pages\EditTeam::getUrl()),
                 ]);
         }
 
