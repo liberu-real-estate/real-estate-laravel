@@ -17,56 +17,85 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule): void
     {
-
         // Sync properties with RightMove every hour
-        $schedule->job(new SyncRightMoveProperties)->hourly();
+        $schedule->call(function () {
+            try {
+                (new SyncRightMoveProperties())->handle();
+            } catch (\Exception $e) {
+                Log::error('RightMove sync failed: ' . $e->getMessage());
+            }
+        })->hourly();
 
         // Sync properties with OnTheMarket
-        $schedule->job(new SyncOnTheMarketProperties)
-            ->when(function () {
+        $schedule->call(function () {
+            try {
                 $frequency = config('services.onthemarket.sync_frequency', 'hourly');
-                return $frequency === 'hourly';
-            })
-            ->hourly();
+                if ($frequency === 'hourly') {
+                    (new SyncOnTheMarketProperties())->handle();
+                }
+            } catch (\Exception $e) {
+                Log::error('OnTheMarket hourly sync failed: ' . $e->getMessage());
+            }
+        })->hourly();
 
-        $schedule->job(new SyncOnTheMarketProperties)
-            ->when(function () {
+        $schedule->call(function () {
+            try {
                 $frequency = config('services.onthemarket.sync_frequency', 'hourly');
-                return $frequency === 'daily';
-            })
-            ->daily();
+                if ($frequency === 'daily') {
+                    (new SyncOnTheMarketProperties())->handle();
+                }
+            } catch (\Exception $e) {
+                Log::error('OnTheMarket daily sync failed: ' . $e->getMessage());
+            }
+        })->daily();
 
-        $schedule->job(new SyncOnTheMarketProperties)
-            ->when(function () {
+        $schedule->call(function () {
+            try {
                 $frequency = config('services.onthemarket.sync_frequency', 'hourly');
-                return $frequency === 'weekly';
-            })
-            ->weekly();
+                if ($frequency === 'weekly') {
+                    (new SyncOnTheMarketProperties())->handle();
+                }
+            } catch (\Exception $e) {
+                Log::error('OnTheMarket weekly sync failed: ' . $e->getMessage());
+            }
+        })->weekly();
 
         // Sync properties with Zoopla
-        $schedule->job(new SyncZooplaProperties)
-            ->when(function () {
+        $schedule->call(function () {
+            try {
                 $zooplaSettings = ZooplaSettings::first();
                 $frequency = $zooplaSettings ? $zooplaSettings->sync_frequency : 'hourly';
-                return $frequency === 'hourly';
-            })
-            ->hourly();
+                if ($frequency === 'hourly') {
+                    (new SyncZooplaProperties())->handle();
+                }
+            } catch (\Exception $e) {
+                Log::error('Zoopla hourly sync failed: ' . $e->getMessage());
+            }
+        })->hourly();
 
-        $schedule->job(new SyncZooplaProperties)
-            ->when(function () {
+        $schedule->call(function () {
+            try {
                 $zooplaSettings = ZooplaSettings::first();
                 $frequency = $zooplaSettings ? $zooplaSettings->sync_frequency : 'hourly';
-                return $frequency === 'daily';
-            })
-            ->daily();
+                if ($frequency === 'daily') {
+                    (new SyncZooplaProperties())->handle();
+                }
+            } catch (\Exception $e) {
+                Log::error('Zoopla daily sync failed: ' . $e->getMessage());
+            }
+        })->daily();
 
-        $schedule->job(new SyncZooplaProperties)
-            ->when(function () {
+        $schedule->call(function () {
+            try {
                 $zooplaSettings = ZooplaSettings::first();
                 $frequency = $zooplaSettings ? $zooplaSettings->sync_frequency : 'hourly';
-                return $frequency === 'weekly';
-            })
-            ->weekly();
+                if ($frequency === 'weekly') {
+                    (new SyncZooplaProperties())->handle();
+                }
+            } catch (\Exception $e) {
+                Log::error('Zoopla weekly sync failed: ' . $e->getMessage());
+            }
+        })->weekly();
     }
 
     /**

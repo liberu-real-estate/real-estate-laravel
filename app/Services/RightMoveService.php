@@ -61,29 +61,49 @@ class RightMoveService
     {
         $properties = Property::all();
         $results = [];
-
+    
         foreach ($properties as $property) {
             try {
                 $results[] = $this->syncProperty($property);
-            } catch (Exception $e) {
-                Log::error("Failed to sync property {$property->id}: " . $e->getMessage());
+            } catch (RightMoveApiException $e) {
+                Log::error("RightMove API error for property {$property->id}: " . $e->getMessage(), [
+                    'property_id' => $property->id,
+                    'error_code' => $e->getCode(),
+                    'error_details' => $e->getDetails(),
+                ]);
                 $results[] = ['id' => $property->id, 'status' => 'error', 'message' => $e->getMessage()];
+            } catch (\Exception $e) {
+                Log::error("Failed to sync property {$property->id} with RightMove: " . $e->getMessage(), [
+                    'property_id' => $property->id,
+                    'exception' => get_class($e),
+                ]);
+                $results[] = ['id' => $property->id, 'status' => 'error', 'message' => 'An unexpected error occurred'];
             }
         }
-
+    
         return $results;
     }
 
     public function syncProperty(Property $property)
     {
-        $rightMoveId = $property->rightmove_id;
-
-        if ($rightMoveId) {
-            return $this->updateListing($rightMoveId, $property->toArray());
-        } else {
-            $result = $this->createListing($property->toArray());
-            $property->update(['rightmove_id' => $result['id']]);
-            return $result;
+        try {
+            $rightMoveId = $property->rightmove_id;
+    
+            if ($rightMoveId) {
+                return $this->updateListing($rightMoveId, $property->toArray());
+            } else {
+                $result = $this->createListing($property->toArray());
+                $property->update(['rightmove_id' => $result['id']]);
+                return $result;
+            }
+        } catch (\Exception $e) {
+            throw new PropertySyncException(
+                "Failed to sync property with RightMove: " . $e->getMessage(),
+                $property->id,
+                'RightMove',
+                0,
+                $e
+            );
         }
     }
 
