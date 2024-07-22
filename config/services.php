@@ -28,7 +28,8 @@ return [
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
-        'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+        'region' => env('AWS_DEFAULT_REGION', 'us-east-1')
+    ],
     'rightmove' => [
         'base_uri' => env('RIGHTMOVE_BASE_URI'),
         'api_key' => env('RIGHTMOVE_API_KEY'),
@@ -56,7 +57,8 @@ return [
         'api_key' => env('CRM_API_KEY'),
         'endpoint' => env('CRM_ENDPOINT'),
         'sync_interval' => env('CRM_SYNC_INTERVAL', 15), // in minutes
-    ];
+    ]
+];
 
 
 
