@@ -145,7 +145,29 @@ class BuyerPanelProvider extends PanelProvider
             TenantSet::class,
             SwitchTeam::class,
         );
+
+        Filament::registerRenderHook(
+            'panels::body.start',
+            fn (): string => $this->checkDefaultTeam()
+        );
     }
+
+    private function checkDefaultTeam(): string
+    {
+        $user = auth()->user();
+        if ($user && !$user->currentTeam) {
+            $defaultTeam = $user->teams()->first();
+            if ($defaultTeam) {
+                $user->switchTeam($defaultTeam);
+                return "<script>window.location.reload();</script>";
+            }
+        }
+        return '';
+    }
+
+}
+
+
 
     public function shouldRegisterMenuItem(): bool
     {
