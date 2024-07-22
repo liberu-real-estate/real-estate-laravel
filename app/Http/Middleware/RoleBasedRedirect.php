@@ -26,9 +26,12 @@ class RoleBasedRedirect
                 return redirect('/landlord');
             } elseif ($user->hasRole('contractor')) {
                 return redirect('/contractor');
+            } elseif ($user->hasRole('free') || !$user) {
+               return $next($request);
             }
             // If user has 'free' role or no specific role, allow them to access /app
-            return $next($request);
+               return $next($request);
+
         }
 
         return $next($request);
