@@ -27,6 +27,9 @@ return new class extends Migration
             $table->date('sold_date')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->boolean('is_featured')->default(false);
+            $table->string('rightmove_id')->nullable();
+            $table->string('zoopla_id')->nullable();
+            $table->string('onthemarket_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

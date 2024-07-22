@@ -59,6 +59,7 @@ use HasFactory, SoftDeletes;
         'agent_id',
         'virtual_tour_url',
         'is_featured',
+        'rightmove_id',
         'zoopla_id',
         'onthemarket_id',
         'last_synced_at',
