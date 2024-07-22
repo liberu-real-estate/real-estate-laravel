@@ -8,7 +8,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-
+use App\Filament\App\Resources\KeyLocationResource\Pages;
 
 class KeyLocationResource extends Resource
 {
@@ -41,12 +41,12 @@ class KeyLocationResource extends Resource
             ]);
     }
 
-    // public static function getPages(): array
-    // {
-    //     return [
-    //         'index' => Pages\ListKeyLocations::route('/'),
-    //         'create' => Pages\CreateKeyLocation::route('/create'),
-    //         'edit' => Pages\EditKeyLocation::route('/{record}/edit'),
-    //     ];
-    // }
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListKeyLocations::route('/'),
+            'create' => Pages\CreateKeyLocation::route('/create'),
+            'edit' => Pages\EditKeyLocation::route('/{record}/edit'),
+        ];
+    }
 }
