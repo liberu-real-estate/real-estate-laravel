@@ -80,7 +80,6 @@ class AdminPanelProvider extends PanelProvider
         //     ]);
         // }
 
-/**
         if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
@@ -94,11 +93,9 @@ class AdminPanelProvider extends PanelProvider
                     MenuItem::make()
                         ->label('Team Settings')
                         ->icon('heroicon-o-cog-6-tooth')
-                        ->url(Pages\EditTeam::getUrl()),
+                        ->url(fn () => Pages\EditTeam::getUrl()),
                 ]);
         }
-
-**/
         return $panel;
     }
 
