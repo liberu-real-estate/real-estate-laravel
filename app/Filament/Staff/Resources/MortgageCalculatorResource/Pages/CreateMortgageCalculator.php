@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\App\Resources\MortgageCalculatorResource\Pages;
+namespace App\Filament\Staff\Resources\MortgageCalculatorResource\Pages;
 
-use App\Filament\App\Resources\MortgageCalculatorResource;
+use App\Filament\Staff\Resources\MortgageCalculatorResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateMortgageCalculator extends CreateRecord

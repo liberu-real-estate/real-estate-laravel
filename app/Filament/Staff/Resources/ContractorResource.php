@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Resources\Contractors;
+namespace App\Filament\Staff\Resources;
 
 use App\Models\Contractor;
 use Filament\Forms;
@@ -8,7 +8,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use App\Filament\App\Resources\Contractors\Pages;
+use App\Filament\Staff\Resources\ContractorResource\Pages;
 
 class ContractorResource extends Resource
 {
