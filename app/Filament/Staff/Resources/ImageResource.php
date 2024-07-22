@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\App\Resources;
+namespace App\Filament\Staff\Resources;
 
-use App\Filament\App\Resources\ImageResource\Pages;
-use App\Filament\App\Resources\ImageResource\RelationManagers;
+use App\Filament\Staff\Resources\ImageResource\Pages;
+use App\Filament\Staff\Resources\ImageResource\RelationManagers;
 use App\Models\Image;
 use Filament\Forms;
 use Filament\Forms\Form;

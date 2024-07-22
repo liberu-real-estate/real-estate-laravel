@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Resources;
+namespace App\Filament\Staff\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
-use App\Filament\App\Resources\TenantResource\Pages;
+use App\Filament\Staff\Resources\TenantResource\Pages;
 
 class TenantResource extends Resource
 {
