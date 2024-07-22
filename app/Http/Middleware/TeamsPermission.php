@@ -4,21 +4,37 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\PermissionRegistrar;
+use Symfony\Component\HttpFoundation\Response;
+use App\Services\TeamManagementService;
 
 class TeamsPermission
 {
-    public function handle(Request $request, Closure $next)
+    /**
+     * Handle an incoming request.
+     *
+     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
+     */
+    public function handle(Request $request, Closure $next): Response
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
-        if (!$user || !$user->currentTeam) {
-            // Redirect to a default route or show an error
-            return redirect()->route('home')->with('error', 'You must be part of a team to access this area.');
+        if ($user) {
+            $teamManagementService = app(TeamManagementService::class);
+            try {
+                $team = $teamManagementService->getOrCreateOfficeTeam($user);
+                $user->current_team_id = $team->id;
+                $user->save();
+                app(PermissionRegistrar::class)->setPermissionsTeamId($team->id);
+                \Log::info("Set permission team ID to: " . $team->id);
+            } catch (\Exception $e) {
+                \Log::error("Failed to set team for user: " . $user->id . ". Error: " . $e->getMessage());
+                return redirect()->route('error.team-assignment')->with('error', 'Failed to assign team. Please contact support.');
+            }
+        } else {
+            \Log::warning("No authenticated user");
+            return redirect()->route('login');
         }
-
-        // Check if the user has permission to access the current route
-        // You can implement your team-based permission logic here
 
         return $next($request);
     }
