@@ -80,6 +80,7 @@ class AdminPanelProvider extends PanelProvider
         //     ]);
         // }
 
+/**
         if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
@@ -98,6 +99,8 @@ class AdminPanelProvider extends PanelProvider
                             : url($panel->getPath())),
                 ]);
         }
+
+**/
         return $panel;
     }
 
