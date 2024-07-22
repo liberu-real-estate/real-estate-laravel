@@ -44,7 +44,10 @@ class MortgageCalculatorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\CalculateMortgage::route('/'),
+            'index' => Pages\ListMortgageCalculators::route('/'),
+            'create' => Pages\CreateMortgageCalculator::route('/create'),
+            'edit' => Pages\EditMortgageCalculator::route('/{record}/edit'),
+            'calculate' => Pages\CalculateMortgage::route('/calculate'),
         ];
     }
 }
