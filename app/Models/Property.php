@@ -1,5 +1,177 @@
+<?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
+ * Represents a property in the real estate application.
+ *
+ * @property int $id
+ * @property string $title
+ * @property string $description
+ * @property string $location
+ * @property float $price
+ * @property int $bedrooms
+ * @property int $bathrooms
+ * @property float $area_sqft
+ * @property int $year_built
+ * @property string $property_type
+ * @property string $status
+ * @property \DateTime $list_date
+ * @property \DateTime|null $sold_date
+ * @property int $user_id
+ * @property int $agent_id
+ * @property string|null $virtual_tour_url
+ * @property bool $is_featured
+ * @property string|null $rightmove_id
+ * @property string|null $zoopla_id
+ * @property string|null $onthemarket_id
+ * @property \DateTime|null $last_synced_at
+ * @property \DateTime|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Appointment[] $appointments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Transaction[] $transactions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PropertyFeature[] $features
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
+ */
+class Property extends Model
+{
+use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'location',
+        'price',
+        'bedrooms',
+        'bathrooms',
+        'area_sqft',
+        'year_built',
+        'property_type',
+        'status',
+        'list_date',
+        'sold_date',
+        'user_id',
+        'agent_id',
+        'virtual_tour_url',
+        'is_featured',
+        'rightmove_id',
+        'zoopla_id',
+        'onthemarket_id',
+        'last_synced_at',
+    ];
+
+    protected $casts = [
+        'last_synced_at' => 'datetime',
+        'list_date' => 'date',
+        'sold_date' => 'date',
+        'is_featured' => 'boolean',
+    ];
+
+    // Relationships
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'property_id');
+    }
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'property_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'property_id');
+    }
+
+    public function features()
+    {
+        return $this->hasMany(PropertyFeature::class, 'property_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    // Scopes
+    public function scopeSearch(Builder $query, $search): Builder
+    {
+        return $query->where(function ($query) use ($search) {
+            $query->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('description', 'like', '%' . $search . '%')
+                  ->orWhere('location', 'like', '%' . $search . '%');
+        });
+    }
+
+    public function scopePriceRange(Builder $query, $min, $max): Builder
+    {
+        return $query->whereBetween('price', [$min, $max]);
+    }
+
+    public function scopeBedrooms(Builder $query, $min, $max): Builder
+    {
+        return $query->whereBetween('bedrooms', [$min, $max]);
+    }
+
+    public function scopeBathrooms(Builder $query, $min, $max): Builder
+    {
+        return $query->whereBetween('bathrooms', [$min, $max]);
+    }
+
+    public function scopeAreaRange(Builder $query, $min, $max): Builder
+    {
+        return $query->whereBetween('area_sqft', [$min, $max]);
+    }
+
+    public function scopePropertyType(Builder $query, $type): Builder
+    {
+        return $query->where('property_type', $type);
+    }
+
+    public function scopeHasAmenities(Builder $query, array $amenities): Builder
+    {
+        return $query->whereHas('features', function ($query) use ($amenities) {
+            $query->whereIn('feature_name', $amenities);
+        }, '=', count($amenities));
+    }
+
+    public function scopeNeedsSyncing(Builder $query): Builder
+    {
+        return $query->where(function ($query) {
+            $query->whereNull('last_synced_at')
+                  ->orWhere('updated_at', '>', 'last_synced_at');
+        });
+    }
+
+    public function getAvailableDates()
+    {
+        $bookedDates = $this->bookings()->pluck('date')->toArray();
+        $availableDates = [];
+        $startDate = now();
+        $endDate = now()->addMonths(3);
+
+        for ($date = $startDate; $date <= $endDate; $date->addDay()) {
+            if (!in_array($date->format('Y-m-d'), $bookedDates)) {
+                $availableDates[] = $date->format('Y-m-d');
+            }
+        }
+
+        return $availableDates;
+    }
+
 }
