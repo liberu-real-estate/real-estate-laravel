@@ -104,33 +104,17 @@ class StaffPanelProvider extends PanelProvider
         if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
-        ->tenantRoutePrefix('/{tenant}')
-        ->tenantMiddleware([
-            function ($request, $next) {
-                if (!Filament::getTenant() && auth()->check()) {
-                    $defaultTeam = auth()->user()->currentTeam ?? auth()->user()->ownedTeams()->first();
-                    if ($defaultTeam instanceof Team) {
-                        Filament::setTenant($defaultTeam);
-                    } else {
-                        \Log::warning("Unable to set default team for user: " . auth()->id());
-                    }
-                }
-                return $next($request);
-            },
-        ])
-                ->tenant(Team::class, ownershipRelationship: 'team')
+                ->tenantRoutePrefix('/{tenant}')
+                ->tenantMiddleware([
+                    \App\Http\Middleware\AssignDefaultTeam::class,
+                ])
                 ->tenantRegistration(Pages\CreateTeam::class)
                 ->tenantProfile(Pages\EditTeam::class)
-                ->tenantMiddleware([
-                    AssignDefaultTeam::class,
-                ])
                 ->userMenuItems([
                     MenuItem::make()
                         ->label('Team Settings')
                         ->icon('heroicon-o-cog-6-tooth')
-                        ->url(fn () => $this->shouldRegisterMenuItem()
-                            ? url(Pages\EditTeam::getUrl())
-                            : url($panel->getPath())),
+                        ->url(Pages\EditTeam::getUrl()),
                 ]);
         }
 
