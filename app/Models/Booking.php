@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
 use App\Models\Property;
+use App\Models\Team;
 
 class Booking extends Model
 {
@@ -40,7 +42,7 @@ class Booking extends Model
         return $this->belongsTo(Property::class, 'property_id');
     }
 
-    public function team()
+    public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
     }
