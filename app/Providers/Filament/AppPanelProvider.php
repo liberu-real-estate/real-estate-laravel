@@ -107,7 +107,9 @@ return $panel;
 
         Filament::registerRenderHook(
             'panels::body.start',
-            fn (): string => $this->checkDefaultTeam()
+            function (): string {
+                return $this->checkDefaultTeam();
+            }
         );
     }
 
