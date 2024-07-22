@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('zoopla_id')->nullable();
             $table->string('onthemarket_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
