@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class EditProfile extends Page
 {
     protected static string $view = 'filament.pages.edit-profile';
-    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public User $user;
 
@@ -57,5 +57,13 @@ class EditProfile extends Page
         return [
             url()->current() => 'Edit Profile',
         ];
+    }
+
+    public static function getUrl(array $parameters = [], bool $isAbsolute = true, ?string $panel = null, $tenant = null): string
+    {
+        if ($tenant) {
+            $parameters['tenant'] = $tenant;
+        }
+        return parent::getUrl($parameters, $isAbsolute, $panel);
     }
 }
