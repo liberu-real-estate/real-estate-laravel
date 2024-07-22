@@ -51,7 +51,7 @@ class AdminPanelProvider extends PanelProvider
                 Pages\EditProfile::class,
                 // Pages\ApiTokenManagerPage::class,
             ])->widgets([
-                Widgets\AccountWidget::class,
+                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
@@ -80,7 +80,7 @@ class AdminPanelProvider extends PanelProvider
         //     ]);
         // }
 
-        if (Features::hasTeamFeatures()) {
+/**        if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
                 ->tenantRoutePrefix('/{tenant}')
@@ -108,6 +108,7 @@ class AdminPanelProvider extends PanelProvider
                             : url($panel->getPath())),
                 ]);
         }
+**/
         return $panel;
     }
 
