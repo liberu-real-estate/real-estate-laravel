@@ -51,16 +51,8 @@ class AppPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
-            ])
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Profile')
-                    ->icon('heroicon-o-user-circle')
-                    ->url(fn () => $this->shouldRegisterMenuItem()
-                        ? EditProfile::getUrl()
-                        : $panel->getUrl()),
             ]);
-
+    
         if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
@@ -69,15 +61,9 @@ class AppPanelProvider extends PanelProvider
                     AssignDefaultTeam::class,
                 ])
                 ->tenantRegistration(Pages\CreateTeam::class)
-                ->tenantProfile(Pages\EditTeam::class)
-                ->userMenuItems([
-                    MenuItem::make()
-                        ->label('Team Settings')
-                        ->icon('heroicon-o-cog-6-tooth')
-                        ->url(Pages\EditTeam::getUrl()),
-                ]);
+                ->tenantProfile(Pages\EditTeam::class);
         }
-
+    
         $panel
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
@@ -108,7 +94,21 @@ class AppPanelProvider extends PanelProvider
             ->plugins([
                 // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
-
+    
+        $panel->userMenuItems([
+            MenuItem::make()
+                ->label('Profile')
+                ->icon('heroicon-o-user-circle')
+                ->url(fn () => $this->shouldRegisterMenuItem()
+                    ? Pages\EditProfile::getUrl(tenant: Filament::getTenant())
+                    : $panel->getUrl()),
+            'team-settings' => MenuItem::make()
+                ->label('Team Settings')
+                ->icon('heroicon-o-cog-6-tooth')
+                ->url(fn () => Pages\EditTeam::getUrl(tenant: Filament::getTenant()))
+                ->visible(fn () => Features::hasTeamFeatures()),
+        ]);
+    
         return $panel;
     }
 
