@@ -64,8 +64,6 @@ class TenantResource extends Resource
             'index' => Pages\ListTenants::route('/'),
             'create' => Pages\CreateTenant::route('/create'),
             'edit' => Pages\EditTenant::route('/{record}/edit'),
-            'profile' => Pages\Profile::route('/profile'),
-            'edit-profile' => Pages\EditProfile::route('/edit-profile'),
         ];
     }
 

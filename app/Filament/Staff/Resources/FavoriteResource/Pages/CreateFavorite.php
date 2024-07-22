@@ -2,7 +2,7 @@
 
 namespace App\Filament\Staff\Resources\FavoriteResource\Pages;
 
-use App\Filament\App\Resources\FavoriteResource;
+use App\Filament\Staff\Resources\FavoriteResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

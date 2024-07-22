@@ -11,9 +11,9 @@ use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\BelongsToSelect;
-use App\Filament\App\Resources\FavoriteResource\Pages;
+use App\Filament\Staff\Resources\FavoriteResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\App\Resources\FavoriteResource\RelationManagers;
+use App\Filament\Staff\Resources\FavoriteResource\RelationManagers;
 
 class FavoriteResource extends Resource
 {
