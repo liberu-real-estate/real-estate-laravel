@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\App\Resources\KeyLocationResource\Pages;
+namespace App\Filament\Staff\Resources\KeyLocationResource\Pages;
 
-use App\Filament\App\Resources\KeyLocationResource;
+use App\Filament\Staff\Resources\KeyLocationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
