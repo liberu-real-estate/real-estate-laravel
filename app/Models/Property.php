@@ -5,10 +5,42 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Represents a property in the real estate application.
+ *
+ * @property int $id
+ * @property string $title
+ * @property string $description
+ * @property string $location
+ * @property float $price
+ * @property int $bedrooms
+ * @property int $bathrooms
+ * @property float $area_sqft
+ * @property int $year_built
+ * @property string $property_type
+ * @property string $status
+ * @property \DateTime $list_date
+ * @property \DateTime|null $sold_date
+ * @property int $user_id
+ * @property int $agent_id
+ * @property string|null $virtual_tour_url
+ * @property bool $is_featured
+ * @property string|null $zoopla_id
+ * @property string|null $onthemarket_id
+ * @property \DateTime|null $last_synced_at
+ * @property \DateTime|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Appointment[] $appointments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Transaction[] $transactions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PropertyFeature[] $features
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
+ */
 class Property extends Model
 {
-use HasFactory;
+use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -34,6 +66,9 @@ use HasFactory;
 
     protected $casts = [
         'last_synced_at' => 'datetime',
+        'list_date' => 'date',
+        'sold_date' => 'date',
+        'is_featured' => 'boolean',
     ];
 
     // Relationships
