@@ -2,7 +2,7 @@
 
 namespace App\Filament\Staff\Resources\TenantResource\Pages;
 
-use App\Filament\App\Resources\TenantResource;
+use App\Filament\Staff\Resources\TenantResource;
 use Filament\Resources\Pages\Page;
 
 class EditProfile extends Page
