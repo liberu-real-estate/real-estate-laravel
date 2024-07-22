@@ -8,6 +8,10 @@ class DigitalSignature extends Model
 {
     protected $table = 'digital_signatures';
 
+    protected $fillable = [
+        'team_id',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -16,5 +20,10 @@ class DigitalSignature extends Model
     public function document()
     {
         return $this->belongsTo(Document::class);
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
     }
 }

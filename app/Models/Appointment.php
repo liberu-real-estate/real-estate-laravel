@@ -31,6 +31,7 @@ class Appointment extends Model
         'property_id',
         'appointment_date',
         'status',
+        'team_id',
     ];
 
     protected $casts = [
@@ -50,6 +51,11 @@ class Appointment extends Model
     public function property()
     {
         return $this->belongsTo(Property::class, 'property_id');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
     }
 
     /**
