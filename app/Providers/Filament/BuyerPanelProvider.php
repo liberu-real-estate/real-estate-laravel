@@ -71,7 +71,7 @@ class BuyerPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Buyer/Resources'), for: 'App\\Filament\\Buyer\\Resources')
             ->discoverPages(in: app_path('Filament/Buyer/Pages'), for: 'App\\Filament\\Buyer\\Pages')
             ->pages([
-                Dashboard::class,
+                \App\Filament\Buyer\Pages\Dashboard::class,
                 Pages\EditProfile::class,
                 Profile::class,
             ])
