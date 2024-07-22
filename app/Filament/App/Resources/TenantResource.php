@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+use App\Filament\App\Resources\TenantResource\Pages;
 
 class TenantResource extends Resource
 {
@@ -55,6 +56,17 @@ class TenantResource extends Resource
                             ->form('resetForm'),
                     ]),
             ]);
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListTenants::route('/'),
+            'create' => Pages\CreateTenant::route('/create'),
+            'edit' => Pages\EditTenant::route('/{record}/edit'),
+            'profile' => Pages\Profile::route('/profile'),
+            'edit-profile' => Pages\EditProfile::route('/edit-profile'),
+        ];
     }
 
     // protected static function handleLogin(array $data)
