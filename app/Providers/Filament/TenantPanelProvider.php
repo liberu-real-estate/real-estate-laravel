@@ -8,6 +8,7 @@ use App\Http\Middleware\TeamsPermission;
 use App\Http\Middleware\AssignDefaultTeam;
 use App\Listeners\CreatePersonalTeam;
 use App\Listeners\SwitchTeam;
+use Filament\Pages\Dashboard;
 use App\Models\Team;
 use Filament\Events\Auth\Registered;
 use Filament\Events\TenantSet;
