@@ -70,18 +70,9 @@ class BuyerResource extends Resource
         return 'User Management';
     }
 
-    protected static function shouldRegisterNavigation(): bool
+    public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->hasRole(['admin', 'staff']);
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListBuyers::route('/'),
-            'create' => Pages\CreateBuyer::route('/create'),
-            'edit' => Pages\EditBuyer::route('/{record}/edit'),
-        ];
     }
 
     public static function getPages(): array

@@ -70,7 +70,7 @@ class SellerResource extends Resource
         return 'User Management';
     }
 
-    protected static function shouldRegisterNavigation(): bool
+    public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->hasRole(['admin', 'staff']);
     }
