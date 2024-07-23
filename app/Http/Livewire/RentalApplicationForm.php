@@ -11,11 +11,17 @@ class RentalApplicationForm extends Component
     public $property_id;
     public $employment_status;
     public $annual_income;
+    public $ethereum_address;
+    public $lease_start_date;
+    public $lease_end_date;
 
     protected $rules = [
         'property_id' => 'required|exists:properties,id',
         'employment_status' => 'required|string',
         'annual_income' => 'required|numeric|min:0',
+        'ethereum_address' => 'required|string',
+        'lease_start_date' => 'required|date|after:today',
+        'lease_end_date' => 'required|date|after:lease_start_date',
     ];
 
     public function mount($property_id)
@@ -33,6 +39,9 @@ class RentalApplicationForm extends Component
             'status' => 'pending',
             'employment_status' => $this->employment_status,
             'annual_income' => $this->annual_income,
+            'ethereum_address' => $this->ethereum_address,
+            'lease_start_date' => $this->lease_start_date,
+            'lease_end_date' => $this->lease_end_date,
         ]);
 
         session()->flash('message', 'Application submitted successfully!');
