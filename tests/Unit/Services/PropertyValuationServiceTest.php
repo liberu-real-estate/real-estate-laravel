@@ -1,6 +1,4 @@
-  GNU nano 6.2                      tests/Unit/TenantResourceTest.php
 <?php
-
 namespace Tests\Unit\Services;
 
 use Tests\TestCase;
@@ -53,3 +51,5 @@ class PropertyValuationServiceTest extends TestCase
             // Add more test cases here
         ];
     }
+
+}
