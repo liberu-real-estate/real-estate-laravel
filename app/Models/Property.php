@@ -65,6 +65,7 @@ use HasFactory, SoftDeletes;
         'zoopla_id',
         'onthemarket_id',
         'last_synced_at',
+        'neighborhood_id',
     ];
 
     protected $casts = [
@@ -107,6 +108,11 @@ use HasFactory, SoftDeletes;
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function neighborhood()
+    {
+        return $this->belongsTo(Neighborhood::class);
     }
 
     // Scopes

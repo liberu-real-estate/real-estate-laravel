@@ -40,18 +40,4 @@
                 </div>
             @endif
             <div class="mb-6">
-                <h2 class="text-xl font-semibold mb-2">Amenities</h2>
-                <ul class="grid grid-cols-2 gap-2">
-                    @foreach($property->features as $feature)
-                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>{{ $feature->feature_name }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            <div class="flex justify-between items-center">
-                <a href="{{ route('contact.show') }}" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">Contact Agent</a>
-                @livewire('property-booking', ['propertyId' => $property->id])
-            </div>
-        </div>
-    </div>
-@endsection
-</div>
+                <h2

@@ -8,10 +8,12 @@ use App\Models\Property;
 class PropertyDetail extends Component
 {
     public $property;
+    public $neighborhood;
 
     public function mount($propertyId)
     {
-        $this->property = Property::findOrFail($propertyId);
+        $this->property = Property::with('neighborhood')->findOrFail($propertyId);
+        $this->neighborhood = $this->property->neighborhood;
     }
 
     public function render()
