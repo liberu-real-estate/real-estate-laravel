@@ -22,6 +22,26 @@
             @enderror
         </div>
         <div class="mb-4">
+            <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone:</label>
+            <input type="tel" class="form-input rounded-md shadow-sm w-full" id="phone" name="phone" value="{{ old('phone') }}">
+            @error('phone')
+                <div class="text-red-500">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-4">
+            <label for="interest" class="block text-gray-700 text-sm font-bold mb-2">Interest:</label>
+            <select class="form-select rounded-md shadow-sm w-full" id="interest" name="interest">
+                <option value="">Select your interest</option>
+                <option value="buying" {{ old('interest') == 'buying' ? 'selected' : '' }}>Buying a property</option>
+                <option value="selling" {{ old('interest') == 'selling' ? 'selected' : '' }}>Selling a property</option>
+                <option value="renting" {{ old('interest') == 'renting' ? 'selected' : '' }}>Renting a property</option>
+                <option value="other" {{ old('interest') == 'other' ? 'selected' : '' }}>Other</option>
+            </select>
+            @error('interest')
+                <div class="text-red-500">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-4">
             <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Message:</label>
             <textarea class="form-textarea rounded-md shadow-sm w-full" id="message" name="message" rows="5" required>{{ old('message') }}</textarea>
             @error('message')
