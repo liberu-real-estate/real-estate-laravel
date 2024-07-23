@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Jobs\CheckPropertyAlerts;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Schedule;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,9 +17,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        // Registered::class => [
-        //     SendEmailVerificationNotification::class,
-        // ],
+        Registered::class => [
+            SendEmailVerificationNotification::class,
+        ],
     ];
 
     /**
@@ -25,7 +27,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->booted(function () {
+            Schedule::job(new CheckPropertyAlerts)->daily();
+        });
     }
 
     /**
