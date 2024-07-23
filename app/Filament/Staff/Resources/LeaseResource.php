@@ -9,6 +9,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LeaseResource extends Resource
 {
@@ -22,17 +24,20 @@ class LeaseResource extends Resource
             ->schema([
                 Forms\Components\Select::make('property_id')
                     ->relationship('property', 'address')
-                    ->required(),
+                    ->required()
+                    ->searchable(),
                 Forms\Components\Select::make('tenant_id')
                     ->relationship('tenant', 'name')
-                    ->required(),
+                    ->required()
+                    ->searchable(),
                 Forms\Components\DatePicker::make('start_date')
                     ->required(),
                 Forms\Components\DatePicker::make('end_date')
                     ->required(),
                 Forms\Components\TextInput::make('rent_amount')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->prefix('$'),
                 Forms\Components\Select::make('status')
                     ->options([
                         'active' => 'Active',
@@ -40,6 +45,9 @@ class LeaseResource extends Resource
                         'terminated' => 'Terminated',
                     ])
                     ->required(),
+                Forms\Components\Textarea::make('terms')
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -47,25 +55,41 @@ class LeaseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('property.address'),
-                Tables\Columns\TextColumn::make('tenant.name'),
+                Tables\Columns\TextColumn::make('property.address')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('tenant.name')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('start_date')
-                    ->date(),
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
-                    ->date(),
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('rent_amount')
-                    ->money('usd'),
-                Tables\Columns\TextColumn::make('status'),
+                    ->money('usd')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'active' => 'Active',
+                        'expired' => 'Expired',
+                        'terminated' => 'Terminated',
+                    ]),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 
@@ -80,4 +104,9 @@ class LeaseResource extends Resource
     {
         return [
             'index' => Pages\ListLeases::route('/'),
-            'create' => Pages\CreateLease
+            'create' => Pages\CreateLease::route('/create'),
+            'view' => Pages\ViewLease::route('/{record}'),
+            'edit' => Pages\EditLease::route('/{record}/edit'),
+        ];
+    }
+}
