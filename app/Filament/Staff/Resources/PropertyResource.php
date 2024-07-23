@@ -71,6 +71,10 @@ class PropertyResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_featured')
                     ->required(),
+                Forms\Components\Select::make('property_category_id')
+                    ->relationship('category', 'name')
+                    ->required()
+                    ->label('Property Category'),
                 Forms\Components\Repeater::make('features')
                     ->relationship()
                     ->schema([
