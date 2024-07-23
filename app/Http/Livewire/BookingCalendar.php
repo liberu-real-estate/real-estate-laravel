@@ -12,6 +12,8 @@ class BookingCalendar extends Component
     public $dates;
     public $bookings;
     public $selectedProperty;
+    public $selectedAgent;
+    public $availableTimeSlots;
 
     public function mount()
     {
@@ -20,23 +22,32 @@ class BookingCalendar extends Component
         })->unique();
 
         $this->bookings = Booking::with('property')->get();
+        $this->availableTimeSlots = [];
     }
 
     public function selectDate($date)
     {
         $this->dates = collect($this->dates)->push($date);
+        $this->updateAvailableTimeSlots($date);
     }
 
-    public function bookProperty($propertyId, $date)
+    public function updateAvailableTimeSlots($date)
     {
-        $booking = Booking::create([
+        // Fetch available time slots based on agent availability and existing appointments
+        $this->availableTimeSlots = $this->selectedAgent->getAvailableTimeSlots($date);
+    }
+
+    public function bookViewing($propertyId, $date, $timeSlot)
+    {
+        $appointment = Appointment::create([
             'property_id' => $propertyId,
-            'date' => new Carbon($date),
+            'agent_id' => $this->selectedAgent->id,
             'user_id' => auth()->id(),
+            'appointment_date' => Carbon::parse($date . ' ' . $timeSlot),
+            'status' => 'requested',
         ]);
 
-        $this->bookings->push($booking);
-        $this->emit('bookingSuccessful', $booking->id);
+        $this->emit('viewingRequested', $appointment->id);
     }
 
     public function render()
@@ -45,6 +56,8 @@ class BookingCalendar extends Component
             'dates' => $this->dates,
             'bookings' => $this->bookings,
             'selectedProperty' => $this->selectedProperty,
+            'selectedAgent' => $this->selectedAgent,
+            'availableTimeSlots' => $this->availableTimeSlots,
         ]);
     }
 }
