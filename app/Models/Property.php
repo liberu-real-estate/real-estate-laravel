@@ -66,7 +66,7 @@ use HasFactory, SoftDeletes;
         'onthemarket_id',
         'last_synced_at',
         'neighborhood_id',
-        'category',
+        'property_category_id',
     ];
 
     protected $casts = [
@@ -114,6 +114,11 @@ use HasFactory, SoftDeletes;
     public function neighborhood()
     {
         return $this->belongsTo(Neighborhood::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(PropertyCategory::class, 'property_category_id');
     }
 
     // Scopes
