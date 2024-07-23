@@ -176,19 +176,28 @@ use HasFactory, SoftDeletes;
         });
     }
 
-    public function getAvailableDates()
+    public function getAvailableDatesForTeam()
     {
-        $bookedDates = $this->bookings()->pluck('date')->toArray();
+        $bookedDates = $this->bookings()
+            ->where('team_id', $this->team_id)
+            ->pluck('date')
+            ->toArray();
+    
+        $teamBookings = Booking::where('team_id', $this->team_id)
+            ->pluck('date')
+            ->toArray();
+    
         $availableDates = [];
         $startDate = now();
         $endDate = now()->addMonths(3);
-
+    
         for ($date = $startDate; $date <= $endDate; $date->addDay()) {
-            if (!in_array($date->format('Y-m-d'), $bookedDates)) {
-                $availableDates[] = $date->format('Y-m-d');
+            $currentDate = $date->format('Y-m-d');
+            if (!in_array($currentDate, $bookedDates) && !in_array($currentDate, $teamBookings)) {
+                $availableDates[] = $currentDate;
             }
         }
-
+    
         return $availableDates;
     }
 

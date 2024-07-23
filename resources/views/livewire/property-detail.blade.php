@@ -38,6 +38,11 @@
                 <h2 class="text-xl font-semibold mb-2">Neighborhood</h2>
                 <p class="text-gray-600">{{ $property->neighborhood_details ?? 'No neighborhood details available' }}</p>
             </div>
+            
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2">Branch/Team</h2>
+                <p class="text-gray-600">{{ $team->name ?? 'No team information available' }}</p>
+            </div>
             <p class="text-2xl text-gray-700 mb-4">${{ number_format($property->price, 2) }}</p>
             
             <div class="mb-4">
