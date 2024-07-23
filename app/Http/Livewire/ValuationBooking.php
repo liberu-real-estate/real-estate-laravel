@@ -29,7 +29,7 @@ class ValuationBooking extends Component
     {
         $startDate = Carbon::today();
         $endDate = Carbon::today()->addDays(30);
-        return $startDate->range($endDate)->map(function ($date) {
+        return collect($startDate->range($endDate))->map(function ($date) {
             return $date->format('Y-m-d');
         })->toArray();
     }
