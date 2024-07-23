@@ -1,3 +1,17 @@
+  GNU nano 6.2                      tests/Unit/TenantResourceTest.php
+<?php
+
+namespace Tests\Unit\Services;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Services\PropertyValuationService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Password;
+
+class PropertyValuationServiceTest extends TestCase
+{
     /**
      * @dataProvider propertyDataProvider
      */
