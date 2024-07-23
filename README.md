@@ -14,7 +14,7 @@
 [![Docker](https://github.com/liberu-real-estate/real-estate-laravel/actions/workflows/main.yml/badge.svg)](https://github.com/liberu-real-estate/real-estate-laravel/actions/workflows/main.yml)
 
 ## Description
-Welcome to Liberu Real Estate, our revolutionary open-source project that reshapes the real estate industry through the integration of Laravel 11, PHP 8.3, Livewire 3, and Filament 3. Liberu Real Estate is not just a software solution for property management; it's a dynamic platform designed to empower real estate professionals, property owners, and investors with innovative tools and seamless workflows.
+Welcome to Liberu Real Estate/Estate Agency, our revolutionary open-source project that reshapes the real estate industry through the integration of Laravel 11, PHP 8.3, Livewire 3, and Filament 3. Liberu Real Estate is not just a software solution for property management; it's a dynamic platform designed to empower real estate professionals, property owners, and investors with innovative tools and seamless workflows.
 
 ## Our Projects
 
