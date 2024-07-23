@@ -48,6 +48,9 @@ class TenantResource extends Resource
                     ->label('Lease End Date'),
                 Forms\Components\TextInput::make('emergency_contact')
                     ->label('Emergency Contact'),
+                Forms\Components\Select::make('property_id')
+                    ->relationship('property', 'address')
+                    ->label('Assigned Property'),
             ]);
     }
 
@@ -61,6 +64,7 @@ class TenantResource extends Resource
                 Tables\Columns\TextColumn::make('address')->limit(30),
                 Tables\Columns\TextColumn::make('lease_start_date')->date(),
                 Tables\Columns\TextColumn::make('lease_end_date')->date(),
+                Tables\Columns\TextColumn::make('property.address')->label('Assigned Property'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('active_leases')
@@ -73,6 +77,15 @@ class TenantResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\LeaseRelationManager::class,
+            RelationManagers\PaymentRelationManager::class,
+            RelationManagers\MaintenanceRequestRelationManager::class,
+        ];
     }
 
     public static function getEloquentQuery(): Builder
