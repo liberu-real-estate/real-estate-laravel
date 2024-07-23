@@ -14,9 +14,11 @@ class BookingCalendar extends Component
     public $selectedProperty;
     public $selectedAgent;
     public $availableTimeSlots;
+    public $bookingType;
 
-    public function mount()
+    public function mount($bookingType = 'viewing')
     {
+        $this->bookingType = $bookingType;
         $this->dates = Property::all()->flatMap(function ($property) {
             return $property->getAvailableDates();
         })->unique();
@@ -37,7 +39,7 @@ class BookingCalendar extends Component
         $this->availableTimeSlots = $this->selectedAgent->getAvailableTimeSlots($date);
     }
 
-    public function bookViewing($propertyId, $date, $timeSlot)
+    public function bookAppointment($propertyId, $date, $timeSlot)
     {
         $appointment = Appointment::create([
             'property_id' => $propertyId,
@@ -45,9 +47,10 @@ class BookingCalendar extends Component
             'user_id' => auth()->id(),
             'appointment_date' => Carbon::parse($date . ' ' . $timeSlot),
             'status' => 'requested',
+            'type' => $this->bookingType,
         ]);
 
-        $this->emit('viewingRequested', $appointment->id);
+        $this->emit($this->bookingType . 'Requested', $appointment->id);
     }
 
     public function render()
@@ -58,6 +61,7 @@ class BookingCalendar extends Component
             'selectedProperty' => $this->selectedProperty,
             'selectedAgent' => $this->selectedAgent,
             'availableTimeSlots' => $this->availableTimeSlots,
+            'bookingType' => $this->bookingType,
         ]);
     }
 }
