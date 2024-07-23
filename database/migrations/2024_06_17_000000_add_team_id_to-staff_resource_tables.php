@@ -9,7 +9,7 @@ class AddTeamIdToStaffResourceTables extends Migration
     public function up()
     {
         $tables = [
-            'appointments', 'bookings' 'buyers', 'contractors', 'document_templates',
+            'appointments', 'bookings', 'buyers', 'contractors', 'document_templates',
             'favorites', 'images', 'key_locations', 'property_features',
             'properties', 'reviews', 'tenants', 'transactions'
         ];
