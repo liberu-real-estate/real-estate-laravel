@@ -4,7 +4,6 @@
  * Web routes for the real estate application.
  * Includes routes for home, property listings, bookings, and payment processing.
  */
-Route::get('/properties/{property}', [PropertyController::class, 'show'])->name('properties.show');
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
