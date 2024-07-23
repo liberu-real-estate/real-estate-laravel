@@ -22,6 +22,7 @@ class PropertyList extends Component
     public $maxArea = 10000;
     public $propertyType = '';
     public $selectedAmenities = [];
+    public $selectedCategory = '';
 
     protected $listeners = ['applyAdvancedFilters'];
 
@@ -87,6 +88,14 @@ class PropertyList extends Component
             \Log::info('Items per page: ' . $properties->perPage());
             \Log::info('Properties on this page: ' . $properties->count());
 
+            if ($this->selectedCategory) {
+                $query->where('property_category_id', $this->selectedCategory);
+            }
+
+            $query->with('features', 'images', 'category');
+
+            $properties = $query->paginate(12);
+
             return $properties;
         } catch (\Exception $e) {
             \Log::error('Error fetching properties: ' . $e->getMessage());
@@ -98,12 +107,13 @@ class PropertyList extends Component
             return collect();
         }
     }
-    
+
     public function render()
     {
         return view('livewire.property-list', [
             'properties' => $this->getPropertiesProperty(),
             'amenities' => PropertyFeature::distinct('feature_name')->pluck('feature_name'),
+            'categories' => PropertyCategory::all(),
         ])->layout('layouts.app');
     }
 }
