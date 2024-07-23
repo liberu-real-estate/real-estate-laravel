@@ -3,15 +3,16 @@
 namespace App\Filament\Staff\Resources\RelationManagers;
 
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
+use Flament\Forms\Form;
 use Filament\Forms;
 
 class MaintenanceRequestRelationManager extends RelationManager
 {
     protected static string $relationship = 'maintenanceRequests';
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
@@ -40,7 +41,7 @@ class MaintenanceRequestRelationManager extends RelationManager
             ]);
     }
 
-    public static function form(Forms\Form $form): Forms\Form
+    public function form(Forms\Form $form): Forms\Form
     {
         return $form
             ->schema([
