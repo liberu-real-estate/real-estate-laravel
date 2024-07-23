@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             DefaultTeamSeeder::class,
             PropertyCategorySeeder::class,
             PropertySeeder::class,
+            AppointmentTypeSeeder::class,
             // Add other seeders here if needed
         ]);
     }
