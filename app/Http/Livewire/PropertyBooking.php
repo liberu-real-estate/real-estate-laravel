@@ -31,6 +31,15 @@ class PropertyBooking extends Component
         $this->availableDates = $property->getAvailableDatesForTeam();
     }
 
+    private function getAvailableDates()
+    {
+        $startDate = Carbon::today();
+        $endDate = Carbon::today()->addDays(30);
+        return collect($startDate->range($endDate))->map(function ($date) {
+            return $date->format('Y-m-d');
+        })->toArray();
+    }
+
     public function selectDate($date)
     {
         $this->selectedDate = $date;
