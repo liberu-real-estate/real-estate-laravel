@@ -1,13 +1,4 @@
-<div class="container mx-auto px-4 py-8">
-@section('content')
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-        <div class="relative pb-2/3">
-            @if($property->images->isNotEmpty())
-                <img src="{{ $property->images->first()->image_url }}" alt="{{ $property->title }}" class="absolute h-full w-full object-cover">
-            @else
-                <div class="absolute h-full w-full bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-500">No image available</span>
-                </div>
+
             @endif
         </div>
         <div class="p-6">
