@@ -115,10 +115,36 @@ use HasFactory, SoftDeletes;
     {
         return $this->belongsTo(Neighborhood::class);
     }
-
+    
     public function category()
     {
         return $this->belongsTo(PropertyCategory::class, 'property_category_id');
+    }
+    
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+    
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+    
+    public function getAvailableDates()
+    {
+        $bookedDates = $this->bookings()->pluck('date')->toArray();
+        $availableDates = [];
+        $startDate = now();
+        $endDate = now()->addMonths(3);
+    
+        for ($date = $startDate; $date <= $endDate; $date->addDay()) {
+            if (!in_array($date->format('Y-m-d'), $bookedDates)) {
+                $availableDates[] = $date->format('Y-m-d');
+            }
+        }
+    
+        return $availableDates;
     }
 
     // Scopes
