@@ -62,41 +62,9 @@ class Kernel extends ConsoleKernel
         })->weekly();
 
         // Sync properties with Zoopla
-        $schedule->call(function () {
-            try {
-                $zooplaSettings = ZooplaSettings::first();
-                $frequency = $zooplaSettings ? $zooplaSettings->sync_frequency : 'hourly';
-                if ($frequency === 'hourly') {
-                    (new SyncZooplaProperties())->handle();
-                }
-            } catch (\Exception $e) {
-                Log::error('Zoopla hourly sync failed: ' . $e->getMessage());
-            }
-        })->hourly();
-
-        $schedule->call(function () {
-            try {
-                $zooplaSettings = ZooplaSettings::first();
-                $frequency = $zooplaSettings ? $zooplaSettings->sync_frequency : 'hourly';
-                if ($frequency === 'daily') {
-                    (new SyncZooplaProperties())->handle();
-                }
-            } catch (\Exception $e) {
-                Log::error('Zoopla daily sync failed: ' . $e->getMessage());
-            }
-        })->daily();
-
-        $schedule->call(function () {
-            try {
-                $zooplaSettings = ZooplaSettings::first();
-                $frequency = $zooplaSettings ? $zooplaSettings->sync_frequency : 'hourly';
-                if ($frequency === 'weekly') {
-                    (new SyncZooplaProperties())->handle();
-                }
-            } catch (\Exception $e) {
-                Log::error('Zoopla weekly sync failed: ' . $e->getMessage());
-            }
-        })->weekly();
+        $schedule->command('zoopla:sync-properties')->hourly();
+        $schedule->command('zoopla:sync-properties')->daily();
+        $schedule->command('zoopla:sync-properties')->weekly();
     }
 
 **/

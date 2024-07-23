@@ -3,23 +3,22 @@
 namespace App\Services;
 
 use App\Models\Property;
+use App\Models\ZooplaSettings;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
 class ZooplaApiService
 {
     protected $client;
-    protected $apiKey;
-    protected $apiEndpoint;
+    protected $zooplaSettings;
 
-    public function __construct()
+    public function __construct(ZooplaSettings $zooplaSettings)
     {
-        $this->apiKey = config('zoopla.api_key');
-        $this->apiEndpoint = config('zoopla.api_endpoint');
+        $this->zooplaSettings = $zooplaSettings;
         $this->client = new Client([
-            'base_uri' => $this->apiEndpoint,
+            'base_uri' => $zooplaSettings->base_uri,
             'headers' => [
-                'Authorization' => 'Bearer ' . $this->apiKey,
+                'Authorization' => 'Bearer ' . $zooplaSettings->api_key,
                 'Content-Type' => 'application/json',
             ],
         ]);

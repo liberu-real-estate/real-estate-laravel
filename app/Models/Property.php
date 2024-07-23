@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Property extends Model
 {
-use HasFactory, SoftDeletes;
+use HasFactory, SoftDeletes, HasPortalSync;
 
     protected $fillable = [
         'title',
@@ -168,13 +168,7 @@ use HasFactory, SoftDeletes;
         }, '=', count($amenities));
     }
 
-    public function scopeNeedsSyncing(Builder $query): Builder
-    {
-        return $query->where(function ($query) {
-            $query->whereNull('last_synced_at')
-                  ->orWhere('updated_at', '>', 'last_synced_at');
-        });
-    }
+
 
     public function getAvailableDates()
     {
