@@ -50,9 +50,4 @@
             </div>
         </form>
     </div>
-
-    <div class="mt-8">
-        <h2 class="text-2xl font-bold mb-4">Book a Valuation</h2>
-        @livewire('valuation-booking')
-    </div>
 </div>
