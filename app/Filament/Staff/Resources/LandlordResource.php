@@ -10,15 +10,15 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
-use App\Filament\Staff\Resources\TenantResource\Pages;
+use App\Filament\Staff\Resources\LandlordResource\Pages;
 
-class TenantResource extends Resource
+class LandlordResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-home';
 
-    protected static ?string $navigationLabel = 'Tenants';
+    protected static ?string $navigationLabel = 'Landlords';
 
     public static function form(Form $form): Form
     {
@@ -68,7 +68,7 @@ class TenantResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->role('tenant');
+        return parent::getEloquentQuery()->role('landlord');
     }
 
     public static function getNavigationGroup(): ?string
@@ -84,9 +84,9 @@ class TenantResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTenants::route('/'),
-            'create' => Pages\CreateTenant::route('/create'),
-            'edit' => Pages\EditTenant::route('/{record}/edit'),
+            'index' => Pages\ListLandlords::route('/'),
+            'create' => Pages\CreateLandlord::route('/create'),
+            'edit' => Pages\EditLandlord::route('/{record}/edit'),
         ];
     }
 }
