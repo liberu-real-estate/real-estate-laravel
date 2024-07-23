@@ -10,15 +10,15 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
-use App\Filament\Staff\Resources\BuyerResource\Pages;
+use App\Filament\Staff\Resources\SellerResource\Pages;
 
-class BuyerResource extends Resource
+class SellerResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
-    protected static ?string $navigationLabel = 'Buyers';
+    protected static ?string $navigationLabel = 'Sellers';
 
     public static function form(Form $form): Form
     {
@@ -36,7 +36,7 @@ class BuyerResource extends Resource
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create'),
-                // Add more form fields specific to buyers
+                // Add more form fields specific to sellers
             ]);
     }
 
@@ -62,7 +62,7 @@ class BuyerResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->role('buyer');
+        return parent::getEloquentQuery()->role('seller');
     }
 
     public static function getNavigationGroup(): ?string
@@ -78,9 +78,9 @@ class BuyerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBuyers::route('/'),
-            'create' => Pages\CreateBuyer::route('/create'),
-            'edit' => Pages\EditBuyer::route('/{record}/edit'),
+            'index' => Pages\ListSellers::route('/'),
+            'create' => Pages\CreateSeller::route('/create'),
+            'edit' => Pages\EditSeller::route('/{record}/edit'),
         ];
     }
 }

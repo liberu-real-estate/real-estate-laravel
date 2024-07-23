@@ -2,19 +2,23 @@
 
 namespace App\Filament\Staff\Resources;
 
-use App\Models\Contractor;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Hash;
 use App\Filament\Staff\Resources\ContractorResource\Pages;
 
 class ContractorResource extends Resource
 {
-    protected static ?string $model = Contractor::class;
+    protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
+
+    protected static ?string $navigationLabel = 'Contractors';
 
     public static function form(Form $form): Form
     {
@@ -27,12 +31,19 @@ class ContractorResource extends Resource
                     ->email()
                     ->required()
                     ->label('Email'),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $context): bool => $context === 'create')
+                    ->label('Password'),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->label('Phone Number'),
                 Forms\Components\Textarea::make('address')
                     ->rows(5)
                     ->label('Address'),
+                // Add any additional fields specific to contractors
             ]);
     }
 
@@ -40,19 +51,36 @@ class ContractorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->sortable(),
-                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('address')->limit(50),
             ])
             ->filters([
                 //
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->role('contractor');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return 'Management';
+        return 'User Management';
+    }
+
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->hasRole(['admin', 'staff']);
     }
 
     public static function getPages(): array
