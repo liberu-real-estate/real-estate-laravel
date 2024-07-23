@@ -54,7 +54,7 @@ class RecentMaintenanceRequests extends TableWidget
 {
     protected int | string | array $columnSpan = 'full';
 
-    protected function getTableQuery()
+    protected function getTableQuery(): \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\Relation|null
     {
         return MaintenanceRequest::where('tenant_id', auth()->id())->latest()->limit(5);
     }
