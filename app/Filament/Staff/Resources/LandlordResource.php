@@ -10,15 +10,15 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
-use App\Filament\Staff\Resources\ContractorResource\Pages;
+use App\Filament\Staff\Resources\LandlordResource\Pages;
 
-class ContractorResource extends Resource
+class LandlordResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-building-office';
+    protected static ?string $navigationIcon = 'heroicon-o-home';
 
-    protected static ?string $navigationLabel = 'Contractors';
+    protected static ?string $navigationLabel = 'Landlords';
 
     public static function form(Form $form): Form
     {
@@ -43,7 +43,7 @@ class ContractorResource extends Resource
                 Forms\Components\Textarea::make('address')
                     ->rows(5)
                     ->label('Address'),
-                // Add any additional fields specific to contractors
+                // Add any additional fields specific to landlords
             ]);
     }
 
@@ -76,7 +76,7 @@ class ContractorResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->role('contractor');
+        return parent::getEloquentQuery()->role('landlord');
     }
 
     public static function getNavigationGroup(): ?string
@@ -92,9 +92,9 @@ class ContractorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContractors::route('/'),
-            'create' => Pages\CreateContractor::route('/create'),
-            'edit' => Pages\EditContractor::route('/{record}/edit'),
+            'index' => Pages\ListLandlords::route('/'),
+            'create' => Pages\CreateLandlord::route('/create'),
+            'edit' => Pages\EditLandlord::route('/{record}/edit'),
         ];
     }
 }
