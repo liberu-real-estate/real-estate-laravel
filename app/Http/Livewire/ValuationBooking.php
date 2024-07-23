@@ -11,6 +11,7 @@ class ValuationBooking extends Component
     public $userName;
     public $userContact;
     public $notes;
+    public $availableDates = [];
 
     public function mount()
     {
