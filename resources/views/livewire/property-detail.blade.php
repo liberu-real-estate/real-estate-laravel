@@ -43,14 +43,16 @@
                 <p class="text-gray-600">{{ $team->name ?? 'No team information available' }}</p>
             </div>
             <p class="text-2xl text-gray-700 mb-4">${{ number_format($property->price, 2) }}</p>
-            
+
             @livewire('property-booking', ['propertyId' => $property->id])
-            
-            <div class="mt-8">
-                <a href="{{ route('tenancy.apply', $property->id) }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-                    Apply for Tenancy
-                </a>
-            </div>
+
+            @if($isLettingsProperty)
+                <div class="mt-8">
+                    <a href="{{ route('tenancy.apply', $property->id) }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                        Apply for Tenancy
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 </div>
