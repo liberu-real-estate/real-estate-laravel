@@ -37,14 +37,14 @@ class AppointmentResource extends Resource
                 BelongsToSelect::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
-                TextInput::make('agent_id')
-                    ->label('Agent ID')
-                    ->disabled(),
+                BelongsToSelect::make('agent_id')
+                    ->relationship('agent', 'name')
+                    ->required(),
                 BelongsToSelect::make('property_id')
                     ->relationship('property', 'title')
                     ->required(),
-                DatePicker::make('appointment_date')
-                    ->label('Appointment Date')
+                DateTimePicker::make('appointment_date')
+                    ->label('Appointment Date and Time')
                     ->required(),
                 Select::make('status')
                     ->label('Status')
@@ -52,6 +52,7 @@ class AppointmentResource extends Resource
                         'requested' => 'Requested',
                         'confirmed' => 'Confirmed',
                         'canceled' => 'Canceled',
+                        'completed' => 'Completed',
                     ])
                     ->required(),
             ]);
@@ -74,7 +75,8 @@ class AppointmentResource extends Resource
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('appointment_date')
-                    ->date('d/m/Y')->sortable(),
+                    ->dateTime()
+                    ->sortable(),
                 TextColumn::make('status')
                     ->label('Status')
                     ->searchable()

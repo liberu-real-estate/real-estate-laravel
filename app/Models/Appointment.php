@@ -33,10 +33,12 @@ class Appointment extends Model
         'appointment_date',
         'status',
         'team_id',
+        'duration',
     ];
 
     protected $casts = [
         'appointment_date' => 'datetime',
+        'duration' => 'integer',
     ];
 
     public function user()
@@ -69,6 +71,34 @@ class Appointment extends Model
     public function scopeUpcoming(Builder $query): Builder
     {
         return $query->where('appointment_date', '>', now());
+    }
+
+    public static function getAvailableTimeSlots($date, $agentId)
+    {
+        $workingHours = ['09:00', '17:00'];
+        $appointmentDuration = 60; // minutes
+
+        $bookedSlots = self::where('agent_id', $agentId)
+            ->whereDate('appointment_date', $date)
+            ->pluck('appointment_date')
+            ->map(function ($dateTime) {
+                return $dateTime->format('H:i');
+            })
+            ->toArray();
+
+        $availableSlots = [];
+        $currentTime = Carbon::parse($date . ' ' . $workingHours[0]);
+        $endTime = Carbon::parse($date . ' ' . $workingHours[1]);
+
+        while ($currentTime->lt($endTime)) {
+            $timeSlot = $currentTime->format('H:i');
+            if (!in_array($timeSlot, $bookedSlots)) {
+                $availableSlots[] = $timeSlot;
+            }
+            $currentTime->addMinutes($appointmentDuration);
+        }
+
+        return $availableSlots;
     }
 
     /**
