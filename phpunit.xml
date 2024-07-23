@@ -11,11 +11,6 @@
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
         </testsuite>
-        <testsuite name="DigitalSignatureTests">
-            <file>tests/Unit/DigitalSignatureModelTest.php</file>
-            <file>tests/Unit/DigitalSignatureServiceProviderTest.php</file>
-            <file>tests/Unit/DigitalSignatureResourceTest.php</file>
-        </testsuite>
     </testsuites>
     <source>
         <include>
