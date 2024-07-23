@@ -17,6 +17,7 @@ class PropertyCategorySeeder extends Seeder
         foreach ($categories as $category) {
             DB::table('property_categories')->insert([
                 'name' => $category,
+		'slug' => $category,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
