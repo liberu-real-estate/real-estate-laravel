@@ -15,6 +15,7 @@ use App\Http\Livewire\PropertyBooking;
 use App\Http\Livewire\BookingCalendar;
 use App\Http\Livewire\PropertyComparison;
 use App\Http\Livewire\PropertyDetail;
+use App\Http\Livewire\RentalApplicationForm;
 
 
 /*
