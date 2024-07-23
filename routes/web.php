@@ -49,3 +49,8 @@ Route::controller(ContactController::class)->group(function () {
 });
 
 require __DIR__.'/socialstream.php';
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/apply/{property}', RentalApplicationForm::class)->name('rental.apply');
+    Route::get('/applications', [App\Http\Controllers\TenantController::class, 'applications'])->name('tenant.applications');
+});

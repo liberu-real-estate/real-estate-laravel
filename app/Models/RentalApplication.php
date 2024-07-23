@@ -28,4 +28,24 @@ class RentalApplication extends Model
     {
         return $this->belongsTo(Tenant::class);
     }
+
+    public function isPending()
+    {
+        return $this->status === 'pending';
+    }
+
+    public function isApproved()
+    {
+        return $this->status === 'approved';
+    }
+
+    public function isRejected()
+    {
+        return $this->status === 'rejected';
+    }
+
+    public function updateStatus($status)
+    {
+        $this->update(['status' => $status]);
+    }
 }
