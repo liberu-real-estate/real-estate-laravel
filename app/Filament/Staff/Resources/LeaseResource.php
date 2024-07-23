@@ -32,7 +32,8 @@ class LeaseResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('rent_amount')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->prefix('$'),
                 Forms\Components\Select::make('status')
                     ->options([
                         'active' => 'Active',
@@ -47,15 +48,21 @@ class LeaseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('property.address'),
-                Tables\Columns\TextColumn::make('tenant.name'),
+                Tables\Columns\TextColumn::make('property.address')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('tenant.name')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('start_date')
-                    ->date(),
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
-                    ->date(),
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('rent_amount')
-                    ->money('usd'),
-                Tables\Columns\TextColumn::make('status'),
+                    ->money('usd')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->searchable(),
             ])
             ->filters([
                 //
@@ -80,4 +87,8 @@ class LeaseResource extends Resource
     {
         return [
             'index' => Pages\ListLeases::route('/'),
-            'create' => Pages\CreateLease
+            'create' => Pages\CreateLease::route('/create'),
+            'edit' => Pages\EditLease::route('/{record}/edit'),
+        ];
+    }
+}
