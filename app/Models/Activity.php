@@ -39,23 +39,4 @@ class Activity extends Model
         return $this->belongsTo(Team::class);
     }
 
-    protected $casts = [
-        'scheduled_at' => 'datetime',
-        'completed_at' => 'datetime',
-    ];
-
-    public function lead()
-    {
-        return $this->belongsTo(Lead::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function team()
-    {
-        return $this->belongsTo(Team::class);
-    }
 }
