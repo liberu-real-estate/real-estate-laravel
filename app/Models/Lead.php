@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\CrmIntegrationService;
+use App\Jobs\SyncLeadToCrm;
+use App\Jobs\SyncActivityToCrm;
 
 class Lead extends Model
 {
@@ -24,11 +26,11 @@ class Lead extends Model
     protected static function booted()
     {
         static::created(function ($lead) {
-            app(CrmIntegrationService::class)->syncLead($lead);
+            SyncLeadToCrm::dispatch($lead);
         });
 
         static::updated(function ($lead) {
-            app(CrmIntegrationService::class)->syncLead($lead);
+            SyncLeadToCrm::dispatch($lead);
         });
     }
 
@@ -40,5 +42,17 @@ class Lead extends Model
     public function buyer()
     {
         return $this->belongsTo(Buyer::class);
+    }
+
+    public function addActivity($type, $description)
+    {
+        $activity = $this->activities()->create([
+            'type' => $type,
+            'description' => $description,
+        ]);
+
+        SyncActivityToCrm::dispatch($activity);
+
+        return $activity;
     }
 }
