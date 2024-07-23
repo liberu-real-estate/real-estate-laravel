@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Property;
 use App\Models\ZooplaSettings;
+use Illuminate\Support\Facades\Log;
 
 class ZooplaPortalSyncService
 {
@@ -19,14 +20,30 @@ class ZooplaPortalSyncService
     public function syncProperties()
     {
         $properties = Property::needsSyncing()->get();
+        $synced = 0;
+        $failed = 0;
 
         foreach ($properties as $property) {
-            if ($property->zoopla_id) {
-                $this->updateProperty($property);
-            } else {
-                $this->uploadProperty($property);
+            try {
+                $success = $property->zoopla_id
+                    ? $this->updateProperty($property)
+                    : $this->uploadProperty($property);
+
+                if ($success) {
+                    $synced++;
+                } else {
+                    $failed++;
+                }
+            } catch (\Exception $e) {
+                Log::error('Error syncing property with Zoopla', [
+                    'property_id' => $property->id,
+                    'error' => $e->getMessage()
+                ]);
+                $failed++;
             }
         }
+
+        return ['synced' => $synced, 'failed' => $failed];
     }
 
     protected function updateProperty(Property $property)
@@ -36,6 +53,7 @@ class ZooplaPortalSyncService
             $property->last_synced_at = now();
             $property->save();
         }
+        return $success;
     }
 
     protected function uploadProperty(Property $property)
@@ -45,5 +63,6 @@ class ZooplaPortalSyncService
             $property->last_synced_at = now();
             $property->save();
         }
+        return $success;
     }
 }

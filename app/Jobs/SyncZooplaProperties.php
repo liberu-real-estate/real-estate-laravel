@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Services\ZooplaPortalSyncService;
+use Illuminate\Support\Facades\Log;
 
 class SyncZooplaProperties implements ShouldQueue
 {
@@ -20,6 +21,16 @@ class SyncZooplaProperties implements ShouldQueue
 
     public function handle(ZooplaPortalSyncService $syncService)
     {
-        $syncService->syncProperties();
+        Log::info('Starting Zoopla property sync');
+        try {
+            $result = $syncService->syncProperties();
+            Log::info('Zoopla property sync completed', [
+                'synced_count' => $result['synced'],
+                'failed_count' => $result['failed']
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Zoopla property sync failed', ['error' => $e->getMessage()]);
+            throw $e;
+        }
     }
 }
