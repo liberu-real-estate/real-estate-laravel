@@ -13,12 +13,8 @@
             <div class="mb-4">
                 <h2 class="text-xl font-semibold mb-2">Category</h2>
                 <div class="flex flex-wrap gap-2">
-                    @if($property->category->name)
-                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">{{ $property->category->name }}</span>
-                    @endif
-                    @if(!$property->category->name)
+                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">{{ $property->category->name ?? 'None'}}</span>
                         <p class="text-gray-500">No category</p>
-                    @endif
                 </div>
             </div>
 
