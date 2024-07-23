@@ -18,19 +18,19 @@ class Dashboard extends BaseDashboard
         $this->rentDueDate = $this->currentProperty ? $this->currentProperty->next_rent_due : null;
     }
 
-    protected function getHeaderWidgets(): array
+    public function getHeaderWidgets(): array
     {
         return [
             DashboardStatsOverview::class,
         ];
     }
 
-    protected function getColumns(): int
+    public function getColumns(): int
     {
         return 2;
     }
 
-    protected function getWidgets(): array
+    public function getWidgets(): array
     {
         return [
             RecentMaintenanceRequests::class,
@@ -40,7 +40,7 @@ class Dashboard extends BaseDashboard
 
 class DashboardStatsOverview extends StatsOverviewWidget
 {
-    protected function getCards(): array
+    public function getCards(): array
     {
         return [
             Card::make('Total Maintenance Requests', MaintenanceRequest::where('tenant_id', auth()->id())->count()),

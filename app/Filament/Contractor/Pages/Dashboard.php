@@ -6,7 +6,7 @@ use Filament\Pages\Page;
 use App\Models\Job;
 use App\Models\Maintenance;
 use Filament\Widgets\StatsOverviewWidget\Card;
-use Filament\Widgets\StatsOverviewWidget;
+use Filament\Widgets\StatsOverviewWidget as FilamentStatsOverviewWidget;
 
 class Dashboard extends Page
 {
@@ -51,7 +51,7 @@ class Dashboard extends Page
     }
 }
 
-class StatsOverviewWidget extends StatsOverviewWidget
+class StatsOverviewWidget extends FilamentStatsOverviewWidget
 {
     protected function getCards(): array
     {
