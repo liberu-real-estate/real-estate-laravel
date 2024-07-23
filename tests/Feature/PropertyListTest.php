@@ -1,10 +1,11 @@
 <?php
 
+namespace Tests\Feature;
+
 use Tests\TestCase;
 use Livewire\Livewire;
 use App\Models\Property;
 
-namespace Tests\Feature;
 
 class PropertyListTest extends TestCase
 {

@@ -1,4 +1,15 @@
 <?php
+namespace Tests\Unit;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Http\Controllers\PaymentController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Password;
+
+class PaymentControllerTest extends TestCase
+{
     public function testSetStripeApiKey()
     {
         $expectedApiKey = 'test_stripe_api_key';
@@ -62,3 +73,4 @@
             'user_id' => $user->id,
         ]);
     }
+}
