@@ -1,6 +1,5 @@
-@extends('layouts.app')
-@section('content')
 <div>
+@section('content')
 <article class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
@@ -40,33 +39,6 @@
             </div>
             <p class="text-2xl text-gray-700 mb-4">${{ number_format($property->price, 2) }}</p>
             
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Categories</h2>
-                <div class="flex flex-wrap gap-2">
-                    @forelse($property->categories ?? [] as $category)
-                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">{{ $category->name }}</span>
-                    @empty
-                        <p class="text-gray-500">No categories available</p>
-                    @endforelse
-                </div>
-            </div>
-            
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Features & Amenities</h2>
-                <ul class="list-disc list-inside">
-                    @foreach($property->features as $feature)
-                        <li>{{ $feature->name }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            
-            <p class="text-gray-600 mb-4">{{ $property->description }}</p>
-            
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Neighborhood</h2>
-                <p>{{ $property->neighborhood_details }}</p>
-            </div>
-            
             @livewire('property-booking', ['propertyId' => $property->id])
             
             <div class="mt-8">
@@ -78,5 +50,5 @@
     </div>
 </div>
 </article>
-</div>
 @endsection
+</div>
