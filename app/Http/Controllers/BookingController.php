@@ -9,6 +9,8 @@ class BookingController extends Controller
 {
     public function store(Request $request)
     {
+
+    try {
         $validated = $request->validate([
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
@@ -21,6 +23,10 @@ class BookingController extends Controller
         $booking = Booking::create($validated);
 
         return response()->json(['message' => 'Booking created successfully', 'booking' => $booking], 201);
+    } catch (ValidationException $e) {
+        return response()->json(['errors' => $e->errors()], 422);
+        }
+
     }
 
     public function update(Request $request, $id)
