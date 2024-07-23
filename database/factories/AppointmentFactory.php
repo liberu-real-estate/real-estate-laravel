@@ -20,6 +20,7 @@ class AppointmentFactory extends Factory
             'appointment_date' => $this->faker->dateTimeBetween('now', '+1 month'),
             'status' => $this->faker->randomElement(['scheduled', 'completed', 'cancelled']),
             'team_id' => Team::factory(),
+            'appointment_type_id' => AppointmentType::factory(),
         ];
     }
 }

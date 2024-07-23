@@ -33,6 +33,7 @@ class Appointment extends Model
         'appointment_date',
         'status',
         'team_id',
+        'appointment_type_id',
     ];
 
     protected $casts = [
@@ -57,6 +58,11 @@ class Appointment extends Model
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function appointmentType()
+    {
+        return $this->belongsTo(AppointmentType::class, 'appointment_type_id');
     }
 
     /**
