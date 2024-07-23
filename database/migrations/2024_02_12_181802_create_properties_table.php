@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('rightmove_id')->nullable();
             $table->string('zoopla_id')->nullable();
             $table->string('onthemarket_id')->nullable();
+            $table->string('category')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('team_id')->references('id')->on('teams');
             $table->softDeletes();

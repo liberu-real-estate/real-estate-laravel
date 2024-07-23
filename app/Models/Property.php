@@ -66,6 +66,7 @@ use HasFactory, SoftDeletes;
         'onthemarket_id',
         'last_synced_at',
         'neighborhood_id',
+        'category',
     ];
 
     protected $casts = [
@@ -123,6 +124,11 @@ use HasFactory, SoftDeletes;
                   ->orWhere('description', 'like', '%' . $search . '%')
                   ->orWhere('location', 'like', '%' . $search . '%');
         });
+    }
+
+    public function scopeCategory(Builder $query, $category): Builder
+    {
+        return $query->where('category', $category);
     }
 
     public function scopePriceRange(Builder $query, $min, $max): Builder
