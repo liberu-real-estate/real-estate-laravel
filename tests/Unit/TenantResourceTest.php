@@ -25,11 +25,16 @@ class TenantResourceTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    public function testHandleLoginFailure()
+    public function testLoginFailure()
     {
-        $this->expectException(ValidationException::class);
-
-        TenantResource::handleLogin(['email' => 'nonexistent@example.com', 'password' => 'wrongpassword']);
+        $response = $this->post('/admin/login', [
+            'email' => 'nonexistent@example.com',
+            'password' => 'wrongpassword',
+        ]);
+    
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors(['email']);
+        $this->assertGuest();
     }
 
     public function testHandleRegister()

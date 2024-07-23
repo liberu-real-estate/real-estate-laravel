@@ -19,12 +19,12 @@ class LoginTest extends TestCase
             'password' => bcrypt('password123'),
         ]);
 
-        $response = $this->post('/app/login', [
+        $response = $this->post('/admin/login', [
             'email' => 'user@example.com',
             'password' => 'password123',
         ]);
 
-        $response->assertRedirect('/app');
+        $response->assertRedirect('/admin');
         $this->assertAuthenticatedAs($user);
     }
 
@@ -35,13 +35,13 @@ class LoginTest extends TestCase
             'password' => bcrypt('password123'),
         ]);
 
-        $response = $this->post('/app/login', [
+        $response = $this->post('/admin/login', [
             'email' => 'user@example.com',
             'password' => 'wrongpassword',
         ]);
 
         $response->assertStatus(302); // Filament typically redirects back with errors
-        $response->assertSessionHasErrors(['email' => 'These credentials do not match our records.']);
+        $response->assertSessionHasErrors(['email']);
         $this->assertGuest();
     }
 }

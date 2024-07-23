@@ -17,10 +17,10 @@ class BookingController extends Controller
             'notes' => 'nullable|string',
             'contact' => 'nullable|string|max:255'
         ]);
-
+    
         $booking = Booking::create($validated);
-
-        return response()->json(['message' => 'Booking created successfully', 'booking' => $booking], 201);
+    
+        return redirect()->route('bookings.index')->with('success', 'Booking created successfully.');
     }
 
     public function update(Request $request, $id)

@@ -29,8 +29,8 @@ class BookingControllerTest extends TestCase
     public function testStoreActionWithInvalidData()
     {
         $response = $this->post('/bookings', []);
-
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['property_id', 'user_id', 'start_date', 'end_date']);
+    
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors(['date', 'time', 'staff_id']);
     }
 }
