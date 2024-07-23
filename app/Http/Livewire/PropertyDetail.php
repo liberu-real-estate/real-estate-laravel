@@ -12,7 +12,7 @@ class PropertyDetail extends Component
 
     public function mount($propertyId)
     {
-        $this->property = Property::with(['neighborhood', 'categories', 'features'])->findOrFail($propertyId);
+        $this->property = Property::with(['neighborhood', 'features'])->findOrFail($propertyId);
         $this->neighborhood = $this->property->neighborhood;
     }
 

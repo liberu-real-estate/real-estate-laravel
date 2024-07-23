@@ -120,11 +120,6 @@ use HasFactory, SoftDeletes;
     {
         return $this->belongsTo(PropertyCategory::class, 'property_category_id');
     }
-    
-    public function categories()
-    {
-        return $this->belongsToMany(PropertyCategory::class, 'property_property_category', 'property_id', 'property_category_id');
-    }
 
     // Scopes
     public function scopeSearch(Builder $query, $search): Builder

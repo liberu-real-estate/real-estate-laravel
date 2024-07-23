@@ -16,16 +16,20 @@ return new class extends Migration
         });
 
         Schema::table('properties', function (Blueprint $table) {
-            $table->foreignId('property_category_id')->nullable()->constrained()->onDelete('set null');
+            $table->unsignedBigInteger('property_category_id')->after('id')->nullable();
+            $table->foreign('property_category_id')->references('id')->on('property_categories')->onDelete('set null')->default(1);
         });
+
     }
 
     public function down()
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('property_category_id');
+            $table->dropForeign(['property_category_id']);
+            $table->dropColumn('property_category_id');
         });
 
         Schema::dropIfExists('property_categories');
     }
 };
+
