@@ -20,7 +20,7 @@ class ContractorResource extends Resource
 
     protected static ?string $navigationLabel = 'Contractors';
 
-    public static function form(Form $form): Form
+public static function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -43,7 +43,14 @@ class ContractorResource extends Resource
                 Forms\Components\Textarea::make('address')
                     ->rows(5)
                     ->label('Address'),
-                // Add any additional fields specific to contractors
+                Forms\Components\Select::make('role')
+                    ->options([
+                        'contractor' => 'Contractor',
+                        'landlord' => 'Landlord',
+                    ])
+                    ->default('contractor')
+                    ->required()
+                    ->label('Role'),
             ]);
     }
 
