@@ -42,9 +42,22 @@ class LandlordResource extends Resource
                 Forms\Components\Textarea::make('address')
                     ->rows(3)
                     ->label('Address'),
+                Forms\Components\TextInput::make('company_name')
+                    ->label('Company Name (if applicable)')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('tax_id')
+                    ->label('Tax ID')
+                    ->maxLength(50),
+                Forms\Components\Select::make('preferred_contact_method')
+                    ->options([
+                        'email' => 'Email',
+                        'phone' => 'Phone',
+                        'mail' => 'Mail',
+                    ])
+                    ->required(),
             ]);
     }
-
+    
     public static function table(Table $table): Table
     {
         return $table
@@ -52,7 +65,8 @@ class LandlordResource extends Resource
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('address')->limit(30),
+                Tables\Columns\TextColumn::make('company_name')->label('Company'),
+                Tables\Columns\TextColumn::make('preferred_contact_method')->label('Preferred Contact'),
             ])
             ->filters([
                 //

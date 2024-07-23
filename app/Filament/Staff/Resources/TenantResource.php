@@ -42,6 +42,12 @@ class TenantResource extends Resource
                 Forms\Components\Textarea::make('address')
                     ->rows(3)
                     ->label('Address'),
+                Forms\Components\DatePicker::make('lease_start_date')
+                    ->label('Lease Start Date'),
+                Forms\Components\DatePicker::make('lease_end_date')
+                    ->label('Lease End Date'),
+                Forms\Components\TextInput::make('emergency_contact')
+                    ->label('Emergency Contact'),
             ]);
     }
 
@@ -53,9 +59,12 @@ class TenantResource extends Resource
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('address')->limit(30),
+                Tables\Columns\TextColumn::make('lease_start_date')->date(),
+                Tables\Columns\TextColumn::make('lease_end_date')->date(),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('active_leases')
+                    ->query(fn (Builder $query): Builder => $query->whereDate('lease_end_date', '>=', now()))
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
