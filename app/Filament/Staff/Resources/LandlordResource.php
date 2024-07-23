@@ -5,9 +5,9 @@ namespace App\Filament\Staff\Resources;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 use App\Filament\Staff\Resources\LandlordResource\Pages;
@@ -88,5 +88,10 @@ class LandlordResource extends Resource
             'create' => Pages\CreateLandlord::route('/create'),
             'edit' => Pages\EditLandlord::route('/{record}/edit'),
         ];
+    }
+
+    protected static function afterCreate(User $record): void
+    {
+        $record->assignRole('landlord');
     }
 }
