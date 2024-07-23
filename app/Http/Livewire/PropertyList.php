@@ -22,6 +22,7 @@ class PropertyList extends Component
     public $maxArea = 10000;
     public $propertyType = '';
     public $selectedAmenities = [];
+    public $selectedCategory = '';
 
     protected $listeners = ['applyAdvancedFilters'];
 
