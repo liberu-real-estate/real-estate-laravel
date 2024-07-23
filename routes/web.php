@@ -16,6 +16,9 @@ use App\Http\Livewire\BookingCalendar;
 use App\Http\Livewire\PropertyComparison;
 use App\Http\Livewire\PropertyDetail;
 use App\Http\Livewire\RentalApplicationForm;
+use App\Http\Livewire\About;
+use App\Http\Livewire\PrivacyPolicy;
+use App\Http\Livewire\TermsAndConditions;
 
 
 /*
@@ -48,6 +51,10 @@ Route::controller(ContactController::class)->group(function () {
     Route::get('/contact', 'show')->name('contact.show');
     Route::post('/contact', 'submit')->name('contact.submit');
 });
+
+Route::get('/about', About::class)->name('about');
+Route::get('/privacy-policy', PrivacyPolicy::class)->name('privacy-policy');
+Route::get('/terms-and-conditions', TermsAndConditions::class)->name('terms-and-conditions');
 
 require __DIR__.'/socialstream.php';
 
