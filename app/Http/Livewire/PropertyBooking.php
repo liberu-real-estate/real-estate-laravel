@@ -30,6 +30,8 @@ class PropertyBooking extends Component
         $property = Property::with('team')->find($this->propertyId);
         $this->availableDates = $property->getAvailableDatesForTeam();
     }
+    
+    public $availableDates = [];
 
     public function selectDate($date)
     {
