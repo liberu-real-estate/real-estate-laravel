@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateBuyer extends CreateRecord
 {
     protected static string $resource = BuyerResource::class;
+
+    protected function afterCreate(): void
+    {
+        $this->record->assignRole('buyer');
+    }
 }

@@ -83,4 +83,13 @@ class BuyerResource extends Resource
             'edit' => Pages\EditBuyer::route('/{record}/edit'),
         ];
     }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListBuyers::route('/'),
+            'create' => Pages\CreateBuyer::route('/create'),
+            'edit' => Pages\EditBuyer::route('/{record}/edit'),
+        ];
+    }
 }
