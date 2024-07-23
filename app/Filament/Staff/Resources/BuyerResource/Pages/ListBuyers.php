@@ -16,4 +16,11 @@ class ListBuyers extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    protected function getActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+        ];
+    }
 }
