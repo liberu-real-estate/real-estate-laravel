@@ -27,16 +27,11 @@ class RoleBasedRedirect
                     return redirect($redirect);
                 }
             }
-            // If user has 'free' role or no specific role, allow them to access /app
+            // If user has 'free' role or no specific role, redirect to /app
             if ($user->hasRole('free') || $user->roles->isEmpty()) {
-                return $next($request);
+                return redirect('/app');
             }
-            // If user doesn't have any recognized role, redirect to a default page
-            return redirect('/dashboard');
         }
-                return $next($request);
-    
-        // If not authenticated, redirect to login
-//        return redirect()->route('login');
+        return $next($request);
     }
 }
