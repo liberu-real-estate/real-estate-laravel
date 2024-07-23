@@ -1,6 +1,10 @@
-<?php
+use App\Filament\Staff\Resources\LeaseResource;
+use Filament\Resources\Pages\CreateRecord;
 
-namespace App\Filament\Staff\Resources\LeaseResource\Pages;
+class CreateLease extends CreateRecord
+{
+    protected static string $resource = LeaseResource::class;
+}
 
 use App\Filament\Staff\Resources\LeaseResource;
 use Filament\Resources\Pages\CreateRecord;
