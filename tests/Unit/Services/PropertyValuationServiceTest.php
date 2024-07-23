@@ -4,12 +4,21 @@ namespace Tests\Unit\Services;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\PropertyValuationService;
+use App\Models\Property;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
 
 class PropertyValuationServiceTest extends TestCase
 {
+    protected $valuationService;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->valuationService = new PropertyValuationService();
+    }
+
     /**
      * @dataProvider propertyDataProvider
      */
@@ -51,5 +60,4 @@ class PropertyValuationServiceTest extends TestCase
             // Add more test cases here
         ];
     }
-
 }

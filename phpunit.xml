@@ -7,14 +7,13 @@
     <testsuites>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
+            <exclude>tests/Unit/DigitalSignature</exclude>
         </testsuite>
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
         </testsuite>
         <testsuite name="DigitalSignatureTests">
-            <file>tests/Unit/DigitalSignatureModelTest.php</file>
-            <file>tests/Unit/DigitalSignatureServiceProviderTest.php</file>
-            <file>tests/Unit/DigitalSignatureResourceTest.php</file>
+            <directory>tests/Unit/DigitalSignature</directory>
         </testsuite>
     </testsuites>
     <source>

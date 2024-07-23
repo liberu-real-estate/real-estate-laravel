@@ -1,3 +1,15 @@
+<?php
+
+namespace Tests\Feature;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+
+class BookingControllerTest extends TestCase
+{
+    use RefreshDatabase, WithFaker;
+
     public function testStoreActionWithValidData()
     {
         $data = [
@@ -22,3 +34,4 @@
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['property_id', 'user_id', 'start_date', 'end_date']);
     }
+}
