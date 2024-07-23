@@ -98,4 +98,17 @@ class TenantResource extends Resource
             'edit' => Pages\EditTenant::route('/{record}/edit'),
         ];
     }
+
+    public static function handleLogin(array $data)
+    {
+        $user = User::where('email', $data['email'])->first();
+
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['These credentials do not match our records.'],
+            ]);
+        }
+
+        Auth::login($user);
+    }
 }

@@ -9,18 +9,22 @@ class BookingController extends Controller
 {
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-            'staff_id' => 'required|exists:users,id',
-            'user_id' => 'nullable|exists:users,id',
-            'notes' => 'nullable|string',
-            'contact' => 'nullable|string|max:255'
-        ]);
-
-        $booking = Booking::create($validated);
-
-        return response()->json(['message' => 'Booking created successfully', 'booking' => $booking], 201);
+        try {
+            $validated = $request->validate([
+                'date' => 'required|date',
+                'time' => 'required|date_format:H:i',
+                'staff_id' => 'required|exists:users,id',
+                'user_id' => 'nullable|exists:users,id',
+                'notes' => 'nullable|string',
+                'contact' => 'nullable|string|max:255'
+            ]);
+    
+            $booking = Booking::create($validated);
+    
+            return response()->json(['message' => 'Booking created successfully', 'booking' => $booking], 201);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        }
     }
 
     public function update(Request $request, $id)
