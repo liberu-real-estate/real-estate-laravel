@@ -16,9 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('agent_id');
             $table->unsignedBigInteger('property_id');
+            $table->unsignedBigInteger('appointment_type_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('agent_id')->references('id')->on('users');
             $table->foreign('property_id')->references('id')->on('properties');
+            $table->foreign('appointment_type_id')->references('id')->on('appointment_types');
             $table->dateTime('appointment_date');
             $table->string('status');
             $table->timestamps();
