@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Services\CrmIntegrationService;
 
 class Lead extends Model
 {
@@ -12,9 +13,24 @@ class Lead extends Model
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'interest',
         'message',
         'status',
+        'score',
+        'crm_id',
     ];
+
+    protected static function booted()
+    {
+        static::created(function ($lead) {
+            app(CrmIntegrationService::class)->syncLead($lead);
+        });
+
+        static::updated(function ($lead) {
+            app(CrmIntegrationService::class)->syncLead($lead);
+        });
+    }
 
     public function activities()
     {
