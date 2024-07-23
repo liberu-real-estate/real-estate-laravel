@@ -19,5 +19,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Livewire::component('property-booking', PropertyBooking::class);
+        Livewire::component('valuation-booking', \App\Http\Livewire\ValuationBooking::class);
     }
 }
