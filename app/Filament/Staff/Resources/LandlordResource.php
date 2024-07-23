@@ -42,6 +42,12 @@ class LandlordResource extends Resource
                 Forms\Components\Textarea::make('address')
                     ->rows(3)
                     ->label('Address'),
+                Forms\Components\TextInput::make('company_name')
+                    ->label('Company Name')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('license_number')
+                    ->label('License Number')
+                    ->maxLength(50),
             ]);
     }
 
@@ -52,7 +58,8 @@ class LandlordResource extends Resource
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('address')->limit(30),
+                Tables\Columns\TextColumn::make('company_name')->searchable(),
+                Tables\Columns\TextColumn::make('license_number')->searchable(),
             ])
             ->filters([
                 //
