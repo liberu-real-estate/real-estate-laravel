@@ -13,9 +13,11 @@
             <div class="mb-4">
                 <h2 class="text-xl font-semibold mb-2">Categories</h2>
                 <div class="flex flex-wrap gap-2">
-                    @foreach($property->categories as $category)
+                    @forelse($property->categories ?? [] as $category)
                         <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">{{ $category->name }}</span>
-                    @endforeach
+                    @empty
+                        <p class="text-gray-500">No categories available</p>
+                    @endforelse
                 </div>
             </div>
             
