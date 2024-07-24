@@ -7,11 +7,19 @@
 
     <title>{{ config('app.name', 'Liberu Real Estate') }}</title>
 
+    @if(config('googletagmanager.id'))
+        @include('googletagmanager::head')
+    @endif
+
     <!-- Styles -->
     @vite('resources/css/app.css')
 @livewireStyles
 </head>
 <body class="font-sans antialiased">
+    @if(config('googletagmanager.id'))
+        @include('googletagmanager::body')
+    @endif
+
     <div class="min-h-screen bg-gray-100 flex flex-col">
         @include('components.home-navbar')
 
