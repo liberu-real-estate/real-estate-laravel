@@ -1,0 +1,5 @@
+public function uploadImage(UploadedFile $image)
+{
+    $imageService = new ImageUploadService();
+    $imageService->uploadAndProcess($image, $this->property);
+}

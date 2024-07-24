@@ -3,24 +3,16 @@
 namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use App\Models\Property;
 
 class ImageUploadService
 {
-    public function uploadAndProcess(UploadedFile $file, int $width = 800, int $height = 600)
+    public function uploadAndProcess(UploadedFile $file, Property $property)
     {
-        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-        $path = 'property-images/' . $filename;
+        $property->addMedia($file)
+            ->withResponsiveImages()
+            ->toMediaCollection('property_images');
 
-        $image = Image::make($file)
-            ->fit($width, $height, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('jpg', 80);
-
-        Storage::put($path, $image->stream());
-
-        return $path;
+        return $property->getFirstMediaUrl('property_images');
     }
 }
