@@ -12,6 +12,9 @@
 @livewireStyles
 </head>
 <body class="font-sans antialiased">
+    @if(config('googletagmanager.id'))
+        @include('googletagmanager::script')
+    @endif
     <div class="min-h-screen bg-gray-100 flex flex-col">
         @include('components.home-navbar')
 

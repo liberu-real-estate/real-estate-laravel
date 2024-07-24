@@ -183,6 +183,8 @@ return [
         App\Providers\FortifyServiceProvider::class,
 
         Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
+        Spatie\Analytics\AnalyticsServiceProvider::class,
+        Spatie\GoogleTagManager\GoogleTagManagerServiceProvider::class,
     ])->toArray(),
 
     /*
