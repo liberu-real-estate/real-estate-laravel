@@ -41,9 +41,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
  */
-class Property extends Model
+class Property extends Model implements HasMedia
 {
-use HasFactory, SoftDeletes;
+use HasFactory, SoftDeletes, InteractsWithMedia;
 
     protected $fillable = [
         'title',
