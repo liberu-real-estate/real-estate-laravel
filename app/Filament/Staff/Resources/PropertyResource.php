@@ -47,8 +47,12 @@ class PropertyResource extends Resource
                     ->required()
                     ->numeric()
                     ->label('Area (sq ft)'),
-                Forms\Components\DatePicker::make('year_built')
-                    ->required(),
+                Forms\Components\TextInput::make('year_built')
+                    ->required()
+                    ->numeric()
+                    ->minValue(1800)
+                    ->maxValue(date('Y'))
+                    ->label('Year Built'),
                 Forms\Components\Select::make('property_type')
                     ->required()
                     ->options([

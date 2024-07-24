@@ -78,6 +78,11 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'is_featured' => 'boolean',
     ];
 
+    public function setYearBuiltAttribute($value)
+    {
+        $this->attributes['year_built'] = is_string($value) ? substr($value, 0, 4) : $value;
+    }
+
     // Relationships
     public function appointments()
     {
