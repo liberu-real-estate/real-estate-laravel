@@ -3,7 +3,10 @@
 <article class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-            <img src="{{ $property->getFirstMediaUrl('images') ?? asset('build/images/property-placeholder.png') }}" alt="{{ $property->title }}" class="w-full h-auto rounded-lg shadow-lg">
+            <img src="{{ $property->getFirstMediaUrl('images') ?: asset('build/images/property-placeholder.png') }}"
+     alt="{{ $property->title }}"
+     class="w-full h-auto rounded-lg shadow-lg"
+     onerror="console.error('Failed to load image:', this.src); this.src='{{ asset('build/images/property-placeholder.png') }}';">
         </div>
         <div>
             <h1 class="text-3xl font-bold mb-4">{{ $property->title }}</h1>
