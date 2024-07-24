@@ -181,6 +181,8 @@ return [
 //        App\Providers\TeamServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
+
+        Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
     ])->toArray(),
 
     /*
