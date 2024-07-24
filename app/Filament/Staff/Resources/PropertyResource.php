@@ -85,6 +85,12 @@ class PropertyResource extends Resource
                             ->maxLength(255),
                     ])
                     ->columnSpanFull(),
+                SpatieMediaLibraryFileUpload::make('images')
+                    ->collection('property_images')
+                    ->multiple()
+                    ->maxFiles(5)
+                    ->label('Property Images')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -92,6 +98,12 @@ class PropertyResource extends Resource
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('images')
+                    ->collection('property_images')
+                    ->label('Preview')
+                    ->circular()
+                    ->stacked()
+                    ->limit(3),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('location')
