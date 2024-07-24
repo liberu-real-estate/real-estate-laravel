@@ -160,6 +160,8 @@ return [
          * Package Service Providers...
          */
         JoelButcher\Socialstream\Filament\SocialstreamPanelProvider::class,
+        Spatie\Analytics\AnalyticsServiceProvider::class,
+        Spatie\GoogleTagManager\GoogleTagManagerServiceProvider::class,
 
         /*
          * Application Service Providers...
