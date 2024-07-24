@@ -6,6 +6,8 @@ use App\Services\SiteSettingsService;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use App\Http\Livewire\PropertyBooking;
+use Spatie\Analytics\AnalyticsFacade;
+use Spatie\GoogleTagManager\GoogleTagManagerFacade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +22,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Livewire::component('property-booking', PropertyBooking::class);
         Livewire::component('valuation-booking', \App\Http\Livewire\ValuationBooking::class);
+
+        // Register and boot Analytics and Google Tag Manager
+        AnalyticsFacade::registerBindings();
+        GoogleTagManagerFacade::enable();
     }
 }
