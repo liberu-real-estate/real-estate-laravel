@@ -39,9 +39,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
  */
-class Property extends Model
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
+class Property extends Model implements HasMedia
 {
-use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     protected $fillable = [
         'title',
@@ -182,23 +185,42 @@ use HasFactory, SoftDeletes;
             ->where('team_id', $this->team_id)
             ->pluck('date')
             ->toArray();
-    
+
         $teamBookings = Booking::where('team_id', $this->team_id)
             ->pluck('date')
             ->toArray();
-    
+
         $availableDates = [];
         $startDate = now();
         $endDate = now()->addMonths(3);
-    
+
         for ($date = $startDate; $date <= $endDate; $date->addDay()) {
             $currentDate = $date->format('Y-m-d');
             if (!in_array($currentDate, $bookedDates) && !in_array($currentDate, $teamBookings)) {
                 $availableDates[] = $currentDate;
             }
         }
-    
+
         return $availableDates;
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('property_images')
+            ->useFallbackUrl('/images/property-placeholder.jpg')
+            ->useFallbackPath(public_path('/images/property-placeholder.jpg'));
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(368)
+            ->height(232)
+            ->sharpen(10);
+
+        $this->addMediaConversion('medium')
+            ->width(800)
+            ->height(600)
+            ->sharpen(10);
+    }
 }
