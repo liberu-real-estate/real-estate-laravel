@@ -10,8 +10,8 @@ class AddTeamIdToStaffResourceTables extends Migration
     {
         $tables = [
             'appointments', 'bookings', 'buyers', 'contractors', 'document_templates',
-            'favorites', 'images', 'key_locations', 'property_features',
-            'properties', 'reviews', 'tenants', 'transactions'
+            'favorites', 'images', 'key_locations', 'property_features', 'property_categories',
+            'properties', 'reviews', 'tenants', 'transactions','leases',
         ];
 
         foreach ($tables as $table) {
