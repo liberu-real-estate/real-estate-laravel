@@ -69,6 +69,9 @@ use HasFactory, SoftDeletes;
         'last_synced_at',
         'neighborhood_id',
         'property_category_id',
+        'meta_title',
+        'meta_description',
+        'slug',
     ];
 
     protected $casts = [
@@ -77,6 +80,22 @@ use HasFactory, SoftDeletes;
         'sold_date' => 'date',
         'is_featured' => 'boolean',
     ];
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = Str::slug($value);
+    }
+
+    public function getMetaTitleAttribute()
+    {
+        return $this->attributes['meta_title'] ?? $this->attributes['title'];
+    }
+
+    public function getMetaDescriptionAttribute()
+    {
+        return $this->attributes['meta_description'] ?? Str::limit($this->attributes['description'], 160);
+    }
 
     // Relationships
     public function appointments()

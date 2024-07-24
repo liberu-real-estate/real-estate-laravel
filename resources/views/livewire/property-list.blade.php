@@ -1,5 +1,10 @@
 <div class="container mx-auto px-4 py-8">
 @section('content')
+    @section('meta')
+        <title>Property Listings | Your Real Estate Company</title>
+        <meta name="description" content="Browse our extensive list of properties for sale and rent. Find your dream home or investment opportunity today.">
+        <meta name="keywords" content="real estate, property listings, homes for sale, apartments for rent">
+    @endsection
 
     <h1 class="text-3xl font-bold mb-8">Property Listings</h1>
 
@@ -16,7 +21,7 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-lg font-bold text-blue-600">£{{ number_format($property->price) }}</span>
-                            <a href="{{ route('property.detail', $property->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300">View Details</a>
+                            <a href="{{ route('property.detail', ['propertyId' => $property->id, 'slug' => $property->slug]) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300">View Details</a>
                         </div>
                     </div>
                 </div>
