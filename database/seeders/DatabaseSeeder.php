@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PropertyCategorySeeder::class,
             PropertySeeder::class,
             AppointmentTypeSeeder::class,
+            MenuSeeder::class,
             // Add other seeders here if needed
         ]);
     }
