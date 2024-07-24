@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Represents a property in the real estate application.
@@ -182,23 +184,28 @@ use HasFactory, SoftDeletes;
             ->where('team_id', $this->team_id)
             ->pluck('date')
             ->toArray();
-    
+
         $teamBookings = Booking::where('team_id', $this->team_id)
             ->pluck('date')
             ->toArray();
-    
+
         $availableDates = [];
         $startDate = now();
         $endDate = now()->addMonths(3);
-    
+
         for ($date = $startDate; $date <= $endDate; $date->addDay()) {
             $currentDate = $date->format('Y-m-d');
             if (!in_array($currentDate, $bookedDates) && !in_array($currentDate, $teamBookings)) {
                 $availableDates[] = $currentDate;
             }
         }
-    
+
         return $availableDates;
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')
+            ->withResponsiveImages();
+    }
 }
