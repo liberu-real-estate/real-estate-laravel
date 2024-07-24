@@ -24,7 +24,10 @@ class PropertySeeder extends Seeder
     private function createProperties($category, $count)
     {
         $faker = Faker::create();
-
+    
+        $propertyTypes = ['Apartment', 'House', 'Villa', 'Condo', 'Townhouse', 'Duplex', 'Studio', 'Loft'];
+        $statuses = ['For Sale', 'For Rent', 'Pending', 'Sold', 'Off Market'];
+    
         for ($i = 0; $i < $count; $i++) {
             Property::create([
                 'title' => $faker->sentence(4),
@@ -35,8 +38,8 @@ class PropertySeeder extends Seeder
                 'bathrooms' => $faker->numberBetween(1, 4),
                 'area_sqft' => $faker->numberBetween(500, 5000),
                 'year_built' => $faker->numberBetween(1950, 2023),
-                'property_type' => $faker->randomElement(['Apartment', 'House', 'Villa', 'Condo']),
-                'status' => $category->name === 'sales' ? 'For Sale' : 'For Rent',
+                'property_type' => $faker->randomElement($propertyTypes),
+                'status' => $faker->randomElement($statuses),
                 'is_featured' => $faker->boolean(20),
                 'list_date' => $faker->dateTimeBetween('-1 year', 'now'),
                 'user_id' => 1,
