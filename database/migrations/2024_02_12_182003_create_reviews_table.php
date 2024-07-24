@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('comment');
             $table->date('review_date');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

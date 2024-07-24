@@ -38,5 +38,10 @@ class Review extends Model
     {
         return $query->where('rating', '>=', 4);
     }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }
 

@@ -15,4 +15,8 @@ class PropertyCategory extends Model
     {
         return $this->hasMany(Property::class);
     }
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
 }

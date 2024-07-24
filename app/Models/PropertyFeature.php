@@ -17,5 +17,11 @@ class PropertyFeature extends Model
     {
         return $this->belongsTo(Property::class, 'property_id');
     }
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
+
+
 }
 

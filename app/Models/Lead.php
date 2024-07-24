@@ -55,4 +55,8 @@ class Lead extends Model
 
         return $activity;
     }
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
 }

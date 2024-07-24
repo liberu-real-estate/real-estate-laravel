@@ -79,4 +79,9 @@ class Lease extends Model
         $blockchainService = new BlockchainService();
         return $blockchainService->callContractMethod($this->smart_contract_address, 'getContractDetails', []);
     }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }
