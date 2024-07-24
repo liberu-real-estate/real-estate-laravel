@@ -7206,16 +7206,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "11.7.6",
+            "version": "11.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "5c3d40cc52b95a9947e1254d9af5465a2ed5cff2"
+                "reference": "594e0a8abdc63140a5ffd0af970b934263454774"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/5c3d40cc52b95a9947e1254d9af5465a2ed5cff2",
-                "reference": "5c3d40cc52b95a9947e1254d9af5465a2ed5cff2",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/594e0a8abdc63140a5ffd0af970b934263454774",
+                "reference": "594e0a8abdc63140a5ffd0af970b934263454774",
                 "shasum": ""
             },
             "require": {
@@ -7299,7 +7299,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.7.6"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.8.0"
             },
             "funding": [
                 {
@@ -7311,7 +7311,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-18T11:54:31+00:00"
+            "time": "2024-07-24T09:29:59+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
