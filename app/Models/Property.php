@@ -110,7 +110,16 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
 
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class)->lazy();
+    }
+
+    public function optimizeImages()
+    {
+        $imageService = app(ImageOptimizationService::class);
+        foreach ($this->images as $image) {
+            $optimizedPath = $imageService->optimize($image->url);
+            $image->update(['url' => $optimizedPath]);
+        }
     }
 
     public function bookings()
@@ -172,7 +181,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     {
         return $query->whereHas('features', function ($query) use ($amenities) {
             $query->whereIn('feature_name', $amenities);
-        }, '=', count($amenities));
+        }, '>=', count($amenities));
     }
 
     public function scopeNeedsSyncing(Builder $query): Builder
