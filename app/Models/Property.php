@@ -78,6 +78,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'is_featured' => 'boolean',
     ];
 
+    protected $with = ['features', 'images', 'neighborhood', 'category'];
+
     public function setYearBuiltAttribute($value)
     {
         $this->attributes['year_built'] = is_string($value) ? substr($value, 0, 4) : $value;
@@ -208,9 +210,20 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         return $availableDates;
     }
 
+    use App\Services\ImageOptimizationService;
+    
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')
-            ->withResponsiveImages();
+            ->withResponsiveImages()
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion('optimized')
+                    ->performOnCollections('images')
+                    ->withResponsiveImages()
+                    ->apply(function ($image) {
+                        $imageOptimizer = app(ImageOptimizationService::class);
+                        return $imageOptimizer->optimize($image->getPath());
+                    });
+            });
     }
 }

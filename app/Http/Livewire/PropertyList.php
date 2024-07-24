@@ -7,6 +7,8 @@ use App\Models\Property;
 use App\Models\PropertyFeature;
 use Livewire\WithPagination;
 
+use Illuminate\Support\Facades\Cache;
+
 class PropertyList extends Component
 {
     use WithPagination;
@@ -24,21 +26,27 @@ class PropertyList extends Component
     public $selectedAmenities = [];
 
     protected $listeners = ['applyAdvancedFilters'];
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'minPrice' => ['except' => 0],
+        'maxPrice' => ['except' => 10000000],
+        'minBedrooms' => ['except' => 0],
+        'maxBedrooms' => ['except' => 10],
+        'minBathrooms' => ['except' => 0],
+        'maxBathrooms' => ['except' => 10],
+        'minArea' => ['except' => 0],
+        'maxArea' => ['except' => 10000],
+        'propertyType' => ['except' => ''],
+        'selectedAmenities' => ['except' => []],
+    ];
 
     public function applyAdvancedFilters($filters)
     {
-        $this->search = $filters['search'];
-        $this->minPrice = $filters['minPrice'];
-        $this->maxPrice = $filters['maxPrice'];
-        $this->minBedrooms = $filters['minBedrooms'];
-        $this->maxBedrooms = $filters['maxBedrooms'];
-        $this->minBathrooms = $filters['minBathrooms'];
-        $this->maxBathrooms = $filters['maxBathrooms'];
-        $this->minArea = $filters['minArea'];
-        $this->maxArea = $filters['maxArea'];
-        $this->propertyType = $filters['propertyType'];
-        $this->selectedAmenities = $filters['selectedAmenities'];
-
+        foreach ($filters as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
         $this->resetPage();
     }
 
@@ -47,47 +55,40 @@ class PropertyList extends Component
         $this->resetPage();
     }
 
+    public function hydrate()
+    {
+        $this->resetPage();
+    }
+
+    public function dehydrate()
+    {
+        Cache::forget($this->getCacheKey());
+    }
+
+    use Illuminate\Support\Facades\Cache;
+
     public function getPropertiesProperty()
     {
         try {
-            $query = Property::query();
+            $cacheKey = $this->getCacheKey();
+            return Cache::remember($cacheKey, now()->addMinutes(15), function () {
+                $query = Property::query()
+                    ->search($this->search)
+                    ->priceRange($this->minPrice, $this->maxPrice)
+                    ->bedrooms($this->minBedrooms, $this->maxBedrooms)
+                    ->bathrooms($this->minBathrooms, $this->maxBathrooms)
+                    ->areaRange($this->minArea, $this->maxArea);
 
-            \Log::info('Initial query count: ' . $query->count());
+                if ($this->propertyType) {
+                    $query->propertyType($this->propertyType);
+                }
 
-            $query->search($this->search)
-                  ->priceRange($this->minPrice, $this->maxPrice)
-                  ->bedrooms($this->minBedrooms, $this->maxBedrooms)
-                  ->bathrooms($this->minBathrooms, $this->maxBathrooms)
-                  ->areaRange($this->minArea, $this->maxArea);
+                if ($this->selectedAmenities) {
+                    $query->hasAmenities($this->selectedAmenities);
+                }
 
-            \Log::info('After basic filters count: ' . $query->count());
-
-            if ($this->propertyType) {
-                $query->propertyType($this->propertyType);
-                \Log::info('After property type filter count: ' . $query->count());
-            }
-
-            if ($this->selectedAmenities) {
-                $query->hasAmenities($this->selectedAmenities);
-                \Log::info('After amenities filter count: ' . $query->count());
-            }
-
-            // Temporarily comment out the join to isolate any potential issues
-            // $query->leftJoin('images', 'properties.id', '=', 'images.property_id')
-            //       ->select('properties.*')
-            //       ->distinct();
-
-            $query->with('features', 'images');
-
-            $properties = $query->paginate(12);
-
-            \Log::info('Final properties count: ' . $properties->total());
-            \Log::info('Current page: ' . $properties->currentPage());
-            \Log::info('Total pages: ' . $properties->lastPage());
-            \Log::info('Items per page: ' . $properties->perPage());
-            \Log::info('Properties on this page: ' . $properties->count());
-
-            return $properties;
+                return $query->paginate(12);
+            });
         } catch (\Exception $e) {
             \Log::error('Error fetching properties: ' . $e->getMessage());
             \Log::error('Stack trace: ' . $e->getTraceAsString());
@@ -97,6 +98,26 @@ class PropertyList extends Component
             }
             return collect();
         }
+    }
+
+    private function getCacheKey()
+    {
+        $params = [
+            $this->search,
+            $this->minPrice,
+            $this->maxPrice,
+            $this->minBedrooms,
+            $this->maxBedrooms,
+            $this->minBathrooms,
+            $this->maxBathrooms,
+            $this->minArea,
+            $this->maxArea,
+            $this->propertyType,
+            implode(',', $this->selectedAmenities),
+            $this->page
+        ];
+
+        return 'property_list_' . md5(implode('|', $params));
     }
     
     public function render()
