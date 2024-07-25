@@ -48,7 +48,7 @@ class TenantDashboard extends BaseDashboard
         ];
     }
 
-    protected function getColumns(): int
+    public function getColumns(): int
     {
         return 2;
     }
