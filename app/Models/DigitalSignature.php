@@ -9,7 +9,15 @@ class DigitalSignature extends Model
     protected $table = 'digital_signatures';
 
     protected $fillable = [
+        'user_id',
+        'document_id',
+        'signature_data',
+        'signed_at',
         'team_id',
+    ];
+
+    protected $casts = [
+        'signed_at' => 'datetime',
     ];
 
     public function user()
