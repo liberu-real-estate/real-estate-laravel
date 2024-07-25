@@ -3,11 +3,13 @@
 namespace App\Filament\Tenant;
 
 use App\Models\MaintenanceRequest;
+use App\Models\WorkOrder;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Notifications\Notification;
 
 class MaintenanceRequestResource extends Resource
 {
@@ -33,6 +35,21 @@ class MaintenanceRequestResource extends Resource
                     ->required(),
                 Forms\Components\DatePicker::make('requested_date')
                     ->required(),
+                Forms\Components\HasManyRepeater::make('workOrders')
+                    ->relationship('workOrders')
+                    ->schema([
+                        Forms\Components\TextInput::make('description')
+                            ->required(),
+                        Forms\Components\Select::make('status')
+                            ->options([
+                                'pending' => 'Pending',
+                                'in_progress' => 'In Progress',
+                                'completed' => 'Completed',
+                            ])
+                            ->required(),
+                        Forms\Components\DatePicker::make('scheduled_date')
+                            ->required(),
+                    ]),
             ]);
     }
 
@@ -44,12 +61,28 @@ class MaintenanceRequestResource extends Resource
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('requested_date')
                     ->date(),
+                Tables\Columns\TextColumn::make('workOrders.status')
+                    ->label('Work Order Status'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('createWorkOrder')
+                    ->action(function (MaintenanceRequest $record) {
+                        WorkOrder::create([
+                            'maintenance_request_id' => $record->id,
+                            'description' => 'New work order for ' . $record->title,
+                            'status' => 'pending',
+                            'scheduled_date' => now(),
+                        ]);
+                        Notification::make()
+                            ->title('Work Order Created')
+                            ->success()
+                            ->send();
+                    })
+                    ->label('Create Work Order'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
