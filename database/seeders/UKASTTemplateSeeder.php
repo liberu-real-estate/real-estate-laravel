@@ -5,10 +5,18 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\DocumentTemplate;
 
-class UKASTTemplateSeeder extends Seeder
+class UKDocumentTemplateSeeder extends Seeder
 {
     public function run()
     {
-        DocumentTemplate::findOrCreateUKASTTemplate();
+        $templateTypes = [
+            'uk_ast_agreement',
+            'section_8_notice',
+            'section_21_notice',
+        ];
+
+        foreach ($templateTypes as $type) {
+            DocumentTemplate::findOrCreateTemplate($type);
+        }
     }
 }
