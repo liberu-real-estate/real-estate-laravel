@@ -36,16 +36,6 @@ class DocumentTemplate extends Model
         );
     }
 
-    public static function findOrCreateLeaseTemplate()
-    {
-        return self::findOrCreateTemplate(
-            'lease_agreement',
-            'Default Lease Agreement',
-            'Standard tenancy lease agreement template',
-            'document_templates.lease_agreement'
-        );
-    }
-
     public static function findOrCreateUKASTTemplate()
     {
         return self::findOrCreateTemplate(

@@ -9,7 +9,6 @@ class DocumentTemplateSeeder extends Seeder
 {
     public function run()
     {
-        DocumentTemplate::findOrCreateLeaseTemplate();
         DocumentTemplate::findOrCreateUKASTTemplate();
         DocumentTemplate::findOrCreateSection8Template();
         DocumentTemplate::findOrCreateSection21Template();
