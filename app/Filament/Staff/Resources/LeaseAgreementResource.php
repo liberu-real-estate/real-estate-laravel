@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Staff\Resources;
 
-use App\Filament\Resources\LeaseAgreementResource\Pages;
+use App\Filament\Staff\Resources\LeaseAgreementResource\Pages;
 use App\Models\LeaseAgreement;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 
 class LeaseAgreementResource extends Resource
