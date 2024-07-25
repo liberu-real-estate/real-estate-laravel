@@ -22,6 +22,7 @@ use App\Models\Image;
 use App\Models\KeyLocation;
 use App\Models\Lead;
 use App\Models\OnTheMarketSettings;
+use App\Models\Message;
 use App\Models\Property;
 use App\Models\PropertyFeature;
 use App\Models\Review;
@@ -171,5 +172,9 @@ class Team extends JetstreamTeam
     public function properties(): HasMany
     {
         return $this->hasMany(Property::class);
+    }
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
     }
 }
