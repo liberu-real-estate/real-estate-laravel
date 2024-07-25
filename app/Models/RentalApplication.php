@@ -25,6 +25,10 @@ class RentalApplication extends Model
     {
         return $this->belongsTo(Property::class);
     }
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
 
     public function tenant()
     {

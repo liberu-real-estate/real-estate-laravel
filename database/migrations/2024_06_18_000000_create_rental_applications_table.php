@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
             $table->foreignId('tenant_id')->constrained()->onDelete('cascade');
+            $table->foreignId('team_id')->constrained()->onDelete('cascade');
             $table->string('status')->default('pending');
             $table->string('employment_status');
             $table->decimal('annual_income', 10, 2);
