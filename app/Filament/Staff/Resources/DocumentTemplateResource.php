@@ -11,6 +11,7 @@ use Filament\Tables;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
 use App\Filament\Staff\Resources\DocumentTemplateResource\Pages;
 
 class DocumentTemplateResource extends Resource
@@ -26,14 +27,25 @@ class DocumentTemplateResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->label('Template Name'),
-                FileUpload::make('file_path')
+                Select::make('type')
                     ->required()
+                    ->options([
+                        'lease_agreement' => 'Lease Agreement',
+                        'uk_ast_agreement' => 'UK AST Agreement',
+                        'section_8_notice' => 'Section 8 Notice',
+                        'section_21_notice' => 'Section 21 Notice',
+                    ])
+                    ->label('Template Type'),
+                FileUpload::make('file_path')
                     ->label('Template File')
                     ->disk('public')
                     ->directory('document_templates')
                     ->acceptedFileTypes(['.doc', '.docx', '.pdf']),
                 Textarea::make('description')
                     ->label('Description'),
+                Textarea::make('content')
+                    ->label('Template Content')
+                    ->rows(10),
             ]);
     }
 
@@ -42,11 +54,17 @@ class DocumentTemplateResource extends Resource
         return $table
             ->columns([
                 Table\Columns\TextColumn::make('name')->label('Name'),
-                Table\Columns\TextColumn::make('file_path')->label('File Path'),
+                Table\Columns\TextColumn::make('type')->label('Type'),
                 Table\Columns\TextColumn::make('description')->label('Description'),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('type')
+                    ->options([
+                        'lease_agreement' => 'Lease Agreement',
+                        'uk_ast_agreement' => 'UK AST Agreement',
+                        'section_8_notice' => 'Section 8 Notice',
+                        'section_21_notice' => 'Section 21 Notice',
+                    ]),
             ]);
     }
 
