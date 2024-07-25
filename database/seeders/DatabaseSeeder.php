@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             PropertySeeder::class,
             AppointmentTypeSeeder::class,
             MenuSeeder::class,
+            UKASTTemplateSeeder::class,
             // Add other seeders here if needed
         ]);
     }
