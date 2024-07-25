@@ -35,6 +35,38 @@ class Lease extends Model
         return $this->belongsTo(User::class, 'tenant_id');
     }
 
+    public function renew()
+    {
+        $this->end_date = $this->end_date->addYear();
+        $this->status = 'active';
+        $this->save();
+
+        // Trigger notification
+        $this->notifyRenewal();
+    }
+
+    public function terminate()
+    {
+        $this->status = 'terminated';
+        $this->end_date = now();
+        $this->save();
+
+        // Trigger notification
+        $this->notifyTermination();
+    }
+
+    protected function notifyRenewal()
+    {
+        $notificationService = app(LeaseNotificationService::class);
+        $notificationService->sendRenewalNotification($this);
+    }
+
+    protected function notifyTermination()
+    {
+        $notificationService = app(LeaseNotificationService::class);
+        $notificationService->sendTerminationNotification($this);
+    }
+
     public function checkCompliance()
     {
         $complianceChecks = [
