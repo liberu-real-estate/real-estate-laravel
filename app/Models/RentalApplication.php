@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\BlockchainService;
+use App\Services\BackgroundCheckService;
+use App\Services\CreditReportService;
 
 class RentalApplication extends Model
 {
@@ -76,5 +78,25 @@ class RentalApplication extends Model
 
         $contractAddress = $blockchainService->deploySmartContract($abi, $bytecode, $params);
         $this->update(['smart_contract_address' => $contractAddress]);
+    }
+
+    public function initiateScreening()
+    {
+        $backgroundCheckService = new BackgroundCheckService();
+        $creditReportService = new CreditReportService();
+
+        $this->background_check_status = $backgroundCheckService->check($this->tenant_id);
+        $this->credit_report_status = $creditReportService->check($this->tenant_id);
+        $this->save();
+    }
+
+    public function isScreeningComplete()
+    {
+        return $this->background_check_status !== null && $this->credit_report_status !== null;
+    }
+
+    public function isScreeningPassed()
+    {
+        return $this->background_check_status === 'passed' && $this->credit_report_status !== 'poor';
     }
 }
