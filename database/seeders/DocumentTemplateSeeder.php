@@ -13,11 +13,10 @@ class DocumentTemplateSeeder extends Seeder
             'UKASTTemplate' => 'UK Assured Shorthold Tenancy Agreement',
             'Section8Template' => 'Section 8 Notice',
             'Section21Template' => 'Section 21 Notice',
-            'LeaseAgreementTemplate' => 'Lease Agreement',
-            'RentalApplicationTemplate' => 'Rental Application Form',
-            'PropertyInspectionTemplate' => 'Property Inspection Report',
-            'EvictionNoticeTemplate' => 'Eviction Notice',
-            'RentReceiptTemplate' => 'Rent Receipt',
+//            'RentalApplicationTemplate' => 'Rental Application Form',
+//            'PropertyInspectionTemplate' => 'Property Inspection Report',
+//            'EvictionNoticeTemplate' => 'Eviction Notice',
+//            'RentReceiptTemplate' => 'Rent Receipt',
         ];
 
         foreach ($templates as $method => $name) {
