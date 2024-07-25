@@ -85,6 +85,17 @@ class LeaseResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('renew')
+                    ->action(fn (Lease $record) => $record->renew(
+                        $record->end_date->addYear(),
+                        $record->rent_amount * 1.03
+                    ))
+                    ->requiresConfirmation()
+                    ->visible(fn (Lease $record) => $record->isUpForRenewal()),
+                Tables\Actions\Action::make('terminate')
+                    ->action(fn (Lease $record) => $record->terminate(now()))
+                    ->requiresConfirmation()
+                    ->visible(fn (Lease $record) => $record->status === 'active'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -84,4 +84,26 @@ class Lease extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function renew($newEndDate, $newRentAmount = null)
+    {
+        $this->end_date = $newEndDate;
+        if ($newRentAmount) {
+            $this->rent_amount = $newRentAmount;
+        }
+        $this->status = 'active';
+        $this->save();
+    }
+
+    public function terminate($terminationDate)
+    {
+        $this->end_date = $terminationDate;
+        $this->status = 'terminated';
+        $this->save();
+    }
+
+    public function isUpForRenewal($daysThreshold = 30)
+    {
+        return $this->end_date->diffInDays(now()) <= $daysThreshold && $this->status === 'active';
+    }
 }
