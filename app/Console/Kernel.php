@@ -112,6 +112,11 @@ class Kernel extends ConsoleKernel
      */
 
 
+    protected function schedule(Schedule $schedule): void
+    {
+        $schedule->job(new ScheduleLeaseNotifications)->daily();
+    }
+
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');

@@ -85,6 +85,31 @@ class LeaseResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('renew')
+                    ->action(function (Lease $record, array $data): void {
+                        $record->renew($data['new_end_date'], $data['new_rent_amount']);
+                    })
+                    ->form([
+                        Forms\Components\DatePicker::make('new_end_date')
+                            ->label('New End Date')
+                            ->required(),
+                        Forms\Components\TextInput::make('new_rent_amount')
+                            ->label('New Rent Amount')
+                            ->numeric()
+                            ->prefix('$'),
+                    ])
+                    ->visible(fn (Lease $record): bool => $record->isUpForRenewal()),
+                Tables\Actions\Action::make('terminate')
+                    ->action(function (Lease $record, array $data): void {
+                        $record->terminate($data['termination_date']);
+                    })
+                    ->form([
+                        Forms\Components\DatePicker::make('termination_date')
+                            ->label('Termination Date')
+                            ->required(),
+                    ])
+                    ->requiresConfirmation()
+                    ->color('danger'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
