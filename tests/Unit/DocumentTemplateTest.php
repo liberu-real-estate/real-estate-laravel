@@ -21,6 +21,30 @@ class DocumentTemplateTest extends TestCase
         DocumentTemplate::create($templateData);
 
         $this->assertDatabaseHas('document_templates', $templateData);
+
+        // Test new document template types
+        $newTemplates = [
+            'notice_to_enter' => 'Notice to Enter',
+            'notice_of_rent_increase' => 'Notice of Rent Increase',
+            'tenant_welcome_letter' => 'Tenant Welcome Letter',
+            'guarantor_agreement' => 'Guarantor Agreement'
+        ];
+
+        foreach ($newTemplates as $type => $name) {
+            $template = DocumentTemplate::findOrCreateTemplate(
+                $type,
+                $name,
+                "$name template",
+                "document_templates.$type"
+            );
+
+            $this->assertDatabaseHas('document_templates', [
+                'type' => $type,
+                'name' => $name,
+                'description' => "$name template",
+                'file_path' => "document_templates.$type"
+            ]);
+        }
     }
 
     public function testUpdateDocumentTemplate()

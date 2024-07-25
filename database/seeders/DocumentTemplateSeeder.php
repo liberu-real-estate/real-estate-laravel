@@ -13,5 +13,9 @@ class DocumentTemplateSeeder extends Seeder
         DocumentTemplate::findOrCreateUKASTTemplate();
         DocumentTemplate::findOrCreateSection8Template();
         DocumentTemplate::findOrCreateSection21Template();
+        DocumentTemplate::findOrCreateNoticeToEnterTemplate();
+        DocumentTemplate::findOrCreateNoticeOfRentIncreaseTemplate();
+        DocumentTemplate::findOrCreateTenantWelcomeLetterTemplate();
+        DocumentTemplate::findOrCreateGuarantorAgreementTemplate();
     }
 }
