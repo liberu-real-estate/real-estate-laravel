@@ -95,8 +95,20 @@ class RentalApplicationResource extends Resource
                 Tables\Columns\TextColumn::make('annual_income')
                     ->money('usd')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('background_check_status'),
-                Tables\Columns\TextColumn::make('credit_report_status'),
+                Tables\Columns\TextColumn::make('background_check_status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'passed' => 'success',
+                        'failed' => 'danger',
+                        default => 'warning',
+                    }),
+                Tables\Columns\TextColumn::make('credit_report_status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'good' => 'success',
+                        'poor' => 'danger',
+                        default => 'warning',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -105,6 +117,37 @@ class RentalApplicationResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'approved' => 'Approved',
+                        'rejected' => 'Rejected',
+                    ]),
+                Tables\Filters\SelectFilter::make('background_check_status')
+                    ->options([
+                        'passed' => 'Passed',
+                        'failed' => 'Failed',
+                        'pending' => 'Pending',
+                    ]),
+                Tables\Filters\SelectFilter::make('credit_report_status')
+                    ->options([
+                        'good' => 'Good',
+                        'poor' => 'Poor',
+                        'pending' => 'Pending',
+                    ]),
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('approve')
+                    ->action(fn (RentalApplication $record) => $record->updateStatus('approved'))
+                    ->requiresConfirmation()
+                    ->visible(fn (RentalApplication $record): bool => $record->status === 'pending' && $record->isScreeningComplete() && $record->isScreeningPassed()),
+                Tables\Actions\Action::make('reject')
+                    ->action(fn (RentalApplication $record) => $record->updateStatus('rejected'))
+                    ->requiresConfirmation()
+                    ->visible(fn (RentalApplication $record): bool => $record->status === 'pending'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')

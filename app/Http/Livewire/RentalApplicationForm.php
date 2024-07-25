@@ -32,7 +32,7 @@ class RentalApplicationForm extends Component
     public function submit()
     {
         $this->validate();
-
+    
         $application = RentalApplication::create([
             'property_id' => $this->property_id,
             'tenant_id' => auth()->user()->id,
@@ -43,8 +43,10 @@ class RentalApplicationForm extends Component
             'lease_start_date' => $this->lease_start_date,
             'lease_end_date' => $this->lease_end_date,
         ]);
-
-        session()->flash('message', 'Application submitted successfully!');
+    
+        $application->initiateScreening();
+    
+        session()->flash('message', 'Application submitted and screening initiated!');
         return redirect()->route('tenant.applications');
     }
 
