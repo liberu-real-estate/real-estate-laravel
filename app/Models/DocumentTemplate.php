@@ -30,6 +30,7 @@ class DocumentTemplate extends Model
                 'description' => $description,
                 'file_path' => $view_path,
                 'team_id' => 1, // Assuming a default team ID, adjust as needed
+                'content' => file_get_contents(resource_path('views/' . $view_path . '.blade.php')),
             ]
         );
     }
