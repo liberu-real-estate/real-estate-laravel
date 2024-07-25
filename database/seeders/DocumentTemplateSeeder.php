@@ -10,28 +10,34 @@ class DocumentTemplateSeeder extends Seeder
     public function run()
     {
         $templates = [
-            'UKASTTemplate' => 'UK Assured Shorthold Tenancy Agreement',
-            'Section8Template' => 'Section 8 Notice',
-            'Section21Template' => 'Section 21 Notice',
-//            'RentalApplicationTemplate' => 'Rental Application Form',
-//            'PropertyInspectionTemplate' => 'Property Inspection Report',
-//            'EvictionNoticeTemplate' => 'Eviction Notice',
-//            'RentReceiptTemplate' => 'Rent Receipt',
+            [
+                'type' => 'uk_ast_agreement',
+                'name' => 'UK Assured Shorthold Tenancy Agreement',
+                'description' => 'UK-specific Assured Shorthold Tenancy agreement template compliant with Housing Act 1988',
+                'view_path' => 'document_templates.uk_ast_agreement',
+            ],
+            [
+                'type' => 'section_8_notice',
+                'name' => 'Section 8 Notice',
+                'description' => 'Notice seeking possession of a property let on an assured tenancy or an assured agricultural occupancy',
+                'view_path' => 'document_templates.section_8_notice',
+            ],
+            [
+                'type' => 'section_21_notice',
+                'name' => 'Section 21 Notice',
+                'description' => 'Notice requiring possession of a property let on an assured shorthold tenancy',
+                'view_path' => 'document_templates.section_21_notice',
+            ],
+            // Add more templates here as needed
         ];
 
-        foreach ($templates as $method => $name) {
-            $findOrCreateMethod = 'findOrCreate' . $method;
-            if (method_exists(DocumentTemplate::class, $findOrCreateMethod)) {
-                DocumentTemplate::$findOrCreateMethod();
-            } else {
-                DocumentTemplate::create([
-                    'name' => $name,
-                    'file_path' => 'templates/' . strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $method)) . '.docx',
-                    'description' => 'Template for ' . $name,
-                    'team_id' => 1,
-                    'type' => strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $method)),
-                ]);
-            }
+        foreach ($templates as $template) {
+            DocumentTemplate::findOrCreateTemplate(
+                $template['type'],
+                $template['name'],
+                $template['description'],
+                $template['view_path']
+            );
         }
     }
 }
