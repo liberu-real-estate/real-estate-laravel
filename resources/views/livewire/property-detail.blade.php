@@ -29,38 +29,3 @@
             </div>
 
             <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Description</h2>
-                <p class="text-gray-600">{{ $property->description }}</p>
-            </div>
-
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Neighborhood</h2>
-                <p class="text-gray-600">{{ $property->neighborhood_details ?? 'No neighborhood details available' }}</p>
-            </div>
-            
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Branch/Team</h2>
-                <p class="text-gray-600">{{ $team->name ?? 'No team information available' }}</p>
-            </div>
-            <p class="text-2xl text-gray-700 mb-4">${{ number_format($property->price, 2) }}</p>
-
-            @livewire('property-booking', ['propertyId' => $property->id])
-            
-            <div class="mt-8">
-                <h2 class="text-2xl font-bold mb-4">Book a Valuation</h2>
-                @livewire('valuation-booking')
-            </div>
-            
-            @if($isLettingsProperty)
-                <div class="mt-8">
-                    <a href="{{ route('tenancy.apply', $property->id) }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-                        Apply for Tenancy
-                    </a>
-                </div>
-            @endif
-        </div>
-    </div>
-</div>
-</article>
-@endsection
-</div>
