@@ -8,6 +8,7 @@
     ],
     "license": "MIT",
     "require": {
+        "laravel/cashier": "^14.0",
         "php": "^8.3",
         "althinect/filament-spatie-roles-permissions": "^2.2",
         "bezhansalleh/filament-shield": "^3.2",

@@ -10,6 +10,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Tenant\Resources\PaymentResource\Pages;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Placeholder;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Cashier\Exceptions\IncompletePayment;
 
 class PaymentResource extends Resource
 {
@@ -23,25 +27,39 @@ class PaymentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('amount')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$'),
-                Forms\Components\DatePicker::make('payment_date')
-                    ->required(),
-                Forms\Components\Select::make('status')
-                    ->required()
-                    ->options([
-                        'pending' => 'Pending',
-                        'completed' => 'Completed',
-                        'failed' => 'Failed',
+                Card::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('amount')
+                            ->required()
+                            ->numeric()
+                            ->prefix('$'),
+                        Forms\Components\DatePicker::make('payment_date')
+                            ->required(),
+                        Forms\Components\Select::make('status')
+                            ->required()
+                            ->options([
+                                'pending' => 'Pending',
+                                'completed' => 'Completed',
+                                'failed' => 'Failed',
+                            ]),
+                        Forms\Components\Select::make('payment_method')
+                            ->required()
+                            ->options([
+                                'credit_card' => 'Credit Card',
+                                'bank_transfer' => 'Bank Transfer',
+                                'paypal' => 'PayPal',
+                            ]),
                     ]),
-                Forms\Components\Select::make('payment_method')
-                    ->required()
-                    ->options([
-                        'credit_card' => 'Credit Card',
-                        'bank_transfer' => 'Bank Transfer',
-                        'paypal' => 'PayPal',
+                Card::make()
+                    ->schema([
+                        Placeholder::make('stripe_payment')
+                            ->label('Stripe Payment')
+                            ->content(function ($record) {
+                                if ($record && $record->status === 'pending') {
+                                    return view('stripe.payment-button', ['payment' => $record]);
+                                }
+                                return 'Stripe payment is only available for pending payments.';
+                            }),
                     ]),
             ]);
     }
@@ -85,5 +103,27 @@ class PaymentResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->where('tenant_id', auth()->id());
+    }
+
+    public static function handleStripePayment($paymentId)
+    {
+        $payment = Payment::findOrFail($paymentId);
+        $user = Auth::user();
+
+        try {
+            $user->charge($payment->amount * 100, $payment->payment_method);
+            $payment->status = 'completed';
+            $payment->save();
+            return redirect()->back()->with('success', 'Payment processed successfully.');
+        } catch (IncompletePayment $exception) {
+            return redirect()->route(
+                'cashier.payment',
+                [$exception->payment->id, 'redirect' => route('filament.resources.payments.view', $payment)]
+            );
+        } catch (\Exception $e) {
+            $payment->status = 'failed';
+            $payment->save();
+            return redirect()->back()->with('error', 'Payment failed: ' . $e->getMessage());
+        }
     }
 }
