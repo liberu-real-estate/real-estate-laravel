@@ -6,6 +6,7 @@
  */
 
 use Illuminate\Support\Facades\Route;
+use App\Filament\Tenant\Resources\PaymentResource;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
@@ -41,6 +42,7 @@ Route::get('/bookings', [BookingController::class, 'index']);
 Route::get('/properties/{property}/book', PropertyBooking::class)->name('property.book');
 Route::post('/payments/session', [PaymentController::class, 'createSession']);
 Route::get('/payments/success', [PaymentController::class, 'handlePaymentSuccess']);
+Route::post('/stripe/process-payment/{payment}', [PaymentResource::class, 'handleStripePayment'])->name('stripe.process-payment');
 Route::get('/booking-calendar', BookingCalendar::class)->middleware('auth')->name('booking.calendar');
 Route::get('/properties', PropertyList::class)->name('property.list');
 Route::get('/properties/{propertyId}', PropertyDetail::class)->name('property.detail');
