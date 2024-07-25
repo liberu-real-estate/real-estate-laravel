@@ -21,7 +21,7 @@ class DocumentTemplate extends Model
         return $this->belongsTo(Team::class);
     }
 
-    public static function findOrCreateTemplate(string $type, string $name, string $description, string $view_path)
+ public static function findOrCreateTemplate(string $type, string $name, string $description, string $view_path)
     {
         $file_path = str_replace('.', '/', $view_path) . '.blade.php';
         return self::firstOrCreate(
@@ -33,36 +33,6 @@ class DocumentTemplate extends Model
                 'team_id' => 1, // Assuming a default team ID, adjust as needed
                 'content' => file_get_contents(resource_path('views/' . $file_path)),
             ]
-        );
-    }
-
-    public static function findOrCreateUKASTTemplate()
-    {
-        return self::findOrCreateTemplate(
-            'uk_ast_agreement',
-            'UK Assured Shorthold Tenancy Agreement',
-            'UK-specific Assured Shorthold Tenancy agreement template compliant with Housing Act 1988',
-            'document_templates.uk_ast_agreement'
-        );
-    }
-
-    public static function findOrCreateSection8Template()
-    {
-        return self::findOrCreateTemplate(
-            'section_8_notice',
-            'Section 8 Notice',
-            'Notice seeking possession of a property let on an assured tenancy or an assured agricultural occupancy',
-            'document_templates.section_8_notice'
-        );
-    }
-
-    public static function findOrCreateSection21Template()
-    {
-        return self::findOrCreateTemplate(
-            'section_21_notice',
-            'Section 21 Notice',
-            'Notice requiring possession of a property let on an assured shorthold tenancy',
-            'document_templates.section_21_notice'
         );
     }
 
