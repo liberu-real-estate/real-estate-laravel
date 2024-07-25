@@ -118,6 +118,11 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         return $this->hasMany(Booking::class);
     }
 
+    public function inspections()
+    {
+        return $this->hasMany(Inspection::class);
+    }
+
     public function neighborhood()
     {
         return $this->belongsTo(Neighborhood::class);
