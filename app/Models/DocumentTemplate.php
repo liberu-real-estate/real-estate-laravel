@@ -23,6 +23,7 @@ class DocumentTemplate extends Model
 
     public static function findOrCreateTemplate(string $type, string $name, string $description, string $view_path)
     {
+        $file_path = str_replace('.', '/', $view_path) . '.blade.php';
         return self::firstOrCreate(
             ['type' => $type],
             [
@@ -30,7 +31,7 @@ class DocumentTemplate extends Model
                 'description' => $description,
                 'file_path' => $view_path,
                 'team_id' => 1, // Assuming a default team ID, adjust as needed
-                'content' => file_get_contents(resource_path('views/' . $view_path . '.blade.php')),
+                'content' => file_get_contents(resource_path('views/' . $file_path)),
             ]
         );
     }
@@ -77,6 +78,7 @@ class DocumentTemplate extends Model
 
     public function renderContent(array $data = [])
     {
-        return View::make($this->file_path, $data)->render();
+        $view_path = str_replace('/', '.', str_replace('.blade.php', '', $this->file_path));
+        return View::make($view_path, $data)->render();
     }
 }
