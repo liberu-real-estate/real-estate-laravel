@@ -58,4 +58,24 @@ class DocumentTemplateTest extends TestCase
         $this->assertEquals($templateData['file_path'], $retrievedTemplate->file_path);
         $this->assertEquals($templateData['description'], $retrievedTemplate->description);
     }
+
+    public function testCreateNewTemplates()
+    {
+        $newTemplates = [
+            'notice_to_enter' => 'Notice to Enter',
+            'notice_of_rent_increase' => 'Notice of Rent Increase',
+            'tenant_welcome_letter' => 'Tenant Welcome Letter',
+            'guarantor_agreement' => 'Guarantor Agreement'
+        ];
+
+        foreach ($newTemplates as $type => $name) {
+            $template = DocumentTemplate::{'findOrCreate' . str_replace('_', '', ucwords($type, '_')) . 'Template'}();
+
+            $this->assertInstanceOf(DocumentTemplate::class, $template);
+            $this->assertEquals($name, $template->name);
+            $this->assertEquals($type, $template->type);
+            $this->assertNotEmpty($template->description);
+            $this->assertNotEmpty($template->file_path);
+        }
+    }
 }

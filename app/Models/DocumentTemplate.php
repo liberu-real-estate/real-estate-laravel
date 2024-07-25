@@ -75,6 +75,46 @@ class DocumentTemplate extends Model
         );
     }
 
+    public static function findOrCreateNoticeToEnterTemplate()
+    {
+        return self::findOrCreateTemplate(
+            'notice_to_enter',
+            'Notice to Enter',
+            'Informs tenants of the landlord\'s intention to enter the property',
+            'document_templates.notice_to_enter'
+        );
+    }
+
+    public static function findOrCreateNoticeOfRentIncreaseTemplate()
+    {
+        return self::findOrCreateTemplate(
+            'notice_of_rent_increase',
+            'Notice of Rent Increase',
+            'Notifies tenants of upcoming changes to the rent amount',
+            'document_templates.notice_of_rent_increase'
+        );
+    }
+
+    public static function findOrCreateTenantWelcomeLetterTemplate()
+    {
+        return self::findOrCreateTemplate(
+            'tenant_welcome_letter',
+            'Tenant Welcome Letter',
+            'Provides new tenants with important information about the property and lease terms',
+            'document_templates.tenant_welcome_letter'
+        );
+    }
+
+    public static function findOrCreateGuarantorAgreementTemplate()
+    {
+        return self::findOrCreateTemplate(
+            'guarantor_agreement',
+            'Guarantor Agreement',
+            'Establishes a third party responsible for the tenant\'s lease obligations',
+            'document_templates.guarantor_agreement'
+        );
+    }
+
     public function renderContent(array $data = [])
     {
         return View::make($this->file_path, $data)->render();
