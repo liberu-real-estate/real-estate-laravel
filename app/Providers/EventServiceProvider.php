@@ -29,6 +29,7 @@ class EventServiceProvider extends ServiceProvider
     {
         $this->app->booted(function () {
             Schedule::job(new CheckPropertyAlerts)->daily();
+            Schedule::job(new CheckLeaseNotifications)->daily();
         });
     }
 
