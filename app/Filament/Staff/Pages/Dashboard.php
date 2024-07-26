@@ -9,7 +9,7 @@ use App\Models\Transaction;
 use App\Filament\Staff\Widgets\PropertyStatsOverview;
 use App\Filament\Staff\Widgets\RecentTransactions;
 use App\Filament\Staff\Widgets\TopPerformingProperties;
-use Filament\Pages\Concerns\InteractsWithForms;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Components\DatePicker;
 
 class Dashboard extends Page
