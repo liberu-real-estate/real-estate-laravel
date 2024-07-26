@@ -18,10 +18,12 @@ class Review extends Model
         'rating',
         'comment',
         'review_date',
+        'approved',
     ];
 
     protected $casts = [
         'review_date' => 'datetime',
+        'approved' => 'boolean',
     ];
 
     public function user()

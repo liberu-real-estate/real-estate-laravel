@@ -213,4 +213,9 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         $this->addMediaCollection('images')
             ->withResponsiveImages();
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
