@@ -179,3 +179,4 @@ public static function canViewRelation(string $relationName, $record): bool
     }
     return true;
 }
+}
