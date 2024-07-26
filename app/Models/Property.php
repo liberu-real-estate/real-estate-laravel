@@ -214,8 +214,4 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             ->withResponsiveImages();
     }
 
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
 }
