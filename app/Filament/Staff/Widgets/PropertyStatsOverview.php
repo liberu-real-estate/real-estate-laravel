@@ -7,9 +7,12 @@ use Filament\Widgets\StatsOverviewWidget\Card;
 use App\Models\Property;
 use App\Models\Booking;
 use App\Models\Transaction;
+use Filament\Widgets\Widget;
 
 class PropertyStatsOverview extends BaseWidget
 {
+    use Widget;
+
     protected function getCards(): array
     {
         $startDate = $this->getPage()->startDate;
