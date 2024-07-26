@@ -11,13 +11,15 @@ class PropertyDetail extends Component
     public $neighborhood;
     public $team;
     public $isLettingsProperty;
+    public $reviews;
 
     public function mount($propertyId)
     {
-        $this->property = Property::with(['neighborhood', 'features', 'team', 'category'])->findOrFail($propertyId);
+        $this->property = Property::with(['neighborhood', 'features', 'team', 'category', 'reviews.user'])->findOrFail($propertyId);
         $this->neighborhood = $this->property->neighborhood;
         $this->team = $this->property->team;
         $this->isLettingsProperty = $this->property->category->name === 'lettings';
+        $this->reviews = $this->property->reviews()->with('user')->latest()->get();
     }
 
     public function render()
