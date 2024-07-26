@@ -73,3 +73,4 @@ private function createHmoProperties($category, $count)
         }
     }
 }
+}
