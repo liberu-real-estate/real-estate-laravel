@@ -13,6 +13,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use App\Filament\Staff\Resources\RelationManagers\ReviewsRelationManager;
+use App\Filament\Staff\Resources\RelationManagers\RoomsRelationManager;
 
 class PropertyResource extends Resource
 {
