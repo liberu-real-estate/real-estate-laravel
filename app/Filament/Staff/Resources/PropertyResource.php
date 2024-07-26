@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
+use App\Filament\Staff\Resources\RelationManagers\ReviewsRelationManager;
 
 class PropertyResource extends Resource
 {
@@ -159,7 +160,7 @@ class PropertyResource extends Resource
     public static function getRelations(): array
     {
         return [
-            \App\Filament\Staff\RelationManagers\ReviewsRelationManager::class,
+            ReviewsRelationManager::class,
         ];
     }
 
