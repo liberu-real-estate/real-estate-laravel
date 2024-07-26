@@ -1,4 +1,37 @@
-public function table(Table $table): Table
+<?php
+
+namespace App\Filament\Staff\Resources\RelationManagers;
+
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+class ReviewsRelationManager extends RelationManager
+{
+    protected static string $relationship = 'reviews';
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\TextInput::make('rating')
+                    ->required()
+                    ->numeric()
+                    ->min(1)
+                    ->max(5),
+                Forms\Components\Textarea::make('comment')
+                    ->required()
+                    ->maxLength(1000),
+                Forms\Components\Toggle::make('approved')
+                    ->required(),
+            ]);
+    }
+
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
@@ -45,4 +78,7 @@ public function table(Table $table): Table
                     Tables\Actions\BulkAction::make('unapprove')
                         ->action(fn ($records) => $records->each->update(['approved' => false]))
                         ->requiresConfirmation(),
-                    Tables\Actions\B
+                ]),
+            ]);
+    }
+}
