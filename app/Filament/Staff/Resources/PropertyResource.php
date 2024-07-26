@@ -161,7 +161,26 @@ class PropertyResource extends Resource
     {
         return [
             ReviewsRelationManager::class,
+            RoomsRelationManager::class,
         ];
+    }
+    
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListProperties::route('/'),
+            'create' => Pages\CreateProperty::route('/create'),
+            'edit' => Pages\EditProperty::route('/{record}/edit'),
+        ];
+    }
+    
+    public static function canViewRelation(string $relationName, $record): bool
+    {
+        if ($relationName === 'rooms') {
+            return $record->isHmo();
+        }
+    
+        return true;
     }
 
     public static function getPages(): array

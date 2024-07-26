@@ -214,4 +214,13 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             ->withResponsiveImages();
     }
 
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+
+    public function isHmo()
+    {
+        return $this->category->name === 'hmo';
+    }
 }
