@@ -42,4 +42,7 @@ public function table(Table $table): Table
                     Tables\Actions\BulkAction::make('approve')
                         ->action(fn ($records) => $records->each->update(['approved' => true]))
                         ->requiresConfirmation(),
+                    Tables\Actions\BulkAction::make('unapprove')
+                        ->action(fn ($records) => $records->each->update(['approved' => false]))
+                        ->requiresConfirmation(),
                     Tables\Actions\B
