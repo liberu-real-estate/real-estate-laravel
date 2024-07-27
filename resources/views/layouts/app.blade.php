@@ -13,7 +13,7 @@
 
     <!-- Styles -->
     @vite('resources/css/app.css')
-@livewireStyles
+    @livewireStyles
 </head>
 <body class="font-sans antialiased">
     @if(config('googletagmanager.id'))
@@ -22,6 +22,11 @@
 
     <div class="min-h-screen bg-gray-100 flex flex-col">
         @include('components.home-navbar')
+
+        <!-- Include Spatie Menu -->
+        <nav>
+            {!! \App\Menus\MainMenu::render() !!}
+        </nav>
 
         <main class="flex-grow">
             @yield('content')
@@ -32,6 +37,6 @@
 
     <!-- Scripts -->
     @vite('resources/js/app.js')
-@livewireScripts
+    @livewireScripts
 </body>
 </html>

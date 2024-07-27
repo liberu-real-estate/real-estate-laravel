@@ -59,6 +59,11 @@ Route::controller(ContactController::class)->group(function () {
     Route::post('/contact', 'submit')->name('contact.submit');
 });
 
+
+Route::get('/admin/settings', [App\Http\Controllers\Admin\SiteSettingsController::class, 'index'])->name('admin.settings.index');
+Route::post('/admin/settings', [App\Http\Controllers\Admin\SiteSettingsController::class, 'update'])->name('admin.settings.update');
+
+
 Route::get('/about', About::class)->name('about');
 Route::get('/terms-and-conditions', TermsAndConditions::class)->name('termsandconditions');
 Route::get('/privacy', PrivacyPolicy::class)->name('privacypolicy');
