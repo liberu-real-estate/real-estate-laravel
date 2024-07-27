@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\RightMoveSettings;
+use App\Models\Branch;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -10,38 +11,14 @@ class RightMoveSettingsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_right_move_settings_channel_validation()
-    {
-        $this->expectException(\Illuminate\Database\QueryException::class);
-
-        RightMoveSettings::create([
-            'api_key' => 'test_api_key',
-            'branch_id' => 'test_branch_id',
-            'channel' => 'invalid_channel',
-            'is_active' => true,
-        ]);
-    }
-
-    public function test_right_move_settings_feed_type_validation()
-    {
-        $this->expectException(\Illuminate\Database\QueryException::class);
-
-        RightMoveSettings::create([
-            'api_key' => 'test_api_key',
-            'branch_id' => 'test_branch_id',
-            'channel' => 'sales',
-            'feed_type' => 'invalid_feed_type',
-            'is_active' => true,
-        ]);
-    }
-
     public function test_create_right_move_settings()
     {
         $settingsData = [
             'api_key' => 'test_api_key',
-            'branch_id' => 'test_branch_id',
+            'branch_id' => Branch::factory()->create()->id,
             'channel' => 'sales',
             'feed_type' => 'incremental',
+            'is_active' => true,
         ];
 
         $settings = RightMoveSettings::create($settingsData);
@@ -54,7 +31,7 @@ class RightMoveSettingsTest extends TestCase
     {
         $settings = RightMoveSettings::factory()->create();
 
-        $this->assertInstanceOf(\App\Models\Branch::class, $settings->branch);
+        $this->assertInstanceOf(Branch::class, $settings->branch);
     }
 
     public function test_right_move_settings_is_active_default_value()
@@ -80,7 +57,7 @@ class RightMoveSettingsTest extends TestCase
 
         RightMoveSettings::create([
             'api_key' => 'test_api_key',
-            'branch_id' => 'test_branch_id',
+            'branch_id' => Branch::factory()->create()->id,
             'channel' => 'invalid_channel',
             'is_active' => true,
         ]);
@@ -92,32 +69,7 @@ class RightMoveSettingsTest extends TestCase
 
         RightMoveSettings::create([
             'api_key' => 'test_api_key',
-            'branch_id' => 'test_branch_id',
-            'channel' => 'sales',
-            'feed_type' => 'invalid_feed_type',
-            'is_active' => true,
-        ]);
-    }
-
-    public function test_right_move_settings_channel_validation()
-    {
-        $this->expectException(\Illuminate\Database\QueryException::class);
-
-        RightMoveSettings::create([
-            'api_key' => 'test_api_key',
-            'branch_id' => 'test_branch_id',
-            'channel' => 'invalid_channel',
-            'is_active' => true,
-        ]);
-    }
-
-    public function test_right_move_settings_feed_type_validation()
-    {
-        $this->expectException(\Illuminate\Database\QueryException::class);
-
-        RightMoveSettings::create([
-            'api_key' => 'test_api_key',
-            'branch_id' => 'test_branch_id',
+            'branch_id' => Branch::factory()->create()->id,
             'channel' => 'sales',
             'feed_type' => 'invalid_feed_type',
             'is_active' => true,

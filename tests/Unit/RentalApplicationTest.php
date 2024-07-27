@@ -29,7 +29,7 @@ class RentalApplicationTest extends TestCase
         $application = RentalApplication::create($applicationData);
 
         $this->assertInstanceOf(RentalApplication::class, $application);
-        $this->assertDatabaseHas('rental_applications', ['id' => $application->id]);
+        $this->assertDatabaseHas('rental_applications', $applicationData);
     }
 
     public function test_rental_application_relationships()
@@ -40,7 +40,7 @@ class RentalApplicationTest extends TestCase
         $this->assertInstanceOf(User::class, $application->user);
     }
 
-    public function test_rental_application_scope()
+    public function test_rental_application_scopes()
     {
         $pendingApplication = RentalApplication::factory()->create(['status' => 'pending']);
         $approvedApplication = RentalApplication::factory()->create(['status' => 'approved']);
@@ -52,5 +52,33 @@ class RentalApplicationTest extends TestCase
         $this->assertCount(1, $approvedApplications);
         $this->assertEquals($pendingApplication->id, $pendingApplications->first()->id);
         $this->assertEquals($approvedApplication->id, $approvedApplications->first()->id);
+    }
+
+    public function test_rental_application_status_validation()
+    {
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        RentalApplication::create([
+            'property_id' => Property::factory()->create()->id,
+            'user_id' => User::factory()->create()->id,
+            'status' => 'invalid_status',
+            'move_in_date' => now()->addMonth(),
+            'monthly_income' => 5000,
+            'employment_status' => 'employed',
+        ]);
+    }
+
+    public function test_rental_application_monthly_income_validation()
+    {
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        RentalApplication::create([
+            'property_id' => Property::factory()->create()->id,
+            'user_id' => User::factory()->create()->id,
+            'status' => 'pending',
+            'move_in_date' => now()->addMonth(),
+            'monthly_income' => 'invalid_income',
+            'employment_status' => 'employed',
+        ]);
     }
 }
