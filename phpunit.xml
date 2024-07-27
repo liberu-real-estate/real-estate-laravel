@@ -12,6 +12,11 @@
             <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">app</directory>
+        </include>
+    </source>
     <coverage>
         <include>
             <directory suffix=".php">app</directory>
