@@ -12,18 +12,6 @@ class AlertFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence,
-            'message' => $this->faker->paragraph,
-            'type' => $this->faker->randomElement(['info', 'warning', 'error', 'success']),
-            'user_id' => \App\Models\User::factory(),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
-    }
-
-    public function definition()
-    {
-        return [
             'user_id' => \App\Models\User::factory(),
             'type' => $this->faker->randomElement(['email', 'sms', 'push']),
             'frequency' => $this->faker->randomElement(['daily', 'weekly', 'monthly']),

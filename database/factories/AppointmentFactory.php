@@ -19,23 +19,15 @@ class AppointmentFactory extends Factory
             'property_id' => Property::factory(),
             'appointment_date' => $this->faker->dateTimeBetween('now', '+1 month'),
             'status' => $this->faker->randomElement(['scheduled', 'completed', 'cancelled']),
-            'team_id' => Team::factory(),
-            'appointment_type_id' => AppointmentType::factory(),
-        ];
-    }
-
-    public function definition()
-    {
-        return [
-            'user_id' => \App\Models\User::factory(),
-            'property_id' => \App\Models\Property::factory(),
-            'appointment_type_id' => \App\Models\AppointmentType::factory(),
+            'notes' => $this->faker->paragraph,
             'start_time' => $this->faker->dateTimeBetween('now', '+1 month'),
             'end_time' => $this->faker->dateTimeBetween('+1 month', '+2 months'),
-            'notes' => $this->faker->paragraph,
-            'status' => $this->faker->randomElement(['scheduled', 'completed', 'cancelled']),
+            'team_id' => Team::factory(),
+            'property_id' => \App\Models\Property::factory(),
+            'appointment_type_id' => AppointmentType::factory(),
             'created_at' => $this->faker->dateTimeThisYear,
             'updated_at' => $this->faker->dateTimeThisYear,
+
         ];
     }
 }
