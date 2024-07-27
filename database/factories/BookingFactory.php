@@ -21,6 +21,8 @@ class BookingFactory extends Factory
             'status' => $this->faker->randomElement(['Pending', 'Confirmed', 'Cancelled']),
             'total_price' => $this->faker->numberBetween(100, 1000),
             'notes' => $this->faker->optional()->sentence,
+            'created_at' => $this->faker->dateTimeThisYear(),
+            'updated_at' => $this->faker->dateTimeThisYear(),
         ];
     }
 }
