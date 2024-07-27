@@ -65,6 +65,29 @@ class TransactionTest extends TestCase
         $transaction = Transaction::factory()->create(['date' => now()]);
         $this->assertInstanceOf(\DateTime::class, $transaction->date);
     }
+
+    public function test_create_transaction()
+    {
+        $transactionData = [
+            'amount' => 1000.00,
+            'type' => 'payment',
+            'status' => 'completed',
+            'description' => 'Test transaction',
+        ];
+
+        $transaction = Transaction::create($transactionData);
+
+        $this->assertInstanceOf(Transaction::class, $transaction);
+        $this->assertDatabaseHas('transactions', $transactionData);
+    }
+
+    public function test_transaction_relationships()
+    {
+        $transaction = Transaction::factory()->create();
+
+        $this->assertInstanceOf(\App\Models\User::class, $transaction->user);
+        $this->assertInstanceOf(\App\Models\Property::class, $transaction->property);
+    }
 }
 
 class TransactionTest extends TestCase
@@ -123,5 +146,28 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->create(['date' => now()]);
         $this->assertInstanceOf(\DateTime::class, $transaction->date);
+    }
+
+    public function test_create_transaction()
+    {
+        $transactionData = [
+            'amount' => 1000.00,
+            'type' => 'payment',
+            'status' => 'completed',
+            'description' => 'Test transaction',
+        ];
+
+        $transaction = Transaction::create($transactionData);
+
+        $this->assertInstanceOf(Transaction::class, $transaction);
+        $this->assertDatabaseHas('transactions', $transactionData);
+    }
+
+    public function test_transaction_relationships()
+    {
+        $transaction = Transaction::factory()->create();
+
+        $this->assertInstanceOf(\App\Models\User::class, $transaction->user);
+        $this->assertInstanceOf(\App\Models\Property::class, $transaction->property);
     }
 }
