@@ -70,4 +70,18 @@ class AlertResourceTest extends TestCase
 
         $this->assertIsArray($actions);
     }
+
+    public function test_alert_resource_widgets()
+    {
+        $widgets = AlertResource::getWidgets();
+
+        $this->assertIsArray($widgets);
+    }
+
+    public function test_alert_resource_actions()
+    {
+        $actions = AlertResource::getActions();
+
+        $this->assertIsArray($actions);
+    }
 }
