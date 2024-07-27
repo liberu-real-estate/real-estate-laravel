@@ -15,9 +15,10 @@ class MessageFactory extends Factory
         return [
             'sender_id' => User::factory(),
             'recipient_id' => User::factory(),
-            'content' => $this->faker->paragraph,
+            'content' => $this->faker->paragraph(),
             'read_at' => $this->faker->optional()->dateTimeThisMonth(),
-            'team_id' => Team::factory(),
+            'created_at' => $this->faker->dateTimeThisYear(),
+            'updated_at' => $this->faker->dateTimeThisYear(),
         ];
     }
 }
