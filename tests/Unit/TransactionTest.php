@@ -65,4 +65,10 @@ class TransactionTest extends TestCase
         $transaction = Transaction::factory()->create(['date' => now()]);
         $this->assertInstanceOf(\DateTime::class, $transaction->date);
     }
+
+    public function test_transaction_amount_is_numeric()
+    {
+        $transaction = Transaction::factory()->create(['amount' => 100000]);
+        $this->assertIsNumeric($transaction->amount);
+    }
 }
