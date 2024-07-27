@@ -21,6 +21,9 @@ class ConnectedAccountFactory extends Factory
             'provider_id' => $this->faker->numerify('########'),
             'token' => Str::random(432),
             'refresh_token' => Str::random(432),
+            'user_id' => User::factory(),
+            'name' => $this->faker->name,
+            'expires_at' => $this->faker->dateTimeBetween('now', '+1 year'),
         ];
     }
 }

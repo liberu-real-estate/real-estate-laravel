@@ -18,6 +18,8 @@ class FavoriteFactory extends Factory
             'user_id' => User::factory(),
             'property_id' => Property::factory(),
             'team_id' => Team::factory(),
+            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

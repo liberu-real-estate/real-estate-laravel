@@ -7,6 +7,7 @@ use App\Models\PropertyFeature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Filament\Forms\ComponentContainer;
+use Filament\Tables\Table;
 
 class PropertyFeatureResourceTest extends TestCase
 {
@@ -26,7 +27,7 @@ class PropertyFeatureResourceTest extends TestCase
     {
         $this->actingAs(PropertyFeature::factory()->create());
 
-        $table = PropertyFeatureResource::table(new \Filament\Tables\Table());
+        $table = PropertyFeatureResource::table(new Table());
 
         $this->assertNotNull($table->getColumns());
         $this->assertCount(2, $table->getColumns());
@@ -47,5 +48,19 @@ class PropertyFeatureResourceTest extends TestCase
         $this->assertArrayHasKey('index', $pages);
         $this->assertArrayHasKey('create', $pages);
         $this->assertArrayHasKey('edit', $pages);
+    }
+
+    public function test_property_feature_resource_filters()
+    {
+        $filters = PropertyFeatureResource::getFilters();
+
+        $this->assertIsArray($filters);
+    }
+
+    public function test_property_feature_resource_actions()
+    {
+        $actions = PropertyFeatureResource::getActions();
+
+        $this->assertIsArray($actions);
     }
 }
