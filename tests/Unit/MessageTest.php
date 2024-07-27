@@ -77,4 +77,23 @@ class MessageTest extends TestCase
 
         $this->assertSoftDeleted($message);
     }
+
+    public function test_message_content_max_length()
+    {
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        Message::create([
+            'content' => str_repeat('a', 1001), // Assuming max length is 1000
+            'sender_id' => 1,
+            'receiver_id' => 2,
+        ]);
+    }
+
+    public function test_message_soft_delete()
+    {
+        $message = Message::factory()->create();
+        $message->delete();
+
+        $this->assertSoftDeleted($message);
+    }
 }
