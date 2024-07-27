@@ -2,4 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\
+use Illuminate\Http\Request;
+
+class SmartContractController extends Controller
+{
+    // Add your smart contract related methods here
+}
