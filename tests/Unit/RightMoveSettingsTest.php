@@ -73,4 +73,29 @@ class RightMoveSettingsTest extends TestCase
         $this->assertCount(1, $activeSettings);
         $this->assertTrue($activeSettings->first()->is_active);
     }
+
+    public function test_right_move_settings_channel_validation()
+    {
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        RightMoveSettings::create([
+            'api_key' => 'test_api_key',
+            'branch_id' => 'test_branch_id',
+            'channel' => 'invalid_channel',
+            'is_active' => true,
+        ]);
+    }
+
+    public function test_right_move_settings_feed_type_validation()
+    {
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        RightMoveSettings::create([
+            'api_key' => 'test_api_key',
+            'branch_id' => 'test_branch_id',
+            'channel' => 'sales',
+            'feed_type' => 'invalid_feed_type',
+            'is_active' => true,
+        ]);
+    }
 }
