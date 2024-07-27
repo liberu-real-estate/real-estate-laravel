@@ -11,15 +11,16 @@ class ActivityFactory extends Factory
 {
     protected $model = Activity::class;
 
-    public function definition(): array
+    public function definition()
     {
         return [
-            'lead_id' => Lead::factory(),
-            'user_id' => User::factory(),
-            'type' => $this->faker->randomElement(['call', 'email', 'meeting']),
-            'description' => $this->faker->sentence(),
-            'scheduled_at' => $this->faker->dateTimeBetween('now', '+1 month'),
-            'completed_at' => $this->faker->optional()->dateTimeBetween('now', '+2 months'),
+            'user_id' => \App\Models\User::factory(),
+            'type' => $this->faker->randomElement(['created', 'updated', 'deleted']),
+            'subject_type' => $this->faker->randomElement(['App\Models\Property', 'App\Models\Lead', 'App\Models\Appointment']),
+            'subject_id' => $this->faker->numberBetween(1, 100),
+            'description' => $this->faker->sentence,
+            'created_at' => $this->faker->dateTimeThisYear,
+            'updated_at' => $this->faker->dateTimeThisYear,
         ];
     }
 }
