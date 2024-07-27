@@ -21,7 +21,7 @@ jobs:
         coverage: xdebug
 
     - name: Copy environment file
-      run: cp .env.example .env
+      run: cp .env.testing .env
 
     - name: Install dependencies
       run: composer install --no-interaction --prefer-dist --optimize-autoloader
