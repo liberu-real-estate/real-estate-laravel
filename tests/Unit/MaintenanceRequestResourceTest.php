@@ -56,4 +56,11 @@ class MaintenanceRequestResourceTest extends TestCase
 
         $this->assertIsArray($filters);
     }
+
+    public function test_maintenance_request_resource_filters()
+    {
+        $filters = MaintenanceRequestResource::getFilters();
+
+        $this->assertIsArray($filters);
+    }
 }
