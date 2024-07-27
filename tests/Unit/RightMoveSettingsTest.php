@@ -15,8 +15,7 @@ class RightMoveSettingsTest extends TestCase
         $settingsData = [
             'api_key' => 'test_api_key',
             'branch_id' => 'test_branch_id',
-            'channel' => 'sales',
-            'feed_type' => 'incremental',
+            'channel' => 'test_channel',
         ];
 
         $settings = RightMoveSettings::create($settingsData);
@@ -29,6 +28,6 @@ class RightMoveSettingsTest extends TestCase
     {
         $settings = RightMoveSettings::factory()->create();
 
-        $this->assertInstanceOf(\App\Models\Branch::class, $settings->branch);
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $settings->properties);
     }
 }
