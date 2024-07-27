@@ -29,4 +29,15 @@ class DocumentCategoryTest extends TestCase
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $category->documents);
     }
+
+    public function test_document_category_attributes()
+    {
+        $category = DocumentCategory::factory()->create([
+            'name' => 'Test Category',
+            'description' => 'This is a test category',
+        ]);
+
+        $this->assertEquals('Test Category', $category->name);
+        $this->assertEquals('This is a test category', $category->description);
+    }
 }
