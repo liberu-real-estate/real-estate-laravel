@@ -23,4 +23,13 @@ class AppointmentFactory extends Factory
             'appointment_type_id' => AppointmentType::factory(),
         ];
     }
+
+    public function cancelled(): self
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'cancelled',
+            ];
+        });
+    }
 }
