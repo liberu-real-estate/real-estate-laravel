@@ -61,4 +61,13 @@ class PropertyTest extends TestCase
         $this->assertCount(1, Property::areaRange(1000, 2000)->get());
         $this->assertCount(1, Property::propertyType('House')->get());
     }
+
+    public function test_get_available_dates_for_team()
+    {
+        $property = Property::factory()->create();
+        $availableDates = $property->getAvailableDatesForTeam();
+
+        $this->assertIsArray($availableDates);
+        $this->assertNotEmpty($availableDates);
+    }
 }
