@@ -53,4 +53,16 @@ class TransactionTest extends TestCase
         $this->assertEquals($completedTransaction->id, $completedTransactions->first()->id);
         $this->assertEquals($pendingTransaction->id, $pendingTransactions->first()->id);
     }
+
+    public function test_transaction_amount_is_numeric()
+    {
+        $transaction = Transaction::factory()->create(['amount' => 100000]);
+        $this->assertIsNumeric($transaction->amount);
+    }
+
+    public function test_transaction_date_is_date_time()
+    {
+        $transaction = Transaction::factory()->create(['date' => now()]);
+        $this->assertInstanceOf(\DateTime::class, $transaction->date);
+    }
 }
