@@ -56,4 +56,21 @@ class RightMoveSettingsTest extends TestCase
 
         $this->assertInstanceOf(\App\Models\Branch::class, $settings->branch);
     }
+
+    public function test_right_move_settings_is_active_default_value()
+    {
+        $settings = RightMoveSettings::factory()->create(['is_active' => null]);
+        $this->assertTrue($settings->is_active);
+    }
+
+    public function test_right_move_settings_scope_active()
+    {
+        RightMoveSettings::factory()->create(['is_active' => true]);
+        RightMoveSettings::factory()->create(['is_active' => false]);
+
+        $activeSettings = RightMoveSettings::active()->get();
+
+        $this->assertCount(1, $activeSettings);
+        $this->assertTrue($activeSettings->first()->is_active);
+    }
 }
