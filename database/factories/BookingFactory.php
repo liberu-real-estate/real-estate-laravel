@@ -11,17 +11,16 @@ class BookingFactory extends Factory
 {
     protected $model = Booking::class;
 
-    public function definition(): array
+    public function definition()
     {
         return [
-            'date' => $this->faker->date(),
-            'time' => $this->faker->time(),
-            'staff_id' => User::factory(),
-            'user_id' => User::factory(),
-            'notes' => $this->faker->optional()->sentence(),
             'property_id' => Property::factory(),
-            'name' => $this->faker->name(),
-            'contact' => $this->faker->phoneNumber(),
+            'user_id' => User::factory(),
+            'start_date' => $this->faker->dateTimeBetween('now', '+1 month'),
+            'end_date' => $this->faker->dateTimeBetween('+1 month', '+2 months'),
+            'status' => $this->faker->randomElement(['Pending', 'Confirmed', 'Cancelled']),
+            'total_price' => $this->faker->numberBetween(100, 1000),
+            'notes' => $this->faker->optional()->sentence,
         ];
     }
 }

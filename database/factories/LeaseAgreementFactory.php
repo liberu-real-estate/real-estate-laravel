@@ -22,6 +22,9 @@ class LeaseAgreementFactory extends Factory
             'security_deposit' => $this->faker->numberBetween(500, 2000),
             'status' => $this->faker->randomElement(['draft', 'active', 'expired']),
             'team_id' => Team::factory(),
+            'landlord_id' => User::factory(),
+            'payment_frequency' => $this->faker->randomElement(['Monthly', 'Quarterly', 'Yearly']),
+            'terms_and_conditions' => $this->faker->paragraphs(3, true),
         ];
     }
 }
