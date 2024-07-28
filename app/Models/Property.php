@@ -41,6 +41,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
  */
+use Illuminate\Support\Facades\Cache;
+
 class Property extends Model implements HasMedia
 {
 use HasFactory, SoftDeletes, InteractsWithMedia;
@@ -218,4 +220,20 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             ->withResponsiveImages();
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($property) {
+            Cache::tags(['properties'])->flush();
+        });
+
+        static::updated(function ($property) {
+            Cache::tags(['properties'])->flush();
+        });
+
+        static::deleted(function ($property) {
+            Cache::tags(['properties'])->flush();
+        });
+    }
 }
