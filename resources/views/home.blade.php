@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto px-4 pt-24 pb-8">
-    <h1 class="text-4xl font-bold mb-8 text-center">Welcome to {{config('app.name')}}</h1>
+    <h1 class="text-4xl font-bold mb-8 text-center">Welcome to {{ \App\Helpers\SiteSettingsHelper::getSiteName() }}</h1>
 
     <div class="mb-12">
         <h2 class="text-2xl font-semibold mb-6 text-center">Find Your Dream Property</h2>
