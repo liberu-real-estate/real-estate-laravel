@@ -20,6 +20,7 @@ class Booking extends Model
         'name',
         'contact',
         'team_id',
+        'status',
     ];
 
     protected $casts = [
@@ -55,5 +56,25 @@ class Booking extends Model
     private function getDefaultStaffId()
     {
         return User::where('role', 'staff')->first()->id ?? null;
+    }
+
+    public function cancel()
+    {
+        $this->status = 'cancelled';
+        $this->save();
+        event(new BookingCancelled($this));
+    }
+
+    public function reschedule($newDate, $newTime)
+    {
+        $this->date = $newDate;
+        $this->time = $newTime;
+        $this->save();
+        event(new BookingRescheduled($this));
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', '!=', 'cancelled');
     }
 }
