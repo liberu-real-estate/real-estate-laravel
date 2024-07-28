@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use App\Http\Livewire\PropertyBooking;
+use App\Http\Livewire\ValuationBooking;
 use App\Providers\AppServiceProvider;
 
 class LivewireComponentServiceProvider extends ServiceProvider
@@ -18,6 +19,7 @@ class LivewireComponentServiceProvider extends ServiceProvider
     {
         $components = [
             'property-booking' => PropertyBooking::class,
+            'valuation-booking' => ValuationBooking::class,
             // Add other Livewire components here
         ];
 
