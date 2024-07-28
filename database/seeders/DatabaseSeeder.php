@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             AppointmentTypeSeeder::class,
             MenuSeeder::class,
             DocumentTemplateSeeder::class,
+            ComponentSettingsSeeder::class,
             // Add other seeders here if needed
         ]);
     }
