@@ -54,6 +54,12 @@
         </div>
     </section>
 
+    @if(\App\Providers\AppServiceProvider::isComponentEnabled('property-booking'))
+        @livewire('property-booking')
+    @endif
 
+    @if(\App\Providers\AppServiceProvider::isComponentEnabled('valuation-booking'))
+        @livewire('valuation-booking')
+    @endif
 </div>
 @endsection
