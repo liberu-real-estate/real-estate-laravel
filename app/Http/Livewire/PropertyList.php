@@ -135,7 +135,6 @@ class PropertyList extends Component
             $this->maxArea,
             $this->propertyType,
             $this->selectedAmenities,
-            $this->page,
         ]));
     }
     
