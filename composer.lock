@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a1e93dc0da1d1422594f20d90edb22a",
+    "content-hash": "4848333f0d82f0a447c9758f32a2080e",
     "packages": [
         {
             "name": "althinect/filament-spatie-roles-permissions",
@@ -7312,79 +7312,6 @@
                 }
             ],
             "time": "2024-07-26T07:43:05+00:00"
-        },
-        {
-            "name": "spatie/laravel-menu",
-            "version": "4.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/laravel-menu.git",
-                "reference": "3f169410393dff9f45127cab552451fbc6d79e21"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-menu/zipball/3f169410393dff9f45127cab552451fbc6d79e21",
-                "reference": "3f169410393dff9f45127cab552451fbc6d79e21",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/auth": "^8.0|^9.0|^10.0|^11.0",
-                "illuminate/contracts": "^8.71|^9.0|^10.0|^11.0",
-                "illuminate/support": "^8.71|^9.0|^10.0|^11.0",
-                "php": "^8.0",
-                "spatie/menu": "^3.0"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.9",
-                "orchestra/testbench": "^6.23|^7.0|^8.0|^9.0",
-                "pestphp/pest": "^1.22|^2.34",
-                "phpunit/phpunit": "^9.4|^10.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Spatie\\Menu\\Laravel\\MenuServiceProvider"
-                    ],
-                    "aliases": {
-                        "Menu": "Spatie\\Menu\\Laravel\\Facades\\Menu"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\Menu\\Laravel\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastian De Deyne",
-                    "email": "sebastiandedeyne@gmail.com",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Html menu generator for Laravel",
-            "homepage": "https://github.com/spatie/laravel-menu",
-            "keywords": [
-                "laravel-menu",
-                "spatie"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/laravel-menu/issues",
-                "source": "https://github.com/spatie/laravel-menu/tree/4.2.0"
-            },
-            "funding": [
-                {
-                    "url": "https://spatie.be/open-source/support-us",
-                    "type": "custom"
-                }
-            ],
-            "time": "2024-02-27T12:08:53+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
