@@ -26,21 +26,21 @@ class MenuService
     private function createMenuItems($items)
     {
         return $items->map(function ($item) {
-            $menuItem = Link::to($item->url, $item->name);
-
             if ($item->children->count() > 0) {
                 $submenu = SpatieMenu::new()
                     ->addClass('absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1')
                     ->addItemClass('block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100');
-
+    
                 $this->createMenuItems($item->children)->each(function ($subItem) use ($submenu) {
                     $submenu->add($subItem);
                 });
-
-                $menuItem->submenu($submenu);
+    
+                return Menu::new()
+                    ->add(Link::to($item->url, $item->name)->addClass('relative group'))
+                    ->add($submenu->addClass('hidden group-hover:block'));
             }
-
-            return $menuItem;
+    
+            return Link::to($item->url, $item->name);
         });
     }
 }
