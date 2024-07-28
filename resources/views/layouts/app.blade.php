@@ -13,7 +13,7 @@
 
     <!-- Styles -->
     @vite('resources/css/app.css')
-@livewireStyles
+    @livewireStyles
 </head>
 <body class="font-sans antialiased">
     @if(config('googletagmanager.id'))
@@ -21,9 +21,23 @@
     @endif
 
     <div class="min-h-screen bg-gray-100 flex flex-col">
-        @include('components.home-navbar')
+        <nav class="bg-green-900 fixed w-full z-10">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <a class="navbar-brand flex items-center" href="/">
+                        <img src="{{ asset('/build/images/logo.png') }}" alt="Logo" class="h-8">
+                    </a>
+                    <div class="hidden lg:flex lg:items-center lg:space-x-4">
+                        {!! $menu !!}
+                    </div>
+                    <div class="lg:hidden">
+                        <!-- Add mobile menu toggle button here if needed -->
+                    </div>
+                </div>
+            </div>
+        </nav>
 
-        <main class="flex-grow">
+        <main class="flex-grow mt-16">
             @yield('content')
         </main>
 
@@ -32,6 +46,6 @@
 
     <!-- Scripts -->
     @vite('resources/js/app.js')
-@livewireScripts
+    @livewireScripts
 </body>
 </html>
