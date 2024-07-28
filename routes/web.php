@@ -61,6 +61,7 @@ Route::controller(ContactController::class)->group(function () {
 });
 
 Route::get('/about', About::class)->name('about');
+Route::get('/services', Services::class)->name('services');
 Route::get('/terms-and-conditions', TermsAndConditions::class)->name('termsandconditions');
 Route::get('/privacy', PrivacyPolicy::class)->name('privacypolicy');
 
