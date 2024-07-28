@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\Property;
 use App\Models\PropertyFeature;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Cache;
+use App\Services\PropertyFeatureService;
 
 class PropertyList extends Component
 {
@@ -65,8 +67,6 @@ class PropertyList extends Component
     {
         $this->resetPage();
     }
-
-    use Illuminate\Support\Facades\Cache;
 
     public function getPropertiesProperty()
     {
@@ -139,7 +139,6 @@ class PropertyList extends Component
         ]));
     }
     
-    use App\Services\PropertyFeatureService;
     
     protected $propertyFeatureService;
     
