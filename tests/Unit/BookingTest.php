@@ -20,8 +20,8 @@ class BookingTest extends TestCase
         $bookingData = [
             'property_id' => $property->id,
             'user_id' => $user->id,
-            'start_date' => now(),
-            'end_date' => now()->addDays(7),
+            'date' => now(),
+            'time' => now()->format('H:i'),
             'status' => 'confirmed',
         ];
 
@@ -29,6 +29,37 @@ class BookingTest extends TestCase
 
         $this->assertInstanceOf(Booking::class, $booking);
         $this->assertDatabaseHas('bookings', $bookingData);
+    }
+
+    public function test_cancel_booking()
+    {
+        $booking = Booking::factory()->create(['status' => 'confirmed']);
+        $booking->cancel();
+
+        $this->assertEquals('cancelled', $booking->fresh()->status);
+    }
+
+    public function test_reschedule_booking()
+    {
+        $booking = Booking::factory()->create(['status' => 'confirmed']);
+        $newDate = now()->addDays(7);
+        $newTime = '14:00';
+
+        $booking->reschedule($newDate, $newTime);
+
+        $this->assertEquals($newDate->format('Y-m-d'), $booking->fresh()->date->format('Y-m-d'));
+        $this->assertEquals($newTime, $booking->fresh()->time->format('H:i'));
+    }
+
+    public function test_active_scope()
+    {
+        Booking::factory()->create(['status' => 'confirmed']);
+        Booking::factory()->create(['status' => 'cancelled']);
+
+        $activeBookings = Booking::active()->get();
+
+        $this->assertCount(1, $activeBookings);
+        $this->assertEquals('confirmed', $activeBookings->first()->status);
     }
 
     public function test_booking_relationships()

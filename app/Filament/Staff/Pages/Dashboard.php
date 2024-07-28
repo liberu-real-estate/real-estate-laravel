@@ -62,15 +62,16 @@ class Dashboard extends Page
     protected function getHeaderWidgets(): array
     {
         return [
-//            PropertyStatsOverview::class,
+            PropertyStatsOverview::class,
+            BookingStatsOverview::class,
         ];
     }
 
     protected function getFooterWidgets(): array
     {
         return [
-            //RecentTransactions::class,
-            //TopPerformingProperties::class,
+            RecentBookings::class,
+            TopPerformingProperties::class,
         ];
     }
 }
