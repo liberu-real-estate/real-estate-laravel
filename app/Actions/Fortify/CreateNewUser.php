@@ -36,6 +36,7 @@ class CreateNewUser implements CreatesNewUsers
                     Rule::unique(User::class),
                 ],
                 'password' => $this->passwordRules(),
+                'role' => ['required', 'string', Rule::in(['tenant', 'buyer', 'seller', 'landlord', 'contractor'])],
             ])->validate();
 
             return DB::transaction(function () use ($input) {
@@ -43,12 +44,12 @@ class CreateNewUser implements CreatesNewUsers
                     'name'     => $input['name'],
                     'email'    => $input['email'],
                     'password' => Hash::make($input['password']),
-                ]), function (User $user) {
+                ]), function (User $user) use ($input) {
                     $team = $this->assignOrCreateTeam($user);
                     $user->switchTeam($team);
                     setPermissionsTeamId($team->id);
-                    $user->assignRole('free');
-                });
+                    $user->assignRole($input['role']);
+/                });
             });
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('User creation validation failed', [
