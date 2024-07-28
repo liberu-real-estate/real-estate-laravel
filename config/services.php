@@ -57,7 +57,12 @@ return [
         'api_key' => env('CRM_API_KEY'),
         'endpoint' => env('CRM_ENDPOINT'),
         'sync_interval' => env('CRM_SYNC_INTERVAL', 15), // in minutes
-    ]
+    ],
+
+    'jupix' => [
+        'api_key' => env('JUPIX_API_KEY'),
+        'base_url' => env('JUPIX_BASE_URL'),
+    ],
 ];
 
 
