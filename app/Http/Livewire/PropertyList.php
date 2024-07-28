@@ -24,6 +24,19 @@ class PropertyList extends Component
     public $selectedAmenities = [];
 
     protected $listeners = ['applyAdvancedFilters'];
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'minPrice' => ['except' => 0],
+        'maxPrice' => ['except' => 10000000],
+        'minBedrooms' => ['except' => 0],
+        'maxBedrooms' => ['except' => 10],
+        'minBathrooms' => ['except' => 0],
+        'maxBathrooms' => ['except' => 10],
+        'minArea' => ['except' => 0],
+        'maxArea' => ['except' => 10000],
+        'propertyType' => ['except' => ''],
+        'selectedAmenities' => ['except' => []],
+    ];
 
     public function applyAdvancedFilters($filters)
     {
@@ -42,52 +55,91 @@ class PropertyList extends Component
         $this->resetPage();
     }
 
-    public function updatedSearch()
+    public function updatingSearch()
     {
         $this->resetPage();
     }
 
-    public function getPropertiesProperty()
+    public function updatingMinPrice()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingMaxPrice()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingMinBedrooms()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingMaxBedrooms()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingMinBathrooms()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingMaxBathrooms()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingMinArea()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingMaxArea()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingPropertyType()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSelectedAmenities()
+    {
+        $this->resetPage();
+    }
+
+    public function getProperties()
     {
         try {
             $query = Property::query();
 
-            \Log::info('Initial query count: ' . $query->count());
-
-            $query->search($this->search)
-                  ->priceRange($this->minPrice, $this->maxPrice)
-                  ->bedrooms($this->minBedrooms, $this->maxBedrooms)
-                  ->bathrooms($this->minBathrooms, $this->maxBathrooms)
-                  ->areaRange($this->minArea, $this->maxArea);
-
-            \Log::info('After basic filters count: ' . $query->count());
-
-            if ($this->propertyType) {
-                $query->propertyType($this->propertyType);
-                \Log::info('After property type filter count: ' . $query->count());
-            }
-
-            if ($this->selectedAmenities) {
-                $query->hasAmenities($this->selectedAmenities);
-                \Log::info('After amenities filter count: ' . $query->count());
-            }
-
-            // Temporarily comment out the join to isolate any potential issues
-            // $query->leftJoin('images', 'properties.id', '=', 'images.property_id')
-            //       ->select('properties.*')
-            //       ->distinct();
+            $query->when($this->search, function ($q) {
+                return $q->search($this->search);
+            })
+            ->when($this->minPrice > 0 || $this->maxPrice < 10000000, function ($q) {
+                return $q->priceRange($this->minPrice, $this->maxPrice);
+            })
+            ->when($this->minBedrooms > 0 || $this->maxBedrooms < 10, function ($q) {
+                return $q->bedrooms($this->minBedrooms, $this->maxBedrooms);
+            })
+            ->when($this->minBathrooms > 0 || $this->maxBathrooms < 10, function ($q) {
+                return $q->bathrooms($this->minBathrooms, $this->maxBathrooms);
+            })
+            ->when($this->minArea > 0 || $this->maxArea < 10000, function ($q) {
+                return $q->areaRange($this->minArea, $this->maxArea);
+            })
+            ->when($this->propertyType, function ($q) {
+                return $q->propertyType($this->propertyType);
+            })
+            ->when(!empty($this->selectedAmenities), function ($q) {
+                return $q->hasAmenities($this->selectedAmenities);
+            });
 
             $query->with('features', 'images');
 
-            $properties = $query->paginate(12);
-
-            \Log::info('Final properties count: ' . $properties->total());
-            \Log::info('Current page: ' . $properties->currentPage());
-            \Log::info('Total pages: ' . $properties->lastPage());
-            \Log::info('Items per page: ' . $properties->perPage());
-            \Log::info('Properties on this page: ' . $properties->count());
-
-            return $properties;
+            return $query->paginate(12);
         } catch (\Exception $e) {
             \Log::error('Error fetching properties: ' . $e->getMessage());
             \Log::error('Stack trace: ' . $e->getTraceAsString());
@@ -98,11 +150,11 @@ class PropertyList extends Component
             return collect();
         }
     }
-    
+
     public function render()
     {
         return view('livewire.property-list', [
-            'properties' => $this->getPropertiesProperty(),
+            'properties' => $this->getProperties(),
             'amenities' => PropertyFeature::distinct('feature_name')->pluck('feature_name'),
         ])->layout('layouts.app');
     }
