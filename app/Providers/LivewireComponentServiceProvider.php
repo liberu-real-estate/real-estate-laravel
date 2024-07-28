@@ -20,6 +20,7 @@ class LivewireComponentServiceProvider extends ServiceProvider
         $components = [
             'property-booking' => PropertyBooking::class,
             'valuation-booking' => ValuationBooking::class,
+            'property-review-form' => PropertyReviewForm::class,
             // Add other Livewire components here
         ];
 
