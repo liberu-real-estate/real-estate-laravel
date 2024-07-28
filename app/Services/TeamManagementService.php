@@ -34,13 +34,21 @@ class TeamManagementService
 
     public function assignUserToDefaultTeam(User $user): void
     {
-        $defaultTeam = Team::where('personal_team', false)->first();
+        try {
+            $defaultTeam = Team::where('personal_team', false)->first();
 
-        if (!$defaultTeam) {
-            $defaultTeam = $this->createDefaultTeamForUser($user);
+            if (!$defaultTeam) {
+                $defaultTeam = $this->createDefaultTeamForUser($user);
+            }
+
+            $this->assignUserToTeam($user, $defaultTeam);
+        } catch (\Exception $e) {
+            Log::error('Failed to assign user to default team', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+            ]);
+            throw new \Exception('Failed to assign user to default team: ' . $e->getMessage());
         }
-
-        $this->assignUserToTeam($user, $defaultTeam);
     }
 
     public function assignUserToTeam(User $user, Team $team): void
