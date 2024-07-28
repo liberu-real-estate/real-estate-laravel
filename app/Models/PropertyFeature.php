@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Support\Facades\Cache;
+use App\Services\PropertyFeatureService;
+
 class PropertyFeature extends Model
 {
     protected $primaryKey = 'feature_id';
@@ -22,6 +25,21 @@ class PropertyFeature extends Model
         return $this->belongsTo(Team::class, 'team_id');
     }
 
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::created(function ($feature) {
+            app(PropertyFeatureService::class)->clearCache();
+        });
+
+        static::updated(function ($feature) {
+            app(PropertyFeatureService::class)->clearCache();
+        });
+
+        static::deleted(function ($feature) {
+            app(PropertyFeatureService::class)->clearCache();
+        });
+    }
 }
 

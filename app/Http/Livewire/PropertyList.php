@@ -66,60 +66,93 @@ class PropertyList extends Component
         $this->resetPage();
     }
 
+    use Illuminate\Support\Facades\Cache;
+
     public function getPropertiesProperty()
     {
-        try {
-            $query = Property::query()
-                ->search($this->search)
-                ->priceRange($this->minPrice, $this->maxPrice)
-                ->bedrooms($this->minBedrooms, $this->maxBedrooms)
-                ->bathrooms($this->minBathrooms, $this->maxBathrooms)
-                ->areaRange($this->minArea, $this->maxArea);
+        $cacheKey = $this->getCacheKey();
 
-            if ($this->propertyType) {
-                $query->propertyType($this->propertyType);
+        return Cache::remember($cacheKey, now()->addMinutes(15), function () {
+            try {
+                $query = Property::query()
+                    ->search($this->search)
+                    ->priceRange($this->minPrice, $this->maxPrice)
+                    ->bedrooms($this->minBedrooms, $this->maxBedrooms)
+                    ->bathrooms($this->minBathrooms, $this->maxBathrooms)
+                    ->areaRange($this->minArea, $this->maxArea);
+
+                if ($this->propertyType) {
+                    $query->propertyType($this->propertyType);
+                }
+
+                if ($this->selectedAmenities) {
+                    $query->hasAmenities($this->selectedAmenities);
+                }
+
+                // Temporarily comment out the join to isolate any potential issues
+                // $query->leftJoin('images', 'properties.id', '=', 'images.property_id')
+                //       ->select('properties.*')
+                //       ->distinct();
+
+                $query->with('features', 'images');
+
+                $properties = $query->paginate(12);
+
+                \Log::info('Properties query executed', [
+                    'total' => $properties->total(),
+                    'current_page' => $properties->currentPage(),
+                    'last_page' => $properties->lastPage(),
+                    'per_page' => $properties->perPage(),
+                    'count' => $properties->count(),
+                ]);
+
+                return $properties;
+            } catch (\Exception $e) {
+                \Log::error('Error fetching properties', [
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ]);
+                session()->flash('error', 'An error occurred while fetching properties. Please try again.');
+                if (app()->environment('local')) {
+                    session()->flash('error_details', $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
+                }
+                return collect();
             }
+        });
+    }
 
-            if ($this->selectedAmenities) {
-                $query->hasAmenities($this->selectedAmenities);
-            }
-
-            // Temporarily comment out the join to isolate any potential issues
-            // $query->leftJoin('images', 'properties.id', '=', 'images.property_id')
-            //       ->select('properties.*')
-            //       ->distinct();
-
-            $query->with('features', 'images');
-
-            $properties = $query->paginate(12);
-
-            \Log::info('Properties query executed', [
-                'total' => $properties->total(),
-                'current_page' => $properties->currentPage(),
-                'last_page' => $properties->lastPage(),
-                'per_page' => $properties->perPage(),
-                'count' => $properties->count(),
-            ]);
-
-            return $properties;
-        } catch (\Exception $e) {
-            \Log::error('Error fetching properties', [
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-            session()->flash('error', 'An error occurred while fetching properties. Please try again.');
-            if (app()->environment('local')) {
-                session()->flash('error_details', $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
-            }
-            return collect();
-        }
+    private function getCacheKey()
+    {
+        return 'properties_' . md5(json_encode([
+            $this->search,
+            $this->minPrice,
+            $this->maxPrice,
+            $this->minBedrooms,
+            $this->maxBedrooms,
+            $this->minBathrooms,
+            $this->maxBathrooms,
+            $this->minArea,
+            $this->maxArea,
+            $this->propertyType,
+            $this->selectedAmenities,
+            $this->page,
+        ]));
+    }
+    
+    use App\Services\PropertyFeatureService;
+    
+    protected $propertyFeatureService;
+    
+    public function boot(PropertyFeatureService $propertyFeatureService)
+    {
+        $this->propertyFeatureService = $propertyFeatureService;
     }
     
     public function render()
     {
         return view('livewire.property-list', [
             'properties' => $this->getPropertiesProperty(),
-            'amenities' => PropertyFeature::distinct('feature_name')->pluck('feature_name'),
+            'amenities' => $this->propertyFeatureService->getFeatures(),
         ])->layout('layouts.app');
     }
 }
