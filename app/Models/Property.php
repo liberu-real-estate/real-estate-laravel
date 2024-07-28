@@ -243,17 +243,17 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     protected static function boot()
     {
         parent::boot();
-
+    
         static::created(function ($property) {
-            Cache::tags(['properties'])->flush();
+            Cache::flush();
         });
-
+    
         static::updated(function ($property) {
-            Cache::tags(['properties'])->flush();
+            Cache::flush();
         });
-
+    
         static::deleted(function ($property) {
-            Cache::tags(['properties'])->flush();
+            Cache::flush();
         });
     }
 }
