@@ -11,7 +11,7 @@
                                 <span class="font-semibold">{{ ucfirst(str_replace('_', ' ', $feature)) }}:</span>
                                 <span class="@if($loop->first) text-blue-600 font-bold @endif">
                                     @if($feature === 'price')
-                                        ${{ number_format($property->$feature, 2) }}
+                                        {{ \App\Helpers\SiteSettingsHelper::getCurrency() }}{{ number_format($property->$feature, 2) }}
                                     @elseif($feature === 'area_sqft')
                                         {{ $property->$feature }} sqft
                                     @else
