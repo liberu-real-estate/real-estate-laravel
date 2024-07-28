@@ -49,18 +49,18 @@ class PropertyBooking extends Component
     public function bookViewing()
     {
         $this->validate();
-
+    
         try {
             // Check if the date is still available
             $availableDates = Property::find($this->propertyId)->getAvailableDates();
             if (!in_array($this->selectedDate, $availableDates)) {
                 throw new \Exception('Selected date is no longer available.');
             }
-
+    
             // Get the default staff member using Spatie\Permission
             $defaultStaffId = User::role('staff')->first()->id ?? null;
-
-            Booking::create([
+    
+            $booking = Booking::create([
                 'property_id' => $this->propertyId,
                 'date' => Carbon::parse($this->selectedDate)->format('Y-m-d'),
                 'user_id' => auth()->id(),
@@ -69,6 +69,13 @@ class PropertyBooking extends Component
                 'notes' => $this->notes,
                 'staff_id' => $defaultStaffId,
             ]);
+    
+            // Broadcast the new booking
+            broadcast(new BookingCreated($booking))->toOthers();
+
+            // Send notification
+            $user = User::find(auth()->id());
+            $user->notify(new BookingNotification($booking, 'confirmed'));
 
             session()->flash('message', 'Viewing scheduled successfully for ' . $this->selectedDate);
             $this->reset(['selectedDate', 'userName', 'userContact', 'notes']);
