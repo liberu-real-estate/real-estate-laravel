@@ -1,4 +1,29 @@
 
+<nav x-data="{ isOpen: false }" class="bg-green-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+                <a href="{{ url('/') }}" class="flex-shrink-0">
+                    <img class="h-8 w-8" src="{{ asset('images/logo.png') }}" alt="{{ config('app.name') }} Logo">
+                </a>
+                <div class="hidden lg:block ml-10">
+                    <div class="flex items-baseline space-x-4">
+                        {{ app(App\Services\MenuService::class)->buildMenu() }}
+                    </div>
+                </div>
+            </div>
+            <div class="hidden lg:block">
+                @if(auth()->check())
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <a href="{{ auth()->user()->hasRole('admin') ? '/admin' : '/dashboard' }}" class="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium">
+                            {{ auth()->user()->hasRole('admin') ? 'Admin Dashboard' : 'Dashboard' }}
+                        </a>
+                    </div>
+                @else
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <a href="{{ route('login') }}" class="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                        <a href="{{ route('register') }}" class="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium ml-2">Register</a>
+                    </div>
                 @endif
             </div>
             <div class="lg:hidden">
@@ -12,32 +37,15 @@
         </div>
     </div>
     <div x-show="isOpen" class="lg:hidden">
-        <div class="px-2 pt-2 pb-3 space-y-2">
-            <a href="/" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Home</a>
-            <a href="/contact" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Contact</a>
-            <a href="/about" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">About</a>
-            <a href="/properties" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Properties</a>
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            {{ app(App\Services\MenuService::class)->buildMenu()->addClass('flex flex-col space-y-2')->addItemClass('block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600') }}
             @if(auth()->check())
-                @if(auth()->user()->hasRole('staff'))
-                    <a href="/staff" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Staff Dashboard</a>
-                @elseif(auth()->user()->hasRole('contractor'))
-                    <a href="/contractor" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Contractor Dashboard</a>
-                @elseif(auth()->user()->hasRole('buyer'))
-                    <a href="/buyer" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Buyer Dashboard</a>
-                @elseif(auth()->user()->hasRole('seller'))
-                    <a href="/seller" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Seller Dashboard</a>
-                @elseif(auth()->user()->hasRole('tenant'))
-                    <a href="/tenant" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Tenant Dashboard</a>
-                @elseif(auth()->user()->hasRole('landlord'))
-                    <a href="/landlord" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Landlord Dashboard</a>
-                @elseif(auth()->user()->hasRole('admin'))
-                    <a href="/admin" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Admin Dashboard</a>
-                @else
-                    <a href="/dashboard" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Dashboard</a>
-                @endif
+                <a href="{{ auth()->user()->hasRole('admin') ? '/admin' : '/dashboard' }}" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600">
+                    {{ auth()->user()->hasRole('admin') ? 'Admin Dashboard' : 'Dashboard' }}
+                </a>
             @else
-                <a href="/login" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Login</a>
-                <a href="/register" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Register</a>
+                <a href="{{ route('login') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600">Login</a>
+                <a href="{{ route('register') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600">Register</a>
             @endif
         </div>
     </div>
