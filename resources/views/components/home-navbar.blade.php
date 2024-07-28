@@ -8,7 +8,7 @@
                 </a>
                 <div class="hidden lg:block ml-10">
                     <div class="flex items-baseline space-x-4">
-                        {{ app(App\Services\MenuService::class)->buildMenu() }}
+                        {!! app(App\Services\MenuService::class)->buildMenu() !!}
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
     </div>
     <div x-show="isOpen" class="lg:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1">
-            {{ app(App\Services\MenuService::class)->buildMenu()->addClass('flex flex-col space-y-2')->addItemClass('block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600') }}
+            {!! app(App\Services\MenuService::class)->buildMenu()->addClass('flex flex-col space-y-2')->addItemClass('block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600') !!}
             @if(auth()->check())
                 <a href="{{ auth()->user()->hasRole('admin') ? '/admin' : '/dashboard' }}" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600">
                     {{ auth()->user()->hasRole('admin') ? 'Admin Dashboard' : 'Dashboard' }}
