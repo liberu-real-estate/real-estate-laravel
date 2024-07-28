@@ -45,7 +45,7 @@
             <p class="text-2xl text-gray-700 mb-4">${{ number_format($property->price, 2) }}</p>
 
             @livewire('property-booking', ['propertyId' => $property->id])
-            
+
             <div class="mt-8">
                 <h2 class="text-2xl font-bold mb-4">Book a Valuation</h2>
                 @livewire('valuation-booking')
