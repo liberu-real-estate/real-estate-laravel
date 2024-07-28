@@ -11,11 +11,16 @@ class MenuService
     public function buildMenu()
     {
         $menuItems = Menu::whereNull('parent_id')->orderBy('order')->get();
-
-        return SpatieMenu::new()
+    
+        $menu = SpatieMenu::new()
             ->addClass('flex items-center space-x-4')
-            ->addItemClass('px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out')
-            ->add($this->createMenuItems($menuItems));
+            ->addItemClass('px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out');
+    
+        $this->createMenuItems($menuItems)->each(function ($item) use ($menu) {
+            $menu->add($item);
+        });
+    
+        return $menu;
     }
 
     private function createMenuItems($items)
