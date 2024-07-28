@@ -6,7 +6,7 @@ use Filament\Pages\Page;
 use App\Models\Property;
 use App\Models\Booking;
 use App\Models\Transaction;
-//use App\Filament\Staff\Widgets\PropertyStatsOverview;
+use App\Filament\Staff\Widgets\PropertyStatsOverview;
 //use App\Filament\Staff\Widgets\RecentTransactions;
 use App\Filament\Staff\Widgets\TopPerformingProperties;
 use Filament\Forms\Concerns\InteractsWithForms;
