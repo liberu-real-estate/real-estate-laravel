@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use App\Http\Livewire\PropertyBooking;
 use App\Http\Livewire\ValuationBooking;
+use App\Http\Livewire\PropertyReviewForm;
 use App\Providers\AppServiceProvider;
 
 class LivewireComponentServiceProvider extends ServiceProvider
