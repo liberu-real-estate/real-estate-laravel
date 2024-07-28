@@ -177,6 +177,7 @@ return [
         App\Providers\Filament\StaffPanelProvider::class,
         App\Providers\Filament\LandlordPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\LivewireComponentServiceProvider::class,
 
 //        App\Providers\TeamServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
