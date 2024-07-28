@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('address');
             $table->string('country');
             $table->string('email');
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

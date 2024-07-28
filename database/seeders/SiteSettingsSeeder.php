@@ -16,6 +16,7 @@ class SiteSettingsSeeder extends Seeder
             'address' => '123 Real Estate St, London, UK',
             'country' => 'United Kingdom',
             'email' => 'info@liberurealestate.com',
+            'logo' => '/build/images/logo.png',
         ]);
     }
 }

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $address
  * @property string $country
  * @property string $email
+ * @property string $logo
  */
 class SiteSettings extends Model
 {
@@ -27,5 +28,6 @@ class SiteSettings extends Model
         'address',
         'country',
         'email',
+        'logo',
     ];
 }
