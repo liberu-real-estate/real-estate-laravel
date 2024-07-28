@@ -8,7 +8,7 @@
                 </a>
                 <div class="hidden lg:block ml-10">
                     <div class="flex items-baseline space-x-4">
-                        {!! app(App\Services\MenuService::class)->buildMenu() !!}
+{!! app(App\Services\MenuService::class)->buildMenu() !!}
                     </div>
                 </div>
             </div>
