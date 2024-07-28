@@ -22,6 +22,10 @@ class AdvancedPropertySearch extends Component
     public $maxArea = 10000;
     public $propertyType = '';
     public $selectedAmenities = [];
+    public $yearBuilt = '';
+    public $status = '';
+    public $sortBy = 'created_at';
+    public $sortDirection = 'desc';
 
     public function updatedSearch()
     {
@@ -41,8 +45,25 @@ class AdvancedPropertySearch extends Component
             ->when($this->selectedAmenities, function ($query) {
                 return $query->hasAmenities($this->selectedAmenities);
             })
+            ->when($this->yearBuilt, function ($query) {
+                return $query->where('year_built', '>=', $this->yearBuilt);
+            })
+            ->when($this->status, function ($query) {
+                return $query->where('status', $this->status);
+            })
             ->with(['features', 'images'])
+            ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(12);
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortBy === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortBy = $field;
+            $this->sortDirection = 'asc';
+        }
     }
 
     public function render()
