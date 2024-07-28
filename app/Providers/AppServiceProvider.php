@@ -7,6 +7,7 @@ use App\Services\SiteSettingsService;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use App\Http\Livewire\PropertyBooking;
+use Illuminate\Database\QueryException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,7 +40,15 @@ class AppServiceProvider extends ServiceProvider
 
     private function isComponentEnabled($componentName)
     {
-        $setting = ComponentSettings::where('component_name', $componentName)->first();
-        return $setting ? $setting->is_enabled : true;
+        try {
+            $setting = ComponentSettings::where('component_name', $componentName)->first();
+            return $setting ? $setting->is_enabled : true;
+        } catch (QueryException $e) {
+            // If the table doesn't exist, return true as default
+            if ($e->getCode() == "42S02") {
+                return true;
+            }
+            throw $e;
+        }
     }
 }
