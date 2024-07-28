@@ -4,7 +4,7 @@
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
                 <a href="{{ url('/') }}" class="flex-shrink-0">
-                    <img class="h-8 w-8" src="{{ asset('images/logo.png') }}" alt="{{ config('app.name') }} Logo">
+                    <img class="h-8 w-8" src="{{ asset('build/images/logo.png') }}" alt="{{ config('app.name') }} Logo">
                 </a>
                 <div class="hidden lg:block ml-10">
                     <div class="flex items-baseline space-x-4">
