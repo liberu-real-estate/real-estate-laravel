@@ -10,7 +10,7 @@ use Livewire\WithPagination;
 class PropertyList extends Component
 {
     use WithPagination;
-
+    
     public $search = '';
     public $minPrice = 0;
     public $maxPrice = 10000000;
@@ -22,8 +22,27 @@ class PropertyList extends Component
     public $maxArea = 10000;
     public $propertyType = '';
     public $selectedAmenities = [];
-
+    
     protected $listeners = ['applyAdvancedFilters'];
+    
+    public function mount()
+    {
+        $this->resetPage();
+    }
+    
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'minPrice' => ['except' => 0],
+        'maxPrice' => ['except' => 10000000],
+        'minBedrooms' => ['except' => 0],
+        'maxBedrooms' => ['except' => 10],
+        'minBathrooms' => ['except' => 0],
+        'maxBathrooms' => ['except' => 10],
+        'minArea' => ['except' => 0],
+        'maxArea' => ['except' => 10000],
+        'propertyType' => ['except' => ''],
+        'selectedAmenities' => ['except' => []],
+    ];
 
     public function applyAdvancedFilters($filters)
     {
@@ -50,26 +69,19 @@ class PropertyList extends Component
     public function getPropertiesProperty()
     {
         try {
-            $query = Property::query();
-
-            \Log::info('Initial query count: ' . $query->count());
-
-            $query->search($this->search)
-                  ->priceRange($this->minPrice, $this->maxPrice)
-                  ->bedrooms($this->minBedrooms, $this->maxBedrooms)
-                  ->bathrooms($this->minBathrooms, $this->maxBathrooms)
-                  ->areaRange($this->minArea, $this->maxArea);
-
-            \Log::info('After basic filters count: ' . $query->count());
+            $query = Property::query()
+                ->search($this->search)
+                ->priceRange($this->minPrice, $this->maxPrice)
+                ->bedrooms($this->minBedrooms, $this->maxBedrooms)
+                ->bathrooms($this->minBathrooms, $this->maxBathrooms)
+                ->areaRange($this->minArea, $this->maxArea);
 
             if ($this->propertyType) {
                 $query->propertyType($this->propertyType);
-                \Log::info('After property type filter count: ' . $query->count());
             }
 
             if ($this->selectedAmenities) {
                 $query->hasAmenities($this->selectedAmenities);
-                \Log::info('After amenities filter count: ' . $query->count());
             }
 
             // Temporarily comment out the join to isolate any potential issues
@@ -81,16 +93,20 @@ class PropertyList extends Component
 
             $properties = $query->paginate(12);
 
-            \Log::info('Final properties count: ' . $properties->total());
-            \Log::info('Current page: ' . $properties->currentPage());
-            \Log::info('Total pages: ' . $properties->lastPage());
-            \Log::info('Items per page: ' . $properties->perPage());
-            \Log::info('Properties on this page: ' . $properties->count());
+            \Log::info('Properties query executed', [
+                'total' => $properties->total(),
+                'current_page' => $properties->currentPage(),
+                'last_page' => $properties->lastPage(),
+                'per_page' => $properties->perPage(),
+                'count' => $properties->count(),
+            ]);
 
             return $properties;
         } catch (\Exception $e) {
-            \Log::error('Error fetching properties: ' . $e->getMessage());
-            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            \Log::error('Error fetching properties', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
             session()->flash('error', 'An error occurred while fetching properties. Please try again.');
             if (app()->environment('local')) {
                 session()->flash('error_details', $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
