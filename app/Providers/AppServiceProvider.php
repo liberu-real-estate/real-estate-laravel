@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\ComponentSettings;
 use App\Services\SiteSettingsService;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -18,7 +19,27 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        Livewire::component('property-booking', PropertyBooking::class);
-        Livewire::component('valuation-booking', \App\Http\Livewire\ValuationBooking::class);
+        $this->registerLivewireComponents();
+    }
+
+    private function registerLivewireComponents()
+    {
+        $components = [
+            'property-booking' => PropertyBooking::class,
+            'valuation-booking' => \App\Http\Livewire\ValuationBooking::class,
+            // Add other Livewire components here
+        ];
+
+        foreach ($components as $name => $class) {
+            if ($this->isComponentEnabled($name)) {
+                Livewire::component($name, $class);
+            }
+        }
+    }
+
+    private function isComponentEnabled($componentName)
+    {
+        $setting = ComponentSettings::where('component_name', $componentName)->first();
+        return $setting ? $setting->is_enabled : true;
     }
 }
