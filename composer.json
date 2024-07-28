@@ -24,7 +24,7 @@
         "spatie/laravel-analytics": "^5.0",
         "spatie/laravel-googletagmanager": "^2.7",
         "spatie/laravel-medialibrary": "^11.7",
-        "spatie/menu": "^3.2",
+        "spatie/laravel-menu": "^3.0",
         "spiral/roadrunner-cli": "^2.6.0",
         "spiral/roadrunner-http": "^3.3.0",
         "stephenjude/filament-jetstream": "^0.0.12"
