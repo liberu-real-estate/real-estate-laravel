@@ -5,8 +5,6 @@ namespace App\Providers;
 use App\Models\ComponentSettings;
 use App\Services\SiteSettingsService;
 use Illuminate\Support\ServiceProvider;
-use Livewire\Livewire;
-use App\Http\Livewire\PropertyBooking;
 use Illuminate\Database\QueryException;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,25 +18,10 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->registerLivewireComponents();
+        // Remove the registerLivewireComponents method call
     }
 
-    private function registerLivewireComponents()
-    {
-        $components = [
-            'property-booking' => PropertyBooking::class,
-            'valuation-booking' => \App\Http\Livewire\ValuationBooking::class,
-            // Add other Livewire components here
-        ];
-
-        foreach ($components as $name => $class) {
-            if ($this->isComponentEnabled($name)) {
-                Livewire::component($name, $class);
-            }
-        }
-    }
-
-    private function isComponentEnabled($componentName)
+    public static function isComponentEnabled($componentName)
     {
         try {
             $setting = ComponentSettings::where('component_name', $componentName)->first();
