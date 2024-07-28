@@ -11,8 +11,6 @@ use Filament\Widgets\Widget;
 
 class PropertyStatsOverview extends BaseWidget
 {
-    use Widget;
-
     protected function getCards(): array
     {
         $startDate = $this->getPage()->startDate;

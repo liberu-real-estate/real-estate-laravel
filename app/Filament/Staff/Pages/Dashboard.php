@@ -6,8 +6,8 @@ use Filament\Pages\Page;
 use App\Models\Property;
 use App\Models\Booking;
 use App\Models\Transaction;
-//use App\Filament\Staff\Widgets\PropertyStatsOverview;
-//use App\Filament\Staff\Widgets\RecentTransactions;
+use App\Filament\Staff\Widgets\PropertyStatsOverview;
+use App\Filament\Staff\Widgets\RecentTransactions;
 use App\Filament\Staff\Widgets\TopPerformingProperties;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Components\DatePicker;
@@ -62,16 +62,16 @@ class Dashboard extends Page
     protected function getHeaderWidgets(): array
     {
         return [
-            PropertyStatsOverview::class,
-            BookingStatsOverview::class,
+//            PropertyStatsOverview::class,
+           // BookingStatsOverview::class,
         ];
     }
 
     protected function getFooterWidgets(): array
     {
         return [
-            RecentBookings::class,
-            TopPerformingProperties::class,
+//            RecentBookings::class,
+//            TopPerformingProperties::class,
         ];
     }
 }
