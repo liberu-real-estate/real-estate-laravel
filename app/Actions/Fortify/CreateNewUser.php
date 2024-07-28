@@ -2,8 +2,8 @@
 
 namespace App\Actions\Fortify;
 
-use App\Models\Team;
 use App\Models\User;
+use App\Services\TeamManagementService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -15,6 +15,13 @@ use Exception;
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
+
+    protected $teamManagementService;
+
+    public function __construct(TeamManagementService $teamManagementService)
+    {
+        $this->teamManagementService = $teamManagementService;
+    }
 
     /**
      * Validate and create a newly registered user.
@@ -40,16 +47,16 @@ class CreateNewUser implements CreatesNewUsers
             ])->validate();
 
             return DB::transaction(function () use ($input) {
-                return tap(User::create([
+                $user = User::create([
                     'name'     => $input['name'],
                     'email'    => $input['email'],
                     'password' => Hash::make($input['password']),
-                ]), function (User $user) use ($input) {
-                    $team = $this->assignOrCreateTeam($user);
-                    $user->switchTeam($team);
-                    setPermissionsTeamId($team->id);
-                    $user->assignRole($input['role']);
-/                });
+                ]);
+
+                $this->teamManagementService->assignUserToDefaultTeam($user);
+                $user->assignRole($input['role']);
+
+                return $user;
             });
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('User creation validation failed', [
@@ -64,28 +71,6 @@ class CreateNewUser implements CreatesNewUsers
                 'trace' => $e->getTraceAsString(),
             ]);
             throw new Exception('Failed to create user. Please try again later.');
-        }
-    }
-
-    /**
-     * Assign the user to the first team or create a personal team.
-     *
-     * @throws \Exception
-     */
-    protected function assignOrCreateTeam(User $user): Team
-    {
-        try {
-            return $user->ownedTeams()->create([
-                'name' => $user->name . "'s Team",
-                'personal_team' => true,
-            ]);
-        } catch (Exception $e) {
-            Log::error('Failed to create personal team', [
-                'user_id' => $user->id,
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-            throw new Exception('Failed to create personal team. Please try again later.');
         }
     }
 }
