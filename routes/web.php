@@ -64,5 +64,7 @@ Route::get('/about', About::class)->name('about');
 Route::get('/terms-and-conditions', TermsAndConditions::class)->name('termsandconditions');
 Route::get('/privacy', PrivacyPolicy::class)->name('privacypolicy');
 
+Route::get('/services', ServicesComponent::class)->name('services');
+
 require __DIR__.'/socialstream.php';
 
