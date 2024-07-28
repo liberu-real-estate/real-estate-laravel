@@ -80,6 +80,26 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'is_featured' => 'boolean',
     ];
 
+    public function scopePending(Builder $query): Builder
+    {
+        return $query->where('status', 'pending');
+    }
+
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->where('status', 'approved');
+    }
+
+    public function approve(): void
+    {
+        $this->update(['status' => 'approved']);
+    }
+
+    public function reject(): void
+    {
+        $this->update(['status' => 'rejected']);
+    }
+
     public function setYearBuiltAttribute($value)
     {
         $this->attributes['year_built'] = is_string($value) ? substr($value, 0, 4) : $value;
