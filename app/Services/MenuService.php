@@ -35,7 +35,7 @@ class MenuService
                     $submenu->add($subItem);
                 });
     
-                return Menu::new()
+                return SpatieMenu::new()
                     ->add(Link::to($item->url, $item->name)->addClass('relative group'))
                     ->add($submenu->addClass('hidden group-hover:block'));
             }
