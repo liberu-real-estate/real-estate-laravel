@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // Remove the registerLivewireComponents method call
+        // This method is now empty
     }
 
     public static function isComponentEnabled($componentName)
