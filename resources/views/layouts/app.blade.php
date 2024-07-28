@@ -13,7 +13,7 @@
 
     <!-- Styles -->
     @vite('resources/css/app.css')
-@livewireStyles
+    @livewireStyles
 </head>
 <body class="font-sans antialiased">
     @if(config('googletagmanager.id'))
@@ -21,7 +21,7 @@
     @endif
 
     <div class="min-h-screen bg-gray-100 flex flex-col">
-        @include('components.home-navbar')
+        @include('components.navbar')
 
         <main class="flex-grow">
             @yield('content')
@@ -32,6 +32,6 @@
 
     <!-- Scripts -->
     @vite('resources/js/app.js')
-@livewireScripts
+    @livewireScripts
 </body>
 </html>
