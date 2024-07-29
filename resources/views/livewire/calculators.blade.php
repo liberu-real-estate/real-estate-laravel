@@ -57,3 +57,38 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="propertyValue">
                     Property Value (£)
                 </label>
+                <input wire:model="propertyValue" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="propertyValue" type="number" placeholder="Enter property value">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="isFirstTimeBuyer">
+                    First Time Buyer?
+                </label>
+                <select wire:model="isFirstTimeBuyer" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="isFirstTimeBuyer">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="movingDistance">
+                    Moving Distance (miles)
+                </label>
+                <input wire:model="movingDistance" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="movingDistance" type="number" placeholder="Enter moving distance">
+            </div>
+            <div class="flex items-center justify-between">
+                <button wire:click="calculateCostOfMoving" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Calculate
+                </button>
+            </div>
+        </div>
+
+        @if ($costOfMovingResult)
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
+                <p class="font-bold">Cost of Moving Calculation Results:</p>
+                <p>Estate Agent Fee: £{{ number_format($costOfMovingResult['estate_agent_fee'], 2) }}</p>
+                <p>Conveyancing Fee: £{{ number_format($costOfMovingResult['conveyancing_fee'], 2) }}</p>
+                <p>Survey Fee: £{{ number_format($costOfMovingResult['survey_fee'], 2) }}</p>
+                <p>Removals: £{{ number_format($costOfMovingResult['removals'], 2) }}</p>
+                <p>Energy Performance Certificate: £{{ number_format($costOfMovingResult['energy_performance_certificate'], 2) }}</p>
+                <p>Total Cost: £{{ number_format($costOfMovingResult['total_cost'], 2) }}</p>
+            </div>
+        @endif
