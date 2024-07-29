@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\RoleBasedRedirect::class,
     ];
 
     /**
@@ -66,10 +67,5 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role.redirect' => \App\Http\Middleware\RoleBasedRedirect::class,
         'teams.permission' => \App\Http\Middleware\TeamsPermission::class,
-    ];
-
-    protected $middleware = [
-        // ... other middleware
-        \App\Http\Middleware\RoleBasedRedirect::class,
     ];
 }

@@ -43,8 +43,9 @@ class RoleBasedRedirect
             // If user has no roles, allow them to access the requested page
             return $next($request);
         }
+            return $next($request);
 
         // If not authenticated, redirect to login
-        return redirect()->route('login');
+//        return redirect()->route('login');
     }
 }
