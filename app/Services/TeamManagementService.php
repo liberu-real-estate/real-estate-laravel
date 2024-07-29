@@ -48,7 +48,7 @@ class TeamManagementService
         if (!$user->belongsToTeam($team)) {
             $user->teams()->attach($team, ['role' => 'member']);
         }
-        $this->switchTeam($user, $team);
+        $user->switchTeam($team);
     }
 
     public function switchTeam(User $user, Team $team): void
