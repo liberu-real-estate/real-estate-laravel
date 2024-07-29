@@ -59,6 +59,39 @@
                 </label>
                 <input wire:model="propertyValue" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="propertyValue" type="number" placeholder="Enter property value">
             </div>
+
+    @elseif ($calculatorType === 'stamp_duty')
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-2xl font-bold mb-4">Stamp Duty Calculator</h2>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="propertyValue">
+                    Property Value (£)
+                </label>
+                <input wire:model="propertyValue" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="propertyValue" type="number" placeholder="Enter property value">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="isFirstTimeBuyer">
+                    First Time Buyer?
+                </label>
+                <select wire:model="isFirstTimeBuyer" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="isFirstTimeBuyer">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="flex items-center justify-between">
+                <button wire:click="calculateStampDuty" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Calculate
+                </button>
+            </div>
+        </div>
+
+        @if ($stampDutyResult)
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
+                <p class="font-bold">Stamp Duty Calculation Results:</p>
+                <p>Stamp Duty: £{{ number_format($stampDutyResult['stamp_duty'], 2) }}</p>
+                <p>Effective Tax Rate: {{ $stampDutyResult['effective_tax_rate'] }}%</p>
+            </div>
+        @endif
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="isFirstTimeBuyer">
                     First Time Buyer?
@@ -90,39 +123,5 @@
                 <p>Removals: £{{ number_format($costOfMovingResult['removals'], 2) }}</p>
                 <p>Energy Performance Certificate: £{{ number_format($costOfMovingResult['energy_performance_certificate'], 2) }}</p>
                 <p>Total Cost: £{{ number_format($costOfMovingResult['total_cost'], 2) }}</p>
-            </div>
-        @endif
-
-    @elseif ($calculatorType === 'stamp_duty')
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <h2 class="text-2xl font-bold mb-4">Stamp Duty Calculator</h2>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="purchasePrice">
-                    Purchase Price (£)
-                </label>
-                <input wire:model="purchasePrice" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="purchasePrice" type="number" placeholder="Enter purchase price">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="buyerType">
-                    Buyer Type
-                </label>
-                <select wire:model="buyerType" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="buyerType">
-                    <option value="first_time_buyer">First Time Buyer</option>
-                    <option value="home_mover">Home Mover</option>
-                    <option value="additional_property">Additional Property</option>
-                </select>
-            </div>
-            <div class="flex items-center justify-between">
-                <button wire:click="calculateStampDuty" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                    Calculate
-                </button>
-            </div>
-        </div>
-
-        @if ($stampDutyResult)
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
-                <p class="font-bold">Stamp Duty Calculation Results:</p>
-                <p>Stamp Duty: £{{ number_format($stampDutyResult['stamp_duty'], 2) }}</p>
-                <p>Effective Tax Rate: {{ $stampDutyResult['effective_tax_rate'] }}%</p>
             </div>
         @endif
