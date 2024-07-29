@@ -37,7 +37,13 @@ class RedirectIfAuthenticated
                         return redirect($redirect);
                     }
                 }
-                // If user has 'free' role or no specific role, redirect to default home
+                // If user has a role not in $roleRedirects, redirect to /{role}
+                $userRoles = $user->getRoleNames();
+                if ($userRoles->isNotEmpty()) {
+                    $firstRole = $userRoles->first();
+                    return redirect('/' . $firstRole);
+                }
+                // If user has no roles, redirect to default home
                 return redirect(RouteServiceProvider::HOME);
             }
         }

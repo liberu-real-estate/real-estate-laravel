@@ -15,8 +15,13 @@
             <div class="hidden lg:block">
                 @if(auth()->check())
                     <div class="ml-4 flex items-center md:ml-6">
-                        <a href="{{ auth()->user()->hasRole('admin') ? '/admin' : '/dashboard' }}" class="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium">
-                            {{ auth()->user()->hasRole('admin') ? 'Admin Dashboard' : 'Dashboard' }}
+                        @php
+                            $user = auth()->user();
+                            $role = $user->getRoleNames()->first() ?? 'user';
+                            $dashboardUrl = $role === 'admin' ? '/admin' : '/' . $role;
+                        @endphp
+                        <a href="{{ $dashboardUrl }}" class="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium">
+                            {{ ucfirst($role) }} Dashboard
                         </a>
                     </div>
                 @else
