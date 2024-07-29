@@ -5,8 +5,8 @@
 
     <div class="mb-6">
         <button wire:click="setCalculatorType('mortgage')" class="px-4 py-2 mr-2 {{ $calculatorType === 'mortgage' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Mortgage Calculator</button>
-        <button wire:click="setCalculatorType('cost_of_moving')" class="px-4 py-2 mr-2 {{ $calculatorType === 'cost_of_moving' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Cost of Moving Calculator</button>
-        <button wire:click="setCalculatorType('stamp_duty')" class="px-4 py-2 {{ $calculatorType === 'stamp_duty' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Stamp Duty Calculator</button>
+        <button wire:click="setCalculatorType('costOfMoving')" class="px-4 py-2 mr-2 {{ $calculatorType === 'costOfMoving' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Cost of Moving Calculator</button>
+        <button wire:click="setCalculatorType('stampDuty')" class="px-4 py-2 {{ $calculatorType === 'stampDuty' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Stamp Duty Calculator</button>
     </div>
 
     @if ($calculatorType === 'mortgage')
