@@ -54,6 +54,14 @@ class StaffPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
+            ])
+            ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
+            ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')
+            ->pages([
+                \App\Filament\Staff\Pages\Dashboard::class,
+            ])
+            ->middleware([
+                \App\Http\Middleware\RoleBasedRedirect::class,
             ]);
 
         if (Features::hasTeamFeatures()) {
