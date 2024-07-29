@@ -114,17 +114,19 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     {
         $currentPanel = $this->getCurrentPanel();
         $allowedRoles = config("filament-shield.panels.$currentPanel", []);
-    
-        return $this->hasAnyRole($allowedRoles) ||
-               $this->hasRole('admin') ||
-               $this->hasRole('super_admin');
+
+        return $this->hasAnyRole($allowedRoles) || $this->hasRole('super_admin');
     }
     
     private function getCurrentPanel(): string
     {
-        // This is a placeholder. You need to implement a way to determine the current panel.
-        // It could be based on the current URL, a request parameter, or any other method
-        // that fits your application's structure.
+        $url = request()->url();
+        if (strpos($url, '/admin') !== false) {
+            return 'admin';
+        } elseif (strpos($url, '/staff') !== false) {
+            return 'staff';
+        }
+        // Add more conditions for other panels if needed
         return 'default';
     }
 
