@@ -49,7 +49,7 @@ class CreateNewUser implements CreatesNewUsers
                     $user->switchTeam($team);
                     setPermissionsTeamId($team->id);
                     $user->assignRole($input['role']);
-/                });
+                });
             });
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('User creation validation failed', [
