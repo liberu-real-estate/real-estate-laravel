@@ -71,7 +71,7 @@ class TenantPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Tenant/Resources'), for: 'App\\Filament\\Tenant\\Resources')
             ->discoverPages(in: app_path('Filament/Tenant/Pages'), for: 'App\\Filament\\Tenant\\Pages')
             ->pages([
-                \App\Filament\Tenant\Pages\Dashboard::class,
+                Dashboard::class,
                 Pages\EditProfile::class,
                 Profile::class,
             ])
