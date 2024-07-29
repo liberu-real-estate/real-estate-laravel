@@ -70,8 +70,15 @@ class CreateNewUser implements CreatesNewUsers
                 'message' => $e->getMessage(),
                 'input' => array_diff_key($input, array_flip(['password'])),
                 'trace' => $e->getTraceAsString(),
+                'exception_class' => get_class($e),
             ]);
-            throw new Exception('Failed to create user. Please try again later.');
+            if ($e instanceof \Illuminate\Database\QueryException) {
+                throw new Exception('Database error occurred. Please try again later.');
+            } elseif ($e instanceof \Spatie\Permission\Exceptions\RoleDoesNotExist) {
+                throw new Exception('Invalid role specified. Please choose a valid role.');
+            } else {
+                throw new Exception('Failed to create user. Please try again later.');
+            }
         }
     }
 
@@ -87,11 +94,21 @@ class CreateNewUser implements CreatesNewUsers
                 'name' => $user->name . "'s Team",
                 'personal_team' => true,
             ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            Log::error('Database error while creating personal team', [
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+                'sql' => $e->getSql(),
+                'bindings' => $e->getBindings(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw new Exception('Database error occurred while creating team. Please try again later.');
         } catch (Exception $e) {
             Log::error('Failed to create personal team', [
                 'user_id' => $user->id,
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
+                'exception_class' => get_class($e),
             ]);
             throw new Exception('Failed to create personal team. Please try again later.');
         }
