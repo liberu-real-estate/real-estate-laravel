@@ -86,4 +86,24 @@ return [
         'enabled' => false,
     ],
 
+    'super_admin' => [
+        'enabled' => true,
+        'role_name' => 'super_admin',
+    ],
+
+    'filament_user' => [
+        'enabled' => true,
+        'roles' => ['admin', 'staff'],
+    ],
+
+    'panels' => [
+        'admin' => ['admin', 'super_admin'],
+        'staff' => ['staff', 'admin', 'super_admin'],
+        'buyer' => ['buyer'],
+        'seller' => ['seller'],
+        'tenant' => ['tenant'],
+        'landlord' => ['landlord'],
+        'contractor' => ['contractor'],
+    ],
+
 ];

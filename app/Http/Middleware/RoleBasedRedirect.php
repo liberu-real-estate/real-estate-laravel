@@ -24,6 +24,9 @@ class RoleBasedRedirect
             $user = Auth::user();
             foreach ($this->roleRedirects as $role => $redirect) {
                 if ($user->hasRole($role)) {
+                    if ($request->is($redirect) || $request->is($redirect . '/*')) {
+                        return $next($request);
+                    }
                     return redirect($redirect);
                 }
             }
@@ -34,9 +37,8 @@ class RoleBasedRedirect
             // If user doesn't have any recognized role, redirect to a default page
             return redirect('/dashboard');
         }
-                return $next($request);
-    
+
         // If not authenticated, redirect to login
-//        return redirect()->route('login');
+        return redirect()->route('login');
     }
 }
