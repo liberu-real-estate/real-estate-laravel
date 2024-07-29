@@ -99,11 +99,12 @@ return [
     'panels' => [
         'admin' => ['admin', 'super_admin'],
         'staff' => ['staff', 'admin', 'super_admin'],
-        'buyer' => ['buyer'],
-        'seller' => ['seller'],
-        'tenant' => ['tenant'],
-        'landlord' => ['landlord'],
-        'contractor' => ['contractor'],
+        'buyer' => ['buyer', 'free'],
+        'seller' => ['seller', 'free'],
+        'tenant' => ['tenant', 'free'],
+        'landlord' => ['landlord', 'free'],
+        'contractor' => ['contractor', 'free'],
+        'free' => ['free', 'buyer', 'seller', 'tenant', 'landlord', 'contractor'],
     ],
 
 ];
