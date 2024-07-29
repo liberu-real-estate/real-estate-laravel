@@ -44,6 +44,11 @@ class MenuSeeder extends Seeder
                 'url' => '/contact',
                 'order' => 5
             ],
+            [
+                'name' => 'Calculators',
+                'url' => '/calculators',
+                'order' => 6
+            ],
         ];
 
         foreach ($menus as $menuData) {
