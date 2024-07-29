@@ -114,10 +114,8 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     {
         $currentPanel = $this->getCurrentPanel();
         $allowedRoles = config("filament-shield.panels.$currentPanel", []);
-    
-        return $this->hasAnyRole($allowedRoles) ||
-               $this->hasRole('admin') ||
-               $this->hasRole('super_admin');
+
+        return $this->hasAnyRole($allowedRoles) || $this->hasRole('super_admin');
     }
     
     private function getCurrentPanel(): string
