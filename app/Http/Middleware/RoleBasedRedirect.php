@@ -30,12 +30,18 @@ class RoleBasedRedirect
                     return redirect($redirect);
                 }
             }
-            // If user has 'free' role or no specific role, allow them to access /app
-            if ($user->hasRole('free') || $user->roles->isEmpty()) {
-                return $next($request);
+            // If user has a role not in $roleRedirects, redirect to /{role}
+            $userRoles = $user->getRoleNames();
+            if ($userRoles->isNotEmpty()) {
+                $firstRole = $userRoles->first();
+                $roleRedirect = '/' . $firstRole;
+                if ($request->is($roleRedirect) || $request->is($roleRedirect . '/*')) {
+                    return $next($request);
+                }
+                return redirect($roleRedirect);
             }
-            // If user doesn't have any recognized role, redirect to a default page
-            return redirect('/dashboard');
+            // If user has no roles, allow them to access the requested page
+            return $next($request);
         }
 
         // If not authenticated, redirect to login
