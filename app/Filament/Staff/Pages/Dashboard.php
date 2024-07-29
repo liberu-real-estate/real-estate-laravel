@@ -18,6 +18,11 @@ class Dashboard extends Page
 
     protected static string $view = 'filament.staff.dashboard';
 
+//public static function getUrl(array $parameters = []): string
+//{
+//    return route('filament.staff.pages.dashboard', ['tenant' => auth()->user()->currentTeam->id]);
+//}
+
     public $startDate;
     public $endDate;
 

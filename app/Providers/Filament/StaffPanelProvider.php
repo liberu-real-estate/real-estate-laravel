@@ -45,10 +45,10 @@ class StaffPanelProvider extends PanelProvider
         $panel
             ->default()
             ->id('staff')
-            ->path('staff')
+            ->path('staff/{tenant}')
             ->login([AuthenticatedSessionController::class, 'create'])
             ->loginRouteSlug('login')
-            ->homeUrl('/staff')
+            ->homeUrl('/staff/{tenant}')
             ->registration()
             ->passwordReset()
             ->emailVerification()
@@ -59,7 +59,7 @@ class StaffPanelProvider extends PanelProvider
         if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
-                //->tenantRoutePrefix('/{tenant}')
+                ->tenantRoutePrefix('/{tenant}')
                 ->tenantMiddleware([
                     AssignDefaultTeam::class,
                 ]);
