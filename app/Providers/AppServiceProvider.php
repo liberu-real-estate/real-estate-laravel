@@ -18,9 +18,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // This method is now empty
+        $this->ensureComponentSettingsTableExists();
     }
-
+    
     public static function isComponentEnabled($componentName)
     {
         try {
@@ -32,6 +32,18 @@ class AppServiceProvider extends ServiceProvider
                 return true;
             }
             throw $e;
+        }
+    }
+    
+    private function ensureComponentSettingsTableExists()
+    {
+        if (!Schema::hasTable('component_settings')) {
+            Schema::create('component_settings', function (Blueprint $table) {
+                $table->id();
+                $table->string('component_name')->unique();
+                $table->boolean('is_enabled')->default(true);
+                $table->timestamps();
+            });
         }
     }
 }

@@ -81,6 +81,9 @@ class CreateNewUser implements CreatesNewUsers
                     throw new Exception('Database access denied. Please contact the administrator.');
                 } elseif ($errorCode == 2002) {
                     throw new Exception('Unable to connect to the database. Please try again later.');
+                } elseif ($errorCode == '42S02') {
+                    // Handle the case where a table doesn't exist
+                    throw new Exception('Database setup incomplete. Please contact the administrator.');
                 } else {
                     throw new Exception('A database error occurred. Please try again later. Error code: ' . $errorCode);
                 }
