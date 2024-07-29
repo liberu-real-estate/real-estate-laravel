@@ -100,19 +100,19 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return true; //$this->ownedTeams->contains($tenant);
+        return $this->ownedTeams->contains($tenant);
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
-        //        return $this->hasVerifiedEmail();
-        return true;
+        $panelId = $panel->getId();
+        $allowedRoles = config("filament-shield.panels.$panelId", []);
+        return $this->hasAnyRole($allowedRoles) || $this->hasRole('super_admin');
     }
 
     public function canAccessFilament(): bool
     {
-        //        return $this->hasVerifiedEmail();
-        return true;
+        return $this->hasAnyRole(config('filament-shield.filament_user.roles')) || $this->hasRole('super_admin');
     }
 
 

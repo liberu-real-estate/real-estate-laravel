@@ -67,4 +67,9 @@ class Kernel extends HttpKernel
         'role.redirect' => \App\Http\Middleware\RoleBasedRedirect::class,
         'teams.permission' => \App\Http\Middleware\TeamsPermission::class,
     ];
+
+    protected $middleware = [
+        // ... other middleware
+        \App\Http\Middleware\RoleBasedRedirect::class,
+    ];
 }
