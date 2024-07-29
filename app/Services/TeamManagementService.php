@@ -45,7 +45,9 @@ class TeamManagementService
 
     public function assignUserToTeam(User $user, Team $team): void
     {
-        $user->teams()->syncWithoutDetaching([$team->id]);
+        if (!$user->belongsToTeam($team)) {
+            $user->teams()->attach($team, ['role' => 'member']);
+        }
         $this->switchTeam($user, $team);
     }
 
