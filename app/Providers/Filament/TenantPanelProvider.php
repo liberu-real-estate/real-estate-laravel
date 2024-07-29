@@ -72,8 +72,6 @@ class TenantPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Tenant/Pages'), for: 'App\\Filament\\Tenant\\Pages')
             ->pages([
                 \App\Filament\Tenant\Pages\Dashboard::class,
-                Pages\EditProfile::class,
-                Profile::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Tenant/Widgets/Home'), for: 'App\\Filament\\Tenant\\Widgets\\Home')
             ->widgets([
