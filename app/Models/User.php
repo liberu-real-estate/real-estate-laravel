@@ -107,17 +107,25 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     {
         $panelId = $panel->getId();
         $allowedRoles = config("filament-shield.panels.$panelId", []);
-        return $this->hasAnyRole($allowedRoles) || $this->hasRole('super_admin');
+        $hasAccess = $this->hasAnyRole($allowedRoles) || $this->hasRole('super_admin');
+
+        \Log::debug("User {$this->id} accessing panel {$panelId}. Allowed roles: " . implode(', ', $allowedRoles) . ". Has access: " . ($hasAccess ? 'Yes' : 'No'));
+
+        return $hasAccess;
     }
 
     public function canAccessFilament(): bool
     {
         $currentPanel = $this->getCurrentPanel();
         $allowedRoles = config("filament-shield.panels.$currentPanel", []);
-    
-        return $this->hasAnyRole($allowedRoles) ||
-               $this->hasRole('admin') ||
-               $this->hasRole('super_admin');
+
+        $hasAccess = $this->hasAnyRole($allowedRoles) ||
+                     $this->hasRole('admin') ||
+                     $this->hasRole('super_admin');
+
+        \Log::debug("User {$this->id} accessing Filament panel {$currentPanel}. Allowed roles: " . implode(', ', $allowedRoles) . ". Has access: " . ($hasAccess ? 'Yes' : 'No'));
+
+        return $hasAccess;
     }
     
     private function getCurrentPanel(): string
