@@ -55,7 +55,48 @@ class StaffPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
+            ])
+            ->middleware([
+                EncryptCookies::class,
+                AddQueuedCookiesToResponse::class,
+                StartSession::class,
+                AuthenticateSession::class,
+                ShareErrorsFromSession::class,
+                VerifyCsrfToken::class,
+                SubstituteBindings::class,
+                DisableBladeIconComponents::class,
+                DispatchServingFilamentEvent::class,
+            ])
+            ->authMiddleware([
+                Authenticate::class,
+                TeamsPermission::class,
             ]);
+
+        if (Features::hasTeamFeatures()) {
+            $panel
+                ->tenant(Team::class, ownershipRelationship: 'team')
+                ->tenantMiddleware([
+                    AssignDefaultTeam::class,
+                ]);
+        }
+
+        $panel
+            ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
+            ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')
+            ->pages([
+                Dashboard::class,
+                Pages\EditProfile::class,
+                Profile::class,
+            ])
+            ->discoverWidgets(in: app_path('Filament/Staff/Widgets/Home'), for: 'App\\Filament\\Staff\\Widgets\\Home')
+            ->widgets([
+                Widgets\AccountWidget::class,
+            ])
+            ->plugins([
+                // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+            ]);
+
+        return $panel;
         if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')

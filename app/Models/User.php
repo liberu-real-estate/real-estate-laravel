@@ -112,7 +112,7 @@ public function canAccessPanel(Panel $panel): bool
 private function canAccessPanelById(string $panelId): bool
 {
     $allowedRoles = config("filament-shield.panels.$panelId", []);
-    return $this->hasAnyRole($allowedRoles);
+    return $this->hasAnyRole($allowedRoles) || $this->hasRole('admin');
 }
     public function canAccessFilament(): bool
     {
