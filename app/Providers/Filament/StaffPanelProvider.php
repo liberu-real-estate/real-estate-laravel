@@ -45,10 +45,10 @@ class StaffPanelProvider extends PanelProvider
         $panel
             ->default()
             ->id('staff')
-            ->path('staff/{tenant}')
+            ->path('staff')
             ->login([AuthenticatedSessionController::class, 'create'])
             ->loginRouteSlug('login')
-            ->homeUrl('/staff/{tenant}')
+            ->homeUrl('/staff')
             ->registration()
             ->passwordReset()
             ->emailVerification()
