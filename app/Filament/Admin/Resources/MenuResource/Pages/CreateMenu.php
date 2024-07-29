@@ -9,3 +9,11 @@ class CreateMenu extends CreateRecord
 {
     protected static string $resource = MenuResource::class;
 }
+
+use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Admin\Resources\MenuResource;
+
+class CreateMenu extends CreateRecord
+{
+    protected static string $resource = MenuResource::class;
+}
