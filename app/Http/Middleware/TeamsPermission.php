@@ -21,6 +21,7 @@ class TeamsPermission
         $requestedTeamId = $request->route('tenant');
         if ($requestedTeamId && $requestedTeamId != $user->currentTeam->id) {
             return redirect()->route('staff.dashboard', ['tenant' => $user->currentTeam->id])
+        //    return redirect()->route('staff.dashboard')
                 ->with('error', 'You do not have permission to access this team.');
         }
     
