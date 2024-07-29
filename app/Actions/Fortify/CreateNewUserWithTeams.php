@@ -19,23 +19,30 @@ class CreateNewUserWithTeams implements CreatesNewUsers
      *
      * @param array<string, string> $input
      */
+    use Illuminate\Support\Facades\Log;
+    
     public function create(array $input): User
     {
+        Log::info('Starting user creation', ['input' => $input]);
+    
         Validator::make($input, [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms'    => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
-
+    
         return DB::transaction(function () use ($input) {
-            return tap(User::create([
+            $user = tap(User::create([
                 'name'     => $input['name'],
                 'email'    => $input['email'],
                 'password' => Hash::make($input['password']),
             ]), function (User $user) {
                 $this->createTeam($user);
             });
+    
+            Log::info('User created successfully', ['user_id' => $user->id]);
+            return $user;
         });
     }
 
