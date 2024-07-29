@@ -31,4 +31,9 @@ class RecentMaintenanceRequests extends TableWidget
                 ->url(fn (MaintenanceRequest $record): string => MaintenanceRequestResource::getUrl('edit', ['record' => $record])),
         ];
     }
+
+    protected function getTableHeading(): string
+    {
+        return 'Recent Maintenance Requests';
+    }
 }
