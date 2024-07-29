@@ -30,14 +30,14 @@ class Dashboard extends BaseDashboard
         })->where('status', 'completed')->count();
     }
 
-    protected function getHeaderWidgets(): array
+    public function getHeaderWidgets(): array
     {
         return [
             DashboardStatsOverview::class,
         ];
     }
 
-    protected function getWidgets(): array
+    public function getWidgets(): array
     {
         return [
             RecentMaintenanceRequests::class,
