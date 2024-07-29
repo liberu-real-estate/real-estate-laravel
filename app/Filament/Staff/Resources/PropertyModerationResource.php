@@ -16,7 +16,7 @@ class PropertyModerationResource extends Resource
 {
     protected static ?string $model = Property::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 
     protected static ?string $navigationLabel = 'Property Moderation';
 
