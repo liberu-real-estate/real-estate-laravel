@@ -92,3 +92,37 @@
                 <p>Total Cost: £{{ number_format($costOfMovingResult['total_cost'], 2) }}</p>
             </div>
         @endif
+    @elseif ($calculatorType === 'stamp_duty')
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-2xl font-bold mb-4">Stamp Duty Calculator</h2>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="propertyValue">
+                    Property Value (£)
+                </label>
+                <input wire:model="propertyValue" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="propertyValue" type="number" placeholder="Enter property value">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="isFirstTimeBuyer">
+                    First Time Buyer?
+                </label>
+                <select wire:model="isFirstTimeBuyer" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="isFirstTimeBuyer">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="flex items-center justify-between">
+                <button wire:click="calculateStampDuty" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Calculate
+                </button>
+            </div>
+        </div>
+
+        @if ($stampDutyResult)
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
+                <p class="font-bold">Stamp Duty Calculation Results:</p>
+                <p>Stamp Duty: £{{ number_format($stampDutyResult['stamp_duty'], 2) }}</p>
+                <p>Effective Tax Rate: {{ number_format($stampDutyResult['effective_tax_rate'], 2) }}%</p>
+            </div>
+        @endif
+    @endif
+</div>
