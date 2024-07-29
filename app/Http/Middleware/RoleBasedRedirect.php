@@ -10,20 +10,22 @@ class RoleBasedRedirect
 {
     protected $roleRedirects = [
         'admin' => '/admin',
-        'staff' => '/staff',
+        'staff' => '/staff/{team}',
         'buyer' => '/buyer',
         'seller' => '/seller',
         'tenant' => '/tenant',
         'landlord' => '/landlord',
         'contractor' => '/contractor',
     ];
-
+    
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
             $user = Auth::user();
             foreach ($this->roleRedirects as $role => $redirect) {
                 if ($user->hasRole($role)) {
+                    $teamId = $user->currentTeam ? $user->currentTeam->id : 1;
+                    $redirect = str_replace('{team}', $teamId, $redirect);
                     if ($request->is($redirect) || $request->is($redirect . '/*')) {
                         return $next($request);
                     }
@@ -43,7 +45,7 @@ class RoleBasedRedirect
             // If user has no roles, allow them to access the requested page
             return $next($request);
         }
-
+    
         // If not authenticated, redirect to login
         return redirect()->route('login');
     }
