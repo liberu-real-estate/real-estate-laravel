@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Services\TeamManagementService;
-use Filament\Events\Auth\Registered;
+use Illuminate\Auth\Events\Registered;
 
 class CreatePersonalTeam
 {
