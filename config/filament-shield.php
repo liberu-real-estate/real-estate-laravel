@@ -97,8 +97,8 @@ return [
     ],
 
     'panels' => [
-        'admin' => ['admin', 'super_admin'],
-        'staff' => ['staff', 'admin', 'super_admin'],
+        'admin' => ['admin'],
+        'staff' => ['staff', 'admin'],
         'buyer' => ['buyer', 'free'],
         'seller' => ['seller', 'free'],
         'tenant' => ['tenant', 'free'],
