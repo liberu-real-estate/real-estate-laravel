@@ -73,11 +73,21 @@ class CreateNewUser implements CreatesNewUsers
                 'exception_class' => get_class($e),
             ]);
             if ($e instanceof \Illuminate\Database\QueryException) {
-                throw new Exception('Database error occurred. Please try again later.');
+                $errorCode = $e->getCode();
+                $errorMessage = $e->getMessage();
+                if (strpos($errorMessage, 'Duplicate entry') !== false) {
+                    throw new Exception('A user with this email already exists. Please use a different email address.');
+                } elseif ($errorCode == 1045) {
+                    throw new Exception('Database access denied. Please contact the administrator.');
+                } elseif ($errorCode == 2002) {
+                    throw new Exception('Unable to connect to the database. Please try again later.');
+                } else {
+                    throw new Exception('A database error occurred. Please try again later. Error code: ' . $errorCode);
+                }
             } elseif ($e instanceof \Spatie\Permission\Exceptions\RoleDoesNotExist) {
                 throw new Exception('Invalid role specified. Please choose a valid role.');
             } else {
-                throw new Exception('Failed to create user. Please try again later.');
+                throw new Exception('Failed to create user. Please try again later. Error: ' . $e->getMessage());
             }
         }
     }
