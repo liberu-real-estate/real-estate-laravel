@@ -14,7 +14,7 @@ class Dashboard extends Page
     {
         $this->totalProperties = Property::count();
         $this->activeListings = Property::where('status', 'active')->count();
-        $this->myBookings = Booking::where('buyer_id', auth()->id())->count();
+        $this->myBookings = Booking::where('user_id', auth()->id())->count();
     }
 
     protected function getHeaderWidgets(): array
