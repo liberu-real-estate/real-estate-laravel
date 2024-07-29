@@ -10,7 +10,7 @@ use App\Filament\Tenant\Resources\TenantPortalResource;
 
 class TenantDashboard extends BaseDashboard
 {
-    protected static string $view = 'filament.tenant.pages.tenant-dashboard';
+    protected static string $view = 'filament.tenant.pages.dashboard';
 
     public $currentProperty;
     public $rentDueDate;
