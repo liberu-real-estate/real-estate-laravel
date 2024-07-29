@@ -39,7 +39,7 @@ class CreateNewUser implements CreatesNewUsers
                 'role' => ['required', 'string', Rule::in(['tenant', 'buyer', 'seller', 'landlord', 'contractor'])],
             ])->validate();
 
-            return DB::transaction(function () use ($input) {
+            $user = DB::transaction(function () use ($input) {
                 return tap(User::create([
                     'name'     => $input['name'],
                     'email'    => $input['email'],
@@ -51,6 +51,14 @@ class CreateNewUser implements CreatesNewUsers
                     $user->assignRole($input['role']);
                 });
             });
+
+            Log::info('User created successfully', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'role' => $input['role'],
+            ]);
+
+            return $user;
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('User creation validation failed', [
                 'errors' => $e->errors(),
