@@ -52,6 +52,7 @@ class PropertyTest extends TestCase
             'bathrooms' => 2,
             'area_sqft' => 1500,
             'property_type' => 'House',
+            'postal_code' => 'SW1A 1AA',
         ]);
 
         $this->assertCount(1, Property::search('Test')->get());
@@ -60,6 +61,18 @@ class PropertyTest extends TestCase
         $this->assertCount(1, Property::bathrooms(1, 3)->get());
         $this->assertCount(1, Property::areaRange(1000, 2000)->get());
         $this->assertCount(1, Property::propertyType('House')->get());
+        $this->assertCount(1, Property::postalCode('SW1A')->get());
+    }
+
+    public function test_postal_code_search()
+    {
+        Property::factory()->create(['postal_code' => 'SW1A 1AA']);
+        Property::factory()->create(['postal_code' => 'SW1A 2BB']);
+        Property::factory()->create(['postal_code' => 'NW1 1CC']);
+
+        $this->assertCount(2, Property::postalCode('SW1A')->get());
+        $this->assertCount(1, Property::postalCode('NW1')->get());
+        $this->assertCount(0, Property::postalCode('SE1')->get());
     }
 
     public function test_get_available_dates_for_team()
