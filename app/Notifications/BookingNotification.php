@@ -18,3 +18,41 @@
         ];
     }
 }
+
+<?php
+
+namespace App\Notifications;
+
+use App\Models\Booking;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+
+class BookingNotification extends Notification implements ShouldQueue
+{
+    use Queueable;
+
+    protected $booking;
+    protected $action;
+
+    public function __construct(Booking $booking, string $action)
+    {
+        $this->booking = $booking;
+        $this->action = $action;
+    }
+
+    public function via($notifiable)
+    {
+        return ['mail', 'database'];
+    }
+
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->subject("Booking {$this->action}")
+                    ->line("Your booking for {$this->booking->property->title} has been {$this->action}.")
+                    ->line("Date: {$this->booking->date->format('F j, Y')}")
+                    ->line("Time: {$this->booking->time->format('g:i A')}");
+    }
+}
