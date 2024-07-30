@@ -32,6 +32,8 @@ class BookingCreated implements ShouldBroadcast
         return [
             'property_id' => $this->booking->property_id,
             'date' => $this->booking->date,
+            'time' => $this->booking->time,
+            'available_dates' => $this->booking->property->getAvailableDatesForTeam(),
         ];
     }
 }
