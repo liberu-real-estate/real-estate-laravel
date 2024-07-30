@@ -10,6 +10,27 @@
                 <input type="text" id="postalCode" wire:model.debounce.300ms="postalCode" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 @error('postalCode') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
+        </div>
+    </form>
+
+    <div class="mt-8">
+        <x-property-map />
+    </div>
+
+    <!-- ... (keep existing property list display) ... -->
+</div>
+
+@push('scripts')
+<script>
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('propertiesUpdated', function (properties) {
+            // This event is emitted when the properties are updated
+            // It will trigger the map update in the property-map component
+        });
+    });
+</script>
+@endpush
+            </div>
             <div>
                 <label for="minPrice" class="block text-sm font-medium text-gray-700">Min Price</label>
                 <input type="number" id="minPrice" wire:model="minPrice" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
