@@ -13,39 +13,39 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $adminUser = User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
-            'email_verified_at' => now(),
-        ]);
+        // Créer ou mettre à jour l'utilisateur admin
+        $adminUser = User::updateOrCreate(
+            ['email' => 'admin@example.com'], // Conditions for finding the existing user
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
         $adminUser->assignRole('admin');
+        $this->createTeamForUser($adminUser);
 
-        $staffUser = User::create([
-            'name' => 'Staff User',
-            'email' => 'staff@example.com',
-            'password' => Hash::make('password'),
-            'email_verified_at' => now(),
-        ]);
+        // Créer ou mettre à jour l'utilisateur staff
+        $staffUser = User::updateOrCreate(
+            ['email' => 'staff@example.com'], // Conditions for finding the existing user
+            [
+                'name' => 'Staff User',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
         $staffUser->assignRole('staff');
-
-        // Create teams for admin and staff users
-       $this->createTeamForUser($adminUser);
         $this->createTeamForUser($staffUser);
 
-        // Create additional users with teams
-   //     User::factory(8)->create()->each(function ($user) {
-   //         $this->createTeamForUser($user);
-//        });
+        // Créer des utilisateurs supplémentaires avec des équipes (commenté)
+        // User::factory(8)->create()->each(function ($user) {
+        //     $this->createTeamForUser($user);
+        // });
     }
 
     private function createTeamForUser($user)
     {
-/**        $team = $user->ownedTeams()->create([
-            'name' => $user->name . "'s Team",
-            'personal_team' => true,
-        ]);
-**/
+        // Définir l'équipe actuelle pour l'utilisateur
         $user->current_team_id = 1;
         $user->save();
     }

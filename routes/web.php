@@ -5,20 +5,21 @@
  * Includes routes for home, property listings, bookings, and payment processing.
  */
 
+use App\Http\Livewire\About;
+use App\Http\Livewire\PropertyList;
+use App\Http\Livewire\PrivacyPolicy;
+use App\Http\Livewire\PropertyDetail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\BookingCalendar;
+use App\Http\Livewire\PropertyBooking;
 use App\Http\Controllers\HomeController;
+use App\Http\Livewire\PropertyComparison;
+use App\Http\Livewire\TermsAndConditions;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Livewire\PropertyList;
-use App\Http\Livewire\PropertyBooking;
-use App\Http\Livewire\BookingCalendar;
-use App\Http\Livewire\PropertyComparison;
-use App\Http\Livewire\PropertyDetail;
 use App\Http\Livewire\RentalApplicationForm;
-use App\Http\Livewire\About;
-use App\Http\Livewire\TermsAndConditions;
-use App\Http\Livewire\PrivacyPolicy;
+use App\Http\Controllers\RegisteredUserController;
 
 
 /*
@@ -48,6 +49,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/apply/{property}', RentalApplicationForm::class)->name('rental.apply');
     Route::get('/applications', [App\Http\Controllers\TenantController::class, 'applications'])->name('tenant.applications');
 });
+
+Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
+
 
 Route::get('/properties/{property}/apply', [TenancyApplicationController::class, 'create'])->name('tenancy.apply');
 Route::post('/properties/{property}/apply', [TenancyApplicationController::class, 'store'])->name('tenancy.store');

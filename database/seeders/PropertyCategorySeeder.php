@@ -3,24 +3,24 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\PropertyCategory;
 
 class PropertyCategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        $categories = ['sales', 'lettings', 'hmo'];
+        $categories = [
+            ['name' => 'sales', 'slug' => 'sales'],
+            ['name' => 'rent', 'slug' => 'rent'],
+            // Ajoutez d'autres catégories ici
+        ];
 
         foreach ($categories as $category) {
-            DB::table('property_categories')->insert([
-                'name' => $category,
-                'slug' => $category,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            // Vérifier si la catégorie existe déjà
+            PropertyCategory::firstOrCreate(
+                ['slug' => $category['slug']],
+                ['name' => $category['name']]
+            );
         }
     }
 }
