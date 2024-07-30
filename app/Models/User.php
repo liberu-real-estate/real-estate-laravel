@@ -112,14 +112,13 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     private function canAccessPanelById(string $panelId): bool
     {
         $allowedRoles = config("filament-shield.panels.$panelId", []);
-        return true; //$this->hasAnyRole($allowedRoles);
+	return $this->hasAnyRole($allowedRoles);
     }
     public function canAccessFilament(): bool
     {
         $currentPanel = $this->getCurrentPanel();
        return $this->canAccessPanelById($currentPanel);
     }
-<<<<<<< HEAD
     private function getCurrentPanel(): string
     {
         // This is a placeholder. You need to implement a way to determine the current panel.
@@ -127,17 +126,6 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
         // that fits your application's structure.
         return 'default';
     }
-=======
-
-    // private function getCurrentPanel(): string
-    // {
-    //     // This is a placeholder. You need to implement a way to determine the current panel.
-    //     // It could be based on the current URL, a request parameter, or any other method
-    //     // that fits your application's structure.
-    //     return 'default';
-    // }
->>>>>>> refs/remotes/origin/main
-
 
     public function getDefaultTenant(Panel $panel): ?Model
     {
