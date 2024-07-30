@@ -37,4 +37,10 @@ class TenancyApplicationController extends Controller
 
         return redirect()->route('properties.show', $property)->with('success', 'Tenancy application submitted successfully.');
     }
+
+    public function index()
+    {
+        $applications = TenancyApplication::all();
+        return view('tenancy.applications.index', compact('applications'));
+    }
 }
