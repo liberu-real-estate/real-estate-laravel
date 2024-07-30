@@ -178,13 +178,6 @@ class Team extends JetstreamTeam
         return $this->hasMany(Message::class);
     }
 
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'team_user')
-                    ->withPivot('role')
-                    ->withTimestamps();
-    }
-
     public function memberships()
     {
         return $this->hasMany(TeamInvitation::class);

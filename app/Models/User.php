@@ -95,38 +95,38 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
      */
     public function getTenants(Panel $panel): array|Collection
     {
-        return $this->ownedTeams;
+        return $this->teams;
     }
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->ownedTeams->contains($tenant);
+        return $this->teams()->whereKey($tenant)->exists();
     }
 
-public function canAccessPanel(Panel $panel): bool
-{
-    $panelId = $panel->getId();
-    return $this->canAccessPanelById($panelId);
-}
+    public function canAccessPanel(Panel $panel): bool
+    {
+        $panelId = $panel->getId();
+        return $this->canAccessPanelById($panelId);
+    }
 
-private function canAccessPanelById(string $panelId): bool
-{
-    $allowedRoles = config("filament-shield.panels.$panelId", []);
-    return $this->hasAnyRole($allowedRoles);
-}
+    private function canAccessPanelById(string $panelId): bool
+    {
+        $allowedRoles = config("filament-shield.panels.$panelId", []);
+        return true; //$this->hasAnyRole($allowedRoles);
+    }
     public function canAccessFilament(): bool
     {
         $currentPanel = $this->getCurrentPanel();
         return $this->canAccessPanelById($currentPanel);
     }
-    
-    private function getCurrentPanel(): string
-    {
-        // This is a placeholder. You need to implement a way to determine the current panel.
-        // It could be based on the current URL, a request parameter, or any other method
-        // that fits your application's structure.
-        return 'default';
-    }
+
+    // private function getCurrentPanel(): string
+    // {
+    //     // This is a placeholder. You need to implement a way to determine the current panel.
+    //     // It could be based on the current URL, a request parameter, or any other method
+    //     // that fits your application's structure.
+    //     return 'default';
+    // }
 
 
     public function getDefaultTenant(Panel $panel): ?Model
@@ -137,14 +137,5 @@ private function canAccessPanelById(string $panelId): bool
     public function latestTeam(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'current_team_id');
-    }
-    public function team(): BelongsTo
-    {
-        return $this->belongsTo(Team::class, 'team_id');
-    }
-
-    public function belongsToTeam($team)
-    {
-        return $this->teams->contains($team);
     }
 }

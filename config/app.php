@@ -172,7 +172,7 @@ return [
         App\Providers\Filament\AppPanelProvider::class,
         App\Providers\Filament\BuyerPanelProvider::class,
         App\Providers\Filament\ContractorPanelProvider::class,
-        App\Providers\Filament\TenantPanelProvider::class,
+        // App\Providers\Filament\TenantPanelProvider::class,
         App\Providers\Filament\SellerPanelProvider::class,
         App\Providers\Filament\StaffPanelProvider::class,
         App\Providers\Filament\LandlordPanelProvider::class,
