@@ -55,6 +55,10 @@ class StaffPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
+            ])
+            ->authGuard('web')
+            ->authMiddleware([
+                Authenticate::class,
             ]);
         if (Features::hasTeamFeatures()) {
             $panel
