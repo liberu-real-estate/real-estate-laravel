@@ -28,8 +28,11 @@ class AdvancedPropertySearch extends Component
     public $sortBy = 'created_at';
     public $sortDirection = 'desc';
     public $postalCode = '';
+    public $drawnArea = null;
 
     protected $postalCodeService;
+
+    protected $listeners = ['updateDrawnArea'];
 
     public function boot(PostalCodeService $postalCodeService)
     {
@@ -56,9 +59,14 @@ class AdvancedPropertySearch extends Component
         }
     }
 
+    public function updateDrawnArea($coordinates)
+    {
+        $this->drawnArea = $coordinates;
+    }
+
     public function getPropertiesProperty()
     {
-        return Property::search($this->search)
+        $query = Property::search($this->search)
             ->priceRange($this->minPrice, $this->maxPrice)
             ->bedrooms($this->minBedrooms, $this->maxBedrooms)
             ->bathrooms($this->minBathrooms, $this->maxBathrooms)
@@ -77,8 +85,13 @@ class AdvancedPropertySearch extends Component
             })
             ->when($this->postalCode, function ($query) {
                 return $query->postalCode($this->postalCode);
-            })
-            ->with(['features', 'images'])
+            });
+
+        if ($this->drawnArea) {
+            $query->whereRaw('ST_Contains(ST_GeomFromText(?), POINT(latitude, longitude))', [$this->drawnArea]);
+        }
+
+        return $query->with(['features', 'images'])
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(12);
     }
@@ -91,6 +104,28 @@ class AdvancedPropertySearch extends Component
             $this->sortBy = $field;
             $this->sortDirection = 'asc';
         }
+    }
+
+    public function render()
+    {
+        $properties = $this->getPropertiesProperty();
+        $mapProperties = $properties->map(function ($property) {
+            return [
+                'id' => $property->id,
+                'title' => $property->title,
+                'lat' => $property->latitude,
+                'lng' => $property->longitude,
+                'price' => $property->price,
+            ];
+        });
+
+        $this->emit('propertiesUpdated', $mapProperties);
+
+        return view('livewire.advanced-property-search', [
+            'properties' => $properties,
+            'mapProperties' => $mapProperties,
+            'amenities' => PropertyFeature::distinct('feature_name')->pluck('feature_name'),
+        ])->layout('layouts.app');
     }
 
     public function render()

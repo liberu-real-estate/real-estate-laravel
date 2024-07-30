@@ -72,6 +72,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'neighborhood_id',
         'property_category_id',
         'postal_code',
+        'latitude',
+        'longitude',
     ];
 
     protected $casts = [
