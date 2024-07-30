@@ -19,7 +19,8 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
-use App\Filament\App\Pages\Dashboard;
+use Filament\Pages\Dashboard;
+// use App\Filament\App\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -59,9 +60,9 @@ class AppPanelProvider extends PanelProvider
         if (Features::hasTeamFeatures()) {
             $panel
                 ->tenant(Team::class, ownershipRelationship: 'team')
-//                ->tenantRoutePrefix('/{tenant}')
+            //    ->tenantRoutePrefix('/{tenant}')
                 ->tenantMiddleware([
-                    AssignDefaultTeam::class,
+                    // AssignDefaultTeam::class,
                 ]);
               //  ->tenantRegistration(CreateTeam::class)
               //  ->tenantProfile(EditTeam::class);
@@ -114,6 +115,14 @@ class AppPanelProvider extends PanelProvider
          * Disable Jetstream routes.
          */
         Jetstream::$registersRoutes = false;
+
+        /**
+         * Listen and switch team if tenant was changed.
+         */
+        Event::listen(
+            TenantSet::class,
+            SwitchTeam::class,
+        );
     }
 
     // This method has been removed
