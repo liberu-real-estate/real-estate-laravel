@@ -31,9 +31,9 @@ class RoleBasedRedirect
                     if ($request->is($redirect) || $request->is($redirect . '/*')) {
                         return $next($request);
                     }
-                    if ($this->shouldRedirect($request, $redirect)) {
-                        return redirect($redirect);
-                    }
+                   if ($this->shouldRedirect($request, $redirect)) {
+                       return redirect($redirect);
+                   }
                 }
             }
             // If user has a role not in $roleRedirects, redirect to /{role}
@@ -48,6 +48,8 @@ class RoleBasedRedirect
                     return redirect($roleRedirect);
                 }
             }
+        return $next($request);
+
         }
         return $next($request);
         // If not authenticated, redirect to login

@@ -117,9 +117,8 @@ private function canAccessPanelById(string $panelId): bool
     public function canAccessFilament(): bool
     {
         $currentPanel = $this->getCurrentPanel();
-        return $this->canAccessPanelById($currentPanel);
+       return $this->canAccessPanelById($currentPanel);
     }
-    
     private function getCurrentPanel(): string
     {
         // This is a placeholder. You need to implement a way to determine the current panel.

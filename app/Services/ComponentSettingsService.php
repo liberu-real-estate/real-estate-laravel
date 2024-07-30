@@ -13,7 +13,16 @@ class ComponentSettingsService
     public function getAllSettings()
     {
         return Cache::remember($this->cacheKey, $this->cacheDuration, function () {
-            return ComponentSettings::all()->keyBy('component_name')->toArray();
+            try {
+                if (Schema::hasTable('component_settings')) {
+                    return ComponentSettings::all()->keyBy('component_name')->toArray();
+                }
+            } catch (\Exception $e) {
+                // Log the error if needed
+                // \Log::error('Error accessing component_settings table: ' . $e->getMessage());
+            }
+            return [];
+
         });
     }
 
