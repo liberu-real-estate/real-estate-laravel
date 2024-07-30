@@ -28,11 +28,11 @@ class AdvancedPropertySearch extends Component
     public $sortBy = 'created_at';
     public $sortDirection = 'desc';
     public $postalCode = '';
-    public $drawnArea = null;
+    public $latitude = null;
+    public $longitude = null;
+    public $radius = 10; // Default radius in km
 
     protected $postalCodeService;
-
-    protected $listeners = ['updateDrawnArea'];
 
     public function boot(PostalCodeService $postalCodeService)
     {
@@ -55,13 +55,11 @@ class AdvancedPropertySearch extends Component
             $result = $this->postalCodeService->validatePostcode($this->postalCode);
             if (!$result) {
                 $this->addError('postalCode', 'Invalid postal code');
+            } else {
+                $this->latitude = $result['latitude'];
+                $this->longitude = $result['longitude'];
             }
         }
-    }
-
-    public function updateDrawnArea($coordinates)
-    {
-        $this->drawnArea = $coordinates;
     }
 
     public function getPropertiesProperty()
@@ -85,15 +83,13 @@ class AdvancedPropertySearch extends Component
             })
             ->when($this->postalCode, function ($query) {
                 return $query->postalCode($this->postalCode);
-            });
+            })
+            ->when($this->latitude && $this->longitude, function ($query) {
+                return $query->nearby($this->latitude, $this->longitude, $this->radius);
+            })
+            ->with(['features', 'images']);
 
-        if ($this->drawnArea) {
-            $query->whereRaw('ST_Contains(ST_GeomFromText(?), POINT(latitude, longitude))', [$this->drawnArea]);
-        }
-
-        return $query->with(['features', 'images'])
-            ->orderBy($this->sortBy, $this->sortDirection)
-            ->paginate(12);
+        return $query->orderBy($this->sortBy, $this->sortDirection)->paginate(12);
     }
 
     public function sortBy($field)
@@ -106,26 +102,35 @@ class AdvancedPropertySearch extends Component
         }
     }
 
-    public function render()
+    public function saveSearch()
     {
-        $properties = $this->getPropertiesProperty();
-        $mapProperties = $properties->map(function ($property) {
-            return [
-                'id' => $property->id,
-                'title' => $property->title,
-                'lat' => $property->latitude,
-                'lng' => $property->longitude,
-                'price' => $property->price,
-            ];
-        });
+        $this->validate([
+            'search' => 'required|string|max:255',
+        ]);
 
-        $this->emit('propertiesUpdated', $mapProperties);
+        auth()->user()->savedSearches()->create([
+            'criteria' => [
+                'search' => $this->search,
+                'minPrice' => $this->minPrice,
+                'maxPrice' => $this->maxPrice,
+                'minBedrooms' => $this->minBedrooms,
+                'maxBedrooms' => $this->maxBedrooms,
+                'minBathrooms' => $this->minBathrooms,
+                'maxBathrooms' => $this->maxBathrooms,
+                'minArea' => $this->minArea,
+                'maxArea' => $this->maxArea,
+                'propertyType' => $this->propertyType,
+                'selectedAmenities' => $this->selectedAmenities,
+                'yearBuilt' => $this->yearBuilt,
+                'status' => $this->status,
+                'postalCode' => $this->postalCode,
+                'latitude' => $this->latitude,
+                'longitude' => $this->longitude,
+                'radius' => $this->radius,
+            ],
+        ]);
 
-        return view('livewire.advanced-property-search', [
-            'properties' => $properties,
-            'mapProperties' => $mapProperties,
-            'amenities' => PropertyFeature::distinct('feature_name')->pluck('feature_name'),
-        ])->layout('layouts.app');
+        session()->flash('message', 'Search saved successfully!');
     }
 
     public function render()

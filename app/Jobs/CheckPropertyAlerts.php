@@ -17,21 +17,34 @@ class CheckPropertyAlerts implements ShouldQueue
 
     public function handle()
     {
-        $alerts = Alert::all();
-
-        foreach ($alerts as $alert) {
+        $savedSearches = SavedSearch::all();
+    
+        foreach ($savedSearches as $savedSearch) {
+            $criteria = $savedSearch->criteria;
             $matchingProperties = Property::query()
-                ->where('property_type', $alert->property_type)
-                ->where('price', '>=', $alert->min_price)
-                ->where('price', '<=', $alert->max_price)
-                ->where('bedrooms', '>=', $alert->min_bedrooms)
-                ->where('bedrooms', '<=', $alert->max_bedrooms)
-                ->where('location', 'like', '%' . $alert->location . '%')
+                ->when(isset($criteria['property_type']), function ($query) use ($criteria) {
+                    return $query->where('property_type', $criteria['property_type']);
+                })
+                ->when(isset($criteria['minPrice']), function ($query) use ($criteria) {
+                    return $query->where('price', '>=', $criteria['minPrice']);
+                })
+                ->when(isset($criteria['maxPrice']), function ($query) use ($criteria) {
+                    return $query->where('price', '<=', $criteria['maxPrice']);
+                })
+                ->when(isset($criteria['minBedrooms']), function ($query) use ($criteria) {
+                    return $query->where('bedrooms', '>=', $criteria['minBedrooms']);
+                })
+                ->when(isset($criteria['maxBedrooms']), function ($query) use ($criteria) {
+                    return $query->where('bedrooms', '<=', $criteria['maxBedrooms']);
+                })
+                ->when(isset($criteria['postalCode']), function ($query) use ($criteria) {
+                    return $query->where('postal_code', 'like', $criteria['postalCode'] . '%');
+                })
                 ->where('created_at', '>', now()->subDay())
                 ->get();
-
+    
             foreach ($matchingProperties as $property) {
-                $alert->user->notify(new PropertyAlert($property));
+                $savedSearch->user->notify(new PropertyAlert($property));
             }
         }
     }
