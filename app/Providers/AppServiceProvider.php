@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\ComponentSettings;
 use App\Services\SiteSettingsService;
+use App\Services\ComponentSettingsService;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\QueryException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,6 +12,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(SiteSettingsService::class, function ($app) {
             return new SiteSettingsService();
+        });
+
+        $this->app->singleton(ComponentSettingsService::class, function ($app) {
+            return new ComponentSettingsService();
         });
     }
 
@@ -23,15 +26,6 @@ class AppServiceProvider extends ServiceProvider
 
     public static function isComponentEnabled($componentName)
     {
-        try {
-            $setting = ComponentSettings::where('component_name', $componentName)->first();
-            return $setting ? $setting->is_enabled : true;
-        } catch (QueryException $e) {
-            // If the table doesn't exist, return true as default
-            if ($e->getCode() == "42S02") {
-                return true;
-            }
-            throw $e;
-        }
+        return app(ComponentSettingsService::class)->isEnabled($componentName);
     }
 }
