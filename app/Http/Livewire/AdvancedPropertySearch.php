@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Property;
 use App\Models\PropertyFeature;
 use Livewire\WithPagination;
+use App\Services\PostalCodeService;
 
 class AdvancedPropertySearch extends Component
 {
@@ -26,10 +27,33 @@ class AdvancedPropertySearch extends Component
     public $status = '';
     public $sortBy = 'created_at';
     public $sortDirection = 'desc';
+    public $postalCode = '';
+
+    protected $postalCodeService;
+
+    public function boot(PostalCodeService $postalCodeService)
+    {
+        $this->postalCodeService = $postalCodeService;
+    }
 
     public function updatedSearch()
     {
         $this->resetPage();
+    }
+
+    public function updatedPostalCode()
+    {
+        $this->validatePostalCode();
+    }
+
+    public function validatePostalCode()
+    {
+        if (!empty($this->postalCode)) {
+            $result = $this->postalCodeService->validatePostcode($this->postalCode);
+            if (!$result) {
+                $this->addError('postalCode', 'Invalid postal code');
+            }
+        }
     }
 
     public function getPropertiesProperty()
@@ -50,6 +74,9 @@ class AdvancedPropertySearch extends Component
             })
             ->when($this->status, function ($query) {
                 return $query->where('status', $this->status);
+            })
+            ->when($this->postalCode, function ($query) {
+                return $query->postalCode($this->postalCode);
             })
             ->with(['features', 'images'])
             ->orderBy($this->sortBy, $this->sortDirection)

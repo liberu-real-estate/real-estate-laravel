@@ -71,6 +71,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'last_synced_at',
         'neighborhood_id',
         'property_category_id',
+        'postal_code',
     ];
 
     protected $casts = [
@@ -160,8 +161,14 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         return $query->where(function ($query) use ($search) {
             $query->where('title', 'like', '%' . $search . '%')
                   ->orWhere('description', 'like', '%' . $search . '%')
-                  ->orWhere('location', 'like', '%' . $search . '%');
+                  ->orWhere('location', 'like', '%' . $search . '%')
+                  ->orWhere('postal_code', 'like', '%' . $search . '%');
         });
+    }
+
+    public function scopePostalCode(Builder $query, $postalCode): Builder
+    {
+        return $query->where('postal_code', 'like', $postalCode . '%');
     }
 
     public function scopeCategory(Builder $query, $category): Builder
