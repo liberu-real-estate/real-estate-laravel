@@ -51,6 +51,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
 
 
 Route::get('/properties/{property}/apply', [TenancyApplicationController::class, 'create'])->name('tenancy.apply');

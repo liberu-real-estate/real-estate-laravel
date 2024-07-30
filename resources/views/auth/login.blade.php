@@ -20,34 +20,52 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <div>
-                    <label class="block font-medium text-sm text-gray-700" for="email">
+                <!-- Email Address -->
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700">
                         {{ __('Email') }}
                     </label>
-                    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" id="email" type="email" name="email" required="required" autofocus="autofocus">
+                    <input id="email" type="email" name="email" required autofocus
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 </div>
 
-                <div class="mt-4">
-                    <label class="block font-medium text-sm text-gray-700" for="password">
+                <!-- Password -->
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">
                         {{ __('Password') }}
                     </label>
-                    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full" id="password" type="password" name="password" required="required" autocomplete="current-password">
+                    <input id="password" type="password" name="password" required autocomplete="current-password"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm">
                 </div>
 
+                <!-- Remember Me -->
                 <div class="block mt-4">
                     <label for="remember_me" class="flex items-center">
-                        <input type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="remember_me" name="remember">
+                        <input id="remember_me" type="checkbox" name="remember"
+                            class="rounded border-gray-300 text-green-600 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
                         <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                     </label>
                 </div>
 
-                <div class="flex items-center justify-end mt-4">
-                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 ml-4">
+                <!-- Login Button -->
+                <div class="flex items-center justify-between mt-4">
+                    <button type="submit"
+                        class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                         {{ __('Log in') }}
                     </button>
                 </div>
 
-                <a href="/forgot-password" class="underline text-sm text-gray-600 hover:text-gray-900" >Forgot password?</a>
+                <!-- Forgot Password Link -->
+                <div class="mt-4 flex justify-between items-center">
+                    <a href="{{ route('password.request') }}" class="underline text-sm text-gray-600 hover:text-gray-900">
+                        {{ __('Forgot your password?') }}
+                    </a>
+
+                    <!-- Register Button -->
+                    <a href="{{ route('register') }}" class="text-green-600 hover:underline">
+                        {{ __('Sign up') }}
+                    </a>
+                </div>
             </form>
         </div>
     </div>

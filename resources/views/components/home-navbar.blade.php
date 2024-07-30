@@ -8,7 +8,7 @@
                 <a href="/" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Home</a>
                 <a href="/contact" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Contact</a>
                 <a href="/about" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">About</a>
- <a href="/properties" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Properties</a>
+                <a href="/properties" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Properties</a>
                 @if(auth()->check())
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" class="px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">
@@ -33,6 +33,11 @@
                                 @else
                                     <a href="/dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
                                 @endif
+                                <!-- Logout button -->
+                                <form action="{{ route('logout') }}" method="POST" class="block px-4 py-2">
+                                    @csrf
+                                    <button type="submit" class="w-full text-left text-gray-700 hover:bg-gray-100">Logout</button>
+                                </form>
                             @endif
                         </div>
                     </div>
@@ -75,6 +80,11 @@
                 @else
                     <a href="/dashboard" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Dashboard</a>
                 @endif
+                <!-- Logout button -->
+                <form action="{{ route('logout') }}" method="POST" class="block px-4 py-2">
+                    @csrf
+                    <button type="submit" class="w-full text-left text-gray-700 hover:bg-gray-100">Logout</button>
+                </form>
             @else
                 <a href="/login" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Login</a>
                 <a href="/register" class="block px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out">Register</a>
