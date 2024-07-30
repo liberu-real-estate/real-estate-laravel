@@ -38,26 +38,28 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => $this->passwordRules(),
                 'role' => ['required', 'string', Rule::in(['tenant', 'buyer', 'seller', 'landlord', 'contractor'])],
             ])->validate();
-
+    
             $user = DB::transaction(function () use ($input) {
-                return tap(User::create([
+                $user = User::create([
                     'name'     => $input['name'],
                     'email'    => $input['email'],
                     'password' => Hash::make($input['password']),
-                ]), function (User $user) use ($input) {
-                    $team = $this->assignOrCreateTeam($user);
-                    $user->switchTeam($team);
-                    setPermissionsTeamId($team->id);
-                    $user->assignRole($input['role']);
-                });
+                ]);
+    
+                $team = $this->assignOrCreateTeam($user);
+                $user->switchTeam($team);
+                setPermissionsTeamId($team->id);
+                $user->assignRole($input['role']);
+    
+                return $user;
             });
-
+    
             Log::info('User created successfully', [
                 'user_id' => $user->id,
                 'email' => $user->email,
                 'role' => $input['role'],
             ]);
-
+    
             return $user;
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('User creation validation failed', [
@@ -65,30 +67,43 @@ class CreateNewUser implements CreatesNewUsers
                 'input' => array_diff_key($input, array_flip(['password'])),
             ]);
             throw $e;
-        } catch (Exception $e) {
-            Log::error('User creation failed', [
+        } catch (\Illuminate\Database\QueryException $e) {
+            Log::error('Database error during user creation', [
                 'message' => $e->getMessage(),
-                'input' => array_diff_key($input, array_flip(['password'])),
+                'code' => $e->getCode(),
+                'sql' => $e->getSql(),
+                'bindings' => $e->getBindings(),
+            ]);
+            throw new Exception($this->getDatabaseErrorMessage($e));
+        } catch (\Spatie\Permission\Exceptions\RoleDoesNotExist $e) {
+            Log::error('Invalid role specified during user creation', [
+                'role' => $input['role'] ?? 'not provided',
+                'message' => $e->getMessage(),
+            ]);
+            throw new Exception('Invalid role specified. Please choose a valid role.');
+        } catch (Exception $e) {
+            Log::error('Unexpected error during user creation', [
+                'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
                 'exception_class' => get_class($e),
             ]);
-            if ($e instanceof \Illuminate\Database\QueryException) {
-                $errorCode = $e->getCode();
-                $errorMessage = $e->getMessage();
-                if (strpos($errorMessage, 'Duplicate entry') !== false) {
-                    throw new Exception('A user with this email already exists. Please use a different email address.');
-                } elseif ($errorCode == 1045) {
-                    throw new Exception('Database access denied. Please contact the administrator.');
-                } elseif ($errorCode == 2002) {
-                    throw new Exception('Unable to connect to the database. Please try again later.');
-                } else {
-                    throw new Exception('A database error occurred. Please try again later. Error code: ' . $errorCode);
-                }
-            } elseif ($e instanceof \Spatie\Permission\Exceptions\RoleDoesNotExist) {
-                throw new Exception('Invalid role specified. Please choose a valid role.');
-            } else {
-                throw new Exception('Failed to create user. Please try again later. Error: ' . $e->getMessage());
-            }
+            throw new Exception('An unexpected error occurred. Please try again later.');
+        }
+    }
+    
+    private function getDatabaseErrorMessage(\Illuminate\Database\QueryException $e): string
+    {
+        $errorCode = $e->getCode();
+        $errorMessage = $e->getMessage();
+    
+        if (strpos($errorMessage, 'Duplicate entry') !== false) {
+            return 'A user with this email already exists. Please use a different email address.';
+        } elseif ($errorCode == 1045) {
+            return 'Database access denied. Please contact the administrator.';
+        } elseif ($errorCode == 2002) {
+            return 'Unable to connect to the database. Please try again later.';
+        } else {
+            return 'A database error occurred. Please try again later. Error code: ' . $errorCode;
         }
     }
 
@@ -100,27 +115,32 @@ class CreateNewUser implements CreatesNewUsers
     protected function assignOrCreateTeam(User $user): Team
     {
         try {
-            return $user->ownedTeams()->create([
+            $team = $user->ownedTeams()->create([
                 'name' => $user->name . "'s Team",
                 'personal_team' => true,
             ]);
+    
+            Log::info('Personal team created successfully', [
+                'user_id' => $user->id,
+                'team_id' => $team->id,
+            ]);
+    
+            return $team;
         } catch (\Illuminate\Database\QueryException $e) {
             Log::error('Database error while creating personal team', [
                 'user_id' => $user->id,
                 'message' => $e->getMessage(),
                 'sql' => $e->getSql(),
                 'bindings' => $e->getBindings(),
-                'trace' => $e->getTraceAsString(),
             ]);
-            throw new Exception('Database error occurred while creating team. Please try again later.');
+            throw new Exception('Failed to create personal team due to a database error. Please try again later.');
         } catch (Exception $e) {
-            Log::error('Failed to create personal team', [
+            Log::error('Unexpected error while creating personal team', [
                 'user_id' => $user->id,
                 'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
                 'exception_class' => get_class($e),
             ]);
-            throw new Exception('Failed to create personal team. Please try again later.');
+            throw new Exception('An unexpected error occurred while creating your personal team. Please try again later.');
         }
     }
 }
