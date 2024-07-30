@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ComponentSettings;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 
 class ComponentSettingsService
 {
