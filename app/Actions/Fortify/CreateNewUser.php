@@ -38,22 +38,30 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => $this->passwordRules(),
                 'role' => ['required', 'string', Rule::in(['tenant', 'buyer', 'seller', 'landlord', 'contractor'])],
             ])->validate();
-    
+
+           
             $user = DB::transaction(function () use ($input) {
-                $user = User::create([
+                return tap(User::create([
                     'name'     => $input['name'],
                     'email'    => $input['email'],
                     'password' => Hash::make($input['password']),
-                ]);
-    
-                $team = $this->assignOrCreateTeam($user);
-                $user->switchTeam($team);
-                setPermissionsTeamId($team->id);
-                $user->assignRole($input['role']);
-    
-                return $user;
+                ]), function (User $user) use ($input) {
+                    $team = $this->assignOrCreateTeam($user);
+                    $user->switchTeam($team);
+                    setPermissionsTeamId($team->id);
+                    $user->assignRole($input['role']);
+                });
             });
-    
+            // $user = DB::transaction(function () use ($input) {
+            //     return tap(,
+            //     , function (User $user) use ($input) {
+            //         $team = $this->assignOrCreateTeam($user);
+            //         $user->switchTeam($team);
+            //         setPermissionsTeamId($team->id);
+            //         $user->assignRole($input['role']);
+            //     });
+            // });
+
             Log::info('User created successfully', [
                 'user_id' => $user->id,
                 'email' => $user->email,
@@ -114,33 +122,9 @@ class CreateNewUser implements CreatesNewUsers
      */
     protected function assignOrCreateTeam(User $user): Team
     {
-        try {
-            $team = $user->ownedTeams()->create([
-                'name' => $user->name . "'s Team",
-                'personal_team' => true,
-            ]);
+        $team = Team::first();
     
-            Log::info('Personal team created successfully', [
-                'user_id' => $user->id,
-                'team_id' => $team->id,
-            ]);
-    
-            return $team;
-        } catch (\Illuminate\Database\QueryException $e) {
-            Log::error('Database error while creating personal team', [
-                'user_id' => $user->id,
-                'message' => $e->getMessage(),
-                'sql' => $e->getSql(),
-                'bindings' => $e->getBindings(),
-            ]);
-            throw new Exception('Failed to create personal team due to a database error. Please try again later.');
-        } catch (Exception $e) {
-            Log::error('Unexpected error while creating personal team', [
-                'user_id' => $user->id,
-                'message' => $e->getMessage(),
-                'exception_class' => get_class($e),
-            ]);
-            throw new Exception('An unexpected error occurred while creating your personal team. Please try again later.');
-        }
+        $team->users()->attach($user);
+        return $team;
     }
 }
