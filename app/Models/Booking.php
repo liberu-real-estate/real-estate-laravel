@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
 use App\Models\Property;
 use App\Models\Team;
+use App\Events\BookingCancelled;
+use App\Events\BookingRescheduled;
+use Carbon\Carbon;
 
 class Booking extends Model
 {
@@ -60,17 +63,37 @@ class Booking extends Model
 
     public function cancel()
     {
-        $this->status = 'cancelled';
-        $this->save();
-        event(new BookingCancelled($this));
+        if ($this->canBeCancelled()) {
+            $this->status = 'cancelled';
+            $this->save();
+            event(new BookingCancelled($this));
+            return true;
+        }
+        return false;
     }
 
     public function reschedule($newDate, $newTime)
     {
-        $this->date = $newDate;
-        $this->time = $newTime;
-        $this->save();
-        event(new BookingRescheduled($this));
+        if ($this->canBeRescheduled()) {
+            $this->date = $newDate;
+            $this->time = $newTime;
+            $this->save();
+            event(new BookingRescheduled($this));
+            return true;
+        }
+        return false;
+    }
+
+    public function canBeCancelled()
+    {
+        $cancellationDeadline = Carbon::parse($this->date . ' ' . $this->time)->subHours(24);
+        return Carbon::now()->lt($cancellationDeadline);
+    }
+
+    public function canBeRescheduled()
+    {
+        $reschedulingDeadline = Carbon::parse($this->date . ' ' . $this->time)->subHours(48);
+        return Carbon::now()->lt($reschedulingDeadline);
     }
 
     public function scopeActive($query)

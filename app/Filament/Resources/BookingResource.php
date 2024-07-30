@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 
 class BookingResource extends Resource
 {
@@ -70,6 +71,21 @@ class BookingResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Action::make('cancel')
+                    ->action(fn (Booking $record) => $record->cancel())
+                    ->requiresConfirmation()
+                    ->visible(fn (Booking $record) => $record->canBeCancelled()),
+                Action::make('reschedule')
+                    ->form([
+                        Forms\Components\DatePicker::make('new_date')
+                            ->required(),
+                        Forms\Components\TimePicker::make('new_time')
+                            ->required(),
+                    ])
+                    ->action(function (Booking $record, array $data): void {
+                        $record->reschedule($data['new_date'], $data['new_time']);
+                    })
+                    ->visible(fn (Booking $record) => $record->canBeRescheduled()),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

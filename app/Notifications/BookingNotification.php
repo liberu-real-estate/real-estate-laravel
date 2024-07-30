@@ -1,32 +1,4 @@
-<?php
 
-namespace App\Notifications;
-
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
-use App\Models\Booking;
-
-class BookingNotification extends Notification
-{
-    use Queueable;
-
-    protected $booking;
-    protected $action;
-
-    public function __construct(Booking $booking, $action)
-    {
-        $this->booking = $booking;
-        $this->action = $action;
-    }
-
-    public function via($notifiable)
-    {
-        return ['mail', 'database'];
-    }
-
-    public function toMail($notifiable)
     {
         return (new MailMessage)
                     ->subject("Booking {$this->action}")
