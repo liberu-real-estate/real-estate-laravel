@@ -142,6 +142,7 @@ return [
     'maintenance' => [
         'driver' => 'file',
         // 'store' => 'redis',
+App\Providers\FilamentServiceProvider::class,
 ],
 
     /*
