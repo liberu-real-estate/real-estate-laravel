@@ -2979,16 +2979,16 @@
         },
         {
             "name": "joelbutcher/socialstream",
-            "version": "v6.1.3",
+            "version": "v6.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joelbutcher/socialstream.git",
-                "reference": "966b8dff3240f8da09d0e8650b3f708249d378f8"
+                "reference": "5309717b6d769ae9359844d518e835e1df894135"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joelbutcher/socialstream/zipball/966b8dff3240f8da09d0e8650b3f708249d378f8",
-                "reference": "966b8dff3240f8da09d0e8650b3f708249d378f8",
+                "url": "https://api.github.com/repos/joelbutcher/socialstream/zipball/5309717b6d769ae9359844d518e835e1df894135",
+                "reference": "5309717b6d769ae9359844d518e835e1df894135",
                 "shasum": ""
             },
             "require": {
@@ -3056,7 +3056,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-25T08:47:50+00:00"
+            "time": "2024-07-30T13:01:09+00:00"
         },
         {
             "name": "kirschbaum-development/eloquent-power-joins",
@@ -3272,16 +3272,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.18.1",
+            "version": "v11.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b19ba518c56852567e99fbae9321bc436c2cc5a8"
+                "reference": "5e103d499e9ee5bcfc184412d034c4e516b87085"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b19ba518c56852567e99fbae9321bc436c2cc5a8",
-                "reference": "b19ba518c56852567e99fbae9321bc436c2cc5a8",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/5e103d499e9ee5bcfc184412d034c4e516b87085",
+                "reference": "5e103d499e9ee5bcfc184412d034c4e516b87085",
                 "shasum": ""
             },
             "require": {
@@ -3474,7 +3474,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-07-26T10:39:29+00:00"
+            "time": "2024-07-30T15:22:41+00:00"
         },
         {
             "name": "laravel/jetstream",
