@@ -5,6 +5,7 @@ namespace App\Filament\Staff\Widgets;
 use Filament\Widgets\ChartWidget;
 use App\Models\Property;
 use App\Models\Transaction;
+use Carbon\Carbon;
 
 class TopPerformingProperties extends ChartWidget
 {
@@ -12,8 +13,8 @@ class TopPerformingProperties extends ChartWidget
 
     protected function getData(): array
     {
-        $startDate = $this->getPage()->startDate;
-        $endDate = $this->getPage()->endDate;
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
 
         $topProperties = Property::withSum(['transactions' => function ($query) use ($startDate, $endDate) {
             $query->whereBetween('transaction_date', [$startDate, $endDate]);

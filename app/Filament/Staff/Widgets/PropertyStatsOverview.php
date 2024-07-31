@@ -8,13 +8,14 @@ use App\Models\Property;
 use App\Models\Booking;
 use App\Models\Transaction;
 use Filament\Widgets\Widget;
+use Carbon\Carbon;
 
 class PropertyStatsOverview extends BaseWidget
 {
     protected function getCards(): array
     {
-        $startDate = $this->getPage()->startDate;
-        $endDate = $this->getPage()->endDate;
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
 
         return [
             Card::make('Total Properties', Property::count())
@@ -26,11 +27,11 @@ class PropertyStatsOverview extends BaseWidget
                 ->descriptionIcon('heroicon-s-clipboard-check')
                 ->color('success'),
             Card::make('Total Bookings', Booking::whereBetween('date', [$startDate, $endDate])->count())
-                ->description('Bookings in selected period')
+                ->description('Bookings this month')
                 ->descriptionIcon('heroicon-s-calendar')
                 ->color('warning'),
             Card::make('Total Revenue', Transaction::whereBetween('transaction_date', [$startDate, $endDate])->sum('transaction_amount'))
-                ->description('Revenue in selected period')
+                ->description('Revenue this month')
                 ->descriptionIcon('heroicon-s-currency-dollar')
                 ->color('success'),
         ];
