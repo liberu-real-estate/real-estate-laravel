@@ -6,7 +6,8 @@
     <div class="mb-6">
         <button wire:click="setCalculatorType('mortgage')" class="px-4 py-2 mr-2 {{ $calculatorType === 'mortgage' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Mortgage Calculator</button>
         <button wire:click="setCalculatorType('costOfMoving')" class="px-4 py-2 mr-2 {{ $calculatorType === 'costOfMoving' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Cost of Moving Calculator</button>
-        <button wire:click="setCalculatorType('stampDuty')" class="px-4 py-2 {{ $calculatorType === 'stampDuty' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Stamp Duty Calculator</button>
+        <button wire:click="setCalculatorType('stampDuty')" class="px-4 py-2 mr-2 {{ $calculatorType === 'stampDuty' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Stamp Duty Calculator</button>
+        <button wire:click="setCalculatorType('rentalYield')" class="px-4 py-2 mr-2 {{ $calculatorType === 'rentalYield' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Rental Yield Calculator</button>
     </div>
 
     @if ($calculatorType === 'mortgage')
@@ -49,6 +50,43 @@
                 <p>Monthly Payment: £{{ number_format($mortgageResult['monthly_payment'], 2) }}</p>
                 <p>Total Payment: £{{ number_format($mortgageResult['total_payment'], 2) }}</p>
                 <p>Total Interest: £{{ number_format($mortgageResult['total_interest'], 2) }}</p>
+            </div>
+        @endif
+
+    @elseif ($calculatorType === 'rentalYield')
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-2xl font-bold mb-4">Rental Yield Calculator</h2>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="rentalPropertyValue">
+                    Property Value (£)
+                </label>
+                <input wire:model="rentalPropertyValue" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="rentalPropertyValue" type="number" placeholder="Enter property value">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="annualRentalIncome">
+                    Annual Rental Income (£)
+                </label>
+                <input wire:model="annualRentalIncome" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="annualRentalIncome" type="number" placeholder="Enter annual rental income">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="annualExpenses">
+                    Annual Expenses (£)
+                </label>
+                <input wire:model="annualExpenses" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="annualExpenses" type="number" placeholder="Enter annual expenses">
+            </div>
+            <div class="flex items-center justify-between">
+                <button wire:click="calculateRentalYield" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Calculate
+                </button>
+            </div>
+        </div>
+
+        @if ($rentalYieldResult)
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
+                <p class="font-bold">Rental Yield Calculation Results:</p>
+                <p>Gross Yield: {{ number_format($rentalYieldResult['gross_yield'], 2) }}%</p>
+                <p>Net Yield: {{ number_format($rentalYieldResult['net_yield'], 2) }}%</p>
+                <p>Annual Return: £{{ number_format($rentalYieldResult['net_annual_income'], 2) }}</p>
             </div>
         @endif
 
