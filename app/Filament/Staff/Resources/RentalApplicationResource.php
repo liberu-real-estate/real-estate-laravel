@@ -64,9 +64,18 @@ class RentalApplicationResource extends Resource
                     ]),
                 Forms\Components\Select::make('credit_report_status')
                     ->options([
+                        'excellent' => 'Excellent',
+                        'good' => 'Good',
+                        'fair' => 'Fair',
+                        'poor' => 'Poor',
                         'pending' => 'Pending',
-                        'passed' => 'Passed',
-                        'failed' => 'Failed',
+                    ]),
+                Forms\Components\Select::make('rental_history_status')
+                    ->options([
+                        'good' => 'Good',
+                        'fair' => 'Fair',
+                        'poor' => 'Poor',
+                        'pending' => 'Pending',
                     ]),
                 Forms\Components\TextInput::make('smart_contract_address')
                     ->maxLength(255),
@@ -105,9 +114,18 @@ class RentalApplicationResource extends Resource
                 Tables\Columns\TextColumn::make('credit_report_status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'good' => 'success',
+                        'excellent', 'good' => 'success',
+                        'fair' => 'warning',
                         'poor' => 'danger',
-                        default => 'warning',
+                        default => 'secondary',
+                    }),
+                Tables\Columns\TextColumn::make('rental_history_status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'good' => 'success',
+                        'fair' => 'warning',
+                        'poor' => 'danger',
+                        default => 'secondary',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

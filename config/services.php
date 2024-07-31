@@ -63,6 +63,11 @@ return [
         'api_key' => env('JUPIX_API_KEY'),
         'base_url' => env('JUPIX_BASE_URL'),
     ],
+
+    'lets_safe' => [
+        'api_key' => env('LETS_SAFE_API_KEY'),
+        'api_url' => env('LETS_SAFE_API_URL', 'https://api.letssafe.com/v1'),
+    ],
 ];
 
 
