@@ -63,9 +63,9 @@ class TeamResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTeams::class,
-            'create' => Pages\CreateTeam::class,
-            'edit' => Pages\EditTeam::class,
+            'index' => Pages\ListTeams::route('/'),
+            'create' => Pages\CreateTeam::route('/create'),
+            'edit' => Pages\EditTeam::route('/{record}/edit'),
         ];
     }
 }
