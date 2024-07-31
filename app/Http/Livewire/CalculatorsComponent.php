@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Services\MortgageCalculatorService;
 use App\Services\CostOfMovingCalculatorService;
 use App\Services\StampDutyCalculatorService;
+use App\Services\RentalYieldCalculatorService;
 
 class CalculatorsComponent extends Component
 {
@@ -13,6 +14,7 @@ class CalculatorsComponent extends Component
     public $mortgageResult = null;
     public $costOfMovingResult = null;
     public $stampDutyResult = null;
+    public $rentalYieldResult = null;
 
     // Mortgage calculator inputs
     public $propertyPrice;
@@ -29,6 +31,11 @@ class CalculatorsComponent extends Component
     public $purchasePrice;
     public $buyerType;
 
+    // Rental yield calculator inputs
+    public $rentalPropertyValue;
+    public $annualRentalIncome;
+    public $annualExpenses;
+
     protected $rules = [
         'propertyPrice' => 'required|numeric|min:0',
         'loanAmount' => 'required|numeric|min:0',
@@ -39,6 +46,9 @@ class CalculatorsComponent extends Component
         'movingDistance' => 'required|numeric|min:0',
         'purchasePrice' => 'required|numeric|min:0',
         'buyerType' => 'required|in:first_time_buyer,home_mover,additional_property',
+        'rentalPropertyValue' => 'required|numeric|min:0',
+        'annualRentalIncome' => 'required|numeric|min:0',
+        'annualExpenses' => 'required|numeric|min:0',
     ];
 
     public function render()
@@ -94,6 +104,22 @@ class CalculatorsComponent extends Component
         );
     }
 
+    public function calculateRentalYield()
+    {
+        $this->validate([
+            'rentalPropertyValue' => $this->rules['rentalPropertyValue'],
+            'annualRentalIncome' => $this->rules['annualRentalIncome'],
+            'annualExpenses' => $this->rules['annualExpenses'],
+        ]);
+
+        $rentalYieldCalculator = new RentalYieldCalculatorService();
+        $this->rentalYieldResult = $rentalYieldCalculator->calculateRentalYield(
+            $this->rentalPropertyValue,
+            $this->annualRentalIncome,
+            $this->annualExpenses
+        );
+    }
+
     public function setCalculatorType($type)
     {
         $this->calculatorType = $type;
@@ -102,9 +128,10 @@ class CalculatorsComponent extends Component
 
     private function resetCalculatorInputs()
     {
-        $this->reset(['propertyPrice', 'loanAmount', 'interestRate', 'loanTerm', 'propertyValue', 'isFirstTimeBuyer', 'movingDistance', 'purchasePrice', 'buyerType']);
+        $this->reset(['propertyPrice', 'loanAmount', 'interestRate', 'loanTerm', 'propertyValue', 'isFirstTimeBuyer', 'movingDistance', 'purchasePrice', 'buyerType', 'rentalPropertyValue', 'annualRentalIncome', 'annualExpenses']);
         $this->mortgageResult = null;
         $this->costOfMovingResult = null;
         $this->stampDutyResult = null;
+        $this->rentalYieldResult = null;
     }
 }
