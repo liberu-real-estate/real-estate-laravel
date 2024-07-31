@@ -26,4 +26,19 @@ class PropertyDetail extends Component
     {
         return view('livewire.property-detail')->layout('layouts.app');
     }
+
+    public function getEnergyRatingColor($rating)
+    {
+        $colors = [
+            'A' => '#00a651',
+            'B' => '#50b848',
+            'C' => '#aed136',
+            'D' => '#fff200',
+            'E' => '#fdb913',
+            'F' => '#f37021',
+            'G' => '#ed1c24',
+        ];
+
+        return $colors[$rating] ?? '#808080'; // Default to gray if rating not found
+    }
 }

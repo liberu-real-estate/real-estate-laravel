@@ -31,6 +31,9 @@ return new class extends Migration
             $table->string('rightmove_id')->nullable();
             $table->string('zoopla_id')->nullable();
             $table->string('onthemarket_id')->nullable();
+            $table->string('energy_rating')->nullable();
+            $table->integer('energy_score')->nullable();
+            $table->date('energy_rating_date')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('team_id')->references('id')->on('teams');
             $table->softDeletes();
