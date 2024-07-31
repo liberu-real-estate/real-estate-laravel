@@ -50,7 +50,12 @@ class Profile extends Page
         if ($tenant) {
             $parameters['tenant'] = $tenant;
         }
-        return parent::getUrl($parameters, $isAbsolute, $panel);
+        return static::getRoutePath();
+    }
+    
+    public static function getRoutePath(): string
+    {
+        return '/tenant/profile';
     }
 
 }

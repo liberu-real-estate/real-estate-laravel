@@ -23,6 +23,11 @@ class EditProfile extends Page
         ];
     }
 
+    public static function getUrl(array $parameters = [], bool $isAbsolute = true, ?string $panel = null, $tenant = null): string
+    {
+        return static::getRoutePath();
+    }
+    
     public static function getRoutePath(): string
     {
         return '/tenant/profile';
