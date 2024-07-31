@@ -44,6 +44,7 @@ class SiteSettingsResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('currency'),
                 Tables\Columns\TextColumn::make('default_language'),
+                Tables\Columns\TextColumn::make('country'),
                 Tables\Columns\TextColumn::make('email'),
             ]);
     }
