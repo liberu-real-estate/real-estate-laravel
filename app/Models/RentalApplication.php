@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\BlockchainService;
-use App\Services\BackgroundCheckService;
-use App\Services\CreditReportService;
+use App\Services\LetsSafeScreeningService;
 
 class RentalApplication extends Model
 {
@@ -20,6 +19,7 @@ class RentalApplication extends Model
         'annual_income',
         'background_check_status',
         'credit_report_status',
+        'rental_history_status',
         'smart_contract_address',
     ];
 
@@ -82,21 +82,37 @@ class RentalApplication extends Model
 
     public function initiateScreening()
     {
-        $backgroundCheckService = new BackgroundCheckService();
-        $creditReportService = new CreditReportService();
+        $screeningService = new LetsSafeScreeningService();
+        $screeningResult = $screeningService->screenTenant($this->tenant_id);
 
-        $this->background_check_status = $backgroundCheckService->check($this->tenant_id);
-        $this->credit_report_status = $creditReportService->check($this->tenant_id);
-        $this->save();
+        if ($screeningResult) {
+            $this->credit_report_status = $this->interpretCreditScore($screeningResult['credit_score']);
+            $this->background_check_status = $screeningResult['background_check'];
+            $this->rental_history_status = $screeningResult['rental_history'];
+            $this->save();
+        }
+    }
+
+    protected function interpretCreditScore($score)
+    {
+        if ($score === null) return null;
+        if ($score >= 700) return 'excellent';
+        if ($score >= 650) return 'good';
+        if ($score >= 600) return 'fair';
+        return 'poor';
     }
 
     public function isScreeningComplete()
     {
-        return $this->background_check_status !== null && $this->credit_report_status !== null;
+        return $this->background_check_status !== null &&
+               $this->credit_report_status !== null &&
+               $this->rental_history_status !== null;
     }
 
     public function isScreeningPassed()
     {
-        return $this->background_check_status === 'passed' && $this->credit_report_status !== 'poor';
+        return $this->background_check_status === 'passed' &&
+               $this->credit_report_status !== 'poor' &&
+               $this->rental_history_status === 'good';
     }
 }

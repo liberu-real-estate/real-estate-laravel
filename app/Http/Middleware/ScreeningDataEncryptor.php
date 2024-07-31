@@ -14,12 +14,16 @@ class ScreeningDataEncryptor
         if ($response->getContent()) {
             $content = json_decode($response->getContent(), true);
 
-            if (isset($content['background_check_status'])) {
-                $content['background_check_status'] = Crypt::encryptString($content['background_check_status']);
-            }
+            $fieldsToEncrypt = [
+                'background_check_status',
+                'credit_report_status',
+                'rental_history_status'
+            ];
 
-            if (isset($content['credit_report_status'])) {
-                $content['credit_report_status'] = Crypt::encryptString($content['credit_report_status']);
+            foreach ($fieldsToEncrypt as $field) {
+                if (isset($content[$field])) {
+                    $content[$field] = Crypt::encryptString($content[$field]);
+                }
             }
 
             $response->setContent(json_encode($content));
