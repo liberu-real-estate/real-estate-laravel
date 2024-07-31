@@ -74,6 +74,9 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'postal_code',
         'latitude',
         'longitude',
+        'energy_rating',
+        'energy_score',
+        'energy_rating_date',
     ];
 
     protected $casts = [

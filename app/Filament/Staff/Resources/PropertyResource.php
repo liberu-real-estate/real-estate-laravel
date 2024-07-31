@@ -83,6 +83,24 @@ class PropertyResource extends Resource
                     ->relationship('category', 'name')
                     ->required()
                     ->label('Property Category'),
+                Forms\Components\Select::make('energy_rating')
+                    ->options([
+                        'A' => 'A',
+                        'B' => 'B',
+                        'C' => 'C',
+                        'D' => 'D',
+                        'E' => 'E',
+                        'F' => 'F',
+                        'G' => 'G',
+                    ])
+                    ->label('Energy Efficiency Rating'),
+                Forms\Components\TextInput::make('energy_score')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->label('Energy Efficiency Score'),
+                Forms\Components\DatePicker::make('energy_rating_date')
+                    ->label('Energy Rating Date'),
                 Forms\Components\Repeater::make('features')
                     ->relationship()
                     ->schema([
