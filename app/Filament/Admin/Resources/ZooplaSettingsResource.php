@@ -16,6 +16,14 @@ class ZooplaSettingsResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
+    protected static ?string $navigationLabel = 'Zoopla Settings';
+
+    protected static ?string $modelLabel = 'Zoopla Setting';
+
+    protected static ?string $pluralModelLabel = 'Zoopla Settings';
+
+    protected static ?string $navigationGroup = 'Settings';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -65,12 +73,4 @@ class ZooplaSettingsResource extends Resource
             'edit' => Pages\EditZooplaSettings::route('/{record}/edit'),
         ];
     }
-
-    protected static ?string $navigationLabel = 'Zoopla Settings';
-
-    protected static ?string $modelLabel = 'Zoopla Setting';
-
-    protected static ?string $pluralModelLabel = 'Zoopla Settings';
-
-    protected static ?string $navigationGroup = 'Settings';
 }
