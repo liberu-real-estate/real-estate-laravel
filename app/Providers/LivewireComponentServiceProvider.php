@@ -24,10 +24,19 @@ class LivewireComponentServiceProvider extends ServiceProvider
             'property-review-form' => PropertyReviewForm::class,
             // Add other Livewire components here
         ];
-
+    
         foreach ($components as $alias => $class) {
             if (AppServiceProvider::isComponentEnabled($alias)) {
-                Livewire::component($alias, $class);
+                try {
+                    if (!class_exists($class)) {
+                        throw new \Exception("Class {$class} does not exist");
+                    }
+                    Livewire::component($alias, $class);
+                } catch (\Exception $e) {
+                    // Log the error
+                    \Log::error("Error registering Livewire component {$alias}: " . $e->getMessage());
+                    // You might want to re-throw the exception or handle it differently based on your needs
+                }
             }
         }
     }
