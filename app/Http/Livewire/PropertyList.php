@@ -153,4 +153,21 @@ class PropertyList extends Component
             'amenities' => $this->propertyFeatureService->getFeatures(),
         ])->layout('layouts.app');
     }
+
+    public function renderTemplate(Property $property)
+    {
+        $template = $property->template->content;
+        $placeholders = [
+            '{title}' => $property->title,
+            '{description}' => $property->description,
+            '{price}' => number_format($property->price, 2),
+            '{bedrooms}' => $property->bedrooms,
+            '{bathrooms}' => $property->bathrooms,
+            '{area_sqft}' => $property->area_sqft,
+            '{image}' => $property->getFirstMediaUrl('images') ?: asset('build/images/property-placeholder.png'),
+            '{detail_link}' => route('property.detail', $property->id),
+        ];
+
+        return str_replace(array_keys($placeholders), array_values($placeholders), $template);
+    }
 }

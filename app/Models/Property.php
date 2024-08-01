@@ -50,6 +50,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     protected $fillable = [
         'title',
         'description',
+        'property_template_id',
         'location',
         'price',
         'bedrooms',
@@ -85,6 +86,11 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'sold_date' => 'date',
         'is_featured' => 'boolean',
     ];
+
+    public function template()
+    {
+        return $this->belongsTo(PropertyTemplate::class, 'property_template_id');
+    }
 
     public function scopePending(Builder $query): Builder
     {
