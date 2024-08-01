@@ -101,10 +101,15 @@ class TransactionResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('generateDocument')
                     ->label('Generate Document')
+                    ->icon('heroicon-o-document')
                     ->action(function (Transaction $record, TransactionService $transactionService) {
                         $document = $transactionService->generateContractualDocument($record);
-                        // You might want to add a notification or redirect here
-                    }),
+                        Notification::make()
+                            ->title('Document generated successfully')
+                            ->success()
+                            ->send();
+                    })
+                    ->successNotificationTitle('Document generated successfully'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

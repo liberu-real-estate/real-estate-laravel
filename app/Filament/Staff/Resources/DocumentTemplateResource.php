@@ -47,6 +47,17 @@ class DocumentTemplateResource extends Resource
             ])
             ->filters([
                 //
+            ])
+            ->actions([
+                Tables\Actions\Action::make('generate')
+                    ->label('Generate Document')
+                    ->icon('heroicon-o-document')
+                    ->action(function (DocumentTemplate $record) {
+                        // This will be implemented in the TransactionService
+                        // For now, it's a placeholder
+                        // $document = app(TransactionService::class)->generateDocument($record);
+                        // Notification::make()->title('Document generated successfully')->success()->send();
+                    })
             ]);
     }
 
