@@ -3,10 +3,18 @@
 namespace App\Services;
 
 use App\Models\Property;
+use Illuminate\Support\Facades\Http;
 
 class PropertyValuationService
 {
-    public function calculateValuation(Property $property, array $additionalData = []): float
+    private $valPalApiKey;
+
+    public function __construct()
+    {
+        $this->valPalApiKey = config('services.valpal.api_key');
+    }
+
+    public function calculateValuation(Property $property, array $additionalData = []): array
     {
         // Basic valuation algorithm
         $baseValue = $property->price;
@@ -27,11 +35,51 @@ class PropertyValuationService
         $ageFactor = $this->getAgeFactor($property->year_built);
         $baseValue *= $ageFactor;
 
+        // Adjust for number of rooms
+        $roomsFactor = $this->getRoomsFactor($property->bedrooms, $property->bathrooms);
+        $baseValue *= $roomsFactor;
+
         // Adjust for market trends (simplified)
         $marketTrendFactor = $additionalData['market_trend_factor'] ?? 1;
         $baseValue *= $marketTrendFactor;
 
-        return round($baseValue, 2);
+        // Get ValPal API valuation
+        $valPalValuation = $this->getValPalValuation($property);
+
+        // Calculate final valuation range
+        $lowerBound = min($baseValue, $valPalValuation) * 0.9;
+        $upperBound = max($baseValue, $valPalValuation) * 1.1;
+
+        return [
+            'estimated_value' => round(($lowerBound + $upperBound) / 2, 2),
+            'range_low' => round($lowerBound, 2),
+            'range_high' => round($upperBound, 2),
+        ];
+    }
+
+    private function getRoomsFactor(int $bedrooms, int $bathrooms): float
+    {
+        return 1 + (($bedrooms + $bathrooms) * 0.05);
+    }
+
+    private function getValPalValuation(Property $property): float
+    {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $this->valPalApiKey,
+        ])->post('https://api.valpal.com/valuation', [
+            'postcode' => $property->postal_code,
+            'property_type' => $property->property_type,
+            'num_bedrooms' => $property->bedrooms,
+            'num_bathrooms' => $property->bathrooms,
+            'floor_area' => $property->area_sqft,
+        ]);
+
+        if ($response->successful()) {
+            return $response->json('estimated_value');
+        }
+
+        // Return the base price if API call fails
+        return $property->price;
     }
 
     private function getLocationFactor(string $location): float
