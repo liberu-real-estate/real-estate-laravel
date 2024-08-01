@@ -46,7 +46,11 @@
     </div>
 
     <div class="mt-8">
-        {{ $properties->links() }}
+        @if ($properties instanceof \Illuminate\Pagination\LengthAwarePaginator)
+            {{ $properties->links() }}
+        @else
+            <p class="text-center text-gray-600">No properties found or an error occurred.</p>
+        @endif
     </div>
 
     @if($properties->count() > 0)
