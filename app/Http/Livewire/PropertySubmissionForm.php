@@ -22,6 +22,7 @@ class PropertySubmissionForm extends Component
     public $property_type;
     public $images = [];
     public $aiDescription;
+    public $descriptionTone = 'professional';
 
     protected $rules = [
         'title' => 'required|string|max:255',
@@ -34,6 +35,7 @@ class PropertySubmissionForm extends Component
         'year_built' => 'required|integer|min:1800|max:2099',
         'property_type' => 'required|string|max:255',
         'images.*' => 'image|max:1024', // 1MB Max
+        'descriptionTone' => 'required|in:professional,casual,luxury',
     ];
 
     public function generateAIDescription()
@@ -45,6 +47,7 @@ class PropertySubmissionForm extends Component
             'bathrooms' => 'required|integer|min:0',
             'area_sqft' => 'required|numeric|min:0',
             'property_type' => 'required|string|max:255',
+            'descriptionTone' => 'required|in:professional,casual,luxury',
         ]);
 
         $aiService = new AIDescriptionService();
@@ -55,9 +58,14 @@ class PropertySubmissionForm extends Component
             'bathrooms' => $this->bathrooms,
             'area_sqft' => $this->area_sqft,
             'property_type' => $this->property_type,
-        ]);
+        ], $this->descriptionTone);
 
         $this->description = $this->aiDescription;
+    }
+
+    public function updateDescription($newDescription)
+    {
+        $this->description = $newDescription;
     }
 
     public function submit()
