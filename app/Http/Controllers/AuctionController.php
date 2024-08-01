@@ -16,7 +16,7 @@ class AuctionController extends Controller
 
     public function show(Auction $auction)
     {
-        return view('auctions.show', compact('auction'));
+        return view('auctions.show', ['auction' => $auction]);
     }
 
     public function create(Property $property)
@@ -36,6 +36,7 @@ class AuctionController extends Controller
         $auction = new Auction($validatedData);
         $auction->property_id = $property->id;
         $auction->status = 'pending';
+        $auction->current_bid = $validatedData['starting_price'];
         $auction->save();
 
         return redirect()->route('auctions.show', $auction);
