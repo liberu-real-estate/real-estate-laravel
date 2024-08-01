@@ -147,6 +147,16 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
         return $this->hasMany(Review::class);
     }
 
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
     public function averageRating()
     {
         return $this->reviews()->avg('rating');

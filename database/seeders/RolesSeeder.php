@@ -13,7 +13,7 @@ class RolesSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = ['admin', 'staff', 'free', 'buyer', 'seller', 'tenant', 'landlord', 'contractor'];
+        $roles = ['admin', 'staff', 'free', 'buyer', 'seller', 'tenant', 'landlord', 'contractor', 'agent'];
         $permissions = Permission::where('guard_name', 'web')->pluck('id')->toArray();
 
         foreach ($roles as $roleName) {
