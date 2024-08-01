@@ -14,6 +14,7 @@ class DocumentTemplate extends Model
         'description',
         'team_id',
         'type',
+        'content',
     ];
 
     public function team(): BelongsTo
@@ -21,7 +22,7 @@ class DocumentTemplate extends Model
         return $this->belongsTo(Team::class);
     }
 
- public static function findOrCreateTemplate(string $type, string $name, string $description, string $view_path)
+    public static function findOrCreateTemplate(string $type, string $name, string $description, string $view_path)
     {
         $file_path = str_replace('.', '/', $view_path) . '.blade.php';
         return self::firstOrCreate(
@@ -40,5 +41,20 @@ class DocumentTemplate extends Model
     {
         $view_path = str_replace('/', '.', str_replace('.blade.php', '', $this->file_path));
         return View::make($view_path, $data)->render();
+    }
+
+    public function getCustomFields()
+    {
+        preg_match_all('/\{\{(.*?)\}\}/', $this->content, $matches);
+        return array_unique($matches[1]);
+    }
+
+    public function generateDocument(array $customFields)
+    {
+        $content = $this->content;
+        foreach ($customFields as $field => $value) {
+            $content = str_replace("{{" . $field . "}}", $value, $content);
+        }
+        return $content;
     }
 }
