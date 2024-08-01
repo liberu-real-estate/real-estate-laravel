@@ -21,6 +21,12 @@ class Lead extends Model
         'status',
         'score',
         'crm_id',
+        'category',
+        'last_contacted_at',
+    ];
+
+    protected $casts = [
+        'last_contacted_at' => 'datetime',
     ];
 
     protected static function booted()
@@ -63,5 +69,28 @@ class Lead extends Model
     public function emailCampaigns()
     {
         return $this->belongsToMany(EmailCampaign::class);
+    }
+
+    public function updateCategory()
+    {
+        $this->category = $this->calculateCategory();
+        $this->save();
+    }
+
+    protected function calculateCategory()
+    {
+        if ($this->score >= 80) {
+            return 'hot';
+        } elseif ($this->score >= 50) {
+            return 'warm';
+        } else {
+            return 'cold';
+        }
+    }
+
+    public function markContacted()
+    {
+        $this->last_contacted_at = now();
+        $this->save();
     }
 }
