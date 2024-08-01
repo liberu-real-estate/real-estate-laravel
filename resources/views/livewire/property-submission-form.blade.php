@@ -9,6 +9,29 @@
 
         <div class="mb-4">
             <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+        </div>
+
+        <!-- Add these new fields at the end of the form, before the submit button -->
+        <div class="mb-4">
+            <label for="customDescription" class="block text-sm font-medium text-gray-700">Custom Description</label>
+            <textarea id="customDescription" wire:model="customDescription" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label for="video" class="block text-sm font-medium text-gray-700">Video</label>
+            <input type="file" id="video" wire:model="video" accept="video/mp4,video/quicktime" class="mt-1 block w-full">
+        </div>
+
+        <div class="flex justify-between">
+            <button type="submit" class="btn btn-primary">Submit Property</button>
+            <button type="button" wire:click="preview" class="btn btn-secondary">Preview</button>
+        </div>
+    </form>
+
+    <div class="mt-8">
+        @livewire('property-preview-component')
+    </div>
+</div>
             <input type="text" id="location" wire:model="location" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             @error('location') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
