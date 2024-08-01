@@ -106,6 +106,18 @@ class Kernel extends ConsoleKernel
 
         // Schedule LeaseRenewalReminder job
         $schedule->job(new LeaseRenewalReminder)->daily();
+
+        // Schedule email campaigns
+        $schedule->call(function () {
+            $campaigns = EmailCampaign::where('status', 'scheduled')
+                ->where('scheduled_at', '<=', now())
+                ->get();
+
+            foreach ($campaigns as $campaign) {
+                dispatch(new SendEmailCampaign($campaign));
+                $campaign->update(['status' => 'sent', 'sent_at' => now()]);
+            }
+        })->everyMinute();
     }
 
     /**
