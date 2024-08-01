@@ -106,7 +106,7 @@ class Kernel extends ConsoleKernel
 
         // Schedule LeaseRenewalReminder job
         $schedule->job(new LeaseRenewalReminder)->daily();
-
+      
         // Schedule email campaigns
         $schedule->call(function () {
             $campaigns = EmailCampaign::where('status', 'scheduled')
@@ -118,6 +118,28 @@ class Kernel extends ConsoleKernel
                 $campaign->update(['status' => 'sent', 'sent_at' => now()]);
             }
         })->everyMinute();
+      
+        // Update neighborhood data daily
+        $schedule->call(function () {
+            $neighborhoods = \App\Models\Neighborhood::all();
+            $neighborhoodDataService = app(\App\Services\NeighborhoodDataService::class);
+            foreach ($neighborhoods as $neighborhood) {
+                $property = $neighborhood->properties()->first();
+                if ($property) {
+                    $zipCode = $property->postal_code;
+                    $freshData = $neighborhoodDataService->getNeighborhoodData($zipCode);
+                    if ($freshData) {
+                        $neighborhood->update([
+                            'median_income' => $freshData['median_income'],
+                            'population' => $freshData['population'],
+                            'walk_score' => $freshData['walk_score'],
+                            'transit_score' => $freshData['transit_score'],
+                            'last_updated' => now(),
+                        ]);
+                    }
+                }
+            }
+        })->daily();
     }
 
     /**
