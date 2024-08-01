@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Broadcast;
 
 class Auction extends Model
 {
@@ -37,5 +38,14 @@ class Auction extends Model
     public function winner()
     {
         return $this->belongsTo(User::class, 'winner_id');
+    }
+
+    protected static function booted()
+    {
+        static::updated(function ($auction) {
+            Broadcast::channel('auction.' . $auction->id, function ($user) use ($auction) {
+                return true;
+            });
+        });
     }
 }

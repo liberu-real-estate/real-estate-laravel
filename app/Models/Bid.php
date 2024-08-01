@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Events\BidPlaced;
 
 class Bid extends Model
 {
@@ -23,5 +24,12 @@ class Bid extends Model
     public function auction()
     {
         return $this->belongsTo(Auction::class);
+    }
+
+    protected static function booted()
+    {
+        static::created(function ($bid) {
+            event(new BidPlaced($bid));
+        });
     }
 }
