@@ -19,6 +19,46 @@ class InvestmentAnalysisService
             'roi' => round($roi, 2),
             'total_profit' => round($totalProfit, 2),
             'future_value' => round($appreciationValue, 2),
+            'annual_roi' => round($roi / $holdingPeriod, 2),
+            'cash_on_cash_return' => round(($cashFlow / $purchasePrice) * 100, 2),
         ];
+    }
+
+    public function compareScenarios(array $scenarios): array
+    {
+        $results = [];
+        foreach ($scenarios as $index => $scenario) {
+            $results[$index] = $this->analyze(
+                $scenario['purchasePrice'],
+                $scenario['annualRentalIncome'],
+                $scenario['annualExpenses'],
+                $scenario['appreciationRate'],
+                $scenario['holdingPeriod']
+            );
+        }
+
+        $bestScenario = $this->findBestScenario($results);
+
+        return [
+            'scenarios' => $results,
+            'best_scenario' => $bestScenario,
+        ];
+    }
+
+    private function findBestScenario(array $results): array
+    {
+        $bestScenario = [
+            'index' => 0,
+            'roi' => $results[0]['roi'],
+        ];
+
+        foreach ($results as $index => $result) {
+            if ($result['roi'] > $bestScenario['roi']) {
+                $bestScenario['index'] = $index;
+                $bestScenario['roi'] = $result['roi'];
+            }
+        }
+
+        return $bestScenario;
     }
 }

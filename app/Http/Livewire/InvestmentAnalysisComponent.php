@@ -4,34 +4,29 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Property;
+use App\Services\AIInvestmentAnalysisService;
 use App\Services\InvestmentAnalysisService;
 
 class InvestmentAnalysisComponent extends Component
 {
     public $property;
-    public $purchasePrice;
-    public $annualRentalIncome;
-    public $annualExpenses;
-    public $appreciationRate;
-    public $holdingPeriod;
-    public $analysisResult;
+    public $scenarios = [];
+    public $currentScenario = 0;
+    public $analysisResults = [];
+    public $aiAnalysisResult;
 
     protected $rules = [
-        'purchasePrice' => 'required|numeric|min:0',
-        'annualRentalIncome' => 'required|numeric|min:0',
-        'annualExpenses' => 'required|numeric|min:0',
-        'appreciationRate' => 'required|numeric|min:0|max:100',
-        'holdingPeriod' => 'required|integer|min:1',
+        'scenarios.*.purchasePrice' => 'required|numeric|min:0',
+        'scenarios.*.annualRentalIncome' => 'required|numeric|min:0',
+        'scenarios.*.annualExpenses' => 'required|numeric|min:0',
+        'scenarios.*.appreciationRate' => 'required|numeric|min:0|max:100',
+        'scenarios.*.holdingPeriod' => 'required|integer|min:1',
     ];
 
     public function mount(Property $property)
     {
         $this->property = $property;
-        $this->purchasePrice = $property->price;
-        $this->annualRentalIncome = $property->annual_rental_income ?? 0;
-        $this->annualExpenses = $property->annual_expenses ?? 0;
-        $this->appreciationRate = 3; // Default 3% appreciation rate
-        $this->holdingPeriod = 5; // Default 5 years holding period
+        $this->addScenario();
     }
 
     public function render()
@@ -39,17 +34,43 @@ class InvestmentAnalysisComponent extends Component
         return view('livewire.investment-analysis')->layout('layouts.app');
     }
 
-    public function analyze()
+    public function addScenario()
+    {
+        $this->scenarios[] = [
+            'purchasePrice' => $this->property->price,
+            'annualRentalIncome' => $this->property->annual_rental_income ?? 0,
+            'annualExpenses' => $this->property->annual_expenses ?? 0,
+            'appreciationRate' => 3,
+            'holdingPeriod' => 5,
+        ];
+        $this->currentScenario = count($this->scenarios) - 1;
+    }
+
+    public function removeScenario($index)
+    {
+        unset($this->scenarios[$index]);
+        $this->scenarios = array_values($this->scenarios);
+        $this->currentScenario = min($this->currentScenario, count($this->scenarios) - 1);
+    }
+
+    public function analyzeScenarios()
     {
         $this->validate();
 
         $analysisService = new InvestmentAnalysisService();
-        $this->analysisResult = $analysisService->analyze(
-            $this->purchasePrice,
-            $this->annualRentalIncome,
-            $this->annualExpenses,
-            $this->appreciationRate,
-            $this->holdingPeriod
-        );
+        $this->analysisResults = [];
+
+        foreach ($this->scenarios as $scenario) {
+            $this->analysisResults[] = $analysisService->analyze(
+                $scenario['purchasePrice'],
+                $scenario['annualRentalIncome'],
+                $scenario['annualExpenses'],
+                $scenario['appreciationRate'],
+                $scenario['holdingPeriod']
+            );
+        }
+
+        $aiAnalysisService = app(AIInvestmentAnalysisService::class);
+        $this->aiAnalysisResult = $aiAnalysisService->analyzeInvestment($this->property);
     }
 }

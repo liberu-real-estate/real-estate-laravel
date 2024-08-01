@@ -8,8 +8,24 @@ use App\Models\Document;
 
 class DigitalSignatureService
 {
+    protected $docuSignService;
+
+    public function __construct(DocuSignService $docuSignService)
+    {
+        $this->docuSignService = $docuSignService;
+    }
+
     public function signDocument(User $user, Document $document, $signatureData)
     {
+        // Create an envelope and send it for signature using DocuSign
+        $envelope = $this->docuSignService->createEnvelope(
+            $document->file_path,
+            $user->email,
+            $user->name
+        );
+        if (!$document->isSignable()) {
+            throw new \Exception('This document is not signable.');
+        }
         // Here you would integrate with a third-party service like DocuSign
         // Ensure compliance with UK electronic signature regulations
         $signature = DigitalSignature::create([
@@ -20,6 +36,7 @@ class DigitalSignatureService
             'team_id' => $user->team_id,
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
+            'envelope_id' => $envelope->getEnvelopeId(),
         ]);
 
         if ($document instanceof LeaseAgreement) {
@@ -31,22 +48,13 @@ class DigitalSignatureService
 
     public function verifySignature(DigitalSignature $signature)
     {
-        // Implement signature verification logic here
-        // This could involve checking with the third-party service
-        // Ensure compliance with UK electronic signature regulations
-        $isValid = $this->verifyWithThirdPartyService($signature);
+        $envelopeStatus = $this->docuSignService->getEnvelopeStatus($signature->envelope_id);
+        $isValid = $envelopeStatus->getStatus() === 'completed';
 
         if ($isValid) {
             $signature->update(['verified_at' => now()]);
         }
 
         return $isValid;
-    }
-
-    private function verifyWithThirdPartyService(DigitalSignature $signature)
-    {
-        // Implement the actual verification logic here
-        // This is a placeholder implementation
-        return true;
     }
 }
