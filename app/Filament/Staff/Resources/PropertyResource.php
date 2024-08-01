@@ -25,6 +25,22 @@ class PropertyResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('property_template_id')
+                    ->label('Template')
+                    ->relationship('template', 'name')
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('content')
+                            ->required()
+                            ->label('Template Content')
+                            ->helperText('Use placeholders like {title}, {description}, {price}, etc.')
+                            ->rows(10),
+                    ])
+                    ->createOptionAction(function (Action $action) {
+                        return $action->modalHeading('Create Property Template');
+                    }),
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
