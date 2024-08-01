@@ -17,6 +17,7 @@ class Activity extends Model
         'scheduled_at',
         'completed_at',
         'team_id',
+        'property_id',
     ];
 
     protected $casts = [
@@ -37,6 +38,21 @@ class Activity extends Model
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class);
+    }
+
+    public static function trackPropertyView($userId, $propertyId)
+    {
+        return self::create([
+            'user_id' => $userId,
+            'property_id' => $propertyId,
+            'type' => 'property_view',
+            'description' => 'Viewed property',
+        ]);
     }
 
 }

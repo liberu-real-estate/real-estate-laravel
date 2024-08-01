@@ -153,4 +153,17 @@ class PropertyList extends Component
             'amenities' => $this->propertyFeatureService->getFeatures(),
         ])->layout('layouts.app');
     }
+    
+    public function viewProperty($propertyId)
+    {
+        $property = Property::findOrFail($propertyId);
+        Activity::create([
+            'user_id' => auth()->id(),
+            'type' => 'property_view',
+            'description' => "Viewed property: {$property->title}",
+            'property_id' => $propertyId,
+        ]);
+    
+        $this->emit('updateRecommendations');
+    }
 }
