@@ -47,6 +47,25 @@ return [
         'publishable_key' => config('stripe.publishable_key'),
     ],
 
+    'accounting' => [
+        'system' => env('ACCOUNTING_SYSTEM', 'quickbooks'), // 'quickbooks', 'sage', or 'xero'
+    ],
+
+    'quickbooks' => [
+        'api_key' => env('QUICKBOOKS_API_KEY'),
+        'endpoint' => env('QUICKBOOKS_ENDPOINT'),
+    ],
+
+    'sage' => [
+        'api_key' => env('SAGE_API_KEY'),
+        'endpoint' => env('SAGE_ENDPOINT'),
+    ],
+
+    'xero' => [
+        'api_key' => env('XERO_API_KEY'),
+        'endpoint' => env('XERO_ENDPOINT'),
+    ],
+
     'digital_signature' => [
         'api_key' => env('DIGITAL_SIGNATURE_API_KEY'),
         'endpoint' => env('DIGITAL_SIGNATURE_ENDPOINT'),

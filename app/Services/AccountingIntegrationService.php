@@ -2,73 +2,45 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Http;
 use App\Models\Invoice;
 use App\Models\Payment;
-use Illuminate\Support\Facades\Log;
+use App\Services\AccountingInterfaces\AccountingSystemInterface;
+use App\Services\AccountingSystems\QuickbooksService;
+use App\Services\AccountingSystems\SageService;
+use App\Services\AccountingSystems\XeroService;
 
 class AccountingIntegrationService
 {
-    protected $apiKey;
-    protected $endpoint;
+    protected $accountingSystem;
 
     public function __construct()
     {
-        $this->apiKey = config('services.accounting.api_key');
-        $this->endpoint = config('services.accounting.endpoint');
+        $this->accountingSystem = $this->getAccountingSystem();
     }
 
-    public function syncInvoice(Invoice $invoice)
+    protected function getAccountingSystem(): AccountingSystemInterface
     {
-        try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
-                'Content-Type' => 'application/json',
-            ])->post($this->endpoint . '/invoices', [
-                'invoice_number' => $invoice->id,
-                'amount' => $invoice->amount,
-                'due_date' => $invoice->due_date->format('Y-m-d'),
-                'description' => $invoice->description,
-                'status' => $invoice->status,
-            ]);
+        $system = config('services.accounting.system');
 
-            if ($response->successful()) {
-                $invoice->update(['accounting_id' => $response->json('id')]);
-                return true;
-            } else {
-                Log::error('Accounting sync failed for invoice ' . $invoice->id . ': ' . $response->body());
-                return false;
-            }
-        } catch (\Exception $e) {
-            Log::error('Accounting sync error for invoice ' . $invoice->id . ': ' . $e->getMessage());
-            return false;
+        switch ($system) {
+            case 'quickbooks':
+                return new QuickbooksService();
+            case 'sage':
+                return new SageService();
+            case 'xero':
+                return new XeroService();
+            default:
+                throw new \Exception("Unsupported accounting system: $system");
         }
     }
 
-    public function syncPayment(Payment $payment)
+    public function syncInvoice(Invoice $invoice): bool
     {
-        try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
-                'Content-Type' => 'application/json',
-            ])->post($this->endpoint . '/payments', [
-                'payment_id' => $payment->id,
-                'invoice_id' => $payment->invoice_id,
-                'amount' => $payment->amount,
-                'payment_date' => $payment->payment_date->format('Y-m-d'),
-                'payment_method' => $payment->payment_method,
-            ]);
+        return $this->accountingSystem->syncInvoice($invoice);
+    }
 
-            if ($response->successful()) {
-                $payment->update(['accounting_id' => $response->json('id')]);
-                return true;
-            } else {
-                Log::error('Accounting sync failed for payment ' . $payment->id . ': ' . $response->body());
-                return false;
-            }
-        } catch (\Exception $e) {
-            Log::error('Accounting sync error for payment ' . $payment->id . ': ' . $e->getMessage());
-            return false;
-        }
+    public function syncPayment(Payment $payment): bool
+    {
+        return $this->accountingSystem->syncPayment($payment);
     }
 }
