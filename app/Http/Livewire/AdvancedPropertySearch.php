@@ -113,6 +113,30 @@ class AdvancedPropertySearch extends Component
     public function search()
     {
         $this->resetPage();
+        $this->emit('filtersChanged', $this->getFilters());
+    }
+    
+    private function getFilters()
+    {
+        return [
+            'search' => $this->search,
+            'minPrice' => $this->minPrice,
+            'maxPrice' => $this->maxPrice,
+            'minBedrooms' => $this->minBedrooms,
+            'maxBedrooms' => $this->maxBedrooms,
+            'minBathrooms' => $this->minBathrooms,
+            'maxBathrooms' => $this->maxBathrooms,
+            'minArea' => $this->minArea,
+            'maxArea' => $this->maxArea,
+            'propertyType' => $this->propertyType,
+            'selectedAmenities' => $this->selectedAmenities,
+            'yearBuilt' => $this->yearBuilt,
+            'status' => $this->status,
+            'postalCode' => $this->postalCode,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'radius' => $this->radius,
+        ];
     }
 
     public function sortBy($field)
