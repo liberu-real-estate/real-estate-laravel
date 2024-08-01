@@ -44,19 +44,12 @@ class Dashboard extends BaseDashboard
         ];
     }
 
-    protected function getColumns(): int | array
+    public function getColumns(): int | array
     {
         return [
             'default' => 1,
             'sm' => 2,
             'lg' => 3,
-        ];
-    }
-
-    public function getWidgets(): array
-    {
-        return [
-            RecentMaintenanceRequests::class,
         ];
     }
 }
