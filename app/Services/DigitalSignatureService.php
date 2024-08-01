@@ -23,7 +23,11 @@ class DigitalSignatureService
             $user->email,
             $user->name
         );
-
+        if (!$document->isSignable()) {
+            throw new \Exception('This document is not signable.');
+        }
+        // Here you would integrate with a third-party service like DocuSign
+        // Ensure compliance with UK electronic signature regulations
         $signature = DigitalSignature::create([
             'user_id' => $user->id,
             'document_id' => $document->id,
