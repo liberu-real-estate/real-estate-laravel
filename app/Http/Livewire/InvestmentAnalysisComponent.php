@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Property;
+use App\Services\AIInvestmentAnalysisService;
 use App\Services\InvestmentAnalysisService;
 
 class InvestmentAnalysisComponent extends Component
@@ -15,6 +16,7 @@ class InvestmentAnalysisComponent extends Component
     public $appreciationRate;
     public $holdingPeriod;
     public $analysisResult;
+    public $aiAnalysisResult;
 
     protected $rules = [
         'purchasePrice' => 'required|numeric|min:0',
@@ -51,5 +53,8 @@ class InvestmentAnalysisComponent extends Component
             $this->appreciationRate,
             $this->holdingPeriod
         );
+
+        $aiAnalysisService = app(AIInvestmentAnalysisService::class);
+        $this->aiAnalysisResult = $aiAnalysisService->analyzeInvestment($this->property);
     }
 }
