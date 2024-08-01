@@ -151,4 +151,9 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     {
         return $this->reviews()->avg('rating');
     }
+
+    public function priceAlerts()
+    {
+        return $this->hasMany(PriceAlert::class);
+    }
 }
