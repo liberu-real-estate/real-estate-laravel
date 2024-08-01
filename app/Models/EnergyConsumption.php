@@ -16,15 +16,28 @@ class EnergyConsumption extends Model
         'gas_usage',
         'water_usage',
         'total_cost',
+        'status',
+        'due_date',
     ];
-
+    
     protected $casts = [
         'consumption_date' => 'date',
         'electricity_usage' => 'float',
         'gas_usage' => 'float',
         'water_usage' => 'float',
         'total_cost' => 'decimal:2',
+        'due_date' => 'date',
     ];
+    
+    public function utilityPayments()
+    {
+        return $this->hasMany(UtilityPayment::class);
+    }
+    
+    public function getRemainingBalanceAttribute()
+    {
+        return $this->total_cost - $this->utilityPayments()->sum('amount');
+    }
 
     public function property()
     {

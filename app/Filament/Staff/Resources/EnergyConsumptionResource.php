@@ -41,6 +41,15 @@ class EnergyConsumptionResource extends Resource
                     ->required()
                     ->numeric()
                     ->prefix('$'),
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'paid' => 'Paid',
+                        'overdue' => 'Overdue',
+                    ])
+                    ->required(),
+                Forms\Components\DatePicker::make('due_date')
+                    ->required(),
             ]);
     }
 

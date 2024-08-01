@@ -38,22 +38,53 @@ class PaymentController extends Controller
 
     public function handlePaymentSuccess(Request $request){
         $this->validateHandlePaymentSuccessRequest($request);
-
-        $payment = Payment::create([
-            'amount' => $request->amount,
-            'payment_date' => now(),
-            'status' => 'completed',
-            'payment_method' => $request->payment_method,
-            'tenant_id' => Auth::id(),
-            'invoice_id' => $request->invoice_id,
-        ]);
-
-        $invoice = Invoice::findOrFail($request->invoice_id);
-        $invoice->update(['status' => 'paid']);
-
-        return response()->json([
-            'message' => 'Payment successful and recorded.',
-            'payment_id' => $payment->id,
+    
+        if ($request->has('energy_consumption_id')) {
+            $payment = UtilityPayment::create([
+                'energy_consumption_id' => $request->energy_consumption_id,
+                'amount' => $request->amount,
+                'payment_date' => now(),
+                'payment_method' => $request->payment_method,
+                'notes' => $request->notes ?? null,
+            ]);
+    
+            $energyConsumption = EnergyConsumption::findOrFail($request->energy_consumption_id);
+            if ($energyConsumption->getRemainingBalanceAttribute() <= 0) {
+                $energyConsumption->update(['status' => 'paid']);
+            }
+    
+            return response()->json([
+                'message' => 'Utility payment successful and recorded.',
+                'payment_id' => $payment->id,
+            ]);
+        } else {
+            $payment = Payment::create([
+                'amount' => $request->amount,
+                'payment_date' => now(),
+                'status' => 'completed',
+                'payment_method' => $request->payment_method,
+                'tenant_id' => Auth::id(),
+                'invoice_id' => $request->invoice_id,
+            ]);
+    
+            $invoice = Invoice::findOrFail($request->invoice_id);
+            $invoice->update(['status' => 'paid']);
+    
+            return response()->json([
+                'message' => 'Payment successful and recorded.',
+                'payment_id' => $payment->id,
+            ]);
+        }
+    }
+    
+    private function validateHandlePaymentSuccessRequest(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required|numeric',
+            'payment_method' => 'required|string',
+            'invoice_id' => 'required_without:energy_consumption_id|integer',
+            'energy_consumption_id' => 'required_without:invoice_id|integer',
+            'notes' => 'nullable|string',
         ]);
     }
 
