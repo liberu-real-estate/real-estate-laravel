@@ -71,11 +71,6 @@ class PropertyList extends Component
         $this->resetPage();
     }
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
-
     public function getPropertiesProperty()
     {
         $cacheKey = $this->getCacheKey();
