@@ -6,7 +6,9 @@ use App\Models\User;
 use App\Models\Property;
 use App\Models\Activity;
 use App\Models\Favorite;
+use App\Models\SavedSearch;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class PropertyRecommendationService
 {
@@ -14,11 +16,14 @@ class PropertyRecommendationService
     {
         return Cache::remember("user_{$user->id}_recommendations", now()->addHours(1), function () use ($user, $limit) {
             $userPreferences = $this->getUserPreferences($user);
+            $searchHistory = $this->getSearchHistory($user);
+            $browsingBehavior = $this->getBrowsingBehavior($user);
+
             $recommendedProperties = Property::query()
                 ->with(['images', 'features'])
                 ->where('status', 'approved')
                 ->where('id', '!=', $user->viewed_properties->pluck('id'))
-                ->orderByRaw($this->buildOrderByClause($userPreferences))
+                ->orderByRaw($this->buildOrderByClause($userPreferences, $searchHistory, $browsingBehavior))
                 ->limit($limit)
                 ->get();
 
@@ -50,7 +55,29 @@ class PropertyRecommendationService
         return $preferences;
     }
 
-    private function buildOrderByClause($preferences)
+    private function getSearchHistory(User $user)
+    {
+        return SavedSearch::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get()
+            ->map(function ($search) {
+                return json_decode($search->criteria, true);
+            });
+    }
+
+    private function getBrowsingBehavior(User $user)
+    {
+        return Activity::where('user_id', $user->id)
+            ->where('type', 'property_view')
+            ->select('property_id', DB::raw('count(*) as view_count'))
+            ->groupBy('property_id')
+            ->orderBy('view_count', 'desc')
+            ->take(10)
+            ->get();
+    }
+
+    private function buildOrderByClause($preferences, $searchHistory, $browsingBehavior)
     {
         $clause = [];
         $clause[] = "ABS(price - {$preferences['avg_price']})";
@@ -62,6 +89,20 @@ class PropertyRecommendationService
             return "CASE WHEN location LIKE '%{$location}%' THEN 1 ELSE 0 END";
         }, $preferences['preferred_locations']->toArray()));
         $clause[] = "({$locationScores}) DESC";
+
+        // Add search history weight
+        $searchTerms = collect($searchHistory)->pluck('search')->filter()->unique();
+        $searchScores = implode(' + ', $searchTerms->map(function ($term) {
+            return "CASE WHEN title LIKE '%{$term}%' OR description LIKE '%{$term}%' THEN 1 ELSE 0 END";
+        })->toArray());
+        $clause[] = "({$searchScores}) DESC";
+
+        // Add browsing behavior weight
+        $viewedProperties = $browsingBehavior->pluck('property_id')->toArray();
+        $viewScores = implode(' + ', array_map(function ($propertyId) {
+            return "CASE WHEN id = {$propertyId} THEN 1 ELSE 0 END";
+        }, $viewedProperties));
+        $clause[] = "({$viewScores}) DESC";
 
         return implode(', ', $clause);
     }
