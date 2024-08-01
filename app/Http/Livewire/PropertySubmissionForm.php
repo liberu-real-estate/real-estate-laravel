@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Property;
+use App\Services\AIDescriptionService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -20,6 +21,7 @@ class PropertySubmissionForm extends Component
     public $year_built;
     public $property_type;
     public $images = [];
+    public $aiDescription;
 
     protected $rules = [
         'title' => 'required|string|max:255',
@@ -33,6 +35,30 @@ class PropertySubmissionForm extends Component
         'property_type' => 'required|string|max:255',
         'images.*' => 'image|max:1024', // 1MB Max
     ];
+
+    public function generateAIDescription()
+    {
+        $this->validate([
+            'location' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'bedrooms' => 'required|integer|min:0',
+            'bathrooms' => 'required|integer|min:0',
+            'area_sqft' => 'required|numeric|min:0',
+            'property_type' => 'required|string|max:255',
+        ]);
+
+        $aiService = new AIDescriptionService();
+        $this->aiDescription = $aiService->generateDescription([
+            'location' => $this->location,
+            'price' => $this->price,
+            'bedrooms' => $this->bedrooms,
+            'bathrooms' => $this->bathrooms,
+            'area_sqft' => $this->area_sqft,
+            'property_type' => $this->property_type,
+        ]);
+
+        $this->description = $this->aiDescription;
+    }
 
     public function submit()
     {
