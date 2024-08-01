@@ -14,6 +14,8 @@ class MenuResource extends Resource
 {
     protected static ?string $model = Menu::class;
 
+    protected static ?string $navigationIcon = 'heroicon-o-bars-4';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -64,11 +66,6 @@ class MenuResource extends Resource
     public static function getPluralLabel(): string
     {
         return 'Menus';
-    }
-
-    public static function getNavigationIcon(): string
-    {
-        return 'heroicon-o-menu';
     }
 
     public static function getPages(): array

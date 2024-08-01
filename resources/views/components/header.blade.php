@@ -3,7 +3,7 @@
         <div class="w-full py-6 flex items-center justify-between border-b border-gray-500 lg:border-none">
             <div class="flex items-center">
                 <a href="/">
-                    <img class="h-10 w-auto" src="{{ Vite::asset('resources/images/logo.png') }}" alt="Liberu Genealogy">
+                    <img class="h-10 w-auto" src="{{ asset('images/logo.svg') }}" alt="Liberu Genealogy">
                 </a>
                 <div class="hidden ml-10 space-x-8 lg:block">
                     <a href="/about" class="text-base font-medium text-white hover:text-gray-300">About</a>

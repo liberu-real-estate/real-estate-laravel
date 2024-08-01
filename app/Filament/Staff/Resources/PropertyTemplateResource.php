@@ -14,7 +14,7 @@ class PropertyTemplateResource extends Resource
 {
     protected static ?string $model = PropertyTemplate::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-template';
+    protected static ?string $navigationIcon = 'heroicon-o-document';
 
     public static function form(Form $form): Form
     {
