@@ -4,6 +4,7 @@ namespace App\Filament\Tenant;
 
 use App\Models\MaintenanceRequest;
 use App\Models\WorkOrder;
+use App\Services\NotificationService;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -35,6 +36,9 @@ class MaintenanceRequestResource extends Resource
                     ->required(),
                 Forms\Components\DatePicker::make('requested_date')
                     ->required(),
+                Forms\Components\Select::make('property_id')
+                    ->relationship('property', 'title')
+                    ->required(),
                 Forms\Components\HasManyRepeater::make('workOrders')
                     ->relationship('workOrders')
                     ->schema([
@@ -61,22 +65,30 @@ class MaintenanceRequestResource extends Resource
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('requested_date')
                     ->date(),
+                Tables\Columns\TextColumn::make('property.title')
+                    ->label('Property'),
                 Tables\Columns\TextColumn::make('workOrders.status')
                     ->label('Work Order Status'),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'in_progress' => 'In Progress',
+                        'completed' => 'Completed',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('createWorkOrder')
-                    ->action(function (MaintenanceRequest $record) {
-                        WorkOrder::create([
+                    ->action(function (MaintenanceRequest $record, NotificationService $notificationService) {
+                        $workOrder = WorkOrder::create([
                             'maintenance_request_id' => $record->id,
                             'description' => 'New work order for ' . $record->title,
                             'status' => 'pending',
                             'scheduled_date' => now(),
                         ]);
+                        $notificationService->notifyTenantWorkOrderCreated($record->tenant, $workOrder);
                         Notification::make()
                             ->title('Work Order Created')
                             ->success()
