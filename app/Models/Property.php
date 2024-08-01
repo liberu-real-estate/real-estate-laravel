@@ -324,6 +324,10 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     {
         $this->addMediaCollection('images')
             ->withResponsiveImages();
+    
+        $this->addMediaCollection('videos')
+            ->acceptsMimeTypes(['video/mp4', 'video/quicktime'])
+            ->singleFile();
     }
 
     protected static function boot()
