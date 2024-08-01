@@ -7,6 +7,7 @@ use Livewire\Livewire;
 use App\Http\Livewire\PropertyBooking;
 use App\Http\Livewire\ValuationBooking;
 use App\Http\Livewire\PropertyReviewForm;
+use App\Http\Livewire\AdvancedPropertySearch;
 use App\Providers\AppServiceProvider;
 
 class LivewireComponentServiceProvider extends ServiceProvider
@@ -22,9 +23,10 @@ class LivewireComponentServiceProvider extends ServiceProvider
             'property-booking' => PropertyBooking::class,
             'valuation-booking' => ValuationBooking::class,
             'property-review-form' => PropertyReviewForm::class,
+            'advanced-property-search' => AdvancedPropertySearch::class,
             // Add other Livewire components here
         ];
-    
+
         foreach ($components as $alias => $class) {
             if (AppServiceProvider::isComponentEnabled($alias)) {
                 try {
