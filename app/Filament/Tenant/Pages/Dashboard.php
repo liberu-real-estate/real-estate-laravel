@@ -43,4 +43,20 @@ class Dashboard extends BaseDashboard
             RecentMaintenanceRequests::class,
         ];
     }
+
+    protected function getColumns(): int | array
+    {
+        return [
+            'default' => 1,
+            'sm' => 2,
+            'lg' => 3,
+        ];
+    }
+
+    public function getWidgets(): array
+    {
+        return [
+            RecentMaintenanceRequests::class,
+        ];
+    }
 }
