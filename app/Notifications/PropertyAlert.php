@@ -12,11 +12,13 @@ class PropertyAlert extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $property;
+    protected $properties;
+    protected $isPersonalized;
 
-    public function __construct(Property $property)
+    public function __construct($properties, $isPersonalized = false)
     {
-        $this->property = $property;
+        $this->properties = is_array($properties) ? $properties : [$properties];
+        $this->isPersonalized = $isPersonalized;
     }
 
     public function via($notifiable)
@@ -26,22 +28,31 @@ class PropertyAlert extends Notification implements ShouldQueue
 
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject('New Property Alert')
-                    ->line('A new property matching your criteria has been listed:')
-                    ->line('Title: ' . $this->property->title)
-                    ->line('Price: $' . number_format($this->property->price, 2))
-                    ->line('Location: ' . $this->property->location)
-                    ->action('View Property', url('/properties/' . $this->property->id));
+        $message = (new MailMessage)
+            ->subject($this->isPersonalized ? 'Personalized Property Recommendations' : 'New Property Alert')
+            ->line($this->isPersonalized ? 'Here are some properties we think you might like:' : 'New properties matching your criteria have been listed:');
+
+        foreach ($this->properties as $property) {
+            $message->line('Title: ' . $property->title)
+                    ->line('Price: $' . number_format($property->price, 2))
+                    ->line('Location: ' . $property->location)
+                    ->line('---');
+        }
+
+        $message->action('View All Properties', url('/properties'));
+
+        return $message;
     }
 
     public function toArray($notifiable)
     {
-        return [
-            'property_id' => $this->property->id,
-            'title' => $this->property->title,
-            'price' => $this->property->price,
-            'location' => $this->property->location,
-        ];
+        return array_map(function ($property) {
+            return [
+                'property_id' => $property->id,
+                'title' => $property->title,
+                'price' => $property->price,
+                'location' => $property->location,
+            ];
+        }, $this->properties);
     }
 }
