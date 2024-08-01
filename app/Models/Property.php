@@ -157,6 +157,27 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         return $this->hasMany(PropertyFeature::class, 'property_id');
     }
 
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    public function viewCount()
+    {
+        return $this->activities()->where('type', 'property_view')->count();
+    }
+
+    public function similarProperties($limit = 3)
+    {
+        return Property::where('id', '!=', $this->id)
+            ->where('property_type', $this->property_type)
+            ->whereBetween('price', [$this->price * 0.8, $this->price * 1.2])
+            ->whereBetween('bedrooms', [$this->bedrooms - 1, $this->bedrooms + 1])
+            ->whereBetween('bathrooms', [$this->bathrooms - 1, $this->bathrooms + 1])
+            ->limit($limit)
+            ->get();
+    }
+
     public function images()
     {
         return $this->hasMany(Image::class);
