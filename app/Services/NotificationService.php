@@ -89,4 +89,10 @@ class NotificationService
             }
         }
     }
+
+    public function sendUtilityUsageUpdate(EnergyConsumption $energyConsumption)
+    {
+        $user = $energyConsumption->property->owner;
+        Notification::send($user, new UtilityUsageUpdate($energyConsumption));
+    }
 }
