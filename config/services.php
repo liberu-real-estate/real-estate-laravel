@@ -68,6 +68,15 @@ return [
         'api_key' => env('LETS_SAFE_API_KEY'),
         'api_url' => env('LETS_SAFE_API_URL', 'https://api.letssafe.com/v1'),
     ],
+
+    'sage_online' => [
+        'api_key' => env('SAGE_ONLINE_API_KEY'),
+        'endpoint' => env('SAGE_ONLINE_ENDPOINT', 'https://api.sage.com/v1'),
+    ],
+
+    'accounting' => [
+        'system' => env('ACCOUNTING_SYSTEM', 'quickbooks'),
+    ],
 ];
 
 
