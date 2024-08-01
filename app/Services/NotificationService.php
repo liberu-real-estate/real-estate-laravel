@@ -5,11 +5,16 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Lease;
 use App\Models\Appointment;
+use App\Models\MaintenanceRequest;
+use App\Models\WorkOrder;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\LeaseAgreementReady;
 use App\Notifications\LeaseRenewalReminder;
 use App\Notifications\AppointmentCreated;
 use App\Notifications\AppointmentReminder;
+use App\Notifications\MaintenanceRequestSubmitted;
+use App\Notifications\MaintenanceRequestUpdated;
+use App\Notifications\WorkOrderCreated;
 use Illuminate\Notifications\Notification as BaseNotification;
 use Carbon\Carbon;
 
@@ -21,78 +26,22 @@ use App\Notifications\LeadReminder;
 
 class NotificationService
 {
-    public function notifyLeaseAgreementReady(User $user, $leaseAgreementId)
+    // ... (keep existing methods)
+
+    public function notifyTenantRequestSubmitted(User $tenant, MaintenanceRequest $request)
     {
-        Notification::send($user, new LeaseAgreementReady($leaseAgreementId));
+        Notification::send($tenant, new MaintenanceRequestSubmitted($request));
     }
 
-    public function scheduleNotification(User $user, BaseNotification $notification, Carbon $sendAt)
+    public function notifyTenantRequestUpdated(User $tenant, MaintenanceRequest $request)
     {
-        $user->notify((new $notification)->delay($sendAt));
+        Notification::send($tenant, new MaintenanceRequestUpdated($request));
     }
 
-    public function sendSmsNotification(User $user, string $message)
+    public function notifyTenantWorkOrderCreated(User $tenant, WorkOrder $workOrder)
     {
-        $response = Http::post('https://api.twilio.com/2010-04-01/Accounts/' . config('services.twilio.account_sid') . '/Messages.json', [
-            'From' => config('services.twilio.from_number'),
-            'To' => $user->phone_number,
-            'Body' => $message,
-        ])->withBasicAuth(config('services.twilio.account_sid'), config('services.twilio.auth_token'));
-
-        return $response->successful();
+        Notification::send($tenant, new WorkOrderCreated($workOrder));
     }
 
-    public function sendLeaseRenewalReminder(User $user, Lease $lease)
-    {
-        Notification::send($user, new LeaseRenewalReminder($lease));
-    }
-
-    public function notifyAppointmentCreated(User $user, Appointment $appointment)
-    {
-        Notification::send($user, new AppointmentCreated($appointment));
-    }
-
-    public function scheduleAppointmentReminder(Appointment $appointment)
-    {
-        $reminderTime = $appointment->appointment_date->subHours(24);
-        $this->scheduleNotification($appointment->user, new AppointmentReminder($appointment), $reminderTime);
-    }
-
-    public function sendLeadFollowUp(Lead $lead)
-    {
-        $user = $lead->team->users->first(); // Assuming the first user in the team is responsible
-        Notification::send($user, new LeadFollowUp($lead));
-        $lead->markContacted();
-    }
-
-    public function scheduleLeadReminder(Lead $lead, $days = 7)
-    {
-        $user = $lead->team->users->first();
-        $reminderTime = now()->addDays($days);
-        $this->scheduleNotification($user, new LeadReminder($lead), $reminderTime);
-    }
-
-    public function sendAutomatedLeadEmails()
-    {
-        $leads = Lead::where('status', 'new')
-            ->orWhere(function ($query) {
-                $query->where('status', 'contacted')
-                    ->where('last_contacted_at', '<=', now()->subDays(7));
-            })
-            ->get();
-
-        foreach ($leads as $lead) {
-            if ($lead->status === 'new') {
-                $this->sendLeadFollowUp($lead);
-            } else {
-                $this->scheduleLeadReminder($lead);
-            }
-        }
-    }
-
-    public function sendUtilityUsageUpdate(EnergyConsumption $energyConsumption)
-    {
-        $user = $energyConsumption->property->owner;
-        Notification::send($user, new UtilityUsageUpdate($energyConsumption));
-    }
+    // ... (keep existing methods)
 }
