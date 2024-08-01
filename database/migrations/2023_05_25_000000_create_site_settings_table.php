@@ -16,6 +16,8 @@ return new class extends Migration
             $table->text('address');
             $table->string('country');
             $table->string('email');
+            $table->decimal('sales_commission_percentage', 5, 2)->default(1.00);
+            $table->decimal('lettings_commission_percentage', 5, 2)->default(8.00);
             $table->timestamps();
         });
     }
