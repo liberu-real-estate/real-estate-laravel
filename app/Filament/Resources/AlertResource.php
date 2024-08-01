@@ -49,6 +49,18 @@ class AlertResource extends Resource
                         'weekly' => 'Weekly',
                     ])
                     ->required(),
+                Forms\Components\MultiSelect::make('alert_types')
+                    ->options([
+                        'price_change' => 'Price Change',
+                        'new_listing' => 'New Listing',
+                        'open_house' => 'Open House',
+                        'status_change' => 'Status Change',
+                    ])
+                    ->required(),
+                Forms\Components\TextInput::make('price_change_threshold')
+                    ->numeric()
+                    ->suffix('%')
+                    ->helperText('Percentage change to trigger alert'),
             ]);
     }
 
