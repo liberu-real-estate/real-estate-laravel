@@ -18,7 +18,10 @@ class Profile extends Page
 
     public function mount(): void
     {
-        $this->form->fill(Auth::user()->attributesToArray());
+        $user = Auth::user();
+        $userData = $user->attributesToArray();
+        $userData['average_rating'] = $user->averageRating();
+        $this->form->fill($userData);
     }
 
     public function form(Form $form): Form
@@ -32,6 +35,12 @@ class Profile extends Page
                     ->email()
                     ->required()
                     ->maxLength(255),
+                TextInput::make('average_rating')
+                    ->label('Average Rating')
+                    ->disabled()
+                    ->afterStateHydrated(function (TextInput $component, $state) {
+                        $component->state(number_format($state, 2));
+                    }),
             ])
             ->statePath('data');
     }

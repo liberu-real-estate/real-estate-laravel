@@ -141,4 +141,14 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     {
         return $this->hasMany(SavedSearch::class);
     }
+
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
+
+    public function averageRating()
+    {
+        return $this->reviews()->avg('rating');
+    }
 }
