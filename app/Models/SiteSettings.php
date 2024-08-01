@@ -27,5 +27,7 @@ class SiteSettings extends Model
         'address',
         'country',
         'email',
+        'sales_commission_percentage',
+        'lettings_commission_percentage',
     ];
 }
