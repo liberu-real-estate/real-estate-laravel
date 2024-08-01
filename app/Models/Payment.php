@@ -17,6 +17,7 @@ class Payment extends Model
         'payment_method',
         'tenant_id',
         'invoice_id',
+        'sage_id',
     ];
 
     protected $casts = [

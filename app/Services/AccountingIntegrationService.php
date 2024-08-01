@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Log;
 class AccountingIntegrationService
 {
     protected $apiKey;
+    protected $apiSecret;
+    protected $baseUrl;
+
+    public function __construct()
+    {
+        $this->apiKey = config('services.sage_online.api_key');
+        $this->apiSecret = config('services.sage_online.api_secret');
+        $this->baseUrl = config('services.sage_online.base_url');
+    }
+    protected $apiKey;
     protected $endpoint;
 
     public function __construct()
