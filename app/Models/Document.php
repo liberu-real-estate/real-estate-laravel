@@ -23,6 +23,11 @@ class Document extends Model implements HasMedia
         'team_id',
         'property_id',
         'user_id',
+        'is_signable',
+    ];
+
+    protected $casts = [
+        'is_signable' => 'boolean',
     ];
 
     public function digitalSignatures()
@@ -63,5 +68,10 @@ class Document extends Model implements HasMedia
         return $user->id === $this->user_id ||
                $user->team_id === $this->team_id ||
                $user->hasRole('admin');
+    }
+
+    public function isSignable()
+    {
+        return $this->is_signable;
     }
 }
