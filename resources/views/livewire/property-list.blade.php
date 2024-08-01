@@ -48,8 +48,8 @@
     <div class="mt-8">
         {{ $properties->links() }}
     </div>
-
-    @if($properties->count() > 0)
+    
+    @if($properties instanceof \Illuminate\Pagination\LengthAwarePaginator && $properties->count() > 0)
         <div class="mt-8 text-sm text-gray-600">
             <p>Total properties: {{ $properties->total() }}</p>
             <p>Current page: {{ $properties->currentPage() }}</p>
