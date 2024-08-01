@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Models\DocumentTemplate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use PDF;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class DocumentGenerationService
 {
@@ -24,6 +27,29 @@ class DocumentGenerationService
         $path = 'generated_documents/' . Auth::id() . '/' . $fileName;
         Storage::put($path, $content);
         return $path;
+    }
+
+    public function generatePdf($template, $data)
+    {
+        $pdf = PDF::loadView('pdf_templates.' . $template, $data);
+        return $pdf->output();
+    }
+
+    public function generateExcel($template, $data)
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Implement the logic to populate the spreadsheet with $data
+        // This is a placeholder and should be replaced with actual data population logic
+        $sheet->setCellValue('A1', 'Custom Report');
+        $sheet->setCellValue('A2', 'Date: ' . now()->toDateString());
+
+        $writer = new Xlsx($spreadsheet);
+        $tempFile = tempnam(sys_get_temp_dir(), 'excel');
+        $writer->save($tempFile);
+
+        return file_get_contents($tempFile);
     }
 
     private function canAccessTemplate(DocumentTemplate $template)

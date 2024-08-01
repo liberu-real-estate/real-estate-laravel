@@ -51,6 +51,12 @@ Route::get('/properties/{propertyId}', PropertyDetail::class)->name('property.de
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/apply/{property}', RentalApplicationForm::class)->name('rental.apply');
     Route::get('/applications', [App\Http\Controllers\TenantController::class, 'applications'])->name('tenant.applications');
+
+    // Custom Reports
+    Route::get('/custom-reports', [CustomReportController::class, 'index'])->name('custom-reports.index');
+    Route::post('/custom-reports/generate', [CustomReportController::class, 'generateReport'])->name('custom-reports.generate');
+    Route::post('/custom-reports/export-pdf', [CustomReportController::class, 'exportReportToPdf'])->name('custom-reports.export-pdf');
+    Route::post('/custom-reports/export-excel', [CustomReportController::class, 'exportReportToExcel'])->name('custom-reports.export-excel');
 });
 
 Route::get('/properties/{property}/apply', [TenancyApplicationController::class, 'create'])->name('tenancy.apply');
