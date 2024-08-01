@@ -131,9 +131,17 @@ class PropertyResource extends Resource
                     ->maxFiles(5)
                     ->label('Property Images')
                     ->columnSpanFull(),
+                Forms\Components\Textarea::make('custom_description')
+                    ->label('Custom Description')
+                    ->maxLength(1000),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('video')
+                    ->collection('videos')
+                    ->maxFiles(1)
+                    ->acceptedFileTypes(['video/mp4', 'video/quicktime'])
+                    ->maxSize(102400) // 100MB
             ]);
     }
-
+    
     public static function table(Table $table): Table
     {
         return $table
@@ -163,6 +171,15 @@ class PropertyResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_featured')
                     ->boolean(),
+                Tables\Columns\TextColumn::make('custom_description')
+                    ->label('Custom Description')
+                    ->limit(50),
+                Tables\Columns\IconColumn::make('has_video')
+                    ->label('Has Video')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-video-camera')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->getStateUsing(fn (Property $record): bool => $record->hasMedia('videos')),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('property_type'),

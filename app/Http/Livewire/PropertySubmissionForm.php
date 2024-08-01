@@ -21,6 +21,8 @@ class PropertySubmissionForm extends Component
     public $year_built;
     public $property_type;
     public $images = [];
+    public $video;
+    public $customDescription;
     public $aiDescription;
     public $descriptionTone = 'professional';
 
@@ -34,7 +36,9 @@ class PropertySubmissionForm extends Component
         'area_sqft' => 'required|numeric|min:0',
         'year_built' => 'required|integer|min:1800|max:2099',
         'property_type' => 'required|string|max:255',
-        'images.*' => 'image|max:1024', // 1MB Max
+        'images.*' => 'image|max:5120', // 5MB Max
+        'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:102400', // 100MB Max
+        'customDescription' => 'nullable|string|max:1000',
         'descriptionTone' => 'required|in:professional,casual,luxury',
     ];
 
@@ -71,7 +75,7 @@ class PropertySubmissionForm extends Component
     public function submit()
     {
         $this->validate();
-
+    
         $property = Property::create([
             'title' => $this->title,
             'description' => $this->description,
@@ -84,18 +88,42 @@ class PropertySubmissionForm extends Component
             'property_type' => $this->property_type,
             'status' => 'pending',
             'user_id' => auth()->id(),
+            'custom_description' => $this->customDescription,
         ]);
-
+    
         foreach ($this->images as $image) {
             $property->addMedia($image->getRealPath())
                 ->usingName($image->getClientOriginalName())
                 ->toMediaCollection('images');
         }
-
+    
+        if ($this->video) {
+            $property->addMedia($this->video->getRealPath())
+                ->usingName($this->video->getClientOriginalName())
+                ->toMediaCollection('videos');
+        }
+    
         session()->flash('message', 'Property submitted successfully and is pending approval.');
         $this->reset();
     }
 
+    public function preview()
+    {
+        $this->validate();
+        $this->emit('previewProperty', [
+            'title' => $this->title,
+            'description' => $this->description,
+            'location' => $this->location,
+            'price' => $this->price,
+            'bedrooms' => $this->bedrooms,
+            'bathrooms' => $this->bathrooms,
+            'area_sqft' => $this->area_sqft,
+            'year_built' => $this->year_built,
+            'property_type' => $this->property_type,
+            'custom_description' => $this->customDescription,
+        ]);
+    }
+    
     public function render()
     {
         return view('livewire.property-submission-form');
