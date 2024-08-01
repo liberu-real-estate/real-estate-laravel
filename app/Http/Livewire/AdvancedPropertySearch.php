@@ -32,6 +32,10 @@ class AdvancedPropertySearch extends Component
     public $longitude = null;
     public $radius = 10; // Default radius in km
 
+    protected $queryString = [
+        'search', 'minPrice', 'maxPrice', 'minBedrooms', 'propertyType', 'sortBy'
+    ];
+
     protected $postalCodeService;
 
     public function boot(PostalCodeService $postalCodeService)
@@ -89,7 +93,26 @@ class AdvancedPropertySearch extends Component
             })
             ->with(['features', 'images']);
 
-        return $query->orderBy($this->sortBy, $this->sortDirection)->paginate(12);
+        return $this->applySorting($query)->paginate(12);
+    }
+
+    protected function applySorting($query)
+    {
+        switch ($this->sortBy) {
+            case 'price_asc':
+                return $query->orderBy('price', 'asc');
+            case 'price_desc':
+                return $query->orderBy('price', 'desc');
+            case 'bedrooms':
+                return $query->orderBy('bedrooms', 'desc');
+            default:
+                return $query->orderBy('created_at', 'desc');
+        }
+    }
+
+    public function search()
+    {
+        $this->resetPage();
     }
 
     public function sortBy($field)

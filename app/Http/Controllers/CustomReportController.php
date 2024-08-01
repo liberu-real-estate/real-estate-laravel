@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Livewire\CustomReportForm;
 use App\Services\DocumentGenerationService;
+use App\Services\MarketAnalysisService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class CustomReportController extends Controller
 {
     protected $documentGenerationService;
+    protected $marketAnalysisService;
 
-    public function __construct(DocumentGenerationService $documentGenerationService)
+    public function __construct(DocumentGenerationService $documentGenerationService, MarketAnalysisService $marketAnalysisService)
     {
         $this->documentGenerationService = $documentGenerationService;
+        $this->marketAnalysisService = $marketAnalysisService;
     }
 
     public function index()
@@ -63,14 +66,35 @@ class CustomReportController extends Controller
 
     private function generateReportData($criteria)
     {
-        // Implement the logic to generate report data based on the criteria
-        // This is a placeholder and should be replaced with actual data generation logic
+        if ($criteria['report_type'] === 'market_analysis') {
+            $marketData = $this->marketAnalysisService->generateMarketAnalysis(
+                $criteria['start_date'],
+                $criteria['end_date'],
+                $criteria['properties'] ?? null
+            );
+
+            $marketTrends = $this->marketAnalysisService->getMarketTrends(
+                $criteria['start_date'],
+                $criteria['end_date'],
+                $criteria['properties'] ?? null
+            );
+
+            return [
+                'report_type' => $criteria['report_type'],
+                'start_date' => $criteria['start_date'],
+                'end_date' => $criteria['end_date'],
+                'market_data' => $marketData,
+                'market_trends' => $marketTrends,
+            ];
+        }
+
+        // Handle other report types
         return [
             'report_type' => $criteria['report_type'],
             'start_date' => $criteria['start_date'],
             'end_date' => $criteria['end_date'],
             'data' => [
-                // Add your report data here
+                // Add your report data here for other report types
             ],
         ];
     }

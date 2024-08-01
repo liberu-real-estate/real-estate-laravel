@@ -14,7 +14,8 @@ class Review extends Model
 
     protected $fillable = [
         'user_id',
-        'property_id',
+        'reviewable_id',
+        'reviewable_type',
         'rating',
         'comment',
         'review_date',
@@ -31,9 +32,9 @@ class Review extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function property()
+    public function reviewable()
     {
-        return $this->belongsTo(Property::class, 'property_id');
+        return $this->morphTo();
     }
 
     public function scopeHighRated($query)
@@ -44,6 +45,20 @@ class Review extends Model
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function scopeForTenants($query)
+    {
+        return $query->where('reviewable_type', Tenant::class);
+    }
+
+    public function scopeForLandlords($query)
+    {
+        return $query->where('reviewable_type', User::class)->whereHas('reviewable', function ($query) {
+            $query->whereHas('roles', function ($query) {
+                $query->where('name', 'landlord');
+            });
+        });
     }
 }
 

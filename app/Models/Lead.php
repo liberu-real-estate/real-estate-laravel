@@ -59,4 +59,9 @@ class Lead extends Model
     {
         return $this->belongsTo(Team::class, 'team_id');
     }
+
+    public function emailCampaigns()
+    {
+        return $this->belongsToMany(EmailCampaign::class);
+    }
 }

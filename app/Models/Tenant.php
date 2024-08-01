@@ -17,4 +17,14 @@ class Tenant extends Model
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
+
+    public function averageRating()
+    {
+        return $this->reviews()->avg('rating');
+    }
 }
