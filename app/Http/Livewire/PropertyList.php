@@ -124,7 +124,7 @@ class PropertyList extends Component
                 if (app()->environment('local')) {
                     session()->flash('error_details', $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
                 }
-                return collect();
+                return Property::paginate(0); // Return an empty paginator instead of a collection
             }
         });
     }
