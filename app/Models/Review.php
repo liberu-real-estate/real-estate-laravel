@@ -20,6 +20,10 @@ class Review extends Model
         'comment',
         'review_date',
         'approved',
+        'moderation_status',
+        'ip_address',
+        'helpful_votes',
+        'unhelpful_votes',
     ];
 
     protected $casts = [
@@ -59,6 +63,33 @@ class Review extends Model
                 $query->where('name', 'landlord');
             });
         });
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->where('approved', true);
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('moderation_status', 'pending');
+    }
+
+    public function isAuthentic()
+    {
+        // Implement logic to check if the review is authentic
+        // For example, check if the user has a verified account, has made multiple reviews, etc.
+        return $this->user->hasVerifiedEmail() && $this->user->reviews()->count() > 1;
+    }
+
+    public function markAsHelpful()
+    {
+        $this->increment('helpful_votes');
+    }
+
+    public function markAsUnhelpful()
+    {
+        $this->increment('unhelpful_votes');
     }
 }
 
