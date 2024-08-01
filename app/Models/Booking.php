@@ -24,12 +24,24 @@ class Booking extends Model
         'contact',
         'team_id',
         'status',
+        'visit_type',
+        'feedback',
     ];
 
     protected $casts = [
         'date' => 'date',
         'time' => 'datetime:H:i',
     ];
+
+    public function scopeVisits($query)
+    {
+        return $query->where('visit_type', 'property_visit');
+    }
+
+    public function hasProvidedFeedback()
+    {
+        return !empty($this->feedback);
+    }
 
     public function user()
     {
