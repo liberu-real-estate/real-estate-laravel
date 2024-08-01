@@ -53,6 +53,15 @@ return [
         // Add any other necessary configuration options here
     ],
 
+    'docusign' => [
+        'account_id' => env('DOCUSIGN_ACCOUNT_ID'),
+        'integration_key' => env('DOCUSIGN_INTEGRATION_KEY'),
+        'secret_key' => env('DOCUSIGN_SECRET_KEY'),
+        'base_path' => env('DOCUSIGN_BASE_PATH', 'https://demo.docusign.net/restapi'),
+        'user_id' => env('DOCUSIGN_USER_ID'),
+        'private_key_path' => env('DOCUSIGN_PRIVATE_KEY_PATH'),
+    ],
+
     'crm' => [
         'api_key' => env('CRM_API_KEY'),
         'endpoint' => env('CRM_ENDPOINT'),
