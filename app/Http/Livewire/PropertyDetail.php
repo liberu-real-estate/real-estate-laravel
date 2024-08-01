@@ -17,6 +17,7 @@ class PropertyDetail extends Component
     public $isLettingsProperty;
     public $reviews;
     public $neighborhoodData;
+    public $showInvestmentSimulation = false;
 
     // Lead capture form fields
     public $name;
@@ -53,7 +54,14 @@ class PropertyDetail extends Component
 
     public function render()
     {
-        return view('livewire.property-detail')->layout('layouts.app');
+        return view('livewire.property-detail', [
+            'investmentAnalysisComponent' => $this->showInvestmentSimulation ? new InvestmentAnalysisComponent($this->property) : null,
+        ])->layout('layouts.app');
+    }
+
+    public function toggleInvestmentSimulation()
+    {
+        $this->showInvestmentSimulation = !$this->showInvestmentSimulation;
     }
 
     public function submitLeadForm()
