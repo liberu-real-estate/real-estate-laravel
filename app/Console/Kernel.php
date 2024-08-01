@@ -7,15 +7,15 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\SyncRightMoveProperties;
 use App\Jobs\SyncOnTheMarketProperties;
 use App\Jobs\SyncZooplaProperties;
+use App\Jobs\LeaseRenewalReminder;
 use App\Models\ZooplaSettings;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
      */
-
-/**
     protected function schedule(Schedule $schedule): void
     {
         // Sync properties with RightMove every hour
@@ -75,7 +75,7 @@ class Kernel extends ConsoleKernel
             ->onSuccess(function () {
                 Log::info('Zoopla hourly sync completed successfully');
             });
-    
+
         $schedule->command('zoopla:sync-properties')
             ->daily()
             ->when(function () {
@@ -89,7 +89,7 @@ class Kernel extends ConsoleKernel
             ->onSuccess(function () {
                 Log::info('Zoopla daily sync completed successfully');
             });
-    
+
         $schedule->command('zoopla:sync-properties')
             ->weekly()
             ->when(function () {
@@ -103,15 +103,14 @@ class Kernel extends ConsoleKernel
             ->onSuccess(function () {
                 Log::info('Zoopla weekly sync completed successfully');
             });
-    }
 
-**/
+        // Schedule LeaseRenewalReminder job
+        $schedule->job(new LeaseRenewalReminder)->daily();
+    }
 
     /**
      * Register the commands for the application.
      */
-
-
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
