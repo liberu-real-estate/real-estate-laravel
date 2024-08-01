@@ -17,10 +17,14 @@ class Transaction extends Model
         'seller_id',
         'transaction_date',
         'transaction_amount',
+        'status',
+        'commission_amount',
     ];
 
     protected $casts = [
         'transaction_date' => 'datetime',
+        'transaction_amount' => 'decimal:2',
+        'commission_amount' => 'decimal:2',
     ];
 
     public function property()
@@ -37,10 +41,24 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'seller_id');
     }
+
     public function team()
     {
         return $this->belongsTo(Team::class);
     }
 
+    public function calculateCommission()
+    {
+        // Example commission calculation (3% of transaction amount)
+        $this->commission_amount = $this->transaction_amount * 0.03;
+        $this->save();
+    }
+
+    public function generateContractualDocument()
+    {
+        // Implement document generation logic here
+        // This is a placeholder for the actual implementation
+        return "Contract for Transaction {$this->transaction_id}";
+    }
 }
 
