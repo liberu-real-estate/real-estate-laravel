@@ -8,6 +8,8 @@ use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use App\Models\Transaction;
 use App\Models\Property;
+use App\Models\Payment;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Auth;
 use App\Services\TransactionService;
 
@@ -20,11 +22,16 @@ class PaymentController extends Controller
         $this->transactionService = $transactionService;
     }
 
+    public function showPaymentPortal()
+    {
+        return view('tenant.payment-portal');
+    }
+
     public function createSession(Request $request)
     {
         $this->validateCreateSessionRequest($request);
         $this->setStripeApiKey();
-        $paymentIntent = $this->createPaymentIntent($request->amount, $request->property_id);
+        $paymentIntent = $this->createPaymentIntent($request->amount, $request->invoice_id);
 
         return response()->json(['clientSecret' => $paymentIntent->client_secret]);
     }
@@ -32,22 +39,21 @@ class PaymentController extends Controller
     public function handlePaymentSuccess(Request $request){
         $this->validateHandlePaymentSuccessRequest($request);
 
-        $transaction = $this->transactionService->createTransaction([
-            'property_id' => $request->property_id,
-            'buyer_id' => Auth::id(),
-            'seller_id' => $this->getSellerIdFromProperty($request->property_id),
-            'transaction_date' => now(),
-            'transaction_amount' => $request->amount,
-            'status' => Transaction::STATUS_COMPLETED,
+        $payment = Payment::create([
+            'amount' => $request->amount,
+            'payment_date' => now(),
+            'status' => 'completed',
+            'payment_method' => $request->payment_method,
+            'tenant_id' => Auth::id(),
+            'invoice_id' => $request->invoice_id,
         ]);
 
-        // Generate contractual document
-        $document = $this->transactionService->generateContractualDocument($transaction);
+        $invoice = Invoice::findOrFail($request->invoice_id);
+        $invoice->update(['status' => 'paid']);
 
         return response()->json([
-            'message' => 'Payment successful and transaction recorded.',
-            'transaction_id' => $transaction->id,
-            'document_id' => $document->id,
+            'message' => 'Payment successful and recorded.',
+            'payment_id' => $payment->id,
         ]);
     }
 
@@ -59,7 +65,7 @@ class PaymentController extends Controller
     private function validateCreateSessionRequest(Request $request)
     {
         $request->validate([
-            'property_id' => 'required|integer',
+            'invoice_id' => 'required|integer',
             'amount' => 'required|numeric',
         ]);
     }
@@ -72,9 +78,9 @@ class PaymentController extends Controller
     private function validateHandlePaymentSuccessRequest(Request $request)
     {
         $request->validate([
-            'property_id' => 'required|integer',
-            'transaction_id' => 'required|string',
+            'invoice_id' => 'required|integer',
             'amount' => 'required|numeric',
+            'payment_method' => 'required|string',
         ]);
     }
 
@@ -90,20 +96,23 @@ class PaymentController extends Controller
      * Creates a payment intent.
      *
      * @param float $amount
-     * @param int $propertyId
+     * @param int $invoiceId
      * @return PaymentIntent
      */
-    private function createPaymentIntent($amount, $propertyId)
+    private function createPaymentIntent($amount, $invoiceId)
     {
         return PaymentIntent::create([
             'amount' => $amount * 100, // Convert amount to cents
-            'currency' => 'gbp',
-            'metadata' => ['property_id' => $propertyId],
+            'currency' => 'usd',
+            'metadata' => ['invoice_id' => $invoiceId],
         ]);
     }
 
-    private function getSellerIdFromProperty($propertyId)
+    public function generateReceipt($paymentId)
     {
-        return Property::findOrFail($propertyId)->seller_id;
+        $payment = Payment::findOrFail($paymentId);
+        // Generate and return a PDF receipt
+        // This is a placeholder and should be implemented with a PDF generation library
+        return response()->json(['message' => 'Receipt generated', 'payment' => $payment]);
     }
 }
