@@ -17,11 +17,18 @@ class Transaction extends Model
         'seller_id',
         'transaction_date',
         'transaction_amount',
+        'status',
+        'commission_amount',
     ];
 
     protected $casts = [
         'transaction_date' => 'datetime',
     ];
+
+    const STATUS_PENDING = 'pending';
+    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_CANCELLED = 'cancelled';
 
     public function property()
     {
@@ -37,10 +44,23 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'seller_id');
     }
+
     public function team()
     {
         return $this->belongsTo(Team::class);
     }
 
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    public function calculateCommission()
+    {
+        // Implement commission calculation logic here
+        $commissionRate = 0.03; // 3% commission rate
+        $this->commission_amount = $this->transaction_amount * $commissionRate;
+        $this->save();
+    }
 }
 

@@ -12,6 +12,7 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -22,6 +23,7 @@ use App\Filament\Staff\Resources\TransactionResource\RelationManagers;
 use App\Filament\Staff\Resources\TransactionResource\Pages\EditTransaction;
 use App\Filament\Staff\Resources\TransactionResource\Pages\ListTransactions;
 use App\Filament\Staff\Resources\TransactionResource\Pages\CreateTransaction;
+use App\Services\TransactionService;
 
 class TransactionResource extends Resource
 {
@@ -49,6 +51,18 @@ class TransactionResource extends Resource
                     ->type('number')
                     ->label('Transaction Amount')
                     ->required(),
+                Select::make('status')
+                    ->options([
+                        Transaction::STATUS_PENDING => 'Pending',
+                        Transaction::STATUS_IN_PROGRESS => 'In Progress',
+                        Transaction::STATUS_COMPLETED => 'Completed',
+                        Transaction::STATUS_CANCELLED => 'Cancelled',
+                    ])
+                    ->required(),
+                TextInput::make('commission_amount')
+                    ->type('number')
+                    ->label('Commission Amount')
+                    ->disabled(),
             ]);
     }
 
@@ -56,19 +70,27 @@ class TransactionResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('property_id')
+                TextColumn::make('property.title')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('buyer_id')
+                TextColumn::make('buyer.name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('seller_id')
+                TextColumn::make('seller.name')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('transaction_date')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('transaction_amount')
+                    ->money('gbp')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('status')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('commission_amount')
+                    ->money('gbp')
                     ->searchable()
                     ->sortable(),
             ])
@@ -77,6 +99,12 @@ class TransactionResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('generateDocument')
+                    ->label('Generate Document')
+                    ->action(function (Transaction $record, TransactionService $transactionService) {
+                        $document = $transactionService->generateContractualDocument($record);
+                        // You might want to add a notification or redirect here
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
