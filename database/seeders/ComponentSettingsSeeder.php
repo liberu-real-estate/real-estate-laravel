@@ -12,6 +12,7 @@ class ComponentSettingsSeeder extends Seeder
         $components = [
             'property-booking',
             'valuation-booking',
+            'advanced-property-search',
             // Add other Livewire components here
         ];
 
