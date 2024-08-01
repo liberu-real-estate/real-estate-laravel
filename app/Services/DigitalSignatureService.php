@@ -10,6 +10,9 @@ class DigitalSignatureService
 {
     public function signDocument(User $user, Document $document, $signatureData)
     {
+        if (!$document->isSignable()) {
+            throw new \Exception('This document is not signable.');
+        }
         // Here you would integrate with a third-party service like DocuSign
         // Ensure compliance with UK electronic signature regulations
         $signature = DigitalSignature::create([
