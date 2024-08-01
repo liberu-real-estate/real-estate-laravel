@@ -2,41 +2,29 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Http;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Services\AccountingInterfaces\AccountingSystemInterface;
 use Illuminate\Support\Facades\Log;
 
 class AccountingIntegrationService
 {
-    protected $apiKey;
-    protected $endpoint;
+    protected $accountingSystem;
 
-    public function __construct()
+    public function __construct(AccountingSystemInterface $accountingSystem)
     {
-        $this->apiKey = config('services.accounting.api_key');
-        $this->endpoint = config('services.accounting.endpoint');
+        $this->accountingSystem = $accountingSystem;
     }
 
     public function syncInvoice(Invoice $invoice)
     {
         try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
-                'Content-Type' => 'application/json',
-            ])->post($this->endpoint . '/invoices', [
-                'invoice_number' => $invoice->id,
-                'amount' => $invoice->amount,
-                'due_date' => $invoice->due_date->format('Y-m-d'),
-                'description' => $invoice->description,
-                'status' => $invoice->status,
-            ]);
+            $result = $this->accountingSystem->syncInvoice($invoice);
 
-            if ($response->successful()) {
-                $invoice->update(['accounting_id' => $response->json('id')]);
+            if ($result) {
                 return true;
             } else {
-                Log::error('Accounting sync failed for invoice ' . $invoice->id . ': ' . $response->body());
+                Log::error('Accounting sync failed for invoice ' . $invoice->id);
                 return false;
             }
         } catch (\Exception $e) {
@@ -48,22 +36,12 @@ class AccountingIntegrationService
     public function syncPayment(Payment $payment)
     {
         try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
-                'Content-Type' => 'application/json',
-            ])->post($this->endpoint . '/payments', [
-                'payment_id' => $payment->id,
-                'invoice_id' => $payment->invoice_id,
-                'amount' => $payment->amount,
-                'payment_date' => $payment->payment_date->format('Y-m-d'),
-                'payment_method' => $payment->payment_method,
-            ]);
+            $result = $this->accountingSystem->syncPayment($payment);
 
-            if ($response->successful()) {
-                $payment->update(['accounting_id' => $response->json('id')]);
+            if ($result) {
                 return true;
             } else {
-                Log::error('Accounting sync failed for payment ' . $payment->id . ': ' . $response->body());
+                Log::error('Accounting sync failed for payment ' . $payment->id);
                 return false;
             }
         } catch (\Exception $e) {
