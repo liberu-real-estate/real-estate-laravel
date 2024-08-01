@@ -4,9 +4,12 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Models\Lease;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\LeaseAgreementReady;
 use App\Notifications\LeaseRenewalReminder;
+use App\Notifications\AppointmentCreated;
+use App\Notifications\AppointmentReminder;
 use Illuminate\Notifications\Notification as BaseNotification;
 use Carbon\Carbon;
 
@@ -38,5 +41,16 @@ class NotificationService
     public function sendLeaseRenewalReminder(User $user, Lease $lease)
     {
         Notification::send($user, new LeaseRenewalReminder($lease));
+    }
+
+    public function notifyAppointmentCreated(User $user, Appointment $appointment)
+    {
+        Notification::send($user, new AppointmentCreated($appointment));
+    }
+
+    public function scheduleAppointmentReminder(Appointment $appointment)
+    {
+        $reminderTime = $appointment->appointment_date->subHours(24);
+        $this->scheduleNotification($appointment->user, new AppointmentReminder($appointment), $reminderTime);
     }
 }
