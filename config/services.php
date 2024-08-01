@@ -73,6 +73,11 @@ return [
         'api_key' => env('SAGE_ONLINE_API_KEY'),
         'endpoint' => env('SAGE_ONLINE_ENDPOINT'),
     ],
+
+    'xero' => [
+        'api_key' => env('XERO_API_KEY'),
+        'endpoint' => env('XERO_ENDPOINT'),
+    ],
 ];
 
 
