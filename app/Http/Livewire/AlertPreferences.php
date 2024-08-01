@@ -14,6 +14,8 @@ class AlertPreferences extends Component
     public $minPrice;
     public $maxPrice;
     public $location;
+    public $alertTypes = [];
+    public $priceChangeThreshold;
 
     public function mount()
     {
@@ -31,6 +33,8 @@ class AlertPreferences extends Component
             $this->minPrice = $criteria['min_price'] ?? null;
             $this->maxPrice = $criteria['max_price'] ?? null;
             $this->location = $criteria['location'] ?? '';
+            $this->alertTypes = $criteria['alert_types'] ?? [];
+            $this->priceChangeThreshold = $criteria['price_change_threshold'] ?? 5;
         }
     }
 
@@ -43,6 +47,8 @@ class AlertPreferences extends Component
                 'min_price' => $this->minPrice,
                 'max_price' => $this->maxPrice,
                 'location' => $this->location,
+                'alert_types' => $this->alertTypes,
+                'price_change_threshold' => $this->priceChangeThreshold,
             ],
         ]);
 

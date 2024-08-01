@@ -1,9 +1,4 @@
-<div>
-    <h2 class="text-2xl font-bold mb-4">Alert Preferences</h2>
-    <form wire:submit.prevent="savePreferences">
-        <div class="mb-4">
-            <label for="alertFrequency" class="block mb-2">Alert Frequency</label>
-            <select id="alertFrequency" wire:model="alertFrequency" class="w-full p-2 border rounded">
+
                 <option value="daily">Daily</option>
                 <option value="weekly">Weekly</option>
                 <option value="monthly">Monthly</option>
