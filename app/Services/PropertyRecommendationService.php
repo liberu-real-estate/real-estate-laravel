@@ -65,4 +65,58 @@ class PropertyRecommendationService
 
         return implode(', ', $clause);
     }
+
+    public function getRecommendedProperties(User $user, $limit = 5)
+    {
+        // Get properties the user has interacted with
+        $userInteractions = $this->getUserInteractions($user);
+
+        // Get similar users based on property interactions
+        $similarUsers = $this->getSimilarUsers($user, $userInteractions);
+
+        // Get properties liked by similar users
+        $recommendedProperties = $this->getPropertiesFromSimilarUsers($similarUsers, $userInteractions, $limit);
+
+        return $recommendedProperties;
+    }
+
+    private function getUserInteractions(User $user)
+    {
+        $favorites = $user->favorites()->pluck('property_id')->toArray();
+        $views = $user->activities()->where('type', 'property_view')->pluck('property_id')->toArray();
+
+        return array_unique(array_merge($favorites, $views));
+    }
+
+    private function getSimilarUsers(User $user, array $userInteractions)
+    {
+        return User::whereHas('favorites', function ($query) use ($userInteractions) {
+            $query->whereIn('property_id', $userInteractions);
+        })->orWhereHas('activities', function ($query) use ($userInteractions) {
+            $query->whereIn('property_id', $userInteractions)
+                  ->where('type', 'property_view');
+        })->where('id', '!=', $user->id)
+          ->withCount(['favorites', 'activities'])
+          ->orderByDesc('favorites_count')
+          ->orderByDesc('activities_count')
+          ->limit(10)
+          ->get();
+    }
+
+    private function getPropertiesFromSimilarUsers($similarUsers, array $userInteractions, $limit)
+    {
+        $similarUserIds = $similarUsers->pluck('id')->toArray();
+
+        return Property::whereHas('favorites', function ($query) use ($similarUserIds) {
+            $query->whereIn('user_id', $similarUserIds);
+        })->orWhereHas('activities', function ($query) use ($similarUserIds) {
+            $query->whereIn('user_id', $similarUserIds)
+                  ->where('type', 'property_view');
+        })->whereNotIn('id', $userInteractions)
+          ->withCount(['favorites', 'activities'])
+          ->orderByDesc('favorites_count')
+          ->orderByDesc('activities_count')
+          ->limit($limit)
+          ->get();
+    }
 }
