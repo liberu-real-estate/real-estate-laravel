@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\Lease;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\LeaseAgreementReady;
+use App\Notifications\LeaseRenewalReminder;
 use Illuminate\Notifications\Notification as BaseNotification;
 use Carbon\Carbon;
 
@@ -31,5 +33,10 @@ class NotificationService
         ])->withBasicAuth(config('services.twilio.account_sid'), config('services.twilio.auth_token'));
 
         return $response->successful();
+    }
+
+    public function sendLeaseRenewalReminder(User $user, Lease $lease)
+    {
+        Notification::send($user, new LeaseRenewalReminder($lease));
     }
 }
