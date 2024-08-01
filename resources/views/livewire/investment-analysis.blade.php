@@ -1,5 +1,5 @@
 <div class="container mx-auto px-4 py-8">
-    <h2 class="text-2xl font-semibold mb-4">Investment Analysis for {{ $property->title }}</h2>
+    <h2 class="text-2xl font-semibold mb-4">AI-Driven Investment Analysis for {{ $property->title }}</h2>
 
     <form wire:submit.prevent="analyze" class="mb-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
