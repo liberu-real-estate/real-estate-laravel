@@ -109,14 +109,6 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         return $this->currentAuction() !== null;
     }
 
-    protected $casts = [
-        'last_synced_at' => 'datetime',
-        'list_date' => 'date',
-        'sold_date' => 'date',
-        'is_featured' => 'boolean',
-        'insurance_expiry_date' => 'date',
-    ];
-
     public function insurancePolicy()
     {
         return $this->belongsTo(InsurancePolicy::class);
