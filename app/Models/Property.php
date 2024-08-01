@@ -84,6 +84,21 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_expiry_date',
     ];
 
+    public function auctions()
+    {
+        return $this->hasMany(Auction::class);
+    }
+
+    public function currentAuction()
+    {
+        return $this->auctions()->where('status', 'active')->first();
+    }
+
+    public function isInAuction()
+    {
+        return $this->currentAuction() !== null;
+    }
+
     protected $casts = [
         'last_synced_at' => 'datetime',
         'list_date' => 'date',
