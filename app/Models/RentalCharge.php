@@ -6,23 +6,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Payment extends Model
+class RentalCharge extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'amount',
-        'payment_date',
-        'status',
-        'payment_method',
+        'property_id',
         'tenant_id',
-        'invoice_id',
+        'amount',
+        'charge_date',
+        'description',
+        'status',
     ];
 
     protected $casts = [
-        'payment_date' => 'date',
+        'charge_date' => 'date',
         'amount' => 'decimal:2',
     ];
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class);
+    }
 
     public function tenant()
     {
@@ -32,21 +37,5 @@ class Payment extends Model
     public function invoice()
     {
         return $this->belongsTo(Invoice::class);
-    }
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($payment) {
-            if (!$payment->tenant_id && auth()->check()) {
-                $payment->tenant_id = auth()->id();
-            }
-        });
-    }
-
-    public function scopeForTenant($query)
-    {
-        return $query->where('tenant_id', auth()->id());
     }
 }
