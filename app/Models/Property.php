@@ -83,6 +83,16 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_premium',
         'insurance_expiry_date',
     ];
+    
+    protected $casts = [
+        'last_synced_at' => 'datetime',
+        'list_date' => 'date',
+        'sold_date' => 'date',
+        'is_featured' => 'boolean',
+        'insurance_expiry_date' => 'date',
+        'latitude' => 'float',
+        'longitude' => 'float',
+    ];
 
     public function auctions()
     {

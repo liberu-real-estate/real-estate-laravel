@@ -13,8 +13,7 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var drawnItems = new L.FeatureGroup();
-        map.addLayer(drawnItems);
+        var markers = L.layerGroup().addTo(map);
 
         var drawControl = new L.Control.Draw({
             draw: {
@@ -26,16 +25,15 @@
                 circlemarker: false
             },
             edit: {
-                featureGroup: drawnItems,
+                featureGroup: markers,
                 remove: true
             }
         });
         map.addControl(drawControl);
 
         map.on('draw:created', function (e) {
-            drawnItems.clearLayers();
             var layer = e.layer;
-            drawnItems.addLayer(layer);
+            markers.addLayer(layer);
             var geoJSON = layer.toGeoJSON();
             @this.call('updateDrawnArea', geoJSON.geometry.coordinates[0]);
         });
@@ -44,13 +42,35 @@
             @this.call('updateDrawnArea', null);
         });
 
+        function createMarkerPopup(property) {
+            return `
+                <div>
+                    <h3>${property.title}</h3>
+                    <p>Price: $${property.price}</p>
+                    <p>Bedrooms: ${property.bedrooms}</p>
+                    <p>Bathrooms: ${property.bathrooms}</p>
+                    <a href="/property/${property.id}" target="_blank">View Details</a>
+                </div>
+            `;
+        }
+
         Livewire.on('propertiesUpdated', function (properties) {
-            drawnItems.clearLayers();
+            markers.clearLayers();
             properties.forEach(function (property) {
-                L.marker([property.lat, property.lng])
-                    .addTo(map)
-                    .bindPopup(property.title + '<br>Price: $' + property.price);
+                if (property.latitude && property.longitude) {
+                    L.marker([property.latitude, property.longitude])
+                        .bindPopup(createMarkerPopup(property))
+                        .addTo(markers);
+                }
             });
+            if (properties.length > 0) {
+                map.fitBounds(markers.getBounds());
+            }
+        });
+
+        // Listen for filter changes
+        Livewire.on('filtersChanged', function (filters) {
+            @this.call('applyFilters', filters);
         });
     });
 </script>

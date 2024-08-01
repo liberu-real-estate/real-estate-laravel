@@ -80,7 +80,7 @@ class PropertyList extends Component
     {
         $cacheKey = $this->getCacheKey();
 
-        return Cache::remember($cacheKey, now()->addMinutes(15), function () {
+        $properties = Cache::remember($cacheKey, now()->addMinutes(15), function () {
             try {
                 $query = Property::query()
                     ->search($this->search)
@@ -127,6 +127,38 @@ class PropertyList extends Component
                 return Property::paginate(0); // Return an empty paginator instead of a collection
             }
         });
+
+        $this->emit('propertiesUpdated', $properties->items());
+        return $properties;
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+        $this->emit('filtersChanged', $this->getFilters());
+    }
+
+    public function applyFilters($filters)
+    {
+        $this->fill($filters);
+        $this->resetPage();
+    }
+
+    private function getFilters()
+    {
+        return [
+            'search' => $this->search,
+            'minPrice' => $this->minPrice,
+            'maxPrice' => $this->maxPrice,
+            'minBedrooms' => $this->minBedrooms,
+            'maxBedrooms' => $this->maxBedrooms,
+            'minBathrooms' => $this->minBathrooms,
+            'maxBathrooms' => $this->maxBathrooms,
+            'minArea' => $this->minArea,
+            'maxArea' => $this->maxArea,
+            'propertyType' => $this->propertyType,
+            'selectedAmenities' => $this->selectedAmenities,
+        ];
     }
 
     private function getCacheKey()
