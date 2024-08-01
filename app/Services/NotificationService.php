@@ -15,6 +15,10 @@ use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Http;
 
+use App\Models\Lead;
+use App\Notifications\LeadFollowUp;
+use App\Notifications\LeadReminder;
+
 class NotificationService
 {
     public function notifyLeaseAgreementReady(User $user, $leaseAgreementId)
@@ -52,5 +56,37 @@ class NotificationService
     {
         $reminderTime = $appointment->appointment_date->subHours(24);
         $this->scheduleNotification($appointment->user, new AppointmentReminder($appointment), $reminderTime);
+    }
+
+    public function sendLeadFollowUp(Lead $lead)
+    {
+        $user = $lead->team->users->first(); // Assuming the first user in the team is responsible
+        Notification::send($user, new LeadFollowUp($lead));
+        $lead->markContacted();
+    }
+
+    public function scheduleLeadReminder(Lead $lead, $days = 7)
+    {
+        $user = $lead->team->users->first();
+        $reminderTime = now()->addDays($days);
+        $this->scheduleNotification($user, new LeadReminder($lead), $reminderTime);
+    }
+
+    public function sendAutomatedLeadEmails()
+    {
+        $leads = Lead::where('status', 'new')
+            ->orWhere(function ($query) {
+                $query->where('status', 'contacted')
+                    ->where('last_contacted_at', '<=', now()->subDays(7));
+            })
+            ->get();
+
+        foreach ($leads as $lead) {
+            if ($lead->status === 'new') {
+                $this->sendLeadFollowUp($lead);
+            } else {
+                $this->scheduleLeadReminder($lead);
+            }
+        }
     }
 }

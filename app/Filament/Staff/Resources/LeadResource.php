@@ -43,6 +43,22 @@ class LeadResource extends Resource
                 Forms\Components\TextInput::make('score')
                     ->disabled()
                     ->helperText('Score is automatically calculated'),
+                Forms\Components\Select::make('category')
+                    ->options([
+                        'hot' => 'Hot',
+                        'warm' => 'Warm',
+                        'cold' => 'Cold',
+                    ])
+                    ->required(),
+                Forms\Components\DateTimePicker::make('last_contacted_at'),
+                Forms\Components\Repeater::make('activities')
+                    ->relationship('activities')
+                    ->schema([
+                        Forms\Components\TextInput::make('type'),
+                        Forms\Components\Textarea::make('description'),
+                        Forms\Components\DateTimePicker::make('created_at'),
+                    ])
+                    ->columnSpan(2),
             ]);
     }
 

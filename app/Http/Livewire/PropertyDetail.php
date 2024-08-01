@@ -6,6 +6,9 @@ use Livewire\Component;
 use App\Models\Property;
 use App\Services\NeighborhoodDataService;
 
+use App\Models\Lead;
+use App\Services\LeadScoringService;
+
 class PropertyDetail extends Component
 {
     public $property;
@@ -15,11 +18,26 @@ class PropertyDetail extends Component
     public $reviews;
     public $neighborhoodData;
 
-    protected $neighborhoodDataService;
+    // Lead capture form fields
+    public $name;
+    public $email;
+    public $phone;
+    public $message;
 
-    public function boot(NeighborhoodDataService $neighborhoodDataService)
+    protected $neighborhoodDataService;
+    protected $leadScoringService;
+
+    protected $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'nullable|string|max:20',
+        'message' => 'nullable|string',
+    ];
+
+    public function boot(NeighborhoodDataService $neighborhoodDataService, LeadScoringService $leadScoringService)
     {
         $this->neighborhoodDataService = $neighborhoodDataService;
+        $this->leadScoringService = $leadScoringService;
     }
 
     public function mount($propertyId)
@@ -36,6 +54,29 @@ class PropertyDetail extends Component
     public function render()
     {
         return view('livewire.property-detail')->layout('layouts.app');
+    }
+
+    public function submitLeadForm()
+    {
+        $this->validate();
+
+        $lead = Lead::create([
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'message' => $this->message,
+            'interest' => $this->isLettingsProperty ? 'renting' : 'buying',
+            'status' => 'new',
+            'team_id' => $this->team->id,
+        ]);
+
+        $lead->addActivity('property_inquiry', "Inquired about property {$this->property->id}");
+
+        $this->leadScoringService->updateLeadScore($lead);
+
+        $this->reset(['name', 'email', 'phone', 'message']);
+
+        session()->flash('message', 'Thank you for your inquiry. We will contact you soon!');
     }
 
     public function getEnergyRatingColor($rating)
