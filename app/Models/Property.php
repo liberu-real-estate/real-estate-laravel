@@ -78,6 +78,10 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'energy_rating',
         'energy_score',
         'energy_rating_date',
+        'insurance_policy_id',
+        'insurance_coverage_amount',
+        'insurance_premium',
+        'insurance_expiry_date',
     ];
 
     protected $casts = [
@@ -85,7 +89,18 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'list_date' => 'date',
         'sold_date' => 'date',
         'is_featured' => 'boolean',
+        'insurance_expiry_date' => 'date',
     ];
+
+    public function insurancePolicy()
+    {
+        return $this->belongsTo(InsurancePolicy::class);
+    }
+
+    public function hasActiveInsurance()
+    {
+        return $this->insurance_policy_id && $this->insurance_expiry_date > now();
+    }
 
     public function template()
     {
