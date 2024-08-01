@@ -12,10 +12,10 @@ use App\Services\PropertyFeatureService;
 class PropertyList extends Component
 {
     use WithPagination;
-    
+
     public $search = '';
     public $minPrice = 0;
-    public $maxPrice = 10000000;
+    public $maxPrice = 1000000;
     public $minBedrooms = 0;
     public $maxBedrooms = 10;
     public $minBathrooms = 0;
@@ -24,9 +24,17 @@ class PropertyList extends Component
     public $maxArea = 10000;
     public $propertyType = '';
     public $selectedAmenities = [];
-    
+    public $yearBuilt = '';
+    public $status = '';
+    public $sortBy = 'created_at';
+    public $sortDirection = 'desc';
+    public $postalCode = '';
+    public $latitude = null;
+    public $longitude = null;
+    public $radius = 10; // Default radius in km
+
     protected $listeners = ['applyAdvancedFilters'];
-    
+
     public function mount()
     {
         $this->resetPage();
