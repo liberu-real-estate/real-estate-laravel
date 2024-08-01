@@ -36,15 +36,35 @@
         </div>
 
         <div>
-            <label for="notes" class="block text-sm font-medium text-gray-700">Additional Notes</label>
-            <textarea id="notes" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" wire:model="notes" rows="3"></textarea>
-            @error('notes') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+            <label for="propertyType" class="block text-sm font-medium text-gray-700">Property Type</label>
+            <select id="propertyType" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" wire:model="propertyType">
+                <option value="">Select property type</option>
+                <option value="house">House</option>
+                <option value="apartment">Apartment</option>
+                <option value="condo">Condo</option>
+                <option value="townhouse">Townhouse</option>
+            </select>
+            @error('propertyType') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
 
         <div>
-            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
-                Schedule Valuation
-            </button>
+            <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+            <input type="text" id="location" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" wire:model="location">
+            @error('location') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
-    </form>
-</div>
+
+        <div>
+            <label for="areaSqft" class="block text-sm font-medium text-gray-700">Area (sq ft)</label>
+            <input type="number" id="areaSqft" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" wire:model="areaSqft">
+            @error('areaSqft') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+        </div>
+
+        <div>
+            <label for="bedrooms" class="block text-sm font-medium text-gray-700">Number of Bedrooms</label>
+            <input type="number" id="bedrooms" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" wire:model="bedrooms">
+            @error('bedrooms') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+        </div>
+
+        <div>
+            <label for="bathrooms" class="block text-sm font-medium text-gray-700">Number of Bathrooms</label>
+            <input type="number" id="bathrooms" class="mt-
