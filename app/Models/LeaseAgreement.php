@@ -43,4 +43,9 @@ class LeaseAgreement extends Model
     {
         return Crypt::decryptString($value);
     }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
 }
