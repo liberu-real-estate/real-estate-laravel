@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EnergyConsumption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Stripe\Stripe;
@@ -10,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\Property;
 use App\Models\Payment;
 use App\Models\Invoice;
+use App\Models\UtilityPayment;
 use Illuminate\Support\Facades\Auth;
 use App\Services\TransactionService;
 
@@ -101,19 +103,6 @@ class PaymentController extends Controller
         ]);
     }
 
-    /**
-     * Validates the request for the handlePaymentSuccess method.
-     *
-     * @param Request $request
-     */
-    private function validateHandlePaymentSuccessRequest(Request $request)
-    {
-        $request->validate([
-            'invoice_id' => 'required|integer',
-            'amount' => 'required|numeric',
-            'payment_method' => 'required|string',
-        ]);
-    }
 
     /**
      * Sets the Stripe API key.

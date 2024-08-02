@@ -11,7 +11,9 @@ class AddTeamIdToStaffResourceTables extends Migration
         $tables = [
             'appointments', 'bookings', 'buyers', 'contractors', 'document_templates',
             'favorites', 'images', 'key_locations', 'property_features', 'property_categories',
-            'properties', 'reviews', 'tenants', 'transactions','leases','messages',
+            'properties', 'reviews', 'tenants', 'transactions','leases','messages', 'documents',
+            'email_campaigns', 'energy_consumptions', 'leads', 'lease_agreements', 'utility_payments',
+            'property_templates'
         ];
 
         foreach ($tables as $table) {
@@ -28,7 +30,9 @@ class AddTeamIdToStaffResourceTables extends Migration
         $tables = [
             'appointments', 'buyers', 'bookings', 'contractors', 'document_templates',
             'favorites', 'images', 'key_locations', 'property_features',
-            'properties', 'reviews', 'tenants', 'transactions'
+            'properties', 'reviews', 'tenants', 'transactions', 'leases','messages', 'documents',
+            'email_campaigns', 'energy_consumptions', 'leads', 'lease_agreements', 'utility_payments',
+            'property_templates'
         ];
 
         foreach ($tables as $table) {

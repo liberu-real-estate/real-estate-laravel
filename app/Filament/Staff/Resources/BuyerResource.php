@@ -18,7 +18,7 @@ class BuyerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
-    protected static ?string $navigationLabel = 'Buyers';
+    protected static ?string $modelLabel = 'Buyer';
 
     public static function form(Form $form): Form
     {

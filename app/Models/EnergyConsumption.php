@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EnergyConsumption extends Model
 {
@@ -39,8 +40,13 @@ class EnergyConsumption extends Model
         return $this->total_cost - $this->utilityPayments()->sum('amount');
     }
 
-    public function property()
+    public function property(): BelongsTo
     {
         return $this->belongsTo(Property::class);
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 }

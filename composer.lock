@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a1e93dc0da1d1422594f20d90edb22a",
+    "content-hash": "4a0a2263a2303c20ab0418401bdb9727",
     "packages": [
         {
             "name": "althinect/filament-spatie-roles-permissions",
@@ -8418,6 +8418,65 @@
             "time": "2024-06-20T09:20:26+00:00"
         },
         {
+            "name": "stripe/stripe-php",
+            "version": "v15.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "d20fbbf2557773106c0ec2198b1b16b40f5081bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d20fbbf2557773106c0ec2198b1b16b40f5081bc",
+                "reference": "d20fbbf2557773106c0ec2198b1b16b40f5081bc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.5.0",
+                "phpstan/phpstan": "^1.2",
+                "phpunit/phpunit": "^5.7 || ^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v15.5.0"
+            },
+            "time": "2024-08-01T21:25:52+00:00"
+        },
+        {
             "name": "symfony/cache",
             "version": "v7.1.3",
             "source": {
@@ -14090,5 +14149,5 @@
         "php": "^8.3"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

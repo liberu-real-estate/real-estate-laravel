@@ -18,7 +18,7 @@ class LandlordResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-home';
 
-    protected static ?string $navigationLabel = 'Landlords';
+    protected static ?string $modelLabel = 'Landlord';
 
     public static function form(Form $form): Form
     {

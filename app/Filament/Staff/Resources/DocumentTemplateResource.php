@@ -41,9 +41,9 @@ class DocumentTemplateResource extends Resource
     {
         return $table
             ->columns([
-                Table\Columns\TextColumn::make('name')->label('Name'),
-                Table\Columns\TextColumn::make('file_path')->label('File Path'),
-                Table\Columns\TextColumn::make('description')->label('Description'),
+                Tables\Columns\TextColumn::make('name')->label('Name'),
+                Tables\Columns\TextColumn::make('file_path')->label('File Path'),
+                Tables\Columns\TextColumn::make('description')->label('Description'),
             ])
             ->filters([
                 //

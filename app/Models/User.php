@@ -166,4 +166,9 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     {
         return $this->hasMany(PriceAlert::class);
     }
+
+    public function team()
+    {
+        return $this->currentTeam();
+    }
 }
