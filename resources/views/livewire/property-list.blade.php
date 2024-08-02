@@ -45,15 +45,15 @@
             
                         <div class="grid grid-cols-2 gap-x-4 gap-y-2">
                             <div class="flex items-center">
-                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">BED</h5>
+                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">Bedrooms: </h5>
                                 <p class="text-base text-neutral-600 dark:text-neutral-200">{{ $property->bedrooms }}</p>
                             </div>
                             <div class="flex items-center">
-                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">SQFT</h5>
+                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">Square Foot:  </h5>
                                 <p class="text-base text-neutral-600 dark:text-neutral-200">{{ $property->area_sqft }}</p>
                             </div>
                             <div class="flex items-center">
-                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">BATH ROOM</h5>
+                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">Bathrooms: </h5>
                                 <p class="text-base text-neutral-600 dark:text-neutral-200">{{ $property->bathrooms }}</p>
                             </div>
                           
