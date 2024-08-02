@@ -18,7 +18,7 @@ class SellerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
-    protected static ?string $navigationLabel = 'Sellers';
+    protected static ?string $modelLabel = 'Seller';
 
     public static function form(Form $form): Form
     {
