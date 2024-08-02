@@ -27,4 +27,9 @@ class Tenant extends Model
     {
         return $this->reviews()->avg('rating');
     }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
 }
