@@ -16,8 +16,6 @@
                         Search
                     </button>
                 </div>
-                
-                
             </form>
         </div>
 
@@ -79,11 +77,8 @@
                     </div>
                 </div>
             </div>
-            
             @endforeach
         </div>
-
-   
 
         <div class="mt-8">
             <div class="flex items-center justify-between border-gray-100 bg-white px-4 py-3 sm:px-6">
@@ -166,8 +161,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 @endsection
