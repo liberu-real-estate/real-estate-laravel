@@ -26,4 +26,9 @@ class UtilityPayment extends Model
     {
         return $this->belongsTo(EnergyConsumption::class);
     }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
 }
