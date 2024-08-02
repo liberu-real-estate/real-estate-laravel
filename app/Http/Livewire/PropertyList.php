@@ -123,7 +123,7 @@ class PropertyList extends Component
             }
         });
 
-        $this->emit('propertiesUpdated', $properties->items());
+        $this->dispatch('propertiesUpdated', $properties->items());
         return $properties;
     }
 
