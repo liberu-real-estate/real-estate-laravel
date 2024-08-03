@@ -62,16 +62,17 @@ class LandlordPanelProvider extends PanelProvider
              //   ->tenantRoutePrefix('/{tenant}')
                 ->tenantMiddleware([
                     AssignDefaultTeam::class,
-                ])
-                ->tenantRegistration(CreateTeam::class)
-                ->tenantProfile(EditTeam::class);
+                ]);
+                // ->tenantRegistration(CreateTeam::class);
+                // ->tenantProfile(EditTeam::class);
         }
 
         $panel
             ->discoverResources(in: app_path('Filament/Landlord/Resources'), for: 'App\\Filament\\Landlord\\Resources')
             ->discoverPages(in: app_path('Filament/Landlord/Pages'), for: 'App\\Filament\\Landlord\\Pages')
             ->pages([
-                \App\Filament\Landlord\Pages\Dashboard::class,
+                // \App\Filament\Landlord\Pages\Dashboard::class,
+                Dashboard::class,
                 Pages\EditProfile::class,
                 Profile::class,
             ])
