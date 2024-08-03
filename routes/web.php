@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CustomReportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TenancyApplicationController;
 use App\Http\Livewire\PropertyList;

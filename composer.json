@@ -11,6 +11,7 @@
         "php": "^8.3",
         "althinect/filament-spatie-roles-permissions": "^2.2",
         "bezhansalleh/filament-shield": "^3.2",
+        "docusign/esign-client": "^8.0",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "guzzlehttp/guzzle": "^7.8",
@@ -82,6 +83,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

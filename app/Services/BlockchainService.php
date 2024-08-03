@@ -14,18 +14,18 @@ class BlockchainService
 
     public function __construct()
     {
-        $this->web3 = new Web3(new HttpProvider(new HttpRequestManager(env('ETHEREUM_NODE_URL'))));
+        // $this->web3 = new Web3(new HttpProvider(new HttpRequestManager(env('ETHEREUM_NODE_URL'))));
     }
 
     public function deploySmartContract($abi, $bytecode, $params)
     {
-        $this->contract = new Contract($this->web3->provider, $abi);
+        // $this->contract = new Contract($this->web3->provider, $abi);
         
-        return $this->contract->deploy($bytecode, $params);
+        // return $this->contract->deploy($bytecode, $params);
     }
 
     public function callContractMethod($contractAddress, $method, $params)
     {
-        return $this->contract->at($contractAddress)->call($method, $params);
+        // return $this->contract->at($contractAddress)->call($method, $params);
     }
 }
