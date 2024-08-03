@@ -19,7 +19,7 @@
             </form>
         </div>
 
-        <div class="grid grid-cols-5 gap-4">
+        <div class="grid grid-cols-1 2xl:grid-cols-5  xl:grid-cols-4  lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4">
             @forelse($properties as $property)
             <div class="flex flex-col cursor-pointer space-y-20 min-w-screen animated fadeIn faster outline-none ">
                 <div class="block rounded-lg bg-white w-72 p-2 border border-slate-100 hover:border-slate-400 rounded-md" href="{{ route('property.detail', $property->id) }}">
@@ -63,7 +63,7 @@
                             <div class="font-semibold text-neutral-800 dark:text-neutral-50">PRICE</div>
                             <div>
                                 <span
-                                    class="text-xl font-bold text-green-600">&pound{{ number_format($property->price, 2) }}</span>
+                                    class="font-bold text-green-600">  {{  App\Helpers\SiteSettingsHelper::getCurrency() . " ".number_format($property->price, 2) }}</span>
                             </div>
                         </div>
             
