@@ -45,12 +45,12 @@ class ContractorPanelProvider extends PanelProvider
             ->default()
             ->id('contractor')
             ->path('contractor')
-            ->login([AuthenticatedSessionController::class, 'create'])
-            ->loginRouteSlug('login')
+            // ->login([AuthenticatedSessionController::class, 'create'])
+            // ->loginRouteSlug('login')
             ->homeUrl('/contractor')
-            ->registration()
-            ->passwordReset()
-            ->emailVerification()
+            // ->registration()
+            // ->passwordReset()
+            // ->emailVerification()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
