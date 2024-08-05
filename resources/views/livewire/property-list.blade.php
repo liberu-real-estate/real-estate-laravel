@@ -75,7 +75,7 @@
                             <div class="mb-4 flex items-center justify-between gap-4">
                                 <span
                                     class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-md font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
-                                    {{ App\Helpers\SiteSettingsHelper::getCurrency() . ' ' . number_format($property->price, 2) }}
+                                    {{ App\Helpers\SiteSettingsHelper::get('currency') . ' ' . number_format($property->price, 2) }}
                                 </span>
                                 <div class="flex items-center justify-end gap-1">
                                     <button type="button" data-tooltip-target="tooltip-quick-look"
