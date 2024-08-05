@@ -1,6 +1,6 @@
 <div>
     @section('content')
-    <div class="container mx-auto px-4 py-8" x-data="{ calculatorType: 'mortgage' }" x-init="console.log('I\'m being initialized!')">
+    <div class="container mx-auto px-4 py-8" x-data="{ calculatorType: 'mortgage' }">
         <h1 class="text-3xl font-bold mb-6">Property Calculators</h1>
 
         <div class="mb-6">
@@ -43,7 +43,7 @@
         </div>
 
         @if ($mortgageResult)
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
+            <div x-show="calculatorType === 'mortgage'" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
                 <p class="font-bold">Mortgage Calculation Results:</p>
                 <p>Monthly Payment: £{{ number_format($mortgageResult['monthly_payment'], 2) }}</p>
                 <p>Total Payment: £{{ number_format($mortgageResult['total_payment'], 2) }}</p>
@@ -82,7 +82,7 @@
         </div>
 
         @if ($costOfMovingResult)
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
+            <div x-show="calculatorType === 'costOfMoving'" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
                 <p class="font-bold">Cost of Moving Calculation Results:</p>
                 <p>Estate Agent Fee: £{{ number_format($costOfMovingResult['estate_agent_fee'], 2) }}</p>
                 <p>Conveyancing Fee: £{{ number_format($costOfMovingResult['conveyancing_fee'], 2) }}</p>
@@ -118,7 +118,7 @@
         </div>
 
         @if ($stampDutyResult)
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
+            <div x-show="calculatorType === 'stampDuty'" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-4" role="alert">
                 <p class="font-bold">Stamp Duty Calculation Results:</p>
                 <p>Stamp Duty: £{{ number_format($stampDutyResult['stamp_duty'], 2) }}</p>
                 <p>Effective Tax Rate: {{ number_format($stampDutyResult['effective_tax_rate'], 2) }}%</p>
