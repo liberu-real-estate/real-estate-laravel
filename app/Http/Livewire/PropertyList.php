@@ -91,12 +91,6 @@ class PropertyList extends Component
                 if ($this->selectedAmenities) {
                     $query->hasAmenities($this->selectedAmenities);
                 }
-
-                // Temporarily comment out the join to isolate any potential issues
-                // $query->leftJoin('images', 'properties.id', '=', 'images.property_id')
-                //       ->select('properties.*')
-                //       ->distinct();
-
                 $query->with('features', 'images');
 
                 $properties = $query->paginate(12);
