@@ -49,4 +49,9 @@ class Payment extends Model
     {
         return $query->where('tenant_id', auth()->id());
     }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
 }
