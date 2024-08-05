@@ -19,32 +19,23 @@
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
                         {{ \App\Helpers\SiteSettingsHelper::get('name') }} </span>
                 </a>
+               
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div></div>
                 <div></div>
                 <div>
-                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Contact Numbers</h2>
-                    <ul class="text-gray-600 dark:text-gray-400">
-                        <li>
-                            <span class=" font-xs text-gray-500 dark:text-gray-400">UK non-geographic:
-                                {{ \App\Helpers\SiteSettingsHelper::get('phone_01') }}</span>
-                        </li>
-                        <li>
-                            <span class=" font-xs text-gray-500 dark:text-gray-400">UK London:
-                                {{ \App\Helpers\SiteSettingsHelper::get('phone_02') }}</span>
-                        </li>
-                        <li>
-                            <span class=" font-xs text-gray-500 dark:text-gray-400">UK mobile:
-                                {{ \App\Helpers\SiteSettingsHelper::get('phone_03') }}</span>
-                        </li>
-                    </ul>
+                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Contact Details</h2>
+                    <span class="text-xs text-gray-600">{{ \App\Helpers\SiteSettingsHelper::get('address') }}</span> <br>
+                    <span class="text-xs text-gray-600">UK Non-geographic: {{ \App\Helpers\SiteSettingsHelper::get('phone_01') }}</span>  <br>
+                    <span class="text-xs text-gray-600">UK London: {{ \App\Helpers\SiteSettingsHelper::get('phone_02') }}</span>  <br>
+                    <span class="text-xs text-gray-600">UK Mobile: {{ \App\Helpers\SiteSettingsHelper::get('phone_03') }}</span>  <br>
                 </div>
             </div>
         </div>
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <div class="sm:flex sm:items-center sm:justify-between">
-            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 <a href="#"
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {{now()->year}} <a href="#"
                     class="hover:underline">{{ \App\Helpers\SiteSettingsHelper::get('name') }}™</a>. All Rights
                 Reserved.
             </span>
