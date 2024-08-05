@@ -10,6 +10,10 @@ class Dashboard extends Page
 {
     protected static string $view = 'filament.buyer.dashboard';
 
+    protected $myBookings;
+    protected $activeListings;
+    protected $totalProperties;
+
     public function mount(): void
     {
         $this->totalProperties = Property::count();
