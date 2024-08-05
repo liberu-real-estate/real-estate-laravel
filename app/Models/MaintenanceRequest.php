@@ -38,4 +38,9 @@ class MaintenanceRequest extends Model
     {
         return $this->hasMany(WorkOrder::class);
     }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

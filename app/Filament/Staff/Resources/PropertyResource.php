@@ -14,6 +14,8 @@ use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use App\Filament\Staff\Resources\RelationManagers\ReviewsRelationManager;
 use App\Filament\Staff\Resources\RelationManagers\RoomsRelationManager;
+use Filament\Forms\Components\Actions\Action;
+use Illuminate\Support\Collection;
 
 class PropertyResource extends Resource
 {

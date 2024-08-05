@@ -2,15 +2,18 @@
 
 namespace App\Filament\Tenant\Widgets;
 
+use App\Filament\Tenant\Resources\MaintenanceRequestResource;
+use Filament\Tables;
 use Filament\Widgets\TableWidget;
 use App\Models\MaintenanceRequest;
-use App\Filament\Tenant\Resources\MaintenanceRequestResource;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class RecentMaintenanceRequests extends TableWidget
 {
     protected int | string | array $columnSpan = 'full';
 
-    protected function getTableQuery()
+    protected function getTableQuery(): Builder | Relation | null
     {
         return MaintenanceRequest::where('tenant_id', auth()->id())->latest()->limit(5);
     }
@@ -18,16 +21,16 @@ class RecentMaintenanceRequests extends TableWidget
     protected function getTableColumns(): array
     {
         return [
-            TableWidget\Columns\TextColumn::make('title'),
-            TableWidget\Columns\TextColumn::make('status'),
-            TableWidget\Columns\TextColumn::make('requested_date')->date(),
+            Tables\Columns\TextColumn::make('title'),
+            Tables\Columns\TextColumn::make('status'),
+            Tables\Columns\TextColumn::make('requested_date')->date(),
         ];
     }
 
     protected function getTableActions(): array
     {
         return [
-            TableWidget\Actions\Action::make('view')
+            Tables\Actions\Action::make('view')
                 ->url(fn (MaintenanceRequest $record): string => MaintenanceRequestResource::getUrl('edit', ['record' => $record])),
         ];
     }

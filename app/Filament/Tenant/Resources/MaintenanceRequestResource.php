@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Filament\Tenant;
+namespace App\Filament\Tenant\Resources;
 
 use App\Models\MaintenanceRequest;
 use App\Models\WorkOrder;
 use App\Services\NotificationService;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
 use Filament\Notifications\Notification;
+use App\Filament\Tenant\Resources\MaintenanceRequestResource\Pages;
 
 class MaintenanceRequestResource extends Resource
 {
