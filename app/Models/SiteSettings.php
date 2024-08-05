@@ -20,14 +20,5 @@ class SiteSettings extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'currency',
-        'default_language',
-        'address',
-        'country',
-        'email',
-        'sales_commission_percentage',
-        'lettings_commission_percentage',
-    ];
+    protected $fillable = ['*'];
 }
