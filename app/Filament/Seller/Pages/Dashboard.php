@@ -12,10 +12,10 @@ class Dashboard extends Page
 
     public function mount(): void
     {
-        $this->myProperties = Property::where('seller_id', auth()->id())->count();
-        $this->activeListings = Property::where('seller_id', auth()->id())->where('status', 'active')->count();
+        $this->myProperties = Property::where('user_id', auth()->id())->count();
+        $this->activeListings = Property::where('user_id', auth()->id())->where('status', 'active')->count();
         $this->totalBookings = Booking::whereHas('property', function ($query) {
-            $query->where('seller_id', auth()->id());
+            $query->where('user_id', auth()->id());
         })->count();
     }
 
