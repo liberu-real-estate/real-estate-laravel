@@ -1,16 +1,15 @@
 <div>
-@section('content')
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Property Calculators</h1>
+    @section('content')
+    <div class="container mx-auto px-4 py-8" x-data="{ calculatorType: 'mortgage' }" x-init="console.log('I\'m being initialized!')">
+        <h1 class="text-3xl font-bold mb-6">Property Calculators</h1>
 
-    <div class="mb-6">
-        <button wire:click="setCalculatorType('mortgage')" class="px-4 py-2 mr-2 {{ $calculatorType === 'mortgage' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Mortgage Calculator</button>
-        <button wire:click="setCalculatorType('costOfMoving')" class="px-4 py-2 mr-2 {{ $calculatorType === 'costOfMoving' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Cost of Moving Calculator</button>
-        <button wire:click="setCalculatorType('stampDuty')" class="px-4 py-2 {{ $calculatorType === 'stampDuty' ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded">Stamp Duty Calculator</button>
-    </div>
+        <div class="mb-6">
+            <button x-on:click="calculatorType = 'mortgage'" class="px-4 py-2 mr-2" x-bind:class="calculatorType === 'mortgage' ? 'bg-blue-500 text-white' : 'bg-gray-200'">Mortgage Calculator</button>
+            <button x-on:click="calculatorType = 'costOfMoving'" class="px-4 py-2 mr-2" x-bind:class="calculatorType === 'costOfMoving' ? 'bg-blue-500 text-white' : 'bg-gray-200'">Cost of Moving Calculator</button>
+            <button x-on:click="calculatorType = 'stampDuty'" class="px-4 py-2" x-bind:class="calculatorType === 'stampDuty' ? 'bg-blue-500 text-white' : 'bg-gray-200'">Stamp Duty Calculator</button>
+        </div>
 
-    @if ($calculatorType === 'mortgage')
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div x-show="calculatorType === 'mortgage'" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 class="text-2xl font-bold mb-4">Mortgage Calculator</h2>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="propertyPrice">
@@ -52,8 +51,7 @@
             </div>
         @endif
 
-    @elseif ($calculatorType === 'cost_of_moving')
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div x-show="calculatorType === 'costOfMoving'" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 class="text-2xl font-bold mb-4">Cost of Moving Calculator</h2>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="propertyValue">
@@ -94,8 +92,8 @@
                 <p>Total Cost: £{{ number_format($costOfMovingResult['total_cost'], 2) }}</p>
             </div>
         @endif
-    @elseif ($calculatorType === 'stamp_duty')
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+
+        <div x-show="calculatorType === 'stampDuty'" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 class="text-2xl font-bold mb-4">Stamp Duty Calculator</h2>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="propertyValue">
@@ -126,7 +124,6 @@
                 <p>Effective Tax Rate: {{ number_format($stampDutyResult['effective_tax_rate'], 2) }}%</p>
             </div>
         @endif
-    @endif
-</div>
-@endsection
+    </div>
+    @endsection
 </div>
