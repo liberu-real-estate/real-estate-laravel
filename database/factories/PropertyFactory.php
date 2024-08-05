@@ -16,7 +16,7 @@ class PropertyFactory extends Factory
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'address' => $this->faker->address,
-            'price' => $this->faker->numberBetween(100000, 1000000),
+            'price' => round($this->faker->numberBetween(150000, 500000), -3),
             'bedrooms' => $this->faker->numberBetween(1, 5),
             'bathrooms' => $this->faker->numberBetween(1, 3),
             'square_feet' => $this->faker->numberBetween(500, 5000),
