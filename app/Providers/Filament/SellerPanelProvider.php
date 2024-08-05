@@ -45,12 +45,12 @@ class SellerPanelProvider extends PanelProvider
             ->default()
             ->id('seller')
             ->path('seller')
-            ->login([AuthenticatedSessionController::class, 'create'])
-            ->loginRouteSlug('login')
+            // ->login([AuthenticatedSessionController::class, 'create'])
+            // ->loginRouteSlug('login')
             ->homeUrl('/seller')
-            ->registration()
-            ->passwordReset()
-            ->emailVerification()
+            // ->registration()
+            // ->passwordReset()
+            // ->emailVerification()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
@@ -62,9 +62,9 @@ class SellerPanelProvider extends PanelProvider
               //  ->tenantRoutePrefix('/{tenant}')
                 ->tenantMiddleware([
                     AssignDefaultTeam::class,
-                ])
-                ->tenantRegistration(CreateTeam::class)
-                ->tenantProfile(EditTeam::class);
+                ]);
+                // ->tenantRegistration(CreateTeam::class)
+                // ->tenantProfile(EditTeam::class);
         }
 
         $panel

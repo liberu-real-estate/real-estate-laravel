@@ -34,11 +34,11 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login([AuthenticatedSessionController::class, 'create'])
-            ->loginRouteSlug('login')
+            // ->login([AuthenticatedSessionController::class, 'create'])
+            // ->loginRouteSlug('login')
             ->homeUrl('/admin')
-            ->passwordReset()
-            ->emailVerification()
+            // ->passwordReset()
+            // ->emailVerification()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,

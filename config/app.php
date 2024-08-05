@@ -178,6 +178,7 @@ return [
         App\Providers\Filament\LandlordPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\LivewireComponentServiceProvider::class,
+        App\Providers\DigitalSignatureServiceProvider::class,
 
 //        App\Providers\TeamServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,

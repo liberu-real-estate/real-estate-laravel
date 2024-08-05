@@ -19,7 +19,7 @@
             </form>
         </div>
 
-        <div class="grid grid-cols-5 gap-4">
+        <div class="grid grid-cols-1 2xl:grid-cols-5  xl:grid-cols-4  lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4">
             @forelse($properties as $property)
             <div class="flex flex-col cursor-pointer space-y-20 min-w-screen animated fadeIn faster outline-none ">
                 <div class="block rounded-lg bg-white w-72 p-2 border border-slate-100 hover:border-slate-400 rounded-md" href="{{ route('property.detail', $property->id) }}">
@@ -45,15 +45,15 @@
             
                         <div class="grid grid-cols-2 gap-x-4 gap-y-2">
                             <div class="flex items-center">
-                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">BED</h5>
+                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">Bedrooms: </h5>
                                 <p class="text-base text-neutral-600 dark:text-neutral-200">{{ $property->bedrooms }}</p>
                             </div>
                             <div class="flex items-center">
-                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">SQFT</h5>
+                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">Square Foot:  </h5>
                                 <p class="text-base text-neutral-600 dark:text-neutral-200">{{ $property->area_sqft }}</p>
                             </div>
                             <div class="flex items-center">
-                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">BATH ROOM</h5>
+                                <h5 class="w-24 text-sm font-bold text-neutral-800 dark:text-neutral-50">Bathrooms: </h5>
                                 <p class="text-base text-neutral-600 dark:text-neutral-200">{{ $property->bathrooms }}</p>
                             </div>
                           
@@ -63,7 +63,7 @@
                             <div class="font-semibold text-neutral-800 dark:text-neutral-50">PRICE</div>
                             <div>
                                 <span
-                                    class="text-xl font-bold text-green-600">&pound{{ number_format($property->price, 2) }}</span>
+                                    class="font-bold text-green-600">  {{  App\Helpers\SiteSettingsHelper::getCurrency() . " ".number_format($property->price, 2) }}</span>
                             </div>
                         </div>
             
