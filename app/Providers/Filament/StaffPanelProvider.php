@@ -46,12 +46,12 @@ class StaffPanelProvider extends PanelProvider
             ->default()
             ->id('staff')
             ->path('staff')
-            ->login([AuthenticatedSessionController::class, 'create'])
-            ->loginRouteSlug('login')
+            // ->login([AuthenticatedSessionController::class, 'create'])
+            // ->loginRouteSlug('login')
             ->homeUrl('/staff')
-            ->registration()
-            ->passwordReset()
-            ->emailVerification()
+            // ->registration()
+            // ->passwordReset()
+            // ->emailVerification()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,

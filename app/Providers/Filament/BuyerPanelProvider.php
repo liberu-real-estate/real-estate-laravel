@@ -45,12 +45,12 @@ class BuyerPanelProvider extends PanelProvider
             ->default()
             ->id('buyer')
             ->path('buyer')
-            ->login([AuthenticatedSessionController::class, 'create'])
-            ->loginRouteSlug('login')
+            // ->login([AuthenticatedSessionController::class, 'create'])
+            // ->loginRouteSlug('login')
             ->homeUrl('/buyer')
-            ->registration()
-            ->passwordReset()
-            ->emailVerification()
+            // ->registration()
+            // ->passwordReset()
+            // ->emailVerification()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,

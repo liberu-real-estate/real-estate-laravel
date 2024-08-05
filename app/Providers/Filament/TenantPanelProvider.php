@@ -45,12 +45,12 @@ class TenantPanelProvider extends PanelProvider
             ->default()
             ->id('tenant')
             ->path('tenant')
-            ->login([AuthenticatedSessionController::class, 'create'])
-            ->loginRouteSlug('login')
+            // ->login([AuthenticatedSessionController::class, 'create'])
+            // ->loginRouteSlug('login')
             ->homeUrl('/tenant')
-            ->registration()
-            ->passwordReset()
-            ->emailVerification()
+            // ->registration()
+            // ->passwordReset()
+            // ->emailVerification()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
