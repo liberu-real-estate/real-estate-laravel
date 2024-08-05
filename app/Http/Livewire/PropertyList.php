@@ -105,15 +105,11 @@ class PropertyList extends Component
 
                 return $properties;
             } catch (\Exception $e) {
-                \Log::error('Error fetching properties', [
-                    'message' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString(),
-                ]);
                 session()->flash('error', 'An error occurred while fetching properties. Please try again.');
                 if (app()->environment('local')) {
                     session()->flash('error_details', $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
                 }
-                return Property::paginate(0); // Return an empty paginator instead of a collection
+                return Property::paginate(0);
             }
         });
 
