@@ -62,9 +62,9 @@ class SellerPanelProvider extends PanelProvider
               //  ->tenantRoutePrefix('/{tenant}')
                 ->tenantMiddleware([
                     AssignDefaultTeam::class,
-                ])
-                ->tenantRegistration(CreateTeam::class)
-                ->tenantProfile(EditTeam::class);
+                ]);
+                // ->tenantRegistration(CreateTeam::class)
+                // ->tenantProfile(EditTeam::class);
         }
 
         $panel
