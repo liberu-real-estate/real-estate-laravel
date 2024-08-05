@@ -7,7 +7,7 @@
                 <h1
                     class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
                     Properties for Sale & Rent</h1>
-                <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">From
+                <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
                     Welcome to our comprehensive real estate platform, where you can explore an extensive range of
                     properties available for sale and rent. Our goal is to provide a seamless and efficient experience for
                     buyers, sellers, landlords, and tenants alike. Whether you're looking for your dream home, an investment
