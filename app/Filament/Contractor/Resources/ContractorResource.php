@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Filament\Contractors\Resources;
+namespace App\Filament\Contractor\Resources;
 
+use App\Filament\Contractor\Resources\ContractorResource\Pages;
+use App\Filament\Contractor\Resources\ContractorResource\RelationManagers;
+use App\Models\Contractor;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -9,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
 
 class ContractorResource extends Resource
@@ -17,7 +21,7 @@ class ContractorResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
-    protected static ?string $navigationLabel = 'My Profile';
+    protected static ?string $modelLabel = 'Contractor';
 
     public static function form(Form $form): Form
     {
@@ -69,6 +73,11 @@ class ContractorResource extends Resource
         ];
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('id', auth()->id());
+    }
+
     public static function getPages(): array
     {
         return [
@@ -76,10 +85,5 @@ class ContractorResource extends Resource
             'create' => Pages\CreateContractor::route('/create'),
             'edit' => Pages\EditContractor::route('/{record}/edit'),
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->where('id', auth()->id());
     }
 }
