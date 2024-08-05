@@ -13,9 +13,10 @@ class MenuService
         $menuItems = Menu::whereNull('parent_id')->orderBy('order')->get();
 
         $menu = SpatieMenu::new()
-            ->addClass('flex items-center space-x-4')
-            ->addItemClass('px-4 py-2 rounded-md bg-green-700 text-white hover:bg-green-600 transition duration-300 ease-in-out');
-
+            ->addClass('lg:flex lg:items-center space-x-4 ')
+            ->addItemClass('block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700');
+           
+            
         $this->createMenuItems($menuItems)->each(function ($item) use ($menu) {
             $menu->add($item);
         });

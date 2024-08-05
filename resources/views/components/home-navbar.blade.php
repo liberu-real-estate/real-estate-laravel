@@ -1,57 +1,78 @@
+@props([
+    'user' => null,
+    'role' => null,
+    'dashboardUrl' => null,
+])
+@if (auth()->check())
+    @php
+        $user = auth()->user();
+        $role = $user->getRoleNames()->first() ?? 'user';
+        $dashboardUrl = $role === 'admin' ? '/admin' : '/' . $role;
+    @endphp
+@endif
+<nav class="bg-white border-gray-200 dark:bg-gray-900">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="{{ asset('build/images/logo.png') }}" class="h-8" alt="{{ config('app.name') }}" />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                {{ Str::upper(config('app.name')) }}</span>
+        </a>
 
-<nav x-data="{ isOpen: false }" class="bg-green-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex items-center">
-                <a href="{{ url('/') }}" class="flex-shrink-0">
-                    <img class="h-8 w-8" src="{{ asset('build/images/logo.png') }}" alt="{{ config('app.name') }} Logo">
-                </a>
-                <div class="hidden lg:block ml-10">
-                    <div class="flex items-baseline space-x-4">
-{!! app(App\Services\MenuService::class)->buildMenu() !!}
-                    </div>
-                </div>
-            </div>
-            <div class="hidden lg:block">
-                @if(auth()->check())
-                    <div class="ml-4 flex items-center md:ml-6">
-                        @php
-                            $user = auth()->user();
-                            $role = $user->getRoleNames()->first() ?? 'user';
-                            $dashboardUrl = $role === 'admin' ? '/admin' : '/' . $role;
-                        @endphp
-                        <a href="{{ $dashboardUrl }}" class="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium">
-                            {{ ucfirst($role) }} Dashboard
-                        </a>
-                    </div>
-                @else
-                    <div class="ml-4 flex items-center md:ml-6">
-                        <a href="{{ route('login') }}" class="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium">Login</a>
-                        <a href="{{ route('register') }}" class="text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium ml-2">Register</a>
-                    </div>
-                @endif
-            </div>
-            <div class="lg:hidden">
-                <button @click="isOpen = !isOpen" class="text-white focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path x-show="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path x-show="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+        <div class="items-center hidden justify-between w-full  lg:flex lg:w-auto" id="navbar-cta">
+            <ul
+                class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                {!! app(App\Services\MenuService::class)->buildMenu() !!}
+            </ul>
         </div>
-    </div>
-    <div x-show="isOpen" class="lg:hidden">
-        <div class="px-2 pt-2 pb-3 space-y-1">
-            {!! app(App\Services\MenuService::class)->buildMenu()->addClass('flex flex-col space-y-2')->addItemClass('block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600') !!}
-            @if(auth()->check())
-                <a href="{{ auth()->user()->hasRole('admin') ? '/admin' : '/dashboard' }}" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600">
-                    {{ auth()->user()->hasRole('admin') ? 'Admin Dashboard' : 'Dashboard' }}
+
+        <div class="flex items-center space-x-3 rtl:space-x-reverse">
+            @if (auth()->check())
+                @php
+                    $user = auth()->user();
+                    $role = $user->getRoleNames()->first() ?? 'user';
+                    $dashboardUrl = $role === 'admin' ? '/admin' : '/' . $role;
+                @endphp
+
+                <a href="{{ $dashboardUrl }}"
+                    class="hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium lg:hidden">
+                    {{ ucfirst($role) }} Dashboard
                 </a>
             @else
-                <a href="{{ route('login') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600">Login</a>
-                <a href="{{ route('register') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 hover:bg-green-600">Register</a>
+                <a href="{{ route('login') }}"
+                    class="hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                <a href="{{ route('register') }}"
+                    class="hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium ml-2">Register</a>
             @endif
+
+            <button id="menuToggleButton" data-collapse-toggle="menuToggle" type="button"
+                class="inline-flex items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                aria-controls="menuToggle" aria-expanded="false">
+                <span class="sr-only">Open main menu</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 1h15M1 7h15M1 13h15" />
+                </svg>
+            </button>
         </div>
+        @if (auth()->check())
+            <a href="{{ $dashboardUrl }}"
+                class="hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium hidden lg:block">
+                {{ ucfirst($role) }} Dashboard
+            </a>
+        @endif
+    </div>
+
+    <div class="hidden lg:hidden" id="menuToggle">
+        <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+            {!! app(App\Services\MenuService::class)->buildMenu() !!}
+        </ul>
     </div>
 </nav>
+
+<script>
+    document.getElementById('menuToggleButton').addEventListener('click', function() {
+        var menuToggle = document.getElementById('menuToggle');
+        menuToggle.classList.toggle('hidden');
+    });
+</script>
