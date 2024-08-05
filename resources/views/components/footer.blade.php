@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="flex flex-col md:flex-row justify-between items-center">
             <div class="mb-4 md:mb-0">
-                <a href="/" class="text-lg font-semibold">{{ \App\Helpers\SiteSettingsHelper::getSiteName() }}</a>
+                <a href="/" class="text-lg font-semibold">{{ \App\Helpers\SiteSettingsHelper::get('name') }}</a>
             </div>
             <nav class="mb-4 md:mb-0">
                 <ul class="flex flex-wrap justify-center md:justify-end space-x-4">
@@ -17,7 +17,7 @@
                 <a href="#" class="flex items-center">
                     <img src="{{ asset('build/images/logo.png') }}" class="mr-3 h-8" alt="{{ config('app.name') }}" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                        {{ \App\Helpers\SiteSettingsHelper::getSiteName() }} </span>
+                        {{ \App\Helpers\SiteSettingsHelper::get('name') }} </span>
                 </a>
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -46,7 +46,7 @@
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <div class="sm:flex sm:items-center sm:justify-between">
             <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 <a href="#"
-                    class="hover:underline">{{ \App\Helpers\SiteSettingsHelper::getSiteName() }}™</a>. All Rights
+                    class="hover:underline">{{ \App\Helpers\SiteSettingsHelper::get('name') }}™</a>. All Rights
                 Reserved.
             </span>
             <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
