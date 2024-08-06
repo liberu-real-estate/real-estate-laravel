@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="">
         <section class="bg-white dark:bg-gray-900">
