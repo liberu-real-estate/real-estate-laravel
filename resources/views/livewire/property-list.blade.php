@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="">
-        <section class="bg-white dark:bg-gray-900">
+        <div class="bg-white dark:bg-gray-900">
             <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
                 <div class="mr-auto place-self-center lg:col-span-7">
                     <h1
@@ -31,9 +31,9 @@
                         alt="mockup">
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
+        <div class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
             <div class="mx-auto max-w-screen-xl px-0 2xl:px-0">
                 <div class="d-flex mb-5">
                     <div class="w-full md:w-1/2">
@@ -194,9 +194,9 @@
                     @endforeach
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
+        <div class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
             <div class="flex items-center justify-between border-gray-100 bg-white px-4 py-3 sm:px-6">
                 <div class="flex flex-1 justify-between sm:hidden">
                     <a href="#"
@@ -215,6 +215,6 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 @endsection
