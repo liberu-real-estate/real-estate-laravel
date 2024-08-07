@@ -3,48 +3,7 @@
         {{-- <article class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-           
-
-            
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Neighborhood</h2>
-                @if ($neighborhood)
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <h3 class="text-lg font-semibold">Overview</h3>
-                            <p class="text-gray-600">{{ $neighborhood->description }}</p>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold">Key Statistics</h3>
-                            <ul class="list-disc list-inside">
-                                <li>Population: {{ number_format($neighborhood->population) }}</li>
-                                <li>Median Income: ${{ number_format($neighborhood->median_income) }}</li>
-                                <li>Walk Score: {{ $neighborhood->walk_score }}/100</li>
-                                <li>Transit Score: {{ $neighborhood->transit_score }}/100</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold">Schools</h3>
-                            <ul class="list-disc list-inside">
-                                @foreach ($neighborhood->schools as $school)
-                                    <li>{{ $school['name'] }} - {{ $school['rating'] }}/10</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold">Amenities</h3>
-                            <ul class="list-disc list-inside">
-                                @foreach ($neighborhood->amenities as $amenity)
-                                    <li>{{ $amenity }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    <p class="text-sm text-gray-500 mt-2">Last updated: {{ $neighborhood->last_updated->format('M d, Y H:i') }}</p>
-                @else
-                    <p class="text-gray-600">No neighborhood details available</p>
-                @endif
-            </div>
+          
             
             <div class="mb-4">
                 <h2 class="text-xl font-semibold mb-2">Energy Efficiency</h2>
