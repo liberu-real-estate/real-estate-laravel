@@ -5,10 +5,6 @@
         <div>
            
 
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Description</h2>
-                <p class="text-gray-600">{{ $property->description }}</p>
-            </div>
             
             <div class="mb-4">
                 <h2 class="text-xl font-semibold mb-2">Neighborhood</h2>
