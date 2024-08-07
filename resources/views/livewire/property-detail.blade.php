@@ -3,11 +3,9 @@
         {{-- <article class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-      
             @if (App\Providers\AppServiceProvider::isComponentEnabled('property-booking'))
                 @livewire('property-booking', ['propertyId' => $property->id])
             @endif
-
             <div class="mt-8">
                 <h2 class="text-2xl font-bold mb-4">Book a Valuation</h2>
                 @if (App\Providers\AppServiceProvider::isComponentEnabled('valuation-booking'))
@@ -25,11 +23,6 @@
         </div>
     </div>
 
-    @auth
-        @livewire('property-review-form', ['propertyId' => $property->id])
-    @else
-        <p class="mt-4 text-gray-600">Please <a href="{{ route('login') }}" class="text-blue-500 hover:underline">login</a> to leave a review.</p>
-    @endauth
 </div>
 </article> --}}
         <section>
