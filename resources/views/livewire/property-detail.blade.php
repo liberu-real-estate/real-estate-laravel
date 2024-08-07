@@ -25,30 +25,6 @@
         </div>
     </div>
 
-    <div class="mt-8">
-        <h2 class="text-2xl font-bold mb-4">Reviews</h2>
-        @forelse($reviews as $review)
-            <div class="bg-white shadow-lg rounded-lg p-6 mb-4">
-                <div class="flex items-center mb-4">
-                    <div class="font-bold mr-2">{{ $review->user->name }}</div>
-                    <div class="text-yellow-500">
-                        @for ($i = 1; $i <= 5; $i++)
-                            @if ($i <= $review->rating)
-                                ★
-                            @else
-                                ☆
-                            @endif
-                        @endfor
-                    </div>
-                </div>
-                <p class="text-gray-700">{{ $review->comment }}</p>
-                <div class="text-sm text-gray-500 mt-2">{{ $review->created_at->format('M d, Y') }}</div>
-            </div>
-        @empty
-            <p class="text-gray-500">No reviews yet.</p>
-        @endforelse
-    </div>
-
     @auth
         @livewire('property-review-form', ['propertyId' => $property->id])
     @else
