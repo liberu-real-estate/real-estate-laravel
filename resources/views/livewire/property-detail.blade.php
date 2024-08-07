@@ -6,24 +6,6 @@
           
             
             <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Energy Efficiency</h2>
-                @if ($property->energy_rating && $property->energy_score)
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4" style="background-color: {{ $this->getEnergyRatingColor($property->energy_rating) }}">
-                            {{ $property->energy_rating }}
-                        </div>
-                        <div>
-                            <p class="font-semibold">Energy Efficiency Score: {{ $property->energy_score }}/100</p>
-                            <p class="text-sm text-gray-600">Last updated: {{ $property->energy_rating_date->format('d M Y') }}</p>
-                        </div>
-                    </div>
-                    <p class="mt-2 text-sm text-gray-600">Properties are rated from A (most efficient) to G (least efficient). Learn more about <a href="#" class="text-blue-600 hover:underline" @click="$dispatch('open-modal', 'energy-efficiency-info')">energy efficiency ratings</a>.</p>
-                @else
-                    <p class="text-gray-600">Energy efficiency information not available for this property.</p>
-                @endif
-            </div>
-            
-            <div class="mb-4">
                 <h2 class="text-xl font-semibold mb-2">Branch/Team</h2>
                 <p class="text-gray-600">{{ $team->name ?? 'No team information available' }}</p>
             </div>
