@@ -3,17 +3,7 @@
         {{-- <article class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-            
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Features & Amenities</h2>
-                <ul class="list-disc list-inside grid grid-cols-2 gap-2">
-                    @forelse($property->features ?? [] as $feature)
-                        <li>{{ $feature->name }}</li>
-                    @empty
-                        <li class="text-gray-500">No features available</li>
-                    @endforelse
-                </ul>
-            </div>
+           
 
             <div class="mb-4">
                 <h2 class="text-xl font-semibold mb-2">Description</h2>
