@@ -3,14 +3,7 @@
         {{-- <article class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          
-            
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Branch/Team</h2>
-                <p class="text-gray-600">{{ $team->name ?? 'No team information available' }}</p>
-            </div>
-            <p class="text-2xl text-gray-700 mb-4">${{ number_format($property->price, 2) }}</p>
-
+      
             @if (App\Providers\AppServiceProvider::isComponentEnabled('property-booking'))
                 @livewire('property-booking', ['propertyId' => $property->id])
             @endif
