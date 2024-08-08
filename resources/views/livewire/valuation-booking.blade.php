@@ -93,10 +93,6 @@
             @enderror
         </div>
 
-        {{-- <div>
-            <label for="bathrooms" class="block text-sm font-medium text-gray-700">Number of Bathrooms</label>
-            <input type="number" id="bathrooms" class="mt- --}}
-
         <div>
             <label for="bathrooms" class="block text-sm font-medium text-gray-700">Number of bathrooms</label>
             <input type="number" id="bathrooms"
