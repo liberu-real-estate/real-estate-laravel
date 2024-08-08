@@ -12,8 +12,6 @@
     @endif
 
     <div class="mb-8">
-        <h2 class="text-2xl font-bold mb-4">Schedule a Viewing</h2>
-        <form wire:submit.prevent="bookViewing" class="space-y-4">
             <div>
                 <label for="selectedDate" class="block text-sm font-medium text-gray-700">Select a Date</label>
                 <select id="selectedDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" wire:model="selectedDate">
@@ -42,12 +40,5 @@
                 <textarea id="notes" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" wire:model="notes" rows="3"></textarea>
                 @error('notes') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
-
-            <div>
-                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
-                    Schedule Viewing
-                </button>
-            </div>
-        </form>
     </div>
 </div>
