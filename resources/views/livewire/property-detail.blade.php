@@ -1,32 +1,6 @@
 <div>
     @section('content')
-        {{-- <article class="container mx-auto px-4 py-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-            @if (App\Providers\AppServiceProvider::isComponentEnabled('property-booking'))
-                @livewire('property-booking', ['propertyId' => $property->id])
-            @endif
-            <div class="mt-8">
-                <h2 class="text-2xl font-bold mb-4">Book a Valuation</h2>
-                @if (App\Providers\AppServiceProvider::isComponentEnabled('valuation-booking'))
-                    @livewire('valuation-booking')
-                @endif
-            </div>
-            
-            @if ($isLettingsProperty)
-                <div class="mt-8">
-                    <a href="{{ route('tenancy.apply', $property->id) }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-                        Apply for Tenancy
-                    </a>
-                </div>
-            @endif
-        </div>
-    </div>
-
-</div>
-</article> --}}
         <section>
-
             <section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
                 <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
                     <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
