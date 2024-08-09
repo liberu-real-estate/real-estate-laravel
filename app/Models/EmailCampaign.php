@@ -25,7 +25,7 @@ class EmailCampaign extends Model
 
     public function leads()
     {
-        return $this->belongsToMany(Lead::class);
+        return $this->belongsToMany(Lead::class, 'email_campaign_leads');
     }
 
     public function team(): BelongsTo

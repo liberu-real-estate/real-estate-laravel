@@ -22,9 +22,11 @@ class EmailCampaignResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
                 Forms\Components\RichEditor::make('content')
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
                 Forms\Components\Select::make('status')
                     ->options([
                         'draft' => 'Draft',

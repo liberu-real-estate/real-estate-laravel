@@ -10,7 +10,7 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\BelongsToSelect;
+use Filament\Forms\Components\Select;
 use App\Filament\Staff\Resources\FavoriteResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Staff\Resources\FavoriteResource\RelationManagers;
@@ -25,10 +25,10 @@ class FavoriteResource extends Resource
     {
         return $form
             ->schema([
-                BelongsToSelect::make('user_id')
+                Select::make('user_id')
                     ->relationship('user', 'name'),
-                BelongsToSelect::make('agent_id')
-                    ->relationship('agent', 'name'),
+                Select::make('property_id')
+                    ->relationship('property', 'title'),
             ]);
     }
 
@@ -36,14 +36,15 @@ class FavoriteResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user_id')
-                    ->label('User ID')
+                TextColumn::make('property.title')
+                    ->label('Properties')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('agent_id')
-                    ->label('Agent ID')
+                TextColumn::make('user.name')
+                    ->label('User')
                     ->searchable()
                     ->sortable(),
+                
             ])
             ->filters([
                 //
