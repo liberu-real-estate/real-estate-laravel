@@ -52,7 +52,7 @@ class Document extends Model implements HasMedia
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(DocumentCategory::class);
+        return $this->belongsToMany(DocumentCategory::class, 'document_category_items');
     }
 
     public function registerMediaCollections(): void

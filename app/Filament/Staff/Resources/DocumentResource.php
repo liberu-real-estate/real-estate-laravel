@@ -5,6 +5,7 @@ namespace App\Filament\Staff\Resources;
 use App\Filament\Staff\Resources\DocumentResource\Pages;
 use App\Models\Document;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
@@ -24,17 +25,33 @@ class DocumentResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+                Forms\Components\Select::make('property_id')
+                    ->relationship('property', 'title')
+                    ->native(false),
+                Forms\Components\Select::make('categories')
+                    ->multiple()
+                    ->preload()
+                    ->relationship('categories', 'name')
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('description')
+                            ->maxLength(512)
+                            ->rows(5),
+                    ])
+                    ->createOptionAction(function (Action $action) {
+                        return $action->modalHeading('Create document category');
+                    }),
                 Forms\Components\Textarea::make('description')
-                    ->maxLength(65535),
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('document')
                     ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
                     ->required(),
-                Forms\Components\Select::make('property_id')
-                    ->relationship('property', 'title'),
-                Forms\Components\Select::make('categories')
-                    ->multiple()
-                    ->relationship('categories', 'name'),
+
             ]);
     }
 
@@ -59,14 +76,14 @@ class DocumentResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -74,5 +91,5 @@ class DocumentResource extends Resource
             'create' => Pages\CreateDocument::route('/create'),
             'edit' => Pages\EditDocument::route('/{record}/edit'),
         ];
-    }    
+    }
 }
