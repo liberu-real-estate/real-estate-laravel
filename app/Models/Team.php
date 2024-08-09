@@ -94,6 +94,11 @@ class Team extends JetstreamTeam
         return $this->hasMany(ZooplaSettings::class);
     }
 
+    public function emailCampaigns(): HasMany
+    {
+        return $this->hasMany(EmailCampaign::class);
+    }
+
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class);
