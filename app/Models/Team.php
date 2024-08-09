@@ -99,6 +99,11 @@ class Team extends JetstreamTeam
         return $this->hasMany(EmailCampaign::class);
     }
 
+    public function energyConsumptions(): HasMany
+    {
+        return $this->hasMany(EnergyConsumption::class);
+    }
+
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class);
