@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomReportController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TenancyApplicationController;
 use App\Http\Livewire\PropertyList;
@@ -70,11 +71,11 @@ Route::controller(ContactController::class)->group(function () {
     Route::post('/contact', 'submit')->name('contact.submit');
 });
 
-Route::get('/about', About::class)->name('about');
-Route::get('/terms-and-conditions', TermsAndConditions::class)->name('termsandconditions');
-Route::get('/privacy', PrivacyPolicy::class)->name('privacypolicy');
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/terms-and-conditions', [PageController::class, 'terms'])->name('termsandconditions');
+Route::get('/privacy', [PageController::class, 'privacy'])->name('privacypolicy');
 
-Route::get('/services', ServicesComponent::class)->name('services');
+Route::get('/services', [PageController::class, 'services'])->name('services');
 
 Route::get('/calculators', CalculatorsComponent::class)->name('calculators');
 
