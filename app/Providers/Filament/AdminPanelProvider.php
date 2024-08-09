@@ -43,6 +43,14 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Gray,
             ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Edit Profile')
+                    ->icon('heroicon-o-user-circle')
+                    ->url(fn () => $this->shouldRegisterMenuItem()
+                        ? url(Pages\EditProfile::getUrl())
+                        : url($panel->getPath())),
+            ])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
