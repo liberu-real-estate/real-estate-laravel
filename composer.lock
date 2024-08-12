@@ -1843,7 +1843,7 @@
         },
         {
             "name": "filament/spatie-laravel-media-library-plugin",
-            "version": "v3.2.97",
+            "version": "v3.2.98",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-media-library-plugin.git",
@@ -5290,12 +5290,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "6d70929398e4414cc52055242990cd609f54a29b"
+                "reference": "736c567e257dbe0fcf6ce81b4d6dbe05c6899f96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/6d70929398e4414cc52055242990cd609f54a29b",
-                "reference": "6d70929398e4414cc52055242990cd609f54a29b",
+                "url": "https://api.github.com/repos/nette/utils/zipball/736c567e257dbe0fcf6ce81b4d6dbe05c6899f96",
+                "reference": "736c567e257dbe0fcf6ce81b4d6dbe05c6899f96",
                 "shasum": ""
             },
             "require": {
@@ -5368,7 +5368,7 @@
                 "issues": "https://github.com/nette/utils/issues",
                 "source": "https://github.com/nette/utils/tree/v4.0.5"
             },
-            "time": "2024-08-07T12:47:39+00:00"
+            "time": "2024-08-07T15:39:19+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -7266,16 +7266,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "11.8.1",
+            "version": "11.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "91a0aaea20f31462bc748c94370eb5fdc0d7e29f"
+                "reference": "5ccca6dee0f5e0a316114181e847d75732fb0b16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/91a0aaea20f31462bc748c94370eb5fdc0d7e29f",
-                "reference": "91a0aaea20f31462bc748c94370eb5fdc0d7e29f",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/5ccca6dee0f5e0a316114181e847d75732fb0b16",
+                "reference": "5ccca6dee0f5e0a316114181e847d75732fb0b16",
                 "shasum": ""
             },
             "require": {
@@ -7359,7 +7359,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.8.1"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.8.2"
             },
             "funding": [
                 {
@@ -7371,7 +7371,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-26T07:43:05+00:00"
+            "time": "2024-08-09T09:31:31+00:00"
         },
         {
             "name": "spatie/laravel-menu",
