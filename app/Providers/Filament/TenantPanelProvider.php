@@ -54,6 +54,14 @@ class TenantPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Gray,
+            ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Edit Profile')
+                    ->icon('heroicon-o-user-circle')
+                    ->url(fn () => $this->shouldRegisterMenuItem()
+                        ? url(Pages\EditProfile::getUrl())
+                        : url($panel->getPath())),
             ]);
 
         if (Features::hasTeamFeatures()) {

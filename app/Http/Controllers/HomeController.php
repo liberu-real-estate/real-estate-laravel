@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $featuredProperties = Property::where('is_featured', true)->take(3)->get();
+        $featuredProperties = Property::where('is_featured', true)->take(3)->get() ?? [];
         return view('home', [
             'featuredProperties' => $featuredProperties
         ]);

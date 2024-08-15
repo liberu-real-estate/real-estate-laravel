@@ -24,10 +24,12 @@ class CommunicationHubResource extends Resource
             ->schema([
                 Forms\Components\Select::make('recipient_id')
                     ->relationship('recipient', 'name')
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
                 Forms\Components\Textarea::make('content')
                     ->required()
-                    ->maxLength(1000),
+                    ->maxLength(1000)
+                    ->columnSpanFull(),
             ]);
     }
 

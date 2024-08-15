@@ -53,7 +53,9 @@ class CalculatorsComponent extends Component
 
     public function render()
     {
-        return view('livewire.calculators')->layout('layouts.app');
+        return view('livewire.calculators')
+            ->extends('layouts.app')
+            ->section('content');
     }
 
     public function calculateMortgage()

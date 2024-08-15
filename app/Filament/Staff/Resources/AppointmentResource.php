@@ -34,13 +34,13 @@ class AppointmentResource extends Resource
     {
         return $form
             ->schema([
-                BelongsToSelect::make('user_id')
+                Select::make('appointment_type_id')
+                    ->relationship('appointmentType', 'name')
+                    ->required(),
+                Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
-                TextInput::make('agent_id')
-                    ->label('Agent ID')
-                    ->disabled(),
-                BelongsToSelect::make('property_id')
+                Select::make('property_id')
                     ->relationship('property', 'title')
                     ->required(),
                 DatePicker::make('appointment_date')
@@ -61,20 +61,23 @@ class AppointmentResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user_id')
-                    ->label('User ID')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('agent_id')
-                    ->label('Agent ID')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('property_id')
-                    ->label('Property ID')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('appointment_date')
-                    ->date('d/m/Y')->sortable(),
+                    ->label('Date')
+                    ->date('d/m/Y')
+                    ->sortable(),
+                TextColumn::make('user.name')
+                    ->label('User')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('property.title')
+                    ->label('Property')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('agent.name')
+                    ->label('Agent')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('status')
                     ->label('Status')
                     ->searchable()
