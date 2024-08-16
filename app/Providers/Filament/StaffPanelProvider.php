@@ -7,7 +7,12 @@ use App\Filament\App\Pages\EditProfile;
 use App\Filament\App\Pages\CreateTeam;
 use App\Filament\App\Pages\EditTeam;
 use App\Filament\App\Pages\Tenant\Profile;
-use App\Filament\Staff\Pages\Dashboard;
+use App\Filament\App\Widgets\RecentBookings;
+use App\Filament\Staff\Widgets\AgentPerformanceOverview;
+use App\Filament\Staff\Widgets\PropertyStatsOverview;
+use App\Filament\Staff\Widgets\RecentTransactions;
+use App\Filament\Staff\Widgets\StatsOverview;
+// use App\Filament\Staff\Pages\Dashboard;
 use App\Http\Middleware\TeamsPermission;
 use App\Http\Middleware\AssignDefaultTeam;
 use App\Listeners\CreatePersonalTeam;
@@ -20,7 +25,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
-//use Filament\Pages\Dashboard;
+use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -85,7 +90,10 @@ class StaffPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Staff/Widgets/Home'), for: 'App\\Filament\\Staff\\Widgets\\Home')
             ->widgets([
-                Widgets\AccountWidget::class,
+                PropertyStatsOverview::class,
+                AgentPerformanceOverview::class,
+                RecentTransactions::class,
+                // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([

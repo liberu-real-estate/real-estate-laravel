@@ -6,9 +6,13 @@ use App\Filament\Staff\Resources\ImageResource\Pages;
 use App\Filament\Staff\Resources\ImageResource\RelationManagers;
 use App\Models\Image;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +27,10 @@ class ImageResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Select::make('property_id')
+                ->relationship('property', 'title'),
+                FileUpload::make('image')
+                    ->image(),
             ]);
     }
 
@@ -31,7 +38,15 @@ class ImageResource extends Resource
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('image'),
+                TextColumn::make('property.title')
+                    ->label('Property')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('user.name')
+                    ->label('User')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
