@@ -32,7 +32,7 @@
 
     <section class="mb-12">
         <h2 class="text-2xl font-semibold mb-6 text-center">Property Map</h2>
-        <div id="map" style="height: 400px;" class="rounded-lg shadow-lg"></div>
+        <x-property-map :properties="$mapProperties" />
     </section>
 
     <section class="mb-12">
@@ -66,35 +66,6 @@
 </div>
 @endsection
 
-@section('scripts')
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var map = L.map('map').setView([51.505, -0.09], 13);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            var properties = @json($mapProperties);
-
-            properties.forEach(function(property) {
-                if (property.latitude && property.longitude) {
-                    L.marker([property.latitude, property.longitude])
-                        .addTo(map)
-                        .bindPopup('<strong>' + property.title + '</strong><br>' +
-                                   'Price: £' + property.price + '<br>' +
-                                   '<a href="/property/' + property.id + '">View Details</a>');
-                }
-            });
-
-            // Adjust map view to fit all markers
-            if (properties.length > 0) {
-                var group = new L.featureGroup(properties.map(function(property) {
-                    return L.marker([property.latitude, property.longitude]);
-                }));
-                map.fitBounds(group.getBounds().pad(0.1));
-            }
-        });
-    </script>
-@endsection
+@push('scripts')
+    @livewireScripts
+@endpush
