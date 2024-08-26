@@ -52,6 +52,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'description',
         'property_template_id',
         'location',
+        'latitude',
+        'longitude',
         'price',
         'bedrooms',
         'bathrooms',
@@ -73,8 +75,6 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'neighborhood_id',
         'property_category_id',
         'postal_code',
-        'latitude',
-        'longitude',
         'energy_rating',
         'energy_score',
         'energy_rating_date',
@@ -83,7 +83,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_premium',
         'insurance_expiry_date',
     ];
-    
+
     protected $casts = [
         'last_synced_at' => 'datetime',
         'list_date' => 'date',
@@ -234,7 +234,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     {
         return $query->where('postal_code', 'like', $postalCode . '%');
     }
-    
+
     public function scopeNearby(Builder $query, $latitude, $longitude, $radius): Builder
     {
         return $query->selectRaw('*, ( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance', [$latitude, $longitude, $latitude])
@@ -316,7 +316,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     {
         $this->addMediaCollection('images')
             ->withResponsiveImages();
-    
+
         $this->addMediaCollection('videos')
             ->acceptsMimeTypes(['video/mp4', 'video/quicktime'])
             ->singleFile();
@@ -325,15 +325,15 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     protected static function boot()
     {
         parent::boot();
-    
+
         static::created(function ($property) {
             Cache::flush();
         });
-    
+
         static::updated(function ($property) {
             Cache::flush();
         });
-    
+
         static::deleted(function ($property) {
             Cache::flush();
         });
