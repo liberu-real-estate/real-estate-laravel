@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+@endsection
+
 @section('content')
 <div class="container mx-auto px-4 pt-24 pb-8">
     <h1 class="text-4xl font-bold mb-8 text-center">Welcome to {{ \App\Helpers\SiteSettingsHelper::get('name') }}</h1>
@@ -25,6 +29,11 @@
             </div>
         </form>
     </div>
+
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6 text-center">Property Map</h2>
+        <x-property-map :properties="$mapProperties" />
+    </section>
 
     <section class="mb-12">
         <h2 class="text-2xl font-semibold mb-6 text-center">Featured Properties</h2>
@@ -56,3 +65,7 @@
 
 </div>
 @endsection
+
+@push('scripts')
+    @livewireScripts
+@endpush

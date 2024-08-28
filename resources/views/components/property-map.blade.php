@@ -35,11 +35,11 @@
             var layer = e.layer;
             markers.addLayer(layer);
             var geoJSON = layer.toGeoJSON();
-            @this.call('updateDrawnArea', geoJSON.geometry.coordinates[0]);
+            Livewire.emit('updateDrawnArea', geoJSON.geometry.coordinates[0]);
         });
 
         map.on('draw:deleted', function (e) {
-            @this.call('updateDrawnArea', null);
+            Livewire.emit('updateDrawnArea', null);
         });
 
         function createMarkerPopup(property) {
@@ -70,7 +70,7 @@
 
         // Listen for filter changes
         Livewire.on('filtersChanged', function (filters) {
-            @this.call('applyFilters', filters);
+            Livewire.emit('applyFilters', filters);
         });
     });
 </script>
