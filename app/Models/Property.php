@@ -154,9 +154,15 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     {
         return $this->hasMany(Appointment::class, 'property_id');
     }
+    
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function transactions()

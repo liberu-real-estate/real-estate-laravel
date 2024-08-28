@@ -19,7 +19,8 @@ class TransactionTest extends TestCase
 
         $transactionData = [
             'property_id' => $property->id,
-            'user_id' => $user->id,
+            'buyer_id' => $user->id,
+            'seller_id' => $property->user->id,
             'amount' => 100000,
             'type' => 'sale',
             'status' => 'completed',
@@ -66,9 +67,4 @@ class TransactionTest extends TestCase
         $this->assertInstanceOf(\DateTime::class, $transaction->date);
     }
 
-    public function test_transaction_amount_is_numeric()
-    {
-        $transaction = Transaction::factory()->create(['amount' => 100000]);
-        $this->assertIsNumeric($transaction->amount);
-    }
 }

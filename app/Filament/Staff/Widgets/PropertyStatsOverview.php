@@ -31,7 +31,7 @@ class PropertyStatsOverview extends BaseWidget
                 ->description('Bookings this month')
                 ->descriptionIcon('heroicon-s-calendar')
                 ->color('warning'),
-            Stat::make('Total Revenue', Transaction::whereBetween('transaction_date', [$startDate, $endDate])->sum('transaction_amount'))
+            Stat::make('Total Revenue', Transaction::whereBetween('date', [$startDate, $endDate])->sum('amount'))
                 ->description('Revenue this month')
                 ->descriptionIcon('heroicon-s-currency-dollar')
                 ->color('success'),

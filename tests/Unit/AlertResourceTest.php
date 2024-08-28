@@ -1,13 +1,12 @@
-<?php
+<?php 
 
 namespace Tests\Unit;
 
 use App\Filament\Resources\AlertResource;
 use App\Models\Alert;
+use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Filament\Forms\ComponentContainer;
-use Filament\Tables\Table;
 
 class AlertResourceTest extends TestCase
 {
@@ -15,9 +14,11 @@ class AlertResourceTest extends TestCase
 
     public function test_alert_resource_form()
     {
-        $this->actingAs(Alert::factory()->create());
+        // Create a user or an alert to act as a logged-in user
+        $this->actingAs(User::factory()->create()); // Adjusted to use User model
 
-        $form = AlertResource::form(new ComponentContainer());
+        // Instantiate the form schema
+        $form = AlertResource::form(new \Filament\Forms\Form());
 
         $this->assertNotNull($form->getSchema());
         $this->assertGreaterThan(0, count($form->getSchema()));
@@ -25,9 +26,10 @@ class AlertResourceTest extends TestCase
 
     public function test_alert_resource_table()
     {
-        $this->actingAs(Alert::factory()->create());
+        $this->actingAs(User::factory()->create());
 
-        $table = AlertResource::table(new Table());
+        // Instantiate the table schema
+        $table = AlertResource::table(new \Filament\Tables\Table());
 
         $this->assertNotNull($table->getColumns());
         $this->assertGreaterThan(0, count($table->getColumns()));
@@ -55,20 +57,6 @@ class AlertResourceTest extends TestCase
         $filters = AlertResource::getFilters();
 
         $this->assertIsArray($filters);
-    }
-
-    public function test_alert_resource_widgets()
-    {
-        $widgets = AlertResource::getWidgets();
-
-        $this->assertIsArray($widgets);
-    }
-
-    public function test_alert_resource_actions()
-    {
-        $actions = AlertResource::getActions();
-
-        $this->assertIsArray($actions);
     }
 
     public function test_alert_resource_widgets()

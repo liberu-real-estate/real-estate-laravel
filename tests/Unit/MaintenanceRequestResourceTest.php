@@ -2,8 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Filament\Tenant\MaintenanceRequestResource;
+use App\Filament\Tenant\Resources\MaintenanceRequestResource;
 use App\Models\MaintenanceRequest;
+use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Filament\Forms\ComponentContainer;
@@ -15,7 +16,7 @@ class MaintenanceRequestResourceTest extends TestCase
 
     public function test_maintenance_request_resource_form()
     {
-        $this->actingAs(MaintenanceRequest::factory()->create());
+        $this->actingAs(User::factory()->create());
 
         $form = MaintenanceRequestResource::form(new ComponentContainer());
 
@@ -25,7 +26,7 @@ class MaintenanceRequestResourceTest extends TestCase
 
     public function test_maintenance_request_resource_table()
     {
-        $this->actingAs(MaintenanceRequest::factory()->create());
+        $this->actingAs(User::factory()->create());
 
         $table = MaintenanceRequestResource::table(new Table());
 
@@ -48,13 +49,6 @@ class MaintenanceRequestResourceTest extends TestCase
         $this->assertArrayHasKey('index', $pages);
         $this->assertArrayHasKey('create', $pages);
         $this->assertArrayHasKey('edit', $pages);
-    }
-
-    public function test_maintenance_request_resource_filters()
-    {
-        $filters = MaintenanceRequestResource::getFilters();
-
-        $this->assertIsArray($filters);
     }
 
     public function test_maintenance_request_resource_filters()

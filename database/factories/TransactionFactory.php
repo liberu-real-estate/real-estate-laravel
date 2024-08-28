@@ -18,9 +18,9 @@ class TransactionFactory extends Factory
             'buyer_id' => User::factory(),
             'seller_id' => User::factory(),
             'amount' => $this->faker->randomFloat(2, 10000, 1000000),
-            'transaction_date' => $this->faker->dateTimeThisYear(),
+            'date' => $this->faker->dateTimeThisYear(),
             'status' => $this->faker->randomElement(['pending', 'completed', 'cancelled']),
-            'description' => $this->faker->sentence(),
+            // 'description' => $this->faker->sentence(),
         ];
     }
 }

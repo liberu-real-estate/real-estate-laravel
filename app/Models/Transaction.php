@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -9,20 +10,20 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'transaction_id';
+    // protected $primaryKey = 'transaction_id';
 
     protected $fillable = [
         'property_id',
         'buyer_id',
         'seller_id',
-        'transaction_date',
-        'transaction_amount',
+        'date',
+        'amount',
         'status',
         'commission_amount',
     ];
 
     protected $casts = [
-        'transaction_date' => 'datetime',
+        'date' => 'datetime',
     ];
 
     const STATUS_PENDING = 'pending';
@@ -35,7 +36,7 @@ class Transaction extends Model
         return $this->belongsTo(Property::class, 'property_id');
     }
 
-    public function buyer()
+    public function user()
     {
         return $this->belongsTo(User::class, 'buyer_id');
     }
@@ -59,8 +60,18 @@ class Transaction extends Model
     {
         // Implement commission calculation logic here
         $commissionRate = 0.03; // 3% commission rate
-        $this->commission_amount = $this->transaction_amount * $commissionRate;
+        $this->commission_amount = $this->amount * $commissionRate;
         $this->save();
+    }
+
+    public function scopeCompleted(Builder $query) : void
+    {
+        $query->where('status', self::STATUS_COMPLETED);
+    }
+
+    public function scopePending(Builder $query) : void
+    {
+        $query->where('status', self::STATUS_PENDING);
     }
 }
 
