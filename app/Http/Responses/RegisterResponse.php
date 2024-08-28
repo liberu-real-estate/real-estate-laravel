@@ -19,6 +19,12 @@ class RegisterResponse implements RegisterResponseContract
         'contractor' => '/contractor',
     ];
 
+    protected function shouldRedirect(Request $request, $redirect)
+    {
+        // Check if the current request path matches the redirect path
+        return !$request->is($redirect) && !$request->is($redirect . '/*');
+    }
+
     /**
      * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
@@ -32,7 +38,9 @@ class RegisterResponse implements RegisterResponseContract
             if ($user->hasRole($role)) {
                 return $request->wantsJson()
                     ? new JsonResponse(['two_factor' => false], 200)
-                    : redirect()->intended($redirect);
+                    : ($this->shouldRedirect($request, $redirect)
+                        ? redirect()->to($redirect)
+                        : redirect()->intended($redirect));
             }
         }
 
