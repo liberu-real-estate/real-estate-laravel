@@ -23,7 +23,7 @@ class Transaction extends Model
     ];
 
     protected $casts = [
-        'transaction_date' => 'datetime',
+        'date' => 'datetime',
     ];
 
     const STATUS_PENDING = 'pending';
@@ -60,7 +60,7 @@ class Transaction extends Model
     {
         // Implement commission calculation logic here
         $commissionRate = 0.03; // 3% commission rate
-        $this->commission_amount = $this->transaction_amount * $commissionRate;
+        $this->commission_amount = $this->amount * $commissionRate;
         $this->save();
     }
 
