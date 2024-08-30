@@ -37,7 +37,7 @@
             </div>
             <div>
                 <p class="font-semibold">Annual Cash Flow</p>
-                <p class="text-2xl">{{ \App\Helpers\SiteSettingsHelper::get('currency')() }}{{ number_format($analysisResult['cash_flow'], 2) }}</p>
+                <p class="text-2xl">{{ \SiteConfig::get('currency')() }}{{ number_format($analysisResult['cash_flow'], 2) }}</p>
             </div>
             <div>
                 <p class="font-semibold">ROI</p>
@@ -45,11 +45,11 @@
             </div>
             <div>
                 <p class="font-semibold">Total Profit</p>
-                <p class="text-2xl">{{ \App\Helpers\SiteSettingsHelper::get('currency')() }}{{ number_format($analysisResult['total_profit'], 2) }}</p>
+                <p class="text-2xl">{{ \SiteConfig::get('currency')() }}{{ number_format($analysisResult['total_profit'], 2) }}</p>
             </div>
             <div>
                 <p class="font-semibold">Future Value</p>
-                <p class="text-2xl">{{ \App\Helpers\SiteSettingsHelper::get('currency')() }}{{ number_format($analysisResult['future_value'], 2) }}</p>
+                <p class="text-2xl">{{ \SiteConfig::get('currency')() }}{{ number_format($analysisResult['future_value'], 2) }}</p>
             </div>
         </div>
         <div class="mt-8">
