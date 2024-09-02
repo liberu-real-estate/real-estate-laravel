@@ -2,7 +2,6 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Models\SiteSettings;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -10,6 +9,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use App\Services\SiteSettingsService;
 use App\Filament\Admin\Resources\SiteSettingsResource\Pages;
+use Intelrx\Sitesettings\Models\SiteSettings;
 
 class SiteSettingsResource extends Resource
 {
@@ -21,19 +21,8 @@ class SiteSettingsResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('currency')
-                    ->required(),
-                Forms\Components\TextInput::make('default_language')
-                    ->required(),
-                Forms\Components\Textarea::make('address')
-                    ->required(),
-                Forms\Components\TextInput::make('country')
-                    ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required(),
+                Forms\Components\TextInput::make('key')->label('Title')->required(),
+                Forms\Components\TextInput::make('value')->required(),
             ]);
     }
 
@@ -41,11 +30,8 @@ class SiteSettingsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('currency'),
-                Tables\Columns\TextColumn::make('default_language'),
-                Tables\Columns\TextColumn::make('country'),
-                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('key')->label('Title'),
+                Tables\Columns\TextColumn::make('value')->label('Value'),
             ]);
     }
 
