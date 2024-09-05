@@ -2,7 +2,6 @@
 
 <script type="module">
     let properties = @json($properties);
-
     var map = L.map('map', {
         doubleClickZoom: false
     }).locate({setView: true, maxZoom: 16});

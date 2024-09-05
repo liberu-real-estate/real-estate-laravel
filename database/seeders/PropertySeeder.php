@@ -40,6 +40,8 @@ private function createProperties($category, $count)
             'list_date' => $faker->dateTimeBetween('-1 year', 'now'),
             'user_id' => 1,
             'property_category_id' => $category->id,
+            'latitude' => $faker->latitude,
+            'longitude' => $faker->longitude,
         ]);
     }
 }
@@ -62,6 +64,8 @@ private function createHmoProperties($category, $count)
             'list_date' => $faker->dateTimeBetween('-1 year', 'now'),
             'user_id' => 1,
             'property_category_id' => $category->id,
+            'latitude' => $faker->latitude,
+            'longitude' => $faker->longitude,
         ]);
         for ($j = 0; $j < $property->bedrooms; $j++) {
             $property->rooms()->create([
