@@ -12,12 +12,12 @@
     "src": "node_modules/leaflet/dist/images/marker-icon.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CA7b93-v.css",
+    "file": "assets/app-CHUE8fU8.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/filament/admin/theme.css": {
-    "file": "assets/theme-BpSP-CVS.css",
+    "file": "assets/theme-DcdsINPA.css",
     "src": "resources/css/filament/admin/theme.css",
     "isEntry": true
   },
