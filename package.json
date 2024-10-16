@@ -17,7 +17,7 @@
         "vite": "^5.4.0"
     },
     "dependencies": {
-        "alpinejs": "^3.14.1",
+        "alpinejs": "^3.14.3",
         "flowbite": "^2.5.1",
         "leaflet": "^1.9.4",
         "vite-plugin-static-copy": "^1.0.6"
