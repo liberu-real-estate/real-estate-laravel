@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f55f06d0bd14ee39470764e5385e1e8",
+    "content-hash": "2cfb1261e2b9859b4eec4ac750fe99d3",
     "packages": [
         {
             "name": "althinect/filament-spatie-roles-permissions",
@@ -8611,16 +8611,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v15.10.0",
+            "version": "v16.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "3df1a19a33477af9ead8984dbd84e8f637c36199"
+                "reference": "05c7c3a8a15b1bc396f09d17c88539c0db3d3255"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/3df1a19a33477af9ead8984dbd84e8f637c36199",
-                "reference": "3df1a19a33477af9ead8984dbd84e8f637c36199",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/05c7c3a8a15b1bc396f09d17c88539c0db3d3255",
+                "reference": "05c7c3a8a15b1bc396f09d17c88539c0db3d3255",
                 "shasum": ""
             },
             "require": {
@@ -8664,9 +8664,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v15.10.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v16.5.1"
             },
-            "time": "2024-09-18T18:38:30+00:00"
+            "time": "2025-02-07T21:24:29+00:00"
         },
         {
             "name": "symfony/cache",
@@ -14324,12 +14324,12 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.3"
     },
-    "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
