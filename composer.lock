@@ -1981,16 +1981,16 @@
         },
         {
             "name": "google/analytics-data",
-            "version": "v0.21.1",
+            "version": "v0.22.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/php-analytics-data.git",
-                "reference": "d2e1ace61e3a99d652428dc4a05f33714dd208e9"
+                "reference": "7a86e7c07084055977fefec4aad9c23df5ed2d0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/php-analytics-data/zipball/d2e1ace61e3a99d652428dc4a05f33714dd208e9",
-                "reference": "d2e1ace61e3a99d652428dc4a05f33714dd208e9",
+                "url": "https://api.github.com/repos/googleapis/php-analytics-data/zipball/7a86e7c07084055977fefec4aad9c23df5ed2d0d",
+                "reference": "7a86e7c07084055977fefec4aad9c23df5ed2d0d",
                 "shasum": ""
             },
             "require": {
@@ -2025,9 +2025,9 @@
             ],
             "description": "Google Analytics Data Client for PHP",
             "support": {
-                "source": "https://github.com/googleapis/php-analytics-data/tree/v0.21.1"
+                "source": "https://github.com/googleapis/php-analytics-data/tree/v0.22.2"
             },
-            "time": "2024-12-12T21:15:35+00:00"
+            "time": "2025-01-24T21:24:06+00:00"
         },
         {
             "name": "google/auth",
@@ -7002,32 +7002,32 @@
         },
         {
             "name": "spatie/laravel-analytics",
-            "version": "5.5.1",
+            "version": "5.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-analytics.git",
-                "reference": "5b5151f35e7c862206ea48c46d231ff882dee95b"
+                "reference": "5e9b400cb82120091f4aedab6807fb49d843973d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-analytics/zipball/5b5151f35e7c862206ea48c46d231ff882dee95b",
-                "reference": "5b5151f35e7c862206ea48c46d231ff882dee95b",
+                "url": "https://api.github.com/repos/spatie/laravel-analytics/zipball/5e9b400cb82120091f4aedab6807fb49d843973d",
+                "reference": "5e9b400cb82120091f4aedab6807fb49d843973d",
                 "shasum": ""
             },
             "require": {
-                "google/analytics-data": "^0.21.1",
-                "laravel/framework": "^10.0|^11.0",
-                "nesbot/carbon": "^2.66|^3.1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.13.7",
-                "symfony/cache": "^6.0|^7.0"
+                "google/analytics-data": "^0.22.2",
+                "laravel/framework": "^10.0|^11.42.1|^12.0",
+                "nesbot/carbon": "^2.66|^3.8.5",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.19.0",
+                "symfony/cache": "^6.0|^7.2.3"
             },
             "require-dev": {
-                "league/flysystem": "^3.0",
-                "mockery/mockery": "^1.5",
-                "orchestra/testbench": "^8.0|^9.0",
-                "pestphp/pest": "^2.0",
-                "spatie/ray": "^1.37"
+                "league/flysystem": "^3.29.1",
+                "mockery/mockery": "^1.6.12",
+                "orchestra/testbench": "^8.0|^9.10|^10.0",
+                "pestphp/pest": "^2.0|^3.7.4",
+                "spatie/ray": "^1.41.5"
             },
             "type": "library",
             "extra": {
@@ -7068,7 +7068,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/laravel-analytics/tree/5.5.1"
+                "source": "https://github.com/spatie/laravel-analytics/tree/5.5.2"
             },
             "funding": [
                 {
@@ -7076,7 +7076,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-01-13T11:39:58+00:00"
+            "time": "2025-02-17T10:12:48+00:00"
         },
         {
             "name": "spatie/laravel-googletagmanager",
