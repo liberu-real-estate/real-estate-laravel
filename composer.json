@@ -30,7 +30,7 @@
         "spatie/menu": "^3.2",
         "spiral/roadrunner-cli": "^2.6.0",
         "spiral/roadrunner-http": "^3.3.0",
-        "stephenjude/filament-jetstream": "^0.0.13",
+        "stephenjude/filament-jetstream": "^0.0.15",
         "stripe/stripe-php": "^16.5"
     },
     "require-dev": {
