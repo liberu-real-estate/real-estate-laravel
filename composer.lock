@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ad0702afaab1ea5abb73d58e6302b5f",
+    "content-hash": "8460b62020aa9ba2d72de6f742da08e7",
     "packages": [
         {
             "name": "althinect/filament-spatie-roles-permissions",
@@ -2861,32 +2861,37 @@
         },
         {
             "name": "intelrx/sitesettings",
-            "version": "2.0.0",
+            "version": "3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Raza9798/Site-Settings.git",
-                "reference": "64c23056e410b52af75487d4a9c6f2935c1098ab"
+                "url": "https://github.com/Raza9798/siteconfig.git",
+                "reference": "a8d2777f709589d278417e5e1ad820ad5eae6179"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Raza9798/Site-Settings/zipball/64c23056e410b52af75487d4a9c6f2935c1098ab",
-                "reference": "64c23056e410b52af75487d4a9c6f2935c1098ab",
+                "url": "https://api.github.com/repos/Raza9798/siteconfig/zipball/a8d2777f709589d278417e5e1ad820ad5eae6179",
+                "reference": "a8d2777f709589d278417e5e1ad820ad5eae6179",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.3"
+                "php": "^8.2"
             },
             "type": "library",
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Intelrx\\Sitesettings\\SitesettingsProvider"
+                        "Core\\Siteconfig\\SiteconfigServiceProvider"
+                    ]
+                },
+                "scripts": {
+                    "post-autoload-dump": [
+                        "@php artisan siteconfig:env-sync"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Intelrx\\Sitesettings\\": "src/"
+                    "Core\\Siteconfig\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2899,12 +2904,23 @@
                     "email": "m.raza9798@gmail.com"
                 }
             ],
-            "description": "Application global properties",
+            "description": "A Laravel package for managing site configurations.",
+            "keywords": [
+                "Settings",
+                "application",
+                "configuration",
+                "environment",
+                "laravel",
+                "package",
+                "php",
+                "siteconfig"
+            ],
             "support": {
-                "issues": "https://github.com/Raza9798/Site-Settings/issues",
-                "source": "https://github.com/Raza9798/Site-Settings/tree/2.0.0"
+                "issues": "https://github.com/Raza9798/siteconfig/issues",
+                "source": "https://github.com/Raza9798/siteconfig/tree/3.2"
             },
-            "time": "2024-09-30T20:53:46+00:00"
+            "abandoned": "raza9798/siteconfig",
+            "time": "2025-05-19T11:04:06+00:00"
         },
         {
             "name": "joelbutcher/socialstream",
