@@ -7074,20 +7074,27 @@
         },
         {
             "name": "spatie/laravel-googletagmanager",
-            "version": "2.7.1",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-googletagmanager.git",
-                "reference": "3581f09dc88e8c1b250f3c7b98bc8762ef635090"
+                "reference": "fab55456d1a59b6948ddcb0892df4887c884dda2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-googletagmanager/zipball/3581f09dc88e8c1b250f3c7b98bc8762ef635090",
-                "reference": "3581f09dc88e8c1b250f3c7b98bc8762ef635090",
+                "url": "https://api.github.com/repos/spatie/laravel-googletagmanager/zipball/fab55456d1a59b6948ddcb0892df4887c884dda2",
+                "reference": "fab55456d1a59b6948ddcb0892df4887c884dda2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "illuminate/config": "5.1 - 12",
+                "illuminate/http": "5.1 - 12",
+                "illuminate/session": "5.1 - 12",
+                "illuminate/view": "5.1 - 12",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.0"
             },
             "type": "library",
             "extra": {
@@ -7130,7 +7137,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-googletagmanager/issues",
-                "source": "https://github.com/spatie/laravel-googletagmanager/tree/2.7.1"
+                "source": "https://github.com/spatie/laravel-googletagmanager/tree/2.8.0"
             },
             "funding": [
                 {
@@ -7138,7 +7145,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-01T12:56:59+00:00"
+            "time": "2025-05-09T14:34:58+00:00"
         },
         {
             "name": "spatie/laravel-medialibrary",
