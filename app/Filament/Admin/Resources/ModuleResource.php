@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Admin\Resources;
 
+use App\Filament\Admin\Resources\ModuleResource\Pages\ListModules;
+use App\Filament\Admin\Resources\ModuleResource\Pages\ViewModule;
 use App\Modules\ModuleManager;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -76,7 +78,7 @@ class ModuleResource extends Resource
                     ->color(fn ($record) => $record->enabled ? 'danger' : 'success')
                     ->action(function ($record) {
                         $moduleManager = app(ModuleManager::class);
-                        
+
                         if ($record->enabled) {
                             $moduleManager->disable($record->name);
                         } else {
@@ -179,8 +181,8 @@ class ModuleResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListModules::route('/'),
-            'view' => Pages\ViewModule::route('/{record}'),
+            'index' => ListModules::route('/'),
+            'view' => ViewModule::route('/{record}'),
         ];
     }
 }
