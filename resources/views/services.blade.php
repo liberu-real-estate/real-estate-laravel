@@ -2,7 +2,7 @@
 @section('content')
     <section>
         <section class="bg-white dark:bg-gray-900">
-            <div class="py-4 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
+            <div class="py-4 px-4 mx-auto max-w-(--breakpoint-xl) text-center lg:py-16 lg:px-12">
                 <a href="#"
                     class="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                     role="alert">
@@ -36,8 +36,8 @@
         </section>
 
         <section class="bg-white dark:bg-gray-900">
-            <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-                <div class="max-w-screen-md mb-8 lg:mb-16">
+            <div class="py-8 px-4 mx-auto max-w-(--breakpoint-xl) sm:py-16 lg:px-6">
+                <div class="max-w-(--breakpoint-md) mb-8 lg:mb-16">
                     <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Our Real
                         Estate Services</h2>
                     <p class="text-gray-500 sm:text-xl dark:text-gray-400">We are dedicated to revolutionizing the way
@@ -130,8 +130,8 @@
         </section>
 
         <section class="bg-white dark:bg-gray-900">
-            <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-                <div class="max-w-screen-md">
+            <div class="py-8 px-4 mx-auto max-w-(--breakpoint-xl) sm:py-16 lg:px-6">
+                <div class="max-w-(--breakpoint-md)">
                     <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Let's find
                         more that brings us together.</h2>
                     <p class="mb-8 font-light text-gray-500 sm:text-xl dark:text-gray-400">At our real estate agency, we
