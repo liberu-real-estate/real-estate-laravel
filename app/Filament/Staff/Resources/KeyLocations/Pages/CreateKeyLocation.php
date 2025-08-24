@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\KeyLocationResource\Pages;
+namespace App\Filament\Staff\Resources\KeyLocations\Pages;
 
-use App\Filament\Staff\Resources\KeyLocationResource;
+use App\Filament\Staff\Resources\KeyLocations\KeyLocationResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateKeyLocation extends CreateRecord

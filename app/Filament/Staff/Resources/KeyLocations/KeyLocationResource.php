@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\KeyLocations;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
-use App\Filament\Staff\Resources\KeyLocationResource\Pages\ListKeyLocations;
-use App\Filament\Staff\Resources\KeyLocationResource\Pages\CreateKeyLocation;
-use App\Filament\Staff\Resources\KeyLocationResource\Pages\EditKeyLocation;
+use App\Filament\Staff\Resources\KeyLocations\Pages\ListKeyLocations;
+use App\Filament\Staff\Resources\KeyLocations\Pages\CreateKeyLocation;
+use App\Filament\Staff\Resources\KeyLocations\Pages\EditKeyLocation;
 use App\Models\KeyLocation;
 use Filament\Forms;
 use Filament\Resources\Resource;

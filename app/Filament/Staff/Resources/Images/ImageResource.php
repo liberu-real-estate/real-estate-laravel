@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Images;
 
 use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\ImageResource\Pages\ListImages;
-use App\Filament\Staff\Resources\ImageResource\Pages\CreateImage;
-use App\Filament\Staff\Resources\ImageResource\Pages\EditImage;
-use App\Filament\Staff\Resources\ImageResource\Pages\ViewImage;
+use App\Filament\Staff\Resources\Images\Pages\ListImages;
+use App\Filament\Staff\Resources\Images\Pages\CreateImage;
+use App\Filament\Staff\Resources\Images\Pages\EditImage;
+use App\Filament\Staff\Resources\Images\Pages\ViewImage;
 use App\Filament\Staff\Resources\ImageResource\Pages;
 use App\Filament\Staff\Resources\ImageResource\RelationManagers;
 use App\Models\Image;

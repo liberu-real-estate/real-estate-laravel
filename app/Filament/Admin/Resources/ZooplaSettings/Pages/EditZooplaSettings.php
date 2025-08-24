@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Admin\Resources\ZooplaSettingsResource\Pages;
+namespace App\Filament\Admin\Resources\ZooplaSettings\Pages;
 
 use Filament\Actions\DeleteAction;
-use App\Filament\Admin\Resources\ZooplaSettingsResource;
+use App\Filament\Admin\Resources\ZooplaSettings\ZooplaSettingsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

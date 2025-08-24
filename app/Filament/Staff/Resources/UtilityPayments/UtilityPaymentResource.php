@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\UtilityPayments;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
@@ -11,9 +11,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\UtilityPaymentResource\Pages\ListUtilityPayments;
-use App\Filament\Staff\Resources\UtilityPaymentResource\Pages\CreateUtilityPayment;
-use App\Filament\Staff\Resources\UtilityPaymentResource\Pages\EditUtilityPayment;
+use App\Filament\Staff\Resources\UtilityPayments\Pages\ListUtilityPayments;
+use App\Filament\Staff\Resources\UtilityPayments\Pages\CreateUtilityPayment;
+use App\Filament\Staff\Resources\UtilityPayments\Pages\EditUtilityPayment;
 use App\Filament\Staff\Resources\UtilityPaymentResource\Pages;
 use App\Models\UtilityPayment;
 use Filament\Forms;

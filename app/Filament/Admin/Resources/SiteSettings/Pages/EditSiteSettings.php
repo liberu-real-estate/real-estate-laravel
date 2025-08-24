@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Admin\Resources\SiteSettingsResource\Pages;
+namespace App\Filament\Admin\Resources\SiteSettings\Pages;
 
 use Filament\Actions\DeleteAction;
-use App\Filament\Admin\Resources\SiteSettingsResource;
+use App\Filament\Admin\Resources\SiteSettings\SiteSettingsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

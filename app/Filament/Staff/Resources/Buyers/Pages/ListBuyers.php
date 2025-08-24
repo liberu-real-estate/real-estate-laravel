@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\BuyerResource\Pages;
+namespace App\Filament\Staff\Resources\Buyers\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Staff\Resources\BuyerResource;
+use App\Filament\Staff\Resources\Buyers\BuyerResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

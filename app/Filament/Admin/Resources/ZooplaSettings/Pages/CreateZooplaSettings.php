@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Admin\Resources\ZooplaSettingsResource\Pages;
+namespace App\Filament\Admin\Resources\ZooplaSettings\Pages;
 
-use App\Filament\Admin\Resources\ZooplaSettingsResource;
+use App\Filament\Admin\Resources\ZooplaSettings\ZooplaSettingsResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateZooplaSettings extends CreateRecord

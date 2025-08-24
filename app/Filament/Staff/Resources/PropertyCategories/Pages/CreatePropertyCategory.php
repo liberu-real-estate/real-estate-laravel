@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\PropertyCategoryResource\Pages;
+namespace App\Filament\Staff\Resources\PropertyCategories\Pages;
 
-use App\Filament\Staff\Resources\PropertyCategoryResource;
+use App\Filament\Staff\Resources\PropertyCategories\PropertyCategoryResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreatePropertyCategory extends CreateRecord

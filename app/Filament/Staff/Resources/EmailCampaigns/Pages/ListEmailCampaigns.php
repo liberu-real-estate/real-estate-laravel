@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\EmailCampaignResource\Pages;
+namespace App\Filament\Staff\Resources\EmailCampaigns\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Staff\Resources\EmailCampaignResource;
+use App\Filament\Staff\Resources\EmailCampaigns\EmailCampaignResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

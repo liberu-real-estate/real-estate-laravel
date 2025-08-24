@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Tenant\Resources;
+namespace App\Filament\Tenant\Resources\Payments;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -9,9 +9,9 @@ use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Actions\ViewAction;
-use App\Filament\Tenant\Resources\PaymentResource\Pages\ListPayments;
-use App\Filament\Tenant\Resources\PaymentResource\Pages\CreatePayment;
-use App\Filament\Tenant\Resources\PaymentResource\Pages\ViewPayment;
+use App\Filament\Tenant\Resources\Payments\Pages\ListPayments;
+use App\Filament\Tenant\Resources\Payments\Pages\CreatePayment;
+use App\Filament\Tenant\Resources\Payments\Pages\ViewPayment;
 use App\Models\Payment;
 use Filament\Forms;
 use Filament\Resources\Resource;

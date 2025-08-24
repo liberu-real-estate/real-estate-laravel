@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Favorites;
 
 use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\FavoriteResource\Pages\ListFavorites;
-use App\Filament\Staff\Resources\FavoriteResource\Pages\CreateFavorite;
-use App\Filament\Staff\Resources\FavoriteResource\Pages\EditFavorite;
+use App\Filament\Staff\Resources\Favorites\Pages\ListFavorites;
+use App\Filament\Staff\Resources\Favorites\Pages\CreateFavorite;
+use App\Filament\Staff\Resources\Favorites\Pages\EditFavorite;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Favorite;

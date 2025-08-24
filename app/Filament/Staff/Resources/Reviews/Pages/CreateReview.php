@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\ReviewResource\Pages;
+namespace App\Filament\Staff\Resources\Reviews\Pages;
 
-use App\Filament\Staff\Resources\ReviewResource;
+use App\Filament\Staff\Resources\Reviews\ReviewResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateReview extends CreateRecord

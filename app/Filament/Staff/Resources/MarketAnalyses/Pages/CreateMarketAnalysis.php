@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\MarketAnalysisResource\Pages;
+namespace App\Filament\Staff\Resources\MarketAnalyses\Pages;
 
-use App\Filament\Staff\Resources\MarketAnalysisResource;
+use App\Filament\Staff\Resources\MarketAnalyses\MarketAnalysisResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

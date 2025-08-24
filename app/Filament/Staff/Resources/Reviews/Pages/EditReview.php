@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\ReviewResource\Pages;
+namespace App\Filament\Staff\Resources\Reviews\Pages;
 
 use Filament\Actions\DeleteAction;
-use App\Filament\Staff\Resources\ReviewResource;
+use App\Filament\Staff\Resources\Reviews\ReviewResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

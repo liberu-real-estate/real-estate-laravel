@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Admin\Resources\OnTheMarketSettings;
 
 use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Admin\Resources\OnTheMarketSettingsResource\Pages\ListOnTheMarketSettings;
-use App\Filament\Admin\Resources\OnTheMarketSettingsResource\Pages\CreateOnTheMarketSettings;
-use App\Filament\Admin\Resources\OnTheMarketSettingsResource\Pages\EditOnTheMarketSettings;
+use App\Filament\Admin\Resources\OnTheMarketSettings\Pages\ListOnTheMarketSettings;
+use App\Filament\Admin\Resources\OnTheMarketSettings\Pages\CreateOnTheMarketSettings;
+use App\Filament\Admin\Resources\OnTheMarketSettings\Pages\EditOnTheMarketSettings;
 use App\Models\OnTheMarketSettings;
 use Filament\Forms;
 use Filament\Tables;

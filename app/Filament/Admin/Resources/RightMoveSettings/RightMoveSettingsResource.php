@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Admin\Resources\RightMoveSettings;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
-use App\Filament\Admin\Resources\RightMoveSettingsResource\Pages\ListRightMoveSettings;
-use App\Filament\Admin\Resources\RightMoveSettingsResource\Pages\CreateRightMoveSettings;
-use App\Filament\Admin\Resources\RightMoveSettingsResource\Pages\EditRightMoveSettings;
+use App\Filament\Admin\Resources\RightMoveSettings\Pages\ListRightMoveSettings;
+use App\Filament\Admin\Resources\RightMoveSettings\Pages\CreateRightMoveSettings;
+use App\Filament\Admin\Resources\RightMoveSettings\Pages\EditRightMoveSettings;
 use App\Filament\Admin\Resources\RightMoveSettingsResource\Pages;
 use App\Models\RightMoveSettings;
 use Filament\Forms;

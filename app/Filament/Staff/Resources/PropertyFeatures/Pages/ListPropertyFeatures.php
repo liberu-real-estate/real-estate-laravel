@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\PropertyFeatureResource\Pages;
+namespace App\Filament\Staff\Resources\PropertyFeatures\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Staff\Resources\PropertyFeatureResource;
+use App\Filament\Staff\Resources\PropertyFeatures\PropertyFeatureResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

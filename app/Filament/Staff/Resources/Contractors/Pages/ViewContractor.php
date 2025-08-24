@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\ContractorResource\Pages;
+namespace App\Filament\Staff\Resources\Contractors\Pages;
 
-use App\Filament\Staff\Resources\ContractorResource;
+use App\Filament\Staff\Resources\Contractors\ContractorResource;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewContractor extends ViewRecord

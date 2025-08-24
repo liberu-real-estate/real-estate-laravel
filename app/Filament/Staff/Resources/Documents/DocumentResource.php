@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Documents;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -11,9 +11,9 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\DocumentResource\Pages\ListDocuments;
-use App\Filament\Staff\Resources\DocumentResource\Pages\CreateDocument;
-use App\Filament\Staff\Resources\DocumentResource\Pages\EditDocument;
+use App\Filament\Staff\Resources\Documents\Pages\ListDocuments;
+use App\Filament\Staff\Resources\Documents\Pages\CreateDocument;
+use App\Filament\Staff\Resources\Documents\Pages\EditDocument;
 use App\Filament\Staff\Resources\DocumentResource\Pages;
 use App\Models\Document;
 use Filament\Forms;

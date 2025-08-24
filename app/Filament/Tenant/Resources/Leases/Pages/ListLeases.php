@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Tenant\Resources\LeaseResource\Pages;
+namespace App\Filament\Tenant\Resources\Leases\Pages;
 
-use App\Filament\Tenant\Resources\LeaseResource;
+use App\Filament\Tenant\Resources\Leases\LeaseResource;
 use Filament\Resources\Pages\ListRecords;
 
 class ListLeases extends ListRecords

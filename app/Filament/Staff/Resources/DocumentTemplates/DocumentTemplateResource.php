@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\DocumentTemplates;
 
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
-use App\Filament\Staff\Resources\DocumentTemplateResource\Pages\ListDocumentTemplates;
-use App\Filament\Staff\Resources\DocumentTemplateResource\Pages\CreateDocumentTemplate;
-use App\Filament\Staff\Resources\DocumentTemplateResource\Pages\EditDocumentTemplate;
+use App\Filament\Staff\Resources\DocumentTemplates\Pages\ListDocumentTemplates;
+use App\Filament\Staff\Resources\DocumentTemplates\Pages\CreateDocumentTemplate;
+use App\Filament\Staff\Resources\DocumentTemplates\Pages\EditDocumentTemplate;
 use App\Models\DocumentTemplate;
 use Filament\Forms;
 use Filament\Tables\Table;

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Filament\Staff\Resources\SellerResource;
+use App\Filament\Staff\Resources\Sellers\SellerResource;
 use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;

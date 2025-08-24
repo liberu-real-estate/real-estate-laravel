@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Admin\Resources\MenuResource\Pages;
+namespace App\Filament\Admin\Resources\Menus\Pages;
 
 use Filament\Resources\Pages\EditRecord;
-use App\Filament\Admin\Resources\MenuResource;
+use App\Filament\Admin\Resources\Menus\MenuResource;
 
 class EditMenu extends EditRecord
 {

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Filament\Staff\Resources\PropertyResource;
+use App\Filament\Staff\Resources\Properties\PropertyResource;
 use App\Models\Property;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;

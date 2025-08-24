@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Leads;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -10,9 +10,9 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use App\Filament\Staff\Resources\LeadResource\Pages\ListLeads;
-use App\Filament\Staff\Resources\LeadResource\Pages\CreateLead;
-use App\Filament\Staff\Resources\LeadResource\Pages\EditLead;
+use App\Filament\Staff\Resources\Leads\Pages\ListLeads;
+use App\Filament\Staff\Resources\Leads\Pages\CreateLead;
+use App\Filament\Staff\Resources\Leads\Pages\EditLead;
 use App\Filament\Staff\Resources\LeadResource\Pages;
 use App\Models\Lead;
 use Filament\Forms;

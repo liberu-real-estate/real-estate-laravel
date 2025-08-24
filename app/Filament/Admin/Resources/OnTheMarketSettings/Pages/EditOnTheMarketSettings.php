@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Admin\Resources\OnTheMarketSettingsResource\Pages;
+namespace App\Filament\Admin\Resources\OnTheMarketSettings\Pages;
 
 use Filament\Actions\DeleteAction;
-use App\Filament\Admin\Resources\OnTheMarketSettingsResource;
+use App\Filament\Admin\Resources\OnTheMarketSettings\OnTheMarketSettingsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

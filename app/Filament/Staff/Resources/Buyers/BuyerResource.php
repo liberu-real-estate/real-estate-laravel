@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Buyers;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -8,9 +8,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\BuyerResource\Pages\ListBuyers;
-use App\Filament\Staff\Resources\BuyerResource\Pages\CreateBuyer;
-use App\Filament\Staff\Resources\BuyerResource\Pages\EditBuyer;
+use App\Filament\Staff\Resources\Buyers\Pages\ListBuyers;
+use App\Filament\Staff\Resources\Buyers\Pages\CreateBuyer;
+use App\Filament\Staff\Resources\Buyers\Pages\EditBuyer;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Resources\Resource;

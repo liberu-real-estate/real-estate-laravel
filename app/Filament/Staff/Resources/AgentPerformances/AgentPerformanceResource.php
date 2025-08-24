@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\AgentPerformances;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\ViewAction;
 use Filament\Actions\BulkActionGroup;
-use App\Filament\Staff\Resources\AgentPerformanceResource\Pages\ListAgentPerformance;
-use App\Filament\Staff\Resources\AgentPerformanceResource\Pages\ViewAgentPerformance;
+use App\Filament\Staff\Resources\AgentPerformances\Pages\ListAgentPerformance;
+use App\Filament\Staff\Resources\AgentPerformances\Pages\ViewAgentPerformance;
 use App\Filament\Staff\Resources\AgentPerformanceResource\Pages;
 use App\Models\User;
 use Filament\Forms;

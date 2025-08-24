@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\PropertyTemplateResource\Pages;
+namespace App\Filament\Staff\Resources\PropertyTemplates\Pages;
 
-use App\Filament\Staff\Resources\PropertyTemplateResource;
+use App\Filament\Staff\Resources\PropertyTemplates\PropertyTemplateResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreatePropertyTemplate extends CreateRecord

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\LeaseAgreements;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
@@ -9,9 +9,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BooleanColumn;
-use App\Filament\Staff\Resources\LeaseAgreementResource\Pages\ListLeaseAgreements;
-use App\Filament\Staff\Resources\LeaseAgreementResource\Pages\CreateLeaseAgreement;
-use App\Filament\Staff\Resources\LeaseAgreementResource\Pages\EditLeaseAgreement;
+use App\Filament\Staff\Resources\LeaseAgreements\Pages\ListLeaseAgreements;
+use App\Filament\Staff\Resources\LeaseAgreements\Pages\CreateLeaseAgreement;
+use App\Filament\Staff\Resources\LeaseAgreements\Pages\EditLeaseAgreement;
 use App\Filament\Staff\Resources\LeaseAgreementResource\Pages;
 use App\Models\LeaseAgreement;
 use Filament\Forms;

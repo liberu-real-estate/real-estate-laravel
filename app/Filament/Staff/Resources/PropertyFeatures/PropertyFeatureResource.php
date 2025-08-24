@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\PropertyFeatures;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
@@ -9,9 +9,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\PropertyFeatureResource\Pages\ListPropertyFeatures;
-use App\Filament\Staff\Resources\PropertyFeatureResource\Pages\CreatePropertyFeature;
-use App\Filament\Staff\Resources\PropertyFeatureResource\Pages\EditPropertyFeature;
+use App\Filament\Staff\Resources\PropertyFeatures\Pages\ListPropertyFeatures;
+use App\Filament\Staff\Resources\PropertyFeatures\Pages\CreatePropertyFeature;
+use App\Filament\Staff\Resources\PropertyFeatures\Pages\EditPropertyFeature;
 use App\Filament\Staff\Resources\PropertyFeatureResource\Pages;
 use App\Models\PropertyFeature;
 use Filament\Forms;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Tenant\Resources;
+namespace App\Filament\Tenant\Resources\MaintenanceRequests;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -13,9 +13,9 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Actions\EditAction;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Tenant\Resources\MaintenanceRequestResource\Pages\ListMaintenanceRequests;
-use App\Filament\Tenant\Resources\MaintenanceRequestResource\Pages\CreateMaintenanceRequest;
-use App\Filament\Tenant\Resources\MaintenanceRequestResource\Pages\EditMaintenanceRequest;
+use App\Filament\Tenant\Resources\MaintenanceRequests\Pages\ListMaintenanceRequests;
+use App\Filament\Tenant\Resources\MaintenanceRequests\Pages\CreateMaintenanceRequest;
+use App\Filament\Tenant\Resources\MaintenanceRequests\Pages\EditMaintenanceRequest;
 use App\Models\MaintenanceRequest;
 use App\Models\WorkOrder;
 use App\Services\NotificationService;

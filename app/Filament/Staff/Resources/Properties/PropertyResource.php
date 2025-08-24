@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Properties;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
@@ -18,9 +18,9 @@ use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\BulkAction;
-use App\Filament\Staff\Resources\PropertyResource\Pages\ListProperties;
-use App\Filament\Staff\Resources\PropertyResource\Pages\CreateProperty;
-use App\Filament\Staff\Resources\PropertyResource\Pages\EditProperty;
+use App\Filament\Staff\Resources\Properties\Pages\ListProperties;
+use App\Filament\Staff\Resources\Properties\Pages\CreateProperty;
+use App\Filament\Staff\Resources\Properties\Pages\EditProperty;
 use App\Filament\Staff\Resources\PropertyResource\Pages;
 use App\Models\Property;
 use Filament\Forms;

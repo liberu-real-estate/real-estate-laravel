@@ -1,7 +1,7 @@
 <?php
-namespace App\Filament\Staff\Resources\LeaseResource\Pages;
+namespace App\Filament\Staff\Resources\Leases\Pages;
 
-use App\Filament\Staff\Resources\LeaseResource;
+use App\Filament\Staff\Resources\Leases\LeaseResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateLease extends CreateRecord

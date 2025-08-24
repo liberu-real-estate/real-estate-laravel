@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Admin\Resources\ZooplaSettings;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
-use App\Filament\Admin\Resources\ZooplaSettingsResource\Pages\ListZooplaSettings;
-use App\Filament\Admin\Resources\ZooplaSettingsResource\Pages\CreateZooplaSettings;
-use App\Filament\Admin\Resources\ZooplaSettingsResource\Pages\EditZooplaSettings;
+use App\Filament\Admin\Resources\ZooplaSettings\Pages\ListZooplaSettings;
+use App\Filament\Admin\Resources\ZooplaSettings\Pages\CreateZooplaSettings;
+use App\Filament\Admin\Resources\ZooplaSettings\Pages\EditZooplaSettings;
 use App\Models\ZooplaSettings;
 use Filament\Forms;
 use Filament\Tables;

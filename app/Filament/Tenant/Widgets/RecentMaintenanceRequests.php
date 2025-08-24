@@ -4,7 +4,7 @@ namespace App\Filament\Tenant\Widgets;
 
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\Action;
-use App\Filament\Tenant\Resources\MaintenanceRequestResource;
+use App\Filament\Tenant\Resources\MaintenanceRequests\MaintenanceRequestResource;
 use Filament\Tables;
 use Filament\Widgets\TableWidget;
 use App\Models\MaintenanceRequest;

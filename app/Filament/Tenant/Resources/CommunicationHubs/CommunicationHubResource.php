@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Tenant\Resources;
+namespace App\Filament\Tenant\Resources\CommunicationHubs;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
@@ -8,9 +8,9 @@ use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Tenant\Resources\CommunicationHubResource\Pages\ListCommunicationHub;
-use App\Filament\Tenant\Resources\CommunicationHubResource\Pages\CreateCommunicationHub;
-use App\Filament\Tenant\Resources\CommunicationHubResource\Pages\ViewCommunicationHub;
+use App\Filament\Tenant\Resources\CommunicationHubs\Pages\ListCommunicationHub;
+use App\Filament\Tenant\Resources\CommunicationHubs\Pages\CreateCommunicationHub;
+use App\Filament\Tenant\Resources\CommunicationHubs\Pages\ViewCommunicationHub;
 use App\Filament\Tenant\Resources\CommunicationHubResource\Pages;
 use App\Models\Message;
 use Filament\Forms;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Staff\Resources\PropertyResource\Pages;
+namespace App\Filament\Staff\Resources\Properties\Pages;
 
 use Filament\Actions\CreateAction;
 use Filament\Actions\Action;
-use App\Filament\Staff\Resources\PropertyResource;
+use App\Filament\Staff\Resources\Properties\PropertyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\ContractorResource\Pages;
+namespace App\Filament\Staff\Resources\Contractors\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Staff\Resources\ContractorResource;
+use App\Filament\Staff\Resources\Contractors\ContractorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

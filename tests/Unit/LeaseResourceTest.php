@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Filament\Tenant\Resources\LeaseResource;
+use App\Filament\Tenant\Resources\Leases\LeaseResource;
 use App\Models\Lease;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\UtilityPaymentResource\Pages;
+namespace App\Filament\Staff\Resources\UtilityPayments\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Staff\Resources\UtilityPaymentResource;
+use App\Filament\Staff\Resources\UtilityPayments\UtilityPaymentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Staff\Resources\AgentPerformanceResource\Pages;
+namespace App\Filament\Staff\Resources\AgentPerformances\Pages;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
-use App\Filament\Staff\Resources\AgentPerformanceResource;
+use App\Filament\Staff\Resources\AgentPerformances\AgentPerformanceResource;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Infolists\Components\TextEntry;
 

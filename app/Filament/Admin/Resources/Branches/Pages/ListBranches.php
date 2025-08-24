@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Admin\Resources\BranchResource\Pages;
+namespace App\Filament\Admin\Resources\Branches\Pages;
 
 use Filament\Tables\Columns\TextColumn;
 use Filament\Resources\Pages\ListRecords;
-use App\Filament\Admin\Resources\BranchResource;
+use App\Filament\Admin\Resources\Branches\BranchResource;
 use Filament\Tables;
 
 class ListBranches extends ListRecords

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\PropertyModerationResource\Pages;
+namespace App\Filament\Staff\Resources\PropertyModerations\Pages;
 
-use App\Filament\Staff\Resources\PropertyModerationResource;
+use App\Filament\Staff\Resources\PropertyModerations\PropertyModerationResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreatePropertyModeration extends CreateRecord

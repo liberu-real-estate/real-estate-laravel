@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Landlords;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -10,9 +10,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\LandlordResource\Pages\ListLandlords;
-use App\Filament\Staff\Resources\LandlordResource\Pages\CreateLandlord;
-use App\Filament\Staff\Resources\LandlordResource\Pages\EditLandlord;
+use App\Filament\Staff\Resources\Landlords\Pages\ListLandlords;
+use App\Filament\Staff\Resources\Landlords\Pages\CreateLandlord;
+use App\Filament\Staff\Resources\Landlords\Pages\EditLandlord;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Tables\Table;

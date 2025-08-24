@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\PropertyCategories;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -10,9 +10,9 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\PropertyCategoryResource\Pages\ListPropertyCategories;
-use App\Filament\Staff\Resources\PropertyCategoryResource\Pages\CreatePropertyCategory;
-use App\Filament\Staff\Resources\PropertyCategoryResource\Pages\EditPropertyCategory;
+use App\Filament\Staff\Resources\PropertyCategories\Pages\ListPropertyCategories;
+use App\Filament\Staff\Resources\PropertyCategories\Pages\CreatePropertyCategory;
+use App\Filament\Staff\Resources\PropertyCategories\Pages\EditPropertyCategory;
 use App\Filament\Staff\Resources\PropertyCategoryResource\Pages;
 use App\Models\PropertyCategory;
 use Filament\Forms;

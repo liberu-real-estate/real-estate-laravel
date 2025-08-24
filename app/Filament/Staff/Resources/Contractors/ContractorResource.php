@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Contractors;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -10,9 +10,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\ContractorResource\Pages\ListContractors;
-use App\Filament\Staff\Resources\ContractorResource\Pages\CreateContractor;
-use App\Filament\Staff\Resources\ContractorResource\Pages\EditContractor;
+use App\Filament\Staff\Resources\Contractors\Pages\ListContractors;
+use App\Filament\Staff\Resources\Contractors\Pages\CreateContractor;
+use App\Filament\Staff\Resources\Contractors\Pages\EditContractor;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Tables\Table;

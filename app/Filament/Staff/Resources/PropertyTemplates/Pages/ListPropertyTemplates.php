@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\PropertyTemplateResource\Pages;
+namespace App\Filament\Staff\Resources\PropertyTemplates\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Staff\Resources\PropertyTemplateResource;
+use App\Filament\Staff\Resources\PropertyTemplates\PropertyTemplateResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

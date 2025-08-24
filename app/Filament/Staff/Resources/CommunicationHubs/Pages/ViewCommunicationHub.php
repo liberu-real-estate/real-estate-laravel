@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\CommunicationHubResource\Pages;
+namespace App\Filament\Staff\Resources\CommunicationHubs\Pages;
 
 use Filament\Actions\EditAction;
-use App\Filament\Staff\Resources\CommunicationHubResource;
+use App\Filament\Staff\Resources\CommunicationHubs\CommunicationHubResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 

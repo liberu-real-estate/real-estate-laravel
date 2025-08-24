@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Filament\Tenant\Resources\MaintenanceRequestResource;
+use App\Filament\Tenant\Resources\MaintenanceRequests\MaintenanceRequestResource;
 use App\Models\MaintenanceRequest;
 use App\Models\User;
 use Tests\TestCase;

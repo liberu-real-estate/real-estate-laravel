@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\EnergyConsumptionResource\Pages;
+namespace App\Filament\Staff\Resources\EnergyConsumptions\Pages;
 
-use App\Filament\Staff\Resources\EnergyConsumptionResource;
+use App\Filament\Staff\Resources\EnergyConsumptions\EnergyConsumptionResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateEnergyConsumption extends CreateRecord

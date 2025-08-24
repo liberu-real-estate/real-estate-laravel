@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Tenants;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -9,10 +9,10 @@ use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\TenantResource\Pages\ListTenants;
-use App\Filament\Staff\Resources\TenantResource\Pages\CreateTenant;
-use App\Filament\Staff\Resources\TenantResource\Pages\ViewTenant;
-use App\Filament\Staff\Resources\TenantResource\Pages\EditTenant;
+use App\Filament\Staff\Resources\Tenants\Pages\ListTenants;
+use App\Filament\Staff\Resources\Tenants\Pages\CreateTenant;
+use App\Filament\Staff\Resources\Tenants\Pages\ViewTenant;
+use App\Filament\Staff\Resources\Tenants\Pages\EditTenant;
 use App\Filament\Staff\Resources\TenantResource\Pages;
 use App\Models\Tenant;
 use Filament\Forms;

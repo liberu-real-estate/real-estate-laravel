@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Admin\Resources\ModuleResource\Pages;
+namespace App\Filament\Admin\Resources\Modules\Pages;
 
 use Filament\Actions\Action;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use App\Filament\Admin\Resources\ModuleResource;
+use App\Filament\Admin\Resources\Modules\ModuleResource;
 
 class ListModules extends ListRecords
 {

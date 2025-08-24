@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Tenant\Resources\MaintenanceRequestResource\Pages;
+namespace App\Filament\Tenant\Resources\MaintenanceRequests\Pages;
 
-use App\Filament\Tenant\Resources\MaintenanceRequestResource;
+use App\Filament\Tenant\Resources\MaintenanceRequests\MaintenanceRequestResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

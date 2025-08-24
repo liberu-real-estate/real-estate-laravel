@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\MarketAnalyses;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\DatePicker;
@@ -9,9 +9,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\ViewAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\MarketAnalysisResource\Pages\ListMarketAnalyses;
-use App\Filament\Staff\Resources\MarketAnalysisResource\Pages\CreateMarketAnalysis;
-use App\Filament\Staff\Resources\MarketAnalysisResource\Pages\ViewMarketAnalysis;
+use App\Filament\Staff\Resources\MarketAnalyses\Pages\ListMarketAnalyses;
+use App\Filament\Staff\Resources\MarketAnalyses\Pages\CreateMarketAnalysis;
+use App\Filament\Staff\Resources\MarketAnalyses\Pages\ViewMarketAnalysis;
 use App\Filament\Staff\Resources\MarketAnalysisResource\Pages;
 use App\Models\Property;
 use Filament\Forms;

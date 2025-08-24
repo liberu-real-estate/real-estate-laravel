@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Admin\Resources\BranchResource\Pages;
+namespace App\Filament\Admin\Resources\Branches\Pages;
 
 use Filament\Resources\Pages\EditRecord;
-use App\Filament\Admin\Resources\BranchResource;
+use App\Filament\Admin\Resources\Branches\BranchResource;
 
 class EditBranch extends EditRecord
 {

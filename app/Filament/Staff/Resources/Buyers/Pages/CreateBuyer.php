@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\BuyerResource\Pages;
+namespace App\Filament\Staff\Resources\Buyers\Pages;
 
-use App\Filament\Staff\Resources\BuyerResource;
+use App\Filament\Staff\Resources\Buyers\BuyerResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateBuyer extends CreateRecord

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Reviews;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\ReviewResource\Pages\ListReviews;
-use App\Filament\Staff\Resources\ReviewResource\Pages\CreateReview;
-use App\Filament\Staff\Resources\ReviewResource\Pages\EditReview;
+use App\Filament\Staff\Resources\Reviews\Pages\ListReviews;
+use App\Filament\Staff\Resources\Reviews\Pages\CreateReview;
+use App\Filament\Staff\Resources\Reviews\Pages\EditReview;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Review;

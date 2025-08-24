@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Filament\Staff\Resources\AppointmentResource;
+use App\Filament\Staff\Resources\Appointments\AppointmentResource;
 use App\Models\Appointment;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;

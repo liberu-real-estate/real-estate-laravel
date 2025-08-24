@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\LandlordResource\Pages;
+namespace App\Filament\Staff\Resources\Landlords\Pages;
 
-use App\Filament\Staff\Resources\LandlordResource;
+use App\Filament\Staff\Resources\Landlords\LandlordResource;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 

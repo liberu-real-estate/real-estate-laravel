@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Tenant\Resources;
+namespace App\Filament\Tenant\Resources\Leases;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -9,8 +9,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\ViewAction;
-use App\Filament\Tenant\Resources\LeaseResource\Pages\ListLeases;
-use App\Filament\Tenant\Resources\LeaseResource\Pages\ViewLease;
+use App\Filament\Tenant\Resources\Leases\Pages\ListLeases;
+use App\Filament\Tenant\Resources\Leases\Pages\ViewLease;
 use App\Models\Lease;
 use Filament\Forms;
 use Filament\Resources\Resource;

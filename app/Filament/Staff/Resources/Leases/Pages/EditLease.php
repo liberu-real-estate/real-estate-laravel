@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Staff\Resources\LeaseResource\Pages;
+namespace App\Filament\Staff\Resources\Leases\Pages;
 
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
-use App\Filament\Staff\Resources\LeaseResource;
+use App\Filament\Staff\Resources\Leases\LeaseResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Admin\Resources\Menus;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
-use App\Filament\Admin\Resources\MenuResource\Pages\ListMenus;
-use App\Filament\Admin\Resources\MenuResource\Pages\CreateMenu;
-use App\Filament\Admin\Resources\MenuResource\Pages\EditMenu;
+use App\Filament\Admin\Resources\Menus\Pages\ListMenus;
+use App\Filament\Admin\Resources\Menus\Pages\CreateMenu;
+use App\Filament\Admin\Resources\Menus\Pages\EditMenu;
 use App\Models\Menu;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;

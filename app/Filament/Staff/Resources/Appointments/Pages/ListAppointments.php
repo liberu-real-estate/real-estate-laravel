@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\AppointmentResource\Pages;
+namespace App\Filament\Staff\Resources\Appointments\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Staff\Resources\AppointmentResource;
+use App\Filament\Staff\Resources\Appointments\AppointmentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

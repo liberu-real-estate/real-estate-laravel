@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Staff\Resources\TenantResource\Pages;
+namespace App\Filament\Staff\Resources\Tenants\Pages;
 
 use Filament\Facades\Filament;
 use Filament\Panel;
-use App\Filament\Staff\Resources\TenantResource;
+use App\Filament\Staff\Resources\Tenants\TenantResource;
 use Filament\Resources\Pages\Page;
 
 class EditProfile extends Page

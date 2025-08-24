@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Transactions;
 
 use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\TransactionResource\Pages\ViewTransaction;
+use App\Filament\Staff\Resources\Transactions\Pages\ViewTransaction;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -21,9 +21,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Staff\Resources\TransactionResource\Pages;
 use App\Filament\Staff\Resources\TransactionResource\RelationManagers;
-use App\Filament\Staff\Resources\TransactionResource\Pages\EditTransaction;
-use App\Filament\Staff\Resources\TransactionResource\Pages\ListTransactions;
-use App\Filament\Staff\Resources\TransactionResource\Pages\CreateTransaction;
+use App\Filament\Staff\Resources\Transactions\Pages\EditTransaction;
+use App\Filament\Staff\Resources\Transactions\Pages\ListTransactions;
+use App\Filament\Staff\Resources\Transactions\Pages\CreateTransaction;
 use App\Services\TransactionService;
 
 class TransactionResource extends Resource

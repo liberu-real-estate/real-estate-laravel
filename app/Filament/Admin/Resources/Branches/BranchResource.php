@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Admin\Resources\Branches;
 
 use Filament\Schemas\Schema;
 use App\Filament\Admin\Resources\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
-use App\Filament\Admin\Resources\BranchResource\Pages\ListBranches;
-use App\Filament\Admin\Resources\BranchResource\Pages\CreateBranch;
-use App\Filament\Admin\Resources\BranchResource\Pages\EditBranch;
+use App\Filament\Admin\Resources\Branches\Pages\ListBranches;
+use App\Filament\Admin\Resources\Branches\Pages\CreateBranch;
+use App\Filament\Admin\Resources\Branches\Pages\EditBranch;
 use App\Models\Branch;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;

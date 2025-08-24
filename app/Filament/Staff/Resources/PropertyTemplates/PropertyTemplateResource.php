@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\PropertyTemplates;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -10,9 +10,9 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\PropertyTemplateResource\Pages\ListPropertyTemplates;
-use App\Filament\Staff\Resources\PropertyTemplateResource\Pages\CreatePropertyTemplate;
-use App\Filament\Staff\Resources\PropertyTemplateResource\Pages\EditPropertyTemplate;
+use App\Filament\Staff\Resources\PropertyTemplates\Pages\ListPropertyTemplates;
+use App\Filament\Staff\Resources\PropertyTemplates\Pages\CreatePropertyTemplate;
+use App\Filament\Staff\Resources\PropertyTemplates\Pages\EditPropertyTemplate;
 use App\Models\PropertyTemplate;
 use Filament\Forms;
 use Filament\Resources\Resource;

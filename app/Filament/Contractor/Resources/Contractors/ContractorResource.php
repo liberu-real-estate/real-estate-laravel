@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Contractor\Resources;
+namespace App\Filament\Contractor\Resources\Contractors;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -8,9 +8,9 @@ use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Contractor\Resources\ContractorResource\Pages\ListContractors;
-use App\Filament\Contractor\Resources\ContractorResource\Pages\CreateContractor;
-use App\Filament\Contractor\Resources\ContractorResource\Pages\EditContractor;
+use App\Filament\Contractor\Resources\Contractors\Pages\ListContractors;
+use App\Filament\Contractor\Resources\Contractors\Pages\CreateContractor;
+use App\Filament\Contractor\Resources\Contractors\Pages\EditContractor;
 use App\Filament\Contractor\Resources\ContractorResource\Pages;
 use App\Filament\Contractor\Resources\ContractorResource\RelationManagers;
 use App\Models\Contractor;

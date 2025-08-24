@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\UtilityPaymentResource\Pages;
+namespace App\Filament\Staff\Resources\UtilityPayments\Pages;
 
-use App\Filament\Staff\Resources\UtilityPaymentResource;
+use App\Filament\Staff\Resources\UtilityPayments\UtilityPaymentResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateUtilityPayment extends CreateRecord

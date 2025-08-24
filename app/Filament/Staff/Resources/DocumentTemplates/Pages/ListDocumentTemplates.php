@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\DocumentTemplateResource\Pages;
+namespace App\Filament\Staff\Resources\DocumentTemplates\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Staff\Resources\DocumentTemplateResource;
+use App\Filament\Staff\Resources\DocumentTemplates\DocumentTemplateResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

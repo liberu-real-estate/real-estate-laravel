@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Admin\Resources\SiteSettings;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
-use App\Filament\Admin\Resources\SiteSettingsResource\Pages\ListSiteSettings;
-use App\Filament\Admin\Resources\SiteSettingsResource\Pages\CreateSiteSettings;
-use App\Filament\Admin\Resources\SiteSettingsResource\Pages\EditSiteSettings;
+use App\Filament\Admin\Resources\SiteSettings\Pages\ListSiteSettings;
+use App\Filament\Admin\Resources\SiteSettings\Pages\CreateSiteSettings;
+use App\Filament\Admin\Resources\SiteSettings\Pages\EditSiteSettings;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;

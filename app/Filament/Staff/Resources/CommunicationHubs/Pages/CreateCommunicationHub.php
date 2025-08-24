@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\CommunicationHubResource\Pages;
+namespace App\Filament\Staff\Resources\CommunicationHubs\Pages;
 
-use App\Filament\Staff\Resources\CommunicationHubResource;
+use App\Filament\Staff\Resources\CommunicationHubs\CommunicationHubResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateCommunicationHub extends CreateRecord

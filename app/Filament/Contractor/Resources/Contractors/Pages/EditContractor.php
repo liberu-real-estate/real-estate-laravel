@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Contractor\Resources\ContractorResource\Pages;
+namespace App\Filament\Contractor\Resources\Contractors\Pages;
 
 use Filament\Actions\DeleteAction;
-use App\Filament\Contractor\Resources\ContractorResource;
+use App\Filament\Contractor\Resources\Contractors\ContractorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

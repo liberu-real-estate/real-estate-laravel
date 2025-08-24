@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\CommunicationHubs;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
@@ -9,10 +9,10 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\CommunicationHubResource\Pages\ListCommunicationHub;
-use App\Filament\Staff\Resources\CommunicationHubResource\Pages\CreateCommunicationHub;
-use App\Filament\Staff\Resources\CommunicationHubResource\Pages\ViewCommunicationHub;
-use App\Filament\Staff\Resources\CommunicationHubResource\Pages\EditCommunicationHub;
+use App\Filament\Staff\Resources\CommunicationHubs\Pages\ListCommunicationHub;
+use App\Filament\Staff\Resources\CommunicationHubs\Pages\CreateCommunicationHub;
+use App\Filament\Staff\Resources\CommunicationHubs\Pages\ViewCommunicationHub;
+use App\Filament\Staff\Resources\CommunicationHubs\Pages\EditCommunicationHub;
 use App\Filament\Staff\Resources\CommunicationHubResource\Pages;
 use App\Models\Message;
 use Filament\Forms;

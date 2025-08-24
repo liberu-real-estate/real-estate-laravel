@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\EnergyConsumptions;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
@@ -10,9 +10,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\EnergyConsumptionResource\Pages\ListEnergyConsumptions;
-use App\Filament\Staff\Resources\EnergyConsumptionResource\Pages\CreateEnergyConsumption;
-use App\Filament\Staff\Resources\EnergyConsumptionResource\Pages\EditEnergyConsumption;
+use App\Filament\Staff\Resources\EnergyConsumptions\Pages\ListEnergyConsumptions;
+use App\Filament\Staff\Resources\EnergyConsumptions\Pages\CreateEnergyConsumption;
+use App\Filament\Staff\Resources\EnergyConsumptions\Pages\EditEnergyConsumption;
 use App\Filament\Staff\Resources\EnergyConsumptionResource\Pages;
 use App\Models\EnergyConsumption;
 use Filament\Forms;

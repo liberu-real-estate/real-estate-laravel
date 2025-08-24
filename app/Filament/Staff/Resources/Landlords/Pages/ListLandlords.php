@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\LandlordResource\Pages;
+namespace App\Filament\Staff\Resources\Landlords\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Staff\Resources\LandlordResource;
+use App\Filament\Staff\Resources\Landlords\LandlordResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\PropertyModerationResource\Pages;
+namespace App\Filament\Staff\Resources\PropertyModerations\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Staff\Resources\PropertyModerationResource;
+use App\Filament\Staff\Resources\PropertyModerations\PropertyModerationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

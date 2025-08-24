@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\MarketAnalysisResource\Pages;
+namespace App\Filament\Staff\Resources\MarketAnalyses\Pages;
 
 use Filament\Actions\EditAction;
-use App\Filament\Staff\Resources\MarketAnalysisResource;
+use App\Filament\Staff\Resources\MarketAnalyses\MarketAnalysisResource;
 use App\Services\MarketAnalysisService;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Actions;

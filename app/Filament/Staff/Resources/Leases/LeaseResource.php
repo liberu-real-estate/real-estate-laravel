@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Leases;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
@@ -15,10 +15,10 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\LeaseResource\Pages\ListLeases;
-use App\Filament\Staff\Resources\LeaseResource\Pages\CreateLease;
-use App\Filament\Staff\Resources\LeaseResource\Pages\ViewLease;
-use App\Filament\Staff\Resources\LeaseResource\Pages\EditLease;
+use App\Filament\Staff\Resources\Leases\Pages\ListLeases;
+use App\Filament\Staff\Resources\Leases\Pages\CreateLease;
+use App\Filament\Staff\Resources\Leases\Pages\ViewLease;
+use App\Filament\Staff\Resources\Leases\Pages\EditLease;
 use App\Filament\Staff\Resources\LeaseResource\Pages;
 use App\Models\Lease;
 use Filament\Forms;

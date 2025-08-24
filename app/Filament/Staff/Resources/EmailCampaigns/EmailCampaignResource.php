@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\EmailCampaigns;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -9,9 +9,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use App\Filament\Staff\Resources\EmailCampaignResource\Pages\ListEmailCampaigns;
-use App\Filament\Staff\Resources\EmailCampaignResource\Pages\CreateEmailCampaign;
-use App\Filament\Staff\Resources\EmailCampaignResource\Pages\EditEmailCampaign;
+use App\Filament\Staff\Resources\EmailCampaigns\Pages\ListEmailCampaigns;
+use App\Filament\Staff\Resources\EmailCampaigns\Pages\CreateEmailCampaign;
+use App\Filament\Staff\Resources\EmailCampaigns\Pages\EditEmailCampaign;
 use App\Filament\Staff\Resources\EmailCampaignResource\Pages;
 use App\Models\EmailCampaign;
 use Filament\Forms;

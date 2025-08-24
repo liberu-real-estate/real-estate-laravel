@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\PropertyModerations;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -11,9 +11,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\PropertyModerationResource\Pages\ListPropertyModerations;
-use App\Filament\Staff\Resources\PropertyModerationResource\Pages\CreatePropertyModeration;
-use App\Filament\Staff\Resources\PropertyModerationResource\Pages\EditPropertyModeration;
+use App\Filament\Staff\Resources\PropertyModerations\Pages\ListPropertyModerations;
+use App\Filament\Staff\Resources\PropertyModerations\Pages\CreatePropertyModeration;
+use App\Filament\Staff\Resources\PropertyModerations\Pages\EditPropertyModeration;
 use App\Filament\Staff\Resources\PropertyModerationResource\Pages;
 use App\Models\Property;
 use Filament\Forms;

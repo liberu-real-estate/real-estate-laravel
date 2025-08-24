@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Admin\Resources\TeamResource\Pages;
+namespace App\Filament\Admin\Resources\Teams\Pages;
 
 use Filament\Actions\DeleteAction;
-use App\Filament\Admin\Resources\TeamResource;
+use App\Filament\Admin\Resources\Teams\TeamResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\KeyLocationResource\Pages;
+namespace App\Filament\Staff\Resources\KeyLocations\Pages;
 
 use Filament\Actions\DeleteAction;
-use App\Filament\Staff\Resources\KeyLocationResource;
+use App\Filament\Staff\Resources\KeyLocations\KeyLocationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\RentalApplications;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
@@ -13,9 +13,9 @@ use Filament\Actions\EditAction;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Staff\Resources\RentalApplicationResource\Pages\ListRentalApplications;
-use App\Filament\Staff\Resources\RentalApplicationResource\Pages\CreateRentalApplication;
-use App\Filament\Staff\Resources\RentalApplicationResource\Pages\EditRentalApplication;
+use App\Filament\Staff\Resources\RentalApplications\Pages\ListRentalApplications;
+use App\Filament\Staff\Resources\RentalApplications\Pages\CreateRentalApplication;
+use App\Filament\Staff\Resources\RentalApplications\Pages\EditRentalApplication;
 use App\Filament\Staff\Resources\RentalApplicationResource\Pages;
 use App\Models\RentalApplication;
 use Filament\Forms;

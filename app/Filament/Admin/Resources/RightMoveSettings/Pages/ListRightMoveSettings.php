@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Admin\Resources\RightMoveSettingsResource\Pages;
+namespace App\Filament\Admin\Resources\RightMoveSettings\Pages;
 
 use Filament\Actions\CreateAction;
-use App\Filament\Admin\Resources\RightMoveSettingsResource;
+use App\Filament\Admin\Resources\RightMoveSettings\RightMoveSettingsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Staff\Resources;
+namespace App\Filament\Staff\Resources\Appointments;
 
 use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
@@ -20,9 +20,9 @@ use Filament\Forms\Components\BelongsToSelect;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Staff\Resources\AppointmentResource\Pages;
 use App\Filament\Staff\Resources\AppointmentResource\RelationManagers;
-use App\Filament\Staff\Resources\AppointmentResource\Pages\EditAppointment;
-use App\Filament\Staff\Resources\AppointmentResource\Pages\ListAppointments;
-use App\Filament\Staff\Resources\AppointmentResource\Pages\CreateAppointment;
+use App\Filament\Staff\Resources\Appointments\Pages\EditAppointment;
+use App\Filament\Staff\Resources\Appointments\Pages\ListAppointments;
+use App\Filament\Staff\Resources\Appointments\Pages\CreateAppointment;
 
 class AppointmentResource extends Resource
 {

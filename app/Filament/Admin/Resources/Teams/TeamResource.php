@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Admin\Resources\Teams;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
@@ -8,9 +8,9 @@ use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Admin\Resources\TeamResource\Pages\ListTeams;
-use App\Filament\Admin\Resources\TeamResource\Pages\CreateTeam;
-use App\Filament\Admin\Resources\TeamResource\Pages\EditTeam;
+use App\Filament\Admin\Resources\Teams\Pages\ListTeams;
+use App\Filament\Admin\Resources\Teams\Pages\CreateTeam;
+use App\Filament\Admin\Resources\Teams\Pages\EditTeam;
 use App\Models\Team;
 use Filament\Forms;
 use Filament\Resources\Resource;

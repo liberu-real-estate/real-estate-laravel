@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Staff\Resources\TenantResource\Pages;
+namespace App\Filament\Staff\Resources\Tenants\Pages;
 
 use Filament\Actions\EditAction;
-use App\Filament\Staff\Resources\TenantResource;
+use App\Filament\Staff\Resources\Tenants\TenantResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 

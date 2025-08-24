@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Staff\Resources\EmailCampaignResource\Pages;
+namespace App\Filament\Staff\Resources\EmailCampaigns\Pages;
 
-use App\Filament\Staff\Resources\EmailCampaignResource;
+use App\Filament\Staff\Resources\EmailCampaigns\EmailCampaignResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateEmailCampaign extends CreateRecord
