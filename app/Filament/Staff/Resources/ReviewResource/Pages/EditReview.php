@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\ReviewResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Staff\Resources\ReviewResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -13,7 +14,7 @@ class EditReview extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

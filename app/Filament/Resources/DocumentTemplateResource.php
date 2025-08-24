@@ -2,6 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\DocumentTemplateResource\Pages\ListDocumentTemplates;
+use App\Filament\Resources\DocumentTemplateResource\Pages\CreateDocumentTemplate;
+use App\Filament\Resources\DocumentTemplateResource\Pages\EditDocumentTemplate;
 use App\Filament\Resources\DocumentTemplateResource\Pages;
 use App\Models\DocumentTemplate;
 use Filament\Forms;
@@ -14,21 +22,21 @@ class DocumentTemplateResource extends Resource
 {
     protected static ?string $model = DocumentTemplate::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('type')
+                TextInput::make('type')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Textarea::make('description')
                     ->maxLength(65535),
-                Forms\Components\Textarea::make('content')
+                Textarea::make('content')
                     ->required()
                     ->maxLength(65535),
             ]);
@@ -38,18 +46,18 @@ class DocumentTemplateResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('type'),
-                Tables\Columns\TextColumn::make('description'),
+                TextColumn::make('name'),
+                TextColumn::make('type'),
+                TextColumn::make('description'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -63,9 +71,9 @@ class DocumentTemplateResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDocumentTemplates::route('/'),
-            'create' => Pages\CreateDocumentTemplate::route('/create'),
-            'edit' => Pages\EditDocumentTemplate::route('/{record}/edit'),
+            'index' => ListDocumentTemplates::route('/'),
+            'create' => CreateDocumentTemplate::route('/create'),
+            'edit' => EditDocumentTemplate::route('/{record}/edit'),
         ];
     }
 }

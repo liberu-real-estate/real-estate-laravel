@@ -2,8 +2,14 @@
 
 namespace App\Filament\Admin\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use App\Filament\Admin\Resources\MenuResource\Pages\ListMenus;
+use App\Filament\Admin\Resources\MenuResource\Pages\CreateMenu;
+use App\Filament\Admin\Resources\MenuResource\Pages\EditMenu;
 use App\Models\Menu;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -14,23 +20,23 @@ class MenuResource extends Resource
 {
     protected static ?string $model = Menu::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bars-4';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-bars-4';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->required()
                     ->label('Name'),
-                Forms\Components\TextInput::make('url')
+                TextInput::make('url')
                     ->required()
                     ->label('URL'),
-                Forms\Components\Select::make('parent_id')
+                Select::make('parent_id')
                     ->label('Parent Menu')
                     ->options(Menu::pluck('name', 'id'))
                     ->nullable(),
-                Forms\Components\TextInput::make('order')
+                TextInput::make('order')
                     ->integer()
                     ->label('Order')
                     ->default(0),
@@ -41,15 +47,15 @@ class MenuResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->label('Name'),
-                Tables\Columns\TextColumn::make('url')
+                TextColumn::make('url')
                     ->label('URL'),
-                Tables\Columns\TextColumn::make('parent.name')
+                TextColumn::make('parent.name')
                     ->label('Parent Menu'),
-                Tables\Columns\TextColumn::make('order')
+                TextColumn::make('order')
                     ->sortable()
                     ->label('Order'),
             ])
@@ -71,9 +77,9 @@ class MenuResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMenus::route('/'),
-            'create' => Pages\CreateMenu::route('/create'),
-            'edit' => Pages\EditMenu::route('/{record}/edit'),
+            'index' => ListMenus::route('/'),
+            'create' => CreateMenu::route('/create'),
+            'edit' => EditMenu::route('/{record}/edit'),
         ];
     }
 }

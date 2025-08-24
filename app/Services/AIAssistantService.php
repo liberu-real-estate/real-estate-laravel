@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use App\Models\Property;
 use App\Models\MaintenanceRequest;
 use App\Models\User;
@@ -35,7 +36,7 @@ class AIAssistantService
             return $response->json()['choices'][0]['text'];
         }
 
-        throw new \Exception('Failed to generate AI response');
+        throw new Exception('Failed to generate AI response');
     }
 
     protected function createPrompt($input, $context)

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\AgentPerformanceResource\Pages;
 
+use Filament\Actions\Action;
 use App\Filament\Staff\Resources\AgentPerformanceResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -13,7 +14,7 @@ class ListAgentPerformance extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('generateReport')
+            Action::make('generateReport')
                 ->label('Generate Report')
                 ->action(function () {
                     // TODO: Implement report generation logic

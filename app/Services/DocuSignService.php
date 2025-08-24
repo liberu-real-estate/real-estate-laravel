@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use DocuSign\eSign\Model\EnvelopeDefinition;
 use DocuSign\eSign\Client\ApiClient;
 use DocuSign\eSign\Configuration;
 use DocuSign\eSign\Api\EnvelopesApi;
@@ -46,7 +47,7 @@ class DocuSignService
     {
         // Implement the creation of envelope definition
         // This is a placeholder and should be implemented properly
-        return new \DocuSign\eSign\Model\EnvelopeDefinition();
+        return new EnvelopeDefinition();
     }
 
     public function getEnvelopeStatus($envelopeId)

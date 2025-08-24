@@ -2,10 +2,16 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\FavoriteResource\Pages\ListFavorites;
+use App\Filament\Staff\Resources\FavoriteResource\Pages\CreateFavorite;
+use App\Filament\Staff\Resources\FavoriteResource\Pages\EditFavorite;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Favorite;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
@@ -19,12 +25,12 @@ class FavoriteResource extends Resource
 {
     protected static ?string $model = Favorite::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-star';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-star';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Select::make('user_id')
                     ->relationship('user', 'name'),
                 Select::make('property_id')
@@ -49,12 +55,12 @@ class FavoriteResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -69,9 +75,9 @@ class FavoriteResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFavorites::route('/'),
-            'create' => Pages\CreateFavorite::route('/create'),
-            'edit' => Pages\EditFavorite::route('/{record}/edit'),
+            'index' => ListFavorites::route('/'),
+            'create' => CreateFavorite::route('/create'),
+            'edit' => EditFavorite::route('/{record}/edit'),
         ];
     }
 }

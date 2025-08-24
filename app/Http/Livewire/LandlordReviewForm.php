@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Exception;
 use Livewire\Component;
 use App\Models\Review;
 use App\Models\User;
@@ -24,7 +25,7 @@ class LandlordReviewForm extends Component
         $landlord = User::findOrFail($this->landlordId);
 
         if (!$landlord->hasRole('landlord')) {
-            throw new \Exception('User is not a landlord');
+            throw new Exception('User is not a landlord');
         }
 
         Review::create([

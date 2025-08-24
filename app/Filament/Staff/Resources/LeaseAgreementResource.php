@@ -2,10 +2,19 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\BooleanColumn;
+use App\Filament\Staff\Resources\LeaseAgreementResource\Pages\ListLeaseAgreements;
+use App\Filament\Staff\Resources\LeaseAgreementResource\Pages\CreateLeaseAgreement;
+use App\Filament\Staff\Resources\LeaseAgreementResource\Pages\EditLeaseAgreement;
 use App\Filament\Staff\Resources\LeaseAgreementResource\Pages;
 use App\Models\LeaseAgreement;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -14,26 +23,26 @@ class LeaseAgreementResource extends Resource
 {
     protected static ?string $model = LeaseAgreement::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('tenant_id')
+        return $schema
+            ->components([
+                Select::make('tenant_id')
                     ->relationship('tenant', 'name')
                     ->required(),
-                Forms\Components\Select::make('property_id')
+                Select::make('property_id')
                     ->relationship('property', 'address')
                     ->required(),
-                Forms\Components\DatePicker::make('start_date')
+                DatePicker::make('start_date')
                     ->required(),
-                Forms\Components\DatePicker::make('end_date')
+                DatePicker::make('end_date')
                     ->required(),
-                Forms\Components\TextInput::make('monthly_rent')
+                TextInput::make('monthly_rent')
                     ->required()
                     ->numeric(),
-                Forms\Components\Textarea::make('terms')
+                Textarea::make('terms')
                     ->required(),
             ]);
     }
@@ -42,12 +51,12 @@ class LeaseAgreementResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tenant.name'),
-                Tables\Columns\TextColumn::make('property.address'),
-                Tables\Columns\TextColumn::make('start_date'),
-                Tables\Columns\TextColumn::make('end_date'),
-                Tables\Columns\TextColumn::make('monthly_rent'),
-                Tables\Columns\BooleanColumn::make('is_signed'),
+                TextColumn::make('tenant.name'),
+                TextColumn::make('property.address'),
+                TextColumn::make('start_date'),
+                TextColumn::make('end_date'),
+                TextColumn::make('monthly_rent'),
+                BooleanColumn::make('is_signed'),
             ])
             ->filters([
                 //
@@ -64,9 +73,9 @@ class LeaseAgreementResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLeaseAgreements::route('/'),
-            'create' => Pages\CreateLeaseAgreement::route('/create'),
-            'edit' => Pages\EditLeaseAgreement::route('/{record}/edit'),
+            'index' => ListLeaseAgreements::route('/'),
+            'create' => CreateLeaseAgreement::route('/create'),
+            'edit' => EditLeaseAgreement::route('/{record}/edit'),
         ];
     }
 }

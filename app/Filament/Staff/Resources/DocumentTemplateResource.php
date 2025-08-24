@@ -2,9 +2,13 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use App\Filament\Staff\Resources\DocumentTemplateResource\Pages\ListDocumentTemplates;
+use App\Filament\Staff\Resources\DocumentTemplateResource\Pages\CreateDocumentTemplate;
+use App\Filament\Staff\Resources\DocumentTemplateResource\Pages\EditDocumentTemplate;
 use App\Models\DocumentTemplate;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -17,12 +21,12 @@ class DocumentTemplateResource extends Resource
 {
     protected static ?string $model = DocumentTemplate::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('name')
                     ->required()
                     ->label('Template Name'),
@@ -41,9 +45,9 @@ class DocumentTemplateResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Name'),
-                Tables\Columns\TextColumn::make('file_path')->label('File Path'),
-                Tables\Columns\TextColumn::make('description')->label('Description'),
+                TextColumn::make('name')->label('Name'),
+                TextColumn::make('file_path')->label('File Path'),
+                TextColumn::make('description')->label('Description'),
             ])
             ->filters([
                 //
@@ -58,9 +62,9 @@ class DocumentTemplateResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDocumentTemplates::route('/'),
-            'create' => Pages\CreateDocumentTemplate::route('/create'),
-            'edit' => Pages\EditDocumentTemplate::route('/{record}/edit'),
+            'index' => ListDocumentTemplates::route('/'),
+            'create' => CreateDocumentTemplate::route('/create'),
+            'edit' => EditDocumentTemplate::route('/{record}/edit'),
         ];
     }
 }

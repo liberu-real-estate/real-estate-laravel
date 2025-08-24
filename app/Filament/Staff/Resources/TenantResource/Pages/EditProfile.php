@@ -2,6 +2,8 @@
 
 namespace App\Filament\Staff\Resources\TenantResource\Pages;
 
+use Filament\Facades\Filament;
+use Filament\Panel;
 use App\Filament\Staff\Resources\TenantResource;
 use Filament\Resources\Pages\Page;
 
@@ -9,9 +11,9 @@ class EditProfile extends Page
 {
     protected static string $resource = TenantResource::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
-    protected static string $view = 'filament.tenant.pages.edit-profile';
+    protected string $view = 'filament.tenant.pages.edit-profile';
 
     protected static ?string $slug = 'edit-profile';
 
@@ -22,11 +24,11 @@ class EditProfile extends Page
     public static function getRoutes(): array
     {
         return [
-            static::getSlug() => static::getRoutePath(),
+            static::getSlug() => static::getRoutePath(Filament::getCurrentOrDefaultPanel()),
         ];
     }
 
-    public static function getRoutePath(): string
+    public static function getRoutePath(Panel $panel): string
     {
         return '/tenant/edit-profile';
     }

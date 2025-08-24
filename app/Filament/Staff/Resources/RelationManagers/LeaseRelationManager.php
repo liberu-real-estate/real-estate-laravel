@@ -2,8 +2,17 @@
 
 namespace App\Filament\Staff\Resources\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -12,19 +21,19 @@ class LeaseRelationManager extends RelationManager
 {
     protected static string $relationship = 'leases';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\DatePicker::make('start_date')
+        return $schema
+            ->components([
+                DatePicker::make('start_date')
                     ->required(),
-                Forms\Components\DatePicker::make('end_date')
+                DatePicker::make('end_date')
                     ->required(),
-                Forms\Components\TextInput::make('rent_amount')
+                TextInput::make('rent_amount')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
-                Forms\Components\Textarea::make('terms')
+                Textarea::make('terms')
                     ->required()
                     ->maxLength(65535),
             ]);
@@ -34,28 +43,28 @@ class LeaseRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('start_date')
+                TextColumn::make('start_date')
                     ->date(),
-                Tables\Columns\TextColumn::make('end_date')
+                TextColumn::make('end_date')
                     ->date(),
-                Tables\Columns\TextColumn::make('rent_amount')
+                TextColumn::make('rent_amount')
                     ->money(),
-                Tables\Columns\TextColumn::make('terms')
+                TextColumn::make('terms')
                     ->limit(50),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

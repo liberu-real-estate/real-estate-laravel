@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Log;
 use Exception;
 
 class PropertySyncException extends Exception
@@ -28,7 +29,7 @@ class PropertySyncException extends Exception
 
     public function report()
     {
-        \Log::error("Property Sync Error: {$this->getMessage()}", [
+        Log::error("Property Sync Error: {$this->getMessage()}", [
             'property_id' => $this->getPropertyId(),
             'service' => $this->getService(),
             'exception' => get_class($this),

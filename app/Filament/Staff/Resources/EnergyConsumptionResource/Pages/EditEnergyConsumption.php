@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\EnergyConsumptionResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Staff\Resources\EnergyConsumptionResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -13,7 +14,7 @@ class EditEnergyConsumption extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

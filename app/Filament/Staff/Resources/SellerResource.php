@@ -2,9 +2,17 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\SellerResource\Pages\ListSellers;
+use App\Filament\Staff\Resources\SellerResource\Pages\CreateSeller;
+use App\Filament\Staff\Resources\SellerResource\Pages\EditSeller;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,22 +24,22 @@ class SellerResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-currency-dollar';
 
     protected static ?string $modelLabel = 'Seller';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('password')
+                TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
@@ -44,19 +52,19 @@ class SellerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->searchable(),
+                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('email')->searchable(),
                 // Add more table columns as needed
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -78,9 +86,9 @@ class SellerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSellers::route('/'),
-            'create' => Pages\CreateSeller::route('/create'),
-            'edit' => Pages\EditSeller::route('/{record}/edit'),
+            'index' => ListSellers::route('/'),
+            'create' => CreateSeller::route('/create'),
+            'edit' => EditSeller::route('/{record}/edit'),
         ];
     }
 }

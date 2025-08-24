@@ -2,10 +2,20 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\MultiSelect;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\AlertResource\Pages\ListAlerts;
+use App\Filament\Resources\AlertResource\Pages\CreateAlert;
+use App\Filament\Resources\AlertResource\Pages\EditAlert;
 use App\Filament\Resources\AlertResource\Pages;
 use App\Models\Alert;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -14,42 +24,42 @@ class AlertResource extends Resource
 {
     protected static ?string $model = Alert::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bell';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-bell';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('user_id')
+        return $schema
+            ->components([
+                Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
-                Forms\Components\Select::make('property_type')
+                Select::make('property_type')
                     ->options([
                         'house' => 'House',
                         'apartment' => 'Apartment',
                         'condo' => 'Condo',
                     ])
                     ->required(),
-                Forms\Components\TextInput::make('min_price')
+                TextInput::make('min_price')
                     ->numeric()
                     ->prefix('$'),
-                Forms\Components\TextInput::make('max_price')
+                TextInput::make('max_price')
                     ->numeric()
                     ->prefix('$'),
-                Forms\Components\TextInput::make('min_bedrooms')
+                TextInput::make('min_bedrooms')
                     ->numeric(),
-                Forms\Components\TextInput::make('max_bedrooms')
+                TextInput::make('max_bedrooms')
                     ->numeric(),
-                Forms\Components\TextInput::make('location')
+                TextInput::make('location')
                     ->required(),
-                Forms\Components\Select::make('notification_frequency')
+                Select::make('notification_frequency')
                     ->options([
                         'immediately' => 'Immediately',
                         'daily' => 'Daily',
                         'weekly' => 'Weekly',
                     ])
                     ->required(),
-                Forms\Components\MultiSelect::make('alert_types')
+                MultiSelect::make('alert_types')
                     ->options([
                         'price_change' => 'Price Change',
                         'new_listing' => 'New Listing',
@@ -57,7 +67,7 @@ class AlertResource extends Resource
                         'status_change' => 'Status Change',
                     ])
                     ->required(),
-                Forms\Components\TextInput::make('price_change_threshold')
+                TextInput::make('price_change_threshold')
                     ->numeric()
                     ->suffix('%')
                     ->helperText('Percentage change to trigger alert'),
@@ -68,20 +78,20 @@ class AlertResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('property_type'),
-                Tables\Columns\TextColumn::make('location'),
-                Tables\Columns\TextColumn::make('notification_frequency'),
+                TextColumn::make('user.name'),
+                TextColumn::make('property_type'),
+                TextColumn::make('location'),
+                TextColumn::make('notification_frequency'),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -95,9 +105,9 @@ class AlertResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAlerts::route('/'),
-            'create' => Pages\CreateAlert::route('/create'),
-            'edit' => Pages\EditAlert::route('/{record}/edit'),
+            'index' => ListAlerts::route('/'),
+            'create' => CreateAlert::route('/create'),
+            'edit' => EditAlert::route('/{record}/edit'),
         ];
     }
 }

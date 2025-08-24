@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,11 +15,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $user_id
  * @property int $agent_id
  * @property int $property_id
- * @property \DateTime $appointment_date
+ * @property DateTime $appointment_date
  * @property string $status
- * @property-read \App\Models\User $user
- * @property-read \App\Models\User $agent
- * @property-read \App\Models\Property $property
+ * @property-read User $user
+ * @property-read User $agent
+ * @property-read Property $property
  */
 class Appointment extends Model
 {
@@ -68,10 +69,9 @@ class Appointment extends Model
     /**
      * Scope a query to only include upcoming appointments.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
-
     public function scopeUpcoming(Builder $query): Builder
     {
         return $query->where('appointment_date', '>', now());
@@ -80,9 +80,9 @@ class Appointment extends Model
     /**
      * Scope a query to only include appointments with a specific status.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param Builder $query
      * @param  string  $status
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeStatus(Builder $query, string $status): Builder
     {

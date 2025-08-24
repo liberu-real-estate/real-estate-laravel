@@ -2,8 +2,13 @@
 
 namespace App\Filament\Admin\Resources;
 
+use Filament\Schemas\Schema;
+use App\Filament\Admin\Resources\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use App\Filament\Admin\Resources\BranchResource\Pages\ListBranches;
+use App\Filament\Admin\Resources\BranchResource\Pages\CreateBranch;
+use App\Filament\Admin\Resources\BranchResource\Pages\EditBranch;
 use App\Models\Branch;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -13,17 +18,17 @@ class BranchResource extends Resource
 {
     protected static ?string $model = Branch::class;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->required()
                     ->label('Name'),
-                Forms\Components\TextInput::make('address')
+                TextInput::make('address')
                     ->required()
                     ->label('Address'),
-                Forms\Components\TextInput::make('phone_number')
+                TextInput::make('phone_number')
                     ->tel()
                     ->required()
                     ->label('Phone Number'),
@@ -34,14 +39,14 @@ class BranchResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->label('Name'),
-                Tables\Columns\TextColumn::make('address')
+                TextColumn::make('address')
                     ->searchable()
                     ->label('Address'),
-                Tables\Columns\TextColumn::make('phone_number')
+                TextColumn::make('phone_number')
                     ->label('Phone Number'),
             ])
             ->filters([
@@ -67,9 +72,9 @@ class BranchResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBranches::route('/'),
-            'create' => Pages\CreateBranch::route('/create'),
-            'edit' => Pages\EditBranch::route('/{record}/edit'),
+            'index' => ListBranches::route('/'),
+            'create' => CreateBranch::route('/create'),
+            'edit' => EditBranch::route('/{record}/edit'),
         ];
     }
 }

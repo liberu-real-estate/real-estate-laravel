@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\UtilityPaymentResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Staff\Resources\UtilityPaymentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -13,7 +14,7 @@ class EditUtilityPayment extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

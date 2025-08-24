@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use App\Models\Property;
 use App\Models\ZooplaSettings;
 use Illuminate\Support\Facades\Log;
@@ -34,7 +35,7 @@ class ZooplaPortalSyncService
                 } else {
                     $failed++;
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('Error syncing property with Zoopla', [
                     'property_id' => $property->id,
                     'error' => $e->getMessage()

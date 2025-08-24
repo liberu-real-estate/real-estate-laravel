@@ -2,21 +2,22 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\EditAction;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\TransactionResource\Pages\ViewTransaction;
 use Filament\Forms;
 use Filament\Tables;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\Transaction;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Forms\Components\BelongsToSelect;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Staff\Resources\TransactionResource\Pages;
 use App\Filament\Staff\Resources\TransactionResource\RelationManagers;
@@ -29,19 +30,19 @@ class TransactionResource extends Resource
 {
     protected static ?string $model = Transaction::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                BelongsToSelect::make('property_id')
+        return $schema
+            ->components([
+                Select::make('property_id')
                     ->relationship('property', 'title')
                     ->required(),
-                BelongsToSelect::make('buyer_id')
+                Select::make('buyer_id')
                     ->relationship('buyer', 'name')
                     ->required(),
-                BelongsToSelect::make('seller_id')
+                Select::make('seller_id')
                     ->relationship('seller', 'name')
                     ->required(),
                 DatePicker::make('transaction_date')
@@ -97,18 +98,18 @@ class TransactionResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('generateDocument')
+            ->recordActions([
+                EditAction::make(),
+                Action::make('generateDocument')
                     ->label('Generate Document')
                     ->action(function (Transaction $record, TransactionService $transactionService) {
                         $document = $transactionService->generateContractualDocument($record);
                         // You might want to add a notification or redirect here
                     }),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -122,10 +123,10 @@ class TransactionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTransactions::route('/'),
-            'create' => Pages\CreateTransaction::route('/create'),
-            'edit' => Pages\EditTransaction::route('/{record}/edit'),
-            'view' => Pages\ViewTransaction::route('/{record}'),
+            'index' => ListTransactions::route('/'),
+            'create' => CreateTransaction::route('/create'),
+            'edit' => EditTransaction::route('/{record}/edit'),
+            'view' => ViewTransaction::route('/{record}'),
         ];
     }
 }

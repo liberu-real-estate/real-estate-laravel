@@ -2,17 +2,17 @@
 
 namespace App\Filament\Staff\Resources\AgentPerformanceResource\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use App\Filament\Staff\Resources\AgentPerformanceResource;
 use Filament\Resources\Pages\ViewRecord;
-use Filament\Infolists\Infolist;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 
 class ViewAgentPerformance extends ViewRecord
 {
     protected static string $resource = AgentPerformanceResource::class;
 
-    public function infolist(Infolist $infolist): Infolist
+    public function infolist(Schema $schema): Schema
     {
         return $infolist
             ->schema([

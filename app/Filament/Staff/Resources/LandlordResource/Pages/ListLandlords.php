@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\LandlordResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Staff\Resources\LandlordResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -13,7 +14,7 @@ class ListLandlords extends ListRecords
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

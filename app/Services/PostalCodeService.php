@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -29,7 +30,7 @@ class PostalCodeService
                 Log::error('Postcode validation failed: ' . $response->body());
                 return null;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Postcode validation error: ' . $e->getMessage());
             return null;
         }

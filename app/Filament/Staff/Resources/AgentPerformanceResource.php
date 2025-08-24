@@ -2,10 +2,16 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Staff\Resources\AgentPerformanceResource\Pages\ListAgentPerformance;
+use App\Filament\Staff\Resources\AgentPerformanceResource\Pages\ViewAgentPerformance;
 use App\Filament\Staff\Resources\AgentPerformanceResource\Pages;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,7 +21,7 @@ class AgentPerformanceResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chart-bar';
 
     protected static ?string $navigationLabel = 'Agent Performance';
 
@@ -26,14 +32,14 @@ class AgentPerformanceResource extends Resource
         return parent::getEloquentQuery()->role('agent');
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
@@ -44,25 +50,25 @@ class AgentPerformanceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('listings_count')
+                TextColumn::make('listings_count')
                     ->label('Listings')
                     ->counts('properties')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('properties_sold_count')
+                TextColumn::make('properties_sold_count')
                     ->label('Properties Sold')
                     ->counts('properties', function (Builder $query) {
                         $query->where('status', 'sold');
                     })
                     ->sortable(),
-                Tables\Columns\TextColumn::make('appointments_count')
+                TextColumn::make('appointments_count')
                     ->label('Appointments')
                     ->counts('appointments')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('average_rating')
+                TextColumn::make('average_rating')
                     ->label('Avg. Rating')
                     ->avg('reviews', 'rating')
                     ->sortable(),
@@ -70,11 +76,11 @@ class AgentPerformanceResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
+            ->recordActions([
+                ViewAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
                     //
                 ]),
             ]);
@@ -90,8 +96,8 @@ class AgentPerformanceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAgentPerformance::route('/'),
-            'view' => Pages\ViewAgentPerformance::route('/{record}'),
+            'index' => ListAgentPerformance::route('/'),
+            'view' => ViewAgentPerformance::route('/{record}'),
         ];
     }
 }

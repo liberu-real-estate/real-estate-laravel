@@ -2,18 +2,19 @@
 
 namespace App\Filament\App\Pages\Contractors;
 
+use Illuminate\Contracts\View\View;
 use Filament\Pages\Page;
 
 class Dashboard extends Page
 {
-    protected static string $view = 'filament.pages.contractors.dashboard';
+    protected string $view = 'filament.pages.contractors.dashboard';
 
     public function mount(): void
     {
         // Initialize any data or states required for the contractor dashboard
     }
 
-    public function render(): \Illuminate\Contracts\View\View
+    public function render(): View
     {
         return view(static::$view);
     }

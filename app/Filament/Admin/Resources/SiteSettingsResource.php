@@ -2,8 +2,13 @@
 
 namespace App\Filament\Admin\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use App\Filament\Admin\Resources\SiteSettingsResource\Pages\ListSiteSettings;
+use App\Filament\Admin\Resources\SiteSettingsResource\Pages\CreateSiteSettings;
+use App\Filament\Admin\Resources\SiteSettingsResource\Pages\EditSiteSettings;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,14 +20,14 @@ class SiteSettingsResource extends Resource
 {
     protected static ?string $model = SiteSettings::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cog';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('key')->label('Title')->required(),
-                Forms\Components\TextInput::make('value')->required(),
+        return $schema
+            ->components([
+                TextInput::make('key')->label('Title')->required(),
+                TextInput::make('value')->required(),
             ]);
     }
 
@@ -30,17 +35,17 @@ class SiteSettingsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('key')->label('Title'),
-                Tables\Columns\TextColumn::make('value')->label('Value'),
+                TextColumn::make('key')->label('Title'),
+                TextColumn::make('value')->label('Value'),
             ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSiteSettings::route('/'),
-            'create' => Pages\CreateSiteSettings::route('/create'),
-            'edit' => Pages\EditSiteSettings::route('/{record}/edit'),
+            'index' => ListSiteSettings::route('/'),
+            'create' => CreateSiteSettings::route('/create'),
+            'edit' => EditSiteSettings::route('/{record}/edit'),
         ];
     }
 

@@ -15,8 +15,8 @@ class Dashboard extends BaseDashboard
     public $openWorkOrders;
     public $completedWorkOrders;
 
-    protected static ?string $navigationIcon = 'heroicon-o-home';
-    protected static string $view = 'filament.tenant.dashboard';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-home';
+    protected string $view = 'filament.tenant.dashboard';
 
     public function mount(): void
     {
@@ -44,7 +44,7 @@ class Dashboard extends BaseDashboard
         ];
     }
 
-    public function getColumns(): int | array
+    public function getColumns(): int|array
     {
         return [
             'default' => 1,

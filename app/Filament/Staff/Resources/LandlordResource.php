@@ -2,9 +2,19 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\LandlordResource\Pages\ListLandlords;
+use App\Filament\Staff\Resources\LandlordResource\Pages\CreateLandlord;
+use App\Filament\Staff\Resources\LandlordResource\Pages\EditLandlord;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -16,39 +26,39 @@ class LandlordResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-home';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-home';
 
     protected static ?string $modelLabel = 'Landlord';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('password')
+                TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create'),
-                Forms\Components\TextInput::make('phone')
+                TextInput::make('phone')
                     ->tel()
                     ->label('Phone Number'),
-                Forms\Components\Textarea::make('address')
+                Textarea::make('address')
                     ->rows(3)
                     ->label('Address'),
-                Forms\Components\TextInput::make('company_name')
+                TextInput::make('company_name')
                     ->label('Company Name (if applicable)')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('tax_id')
+                TextInput::make('tax_id')
                     ->label('Tax ID')
                     ->maxLength(50),
-                Forms\Components\Select::make('preferred_contact_method')
+                Select::make('preferred_contact_method')
                     ->options([
                         'email' => 'Email',
                         'phone' => 'Phone',
@@ -62,21 +72,21 @@ class LandlordResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->searchable(),
-                Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('company_name')->label('Company'),
-                Tables\Columns\TextColumn::make('preferred_contact_method')->label('Preferred Contact'),
+                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('email')->searchable(),
+                TextColumn::make('phone'),
+                TextColumn::make('company_name')->label('Company'),
+                TextColumn::make('preferred_contact_method')->label('Preferred Contact'),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -98,9 +108,9 @@ class LandlordResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLandlords::route('/'),
-            'create' => Pages\CreateLandlord::route('/create'),
-            'edit' => Pages\EditLandlord::route('/{record}/edit'),
+            'index' => ListLandlords::route('/'),
+            'create' => CreateLandlord::route('/create'),
+            'edit' => EditLandlord::route('/{record}/edit'),
         ];
     }
 }

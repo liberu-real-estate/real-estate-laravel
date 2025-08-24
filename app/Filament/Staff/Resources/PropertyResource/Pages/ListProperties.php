@@ -2,6 +2,8 @@
 
 namespace App\Filament\Staff\Resources\PropertyResource\Pages;
 
+use Filament\Actions\CreateAction;
+use Filament\Actions\Action;
 use App\Filament\Staff\Resources\PropertyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -13,11 +15,11 @@ class ListProperties extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
-            Actions\Action::make('importCsv')
+            CreateAction::make(),
+            Action::make('importCsv')
                 ->label('Import CSV')
                 ->action(fn () => $this->importCsv()),
-            Actions\Action::make('syncPortals')
+            Action::make('syncPortals')
                 ->label('Sync Portals')
                 ->action(fn () => $this->syncPortals()),
         ];

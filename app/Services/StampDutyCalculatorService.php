@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use InvalidArgumentException;
+
 class StampDutyCalculatorService
 {
     public function calculateStampDuty(float $purchasePrice, string $buyerType): array
@@ -48,7 +50,7 @@ class StampDutyCalculatorService
                     PHP_INT_MAX => 0.15,
                 ];
             default:
-                throw new \InvalidArgumentException('Invalid buyer type');
+                throw new InvalidArgumentException('Invalid buyer type');
         }
     }
 }

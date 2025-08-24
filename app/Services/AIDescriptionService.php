@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class AIDescriptionService
@@ -36,7 +37,7 @@ class AIDescriptionService
             return $response->json()['choices'][0]['message']['content'];
         }
 
-        throw new \Exception('Failed to generate AI description');
+        throw new Exception('Failed to generate AI description');
     }
 
     protected function createPrompt(array $propertyData, string $tone)

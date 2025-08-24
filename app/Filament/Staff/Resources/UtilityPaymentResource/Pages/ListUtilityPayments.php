@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\UtilityPaymentResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Staff\Resources\UtilityPaymentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -13,7 +14,7 @@ class ListUtilityPayments extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

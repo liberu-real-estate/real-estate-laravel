@@ -7,7 +7,7 @@ use App\Models\Property;
 
 class LatestProperties extends Widget
 {
-    protected static string $view = 'filament.widgets.latest-properties';
+    protected string $view = 'filament.widgets.latest-properties';
 
     public function getLatestProperties()
     {

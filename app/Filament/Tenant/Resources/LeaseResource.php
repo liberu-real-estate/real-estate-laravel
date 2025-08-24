@@ -2,9 +2,17 @@
 
 namespace App\Filament\Tenant\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
+use App\Filament\Tenant\Resources\LeaseResource\Pages\ListLeases;
+use App\Filament\Tenant\Resources\LeaseResource\Pages\ViewLease;
 use App\Models\Lease;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,32 +23,32 @@ class LeaseResource extends Resource
 {
     protected static ?string $model = Lease::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $navigationLabel = 'My Lease';
 
-    public static function form(Forms\Form $form): Forms\Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('property.address')
+        return $schema
+            ->components([
+                TextInput::make('property.address')
                     ->label('Property Address')
                     ->disabled(),
-                Forms\Components\DatePicker::make('start_date')
+                DatePicker::make('start_date')
                     ->disabled(),
-                Forms\Components\DatePicker::make('end_date')
+                DatePicker::make('end_date')
                     ->disabled(),
-                Forms\Components\TextInput::make('rent_amount')
+                TextInput::make('rent_amount')
                     ->disabled()
                     ->prefix('$'),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->disabled()
                     ->options([
                         'active' => 'Active',
                         'expired' => 'Expired',
                         'terminated' => 'Terminated',
                     ]),
-                Forms\Components\Textarea::make('terms')
+                Textarea::make('terms')
                     ->disabled()
                     ->columnSpanFull(),
             ]);
@@ -50,29 +58,29 @@ class LeaseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('property.address')
+                TextColumn::make('property.address')
                     ->label('Property Address'),
-                Tables\Columns\TextColumn::make('start_date')
+                TextColumn::make('start_date')
                     ->date(),
-                Tables\Columns\TextColumn::make('end_date')
+                TextColumn::make('end_date')
                     ->date(),
-                Tables\Columns\TextColumn::make('rent_amount')
+                TextColumn::make('rent_amount')
                     ->money('usd'),
-                Tables\Columns\TextColumn::make('status'),
+                TextColumn::make('status'),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
+            ->recordActions([
+                ViewAction::make(),
             ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLeases::route('/'),
-            'view' => Pages\ViewLease::route('/{record}'),
+            'index' => ListLeases::route('/'),
+            'view' => ViewLease::route('/{record}'),
         ];
     }
 

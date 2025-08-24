@@ -2,12 +2,20 @@
 
 namespace App\Filament\Contractor\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Contractor\Resources\ContractorResource\Pages\ListContractors;
+use App\Filament\Contractor\Resources\ContractorResource\Pages\CreateContractor;
+use App\Filament\Contractor\Resources\ContractorResource\Pages\EditContractor;
 use App\Filament\Contractor\Resources\ContractorResource\Pages;
 use App\Filament\Contractor\Resources\ContractorResource\RelationManagers;
 use App\Models\Contractor;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,27 +27,27 @@ class ContractorResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user';
 
     protected static ?string $modelLabel = 'Contractor';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('phone')
+                TextInput::make('phone')
                     ->tel()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('address')
+                Textarea::make('address')
                     ->maxLength(1000),
-                Forms\Components\TextInput::make('password')
+                TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
@@ -51,18 +59,18 @@ class ContractorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('phone'),
+                TextColumn::make('name'),
+                TextColumn::make('email'),
+                TextColumn::make('phone'),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -81,9 +89,9 @@ class ContractorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContractors::route('/'),
-            'create' => Pages\CreateContractor::route('/create'),
-            'edit' => Pages\EditContractor::route('/{record}/edit'),
+            'index' => ListContractors::route('/'),
+            'create' => CreateContractor::route('/create'),
+            'edit' => EditContractor::route('/{record}/edit'),
         ];
     }
 }

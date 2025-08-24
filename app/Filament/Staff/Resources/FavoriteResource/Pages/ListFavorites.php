@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\FavoriteResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Staff\Resources\FavoriteResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -13,7 +14,7 @@ class ListFavorites extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

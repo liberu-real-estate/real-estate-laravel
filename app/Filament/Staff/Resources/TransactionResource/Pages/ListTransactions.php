@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\TransactionResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Staff\Resources\TransactionResource;
 
 use Filament\Actions;
@@ -14,7 +15,7 @@ class ListTransactions extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

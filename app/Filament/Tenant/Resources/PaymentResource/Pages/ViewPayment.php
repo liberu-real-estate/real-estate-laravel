@@ -2,6 +2,7 @@
 
 namespace App\Filament\Tenant\Resources\PaymentResource\Pages;
 
+use Filament\Actions\EditAction;
 use App\Filament\Tenant\Resources\PaymentResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ViewRecord;
@@ -13,7 +14,7 @@ class ViewPayment extends ViewRecord
     protected function getActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            EditAction::make(),
         ];
     }
 }

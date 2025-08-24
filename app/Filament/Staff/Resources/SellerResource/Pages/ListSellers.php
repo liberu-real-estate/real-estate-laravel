@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\SellerResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Staff\Resources\SellerResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -13,7 +14,7 @@ class ListSellers extends ListRecords
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

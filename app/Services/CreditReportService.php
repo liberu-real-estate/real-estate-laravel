@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -32,7 +33,7 @@ class CreditReportService
                 Log::error('Credit report API error: ' . $response->body());
                 return 'error';
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Credit report error: ' . $e->getMessage());
             return 'error';
         }

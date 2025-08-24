@@ -2,10 +2,21 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\PropertyModerationResource\Pages\ListPropertyModerations;
+use App\Filament\Staff\Resources\PropertyModerationResource\Pages\CreatePropertyModeration;
+use App\Filament\Staff\Resources\PropertyModerationResource\Pages\EditPropertyModeration;
 use App\Filament\Staff\Resources\PropertyModerationResource\Pages;
 use App\Models\Property;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -16,28 +27,28 @@ class PropertyModerationResource extends Resource
 {
     protected static ?string $model = Property::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-clipboard-document-check';
 
     protected static ?string $navigationLabel = 'Property Moderation';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
+        return $schema
+            ->components([
+                TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Textarea::make('description')
                     ->maxLength(65535),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->options([
                         'pending' => 'Pending',
                         'approved' => 'Approved',
                         'rejected' => 'Rejected',
                     ])
                     ->required(),
-                Forms\Components\DateTimePicker::make('moderated_at'),
-                Forms\Components\Textarea::make('moderation_notes')
+                DateTimePicker::make('moderated_at'),
+                Textarea::make('moderation_notes')
                     ->maxLength(65535),
             ]);
     }
@@ -46,23 +57,23 @@ class PropertyModerationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('status')->sortable(),
-                Tables\Columns\TextColumn::make('moderated_at')->dateTime()->sortable(),
+                TextColumn::make('title')->sortable()->searchable(),
+                TextColumn::make('status')->sortable(),
+                TextColumn::make('moderated_at')->dateTime()->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options([
                         'pending' => 'Pending',
                         'approved' => 'Approved',
                         'rejected' => 'Rejected',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -76,9 +87,9 @@ class PropertyModerationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPropertyModerations::route('/'),
-            'create' => Pages\CreatePropertyModeration::route('/create'),
-            'edit' => Pages\EditPropertyModeration::route('/{record}/edit'),
+            'index' => ListPropertyModerations::route('/'),
+            'create' => CreatePropertyModeration::route('/create'),
+            'edit' => EditPropertyModeration::route('/{record}/edit'),
         ];
     }
 }

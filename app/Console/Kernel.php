@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use Exception;
+use App\Models\Neighborhood;
+use App\Services\NeighborhoodDataService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\SyncRightMoveProperties;
@@ -22,7 +25,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             try {
                 (new SyncRightMoveProperties())->handle();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('RightMove sync failed: ' . $e->getMessage());
             }
         })->hourly();
@@ -34,7 +37,7 @@ class Kernel extends ConsoleKernel
                 if ($frequency === 'hourly') {
                     (new SyncOnTheMarketProperties())->handle();
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('OnTheMarket hourly sync failed: ' . $e->getMessage());
             }
         })->hourly();
@@ -45,7 +48,7 @@ class Kernel extends ConsoleKernel
                 if ($frequency === 'daily') {
                     (new SyncOnTheMarketProperties())->handle();
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('OnTheMarket daily sync failed: ' . $e->getMessage());
             }
         })->daily();
@@ -56,7 +59,7 @@ class Kernel extends ConsoleKernel
                 if ($frequency === 'weekly') {
                     (new SyncOnTheMarketProperties())->handle();
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('OnTheMarket weekly sync failed: ' . $e->getMessage());
             }
         })->weekly();
@@ -121,8 +124,8 @@ class Kernel extends ConsoleKernel
       
         // Update neighborhood data daily
         $schedule->call(function () {
-            $neighborhoods = \App\Models\Neighborhood::all();
-            $neighborhoodDataService = app(\App\Services\NeighborhoodDataService::class);
+            $neighborhoods = Neighborhood::all();
+            $neighborhoodDataService = app(NeighborhoodDataService::class);
             foreach ($neighborhoods as $neighborhood) {
                 $property = $neighborhood->properties()->first();
                 if ($property) {

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -30,7 +31,7 @@ class JupixApiService
                 Log::error('Jupix API error: ' . $response->body());
                 return null;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Jupix API exception: ' . $e->getMessage());
             return null;
         }
@@ -50,7 +51,7 @@ class JupixApiService
                 Log::error('Jupix API error: ' . $response->body());
                 return null;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Jupix API exception: ' . $e->getMessage());
             return null;
         }

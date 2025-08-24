@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Services\DigitalSignatureService;
@@ -21,7 +22,7 @@ class DocumentSignatureController extends Controller
         try {
             $signingToken = $this->digitalSignatureService->prepareDocumentForSigning($document);
             return response()->json(['signing_token' => $signingToken]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
@@ -35,7 +36,7 @@ class DocumentSignatureController extends Controller
         try {
             $signature = $this->digitalSignatureService->signDocument($request->user(), $document, $request->signature_data);
             return response()->json(['message' => 'Document signed successfully', 'signature_id' => $signature->id]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }

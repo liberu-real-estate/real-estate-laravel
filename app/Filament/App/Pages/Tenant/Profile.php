@@ -2,15 +2,15 @@
 
 namespace App\Filament\App\Pages\Tenant;
 
+use Filament\Schemas\Schema;
 use Filament\Pages\Page;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Illuminate\Support\Facades\Auth;
 
 class Profile extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-user';
-    protected static string $view = 'filament.app.tenant.profile';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user';
+    protected string $view = 'filament.app.tenant.profile';
     protected static ?string $navigationLabel = 'Profile';
     protected static ?string $title = 'Profile';
 
@@ -24,10 +24,10 @@ class Profile extends Page
         $this->form->fill($userData);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),

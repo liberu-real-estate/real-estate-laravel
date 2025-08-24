@@ -2,10 +2,23 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\RentalApplicationResource\Pages\ListRentalApplications;
+use App\Filament\Staff\Resources\RentalApplicationResource\Pages\CreateRentalApplication;
+use App\Filament\Staff\Resources\RentalApplicationResource\Pages\EditRentalApplication;
 use App\Filament\Staff\Resources\RentalApplicationResource\Pages;
 use App\Models\RentalApplication;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,28 +29,28 @@ class RentalApplicationResource extends Resource
 {
     protected static ?string $model = RentalApplication::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-clipboard-document-list';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('property_id')
+        return $schema
+            ->components([
+                Select::make('property_id')
                     ->relationship('property', 'title')
                     ->required()
                     ->searchable(),
-                Forms\Components\Select::make('tenant_id')
+                Select::make('tenant_id')
                     ->relationship('tenant', 'name')
                     ->required()
                     ->searchable(),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->options([
                         'pending' => 'Pending',
                         'approved' => 'Approved',
                         'rejected' => 'Rejected',
                     ])
                     ->required(),
-                Forms\Components\Select::make('employment_status')
+                Select::make('employment_status')
                     ->options([
                         'employed' => 'Employed',
                         'self_employed' => 'Self-employed',
@@ -45,24 +58,24 @@ class RentalApplicationResource extends Resource
                         'student' => 'Student',
                     ])
                     ->required(),
-                Forms\Components\TextInput::make('annual_income')
+                TextInput::make('annual_income')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
-                Forms\Components\TextInput::make('ethereum_address')
+                TextInput::make('ethereum_address')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('lease_start_date')
+                DatePicker::make('lease_start_date')
                     ->required(),
-                Forms\Components\DatePicker::make('lease_end_date')
+                DatePicker::make('lease_end_date')
                     ->required(),
-                Forms\Components\Select::make('background_check_status')
+                Select::make('background_check_status')
                     ->options([
                         'pending' => 'Pending',
                         'passed' => 'Passed',
                         'failed' => 'Failed',
                     ]),
-                Forms\Components\Select::make('credit_report_status')
+                Select::make('credit_report_status')
                     ->options([
                         'excellent' => 'Excellent',
                         'good' => 'Good',
@@ -70,14 +83,14 @@ class RentalApplicationResource extends Resource
                         'poor' => 'Poor',
                         'pending' => 'Pending',
                     ]),
-                Forms\Components\Select::make('rental_history_status')
+                Select::make('rental_history_status')
                     ->options([
                         'good' => 'Good',
                         'fair' => 'Fair',
                         'poor' => 'Poor',
                         'pending' => 'Pending',
                     ]),
-                Forms\Components\TextInput::make('smart_contract_address')
+                TextInput::make('smart_contract_address')
                     ->maxLength(255),
             ]);
     }
@@ -86,32 +99,32 @@ class RentalApplicationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('property.title')
+                TextColumn::make('property.title')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('tenant.name')
+                TextColumn::make('tenant.name')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\SelectColumn::make('status')
+                SelectColumn::make('status')
                     ->options([
                         'pending' => 'Pending',
                         'approved' => 'Approved',
                         'rejected' => 'Rejected',
                     ])
                     ->sortable(),
-                Tables\Columns\TextColumn::make('employment_status')
+                TextColumn::make('employment_status')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('annual_income')
+                TextColumn::make('annual_income')
                     ->money('usd')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('background_check_status')
+                TextColumn::make('background_check_status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'passed' => 'success',
                         'failed' => 'danger',
                         default => 'warning',
                     }),
-                Tables\Columns\TextColumn::make('credit_report_status')
+                TextColumn::make('credit_report_status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'excellent', 'good' => 'success',
@@ -119,7 +132,7 @@ class RentalApplicationResource extends Resource
                         'poor' => 'danger',
                         default => 'secondary',
                     }),
-                Tables\Columns\TextColumn::make('rental_history_status')
+                TextColumn::make('rental_history_status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'good' => 'success',
@@ -127,54 +140,54 @@ class RentalApplicationResource extends Resource
                         'poor' => 'danger',
                         default => 'secondary',
                     }),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options([
                         'pending' => 'Pending',
                         'approved' => 'Approved',
                         'rejected' => 'Rejected',
                     ]),
-                Tables\Filters\SelectFilter::make('background_check_status')
+                SelectFilter::make('background_check_status')
                     ->options([
                         'passed' => 'Passed',
                         'failed' => 'Failed',
                         'pending' => 'Pending',
                     ]),
-                Tables\Filters\SelectFilter::make('credit_report_status')
+                SelectFilter::make('credit_report_status')
                     ->options([
                         'good' => 'Good',
                         'poor' => 'Poor',
                         'pending' => 'Pending',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('approve')
+            ->recordActions([
+                EditAction::make(),
+                Action::make('approve')
                     ->action(fn (RentalApplication $record) => $record->updateStatus('approved'))
                     ->requiresConfirmation()
                     ->visible(fn (RentalApplication $record): bool => $record->status === 'pending' && $record->isScreeningComplete() && $record->isScreeningPassed()),
-                Tables\Actions\Action::make('reject')
+                Action::make('reject')
                     ->action(fn (RentalApplication $record) => $record->updateStatus('rejected'))
                     ->requiresConfirmation()
                     ->visible(fn (RentalApplication $record): bool => $record->status === 'pending'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options([
                         'pending' => 'Pending',
                         'approved' => 'Approved',
                         'rejected' => 'Rejected',
                     ]),
-                Tables\Filters\SelectFilter::make('employment_status')
+                SelectFilter::make('employment_status')
                     ->options([
                         'employed' => 'Employed',
                         'self_employed' => 'Self-employed',
@@ -182,12 +195,12 @@ class RentalApplicationResource extends Resource
                         'student' => 'Student',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -202,9 +215,9 @@ class RentalApplicationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRentalApplications::route('/'),
-            'create' => Pages\CreateRentalApplication::route('/create'),
-            'edit' => Pages\EditRentalApplication::route('/{record}/edit'),
+            'index' => ListRentalApplications::route('/'),
+            'create' => CreateRentalApplication::route('/create'),
+            'edit' => EditRentalApplication::route('/{record}/edit'),
         ];
     }
 

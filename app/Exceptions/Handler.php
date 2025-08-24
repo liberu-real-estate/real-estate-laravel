@@ -2,6 +2,9 @@
 
 namespace App\Exceptions;
 
+use Closure;
+use Illuminate\Database\QueryException;
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -25,19 +28,19 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            if ($e instanceof \App\Exceptions\OnTheMarketApiException) {
+            if ($e instanceof OnTheMarketApiException) {
                 Log::error('OnTheMarket API Error: ' . $e->getMessage());
             }
-            if ($e instanceof \Closure) {
+            if ($e instanceof Closure) {
                 Log::error('Closure Error: ' . $e->getMessage());
             }
-            if ($e instanceof \Illuminate\Database\QueryException) {
+            if ($e instanceof QueryException) {
                 Log::error('Database Query Error: ' . $e->getMessage());
             }
         });
     
-        $this->renderable(function (\Exception $e, $request) {
-            if ($e instanceof \Closure) {
+        $this->renderable(function (Exception $e, $request) {
+            if ($e instanceof Closure) {
                 return response()->view('errors.500', [], 500);
             }
         });

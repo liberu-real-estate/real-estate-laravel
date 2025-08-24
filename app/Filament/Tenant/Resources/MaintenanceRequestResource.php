@@ -2,11 +2,24 @@
 
 namespace App\Filament\Tenant\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\RelationshipRepeater;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Tenant\Resources\MaintenanceRequestResource\Pages\ListMaintenanceRequests;
+use App\Filament\Tenant\Resources\MaintenanceRequestResource\Pages\CreateMaintenanceRequest;
+use App\Filament\Tenant\Resources\MaintenanceRequestResource\Pages\EditMaintenanceRequest;
 use App\Models\MaintenanceRequest;
 use App\Models\WorkOrder;
 use App\Services\NotificationService;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,42 +30,42 @@ class MaintenanceRequestResource extends Resource
 {
     protected static ?string $model = MaintenanceRequest::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-wrench';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-wrench';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
+        return $schema
+            ->components([
+                TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Textarea::make('description')
                     ->required(),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->options([
                         'pending' => 'Pending',
                         'in_progress' => 'In Progress',
                         'completed' => 'Completed',
                     ])
                     ->required(),
-                Forms\Components\DatePicker::make('requested_date')
+                DatePicker::make('requested_date')
                     ->required(),
-                Forms\Components\Select::make('property_id')
+                Select::make('property_id')
                     ->relationship('property', 'title')
                     ->required(),
-                Forms\Components\HasManyRepeater::make('workOrders')
+                RelationshipRepeater::make('workOrders')
                     ->relationship('workOrders')
                     ->schema([
-                        Forms\Components\TextInput::make('description')
+                        TextInput::make('description')
                             ->required(),
-                        Forms\Components\Select::make('status')
+                        Select::make('status')
                             ->options([
                                 'pending' => 'Pending',
                                 'in_progress' => 'In Progress',
                                 'completed' => 'Completed',
                             ])
                             ->required(),
-                        Forms\Components\DatePicker::make('scheduled_date')
+                        DatePicker::make('scheduled_date')
                             ->required(),
                     ]),
             ]);
@@ -62,26 +75,26 @@ class MaintenanceRequestResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('requested_date')
+                TextColumn::make('title'),
+                TextColumn::make('status'),
+                TextColumn::make('requested_date')
                     ->date(),
-                Tables\Columns\TextColumn::make('property.title')
+                TextColumn::make('property.title')
                     ->label('Property'),
-                Tables\Columns\TextColumn::make('workOrders.status')
+                TextColumn::make('workOrders.status')
                     ->label('Work Order Status'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options([
                         'pending' => 'Pending',
                         'in_progress' => 'In Progress',
                         'completed' => 'Completed',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('createWorkOrder')
+            ->recordActions([
+                EditAction::make(),
+                Action::make('createWorkOrder')
                     ->action(function (MaintenanceRequest $record, NotificationService $notificationService) {
                         $workOrder = WorkOrder::create([
                             'maintenance_request_id' => $record->id,
@@ -97,8 +110,8 @@ class MaintenanceRequestResource extends Resource
                     })
                     ->label('Create Work Order'),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -112,9 +125,9 @@ class MaintenanceRequestResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMaintenanceRequests::route('/'),
-            'create' => Pages\CreateMaintenanceRequest::route('/create'),
-            'edit' => Pages\EditMaintenanceRequest::route('/{record}/edit'),
+            'index' => ListMaintenanceRequests::route('/'),
+            'create' => CreateMaintenanceRequest::route('/create'),
+            'edit' => EditMaintenanceRequest::route('/{record}/edit'),
         ];
     }
 }

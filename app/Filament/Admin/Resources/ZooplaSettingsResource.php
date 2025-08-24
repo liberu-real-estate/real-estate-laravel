@@ -2,10 +2,17 @@
 
 namespace App\Filament\Admin\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use App\Filament\Admin\Resources\ZooplaSettingsResource\Pages\ListZooplaSettings;
+use App\Filament\Admin\Resources\ZooplaSettingsResource\Pages\CreateZooplaSettings;
+use App\Filament\Admin\Resources\ZooplaSettingsResource\Pages\EditZooplaSettings;
 use App\Models\ZooplaSettings;
 use Filament\Forms;
 use Filament\Tables;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Filament\Admin\Resources\ZooplaSettingsResource\Pages;
@@ -14,7 +21,7 @@ class ZooplaSettingsResource extends Resource
 {
     protected static ?string $model = ZooplaSettings::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cog';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cog';
 
     protected static ?string $navigationLabel = 'Zoopla Settings';
 
@@ -22,19 +29,19 @@ class ZooplaSettingsResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Zoopla Settings';
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static string | \UnitEnum | null $navigationGroup = 'Settings';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('api_key')
+        return $schema
+            ->components([
+                TextInput::make('api_key')
                     ->required()
                     ->label('Zoopla API Key'),
-                Forms\Components\TextInput::make('base_uri')
+                TextInput::make('base_uri')
                     ->required()
                     ->label('Zoopla API Base URI'),
-                Forms\Components\Select::make('sync_frequency')
+                Select::make('sync_frequency')
                     ->options([
                         'hourly' => 'Hourly',
                         'daily' => 'Daily',
@@ -49,12 +56,12 @@ class ZooplaSettingsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('api_key')->label('API Key'),
-                Tables\Columns\TextColumn::make('base_uri')->label('Base URI'),
-                Tables\Columns\TextColumn::make('sync_frequency')->label('Sync Frequency'),
+                TextColumn::make('api_key')->label('API Key'),
+                TextColumn::make('base_uri')->label('Base URI'),
+                TextColumn::make('sync_frequency')->label('Sync Frequency'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ]);
     }
 
@@ -68,9 +75,9 @@ class ZooplaSettingsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListZooplaSettings::route('/'),
-            'create' => Pages\CreateZooplaSettings::route('/create'),
-            'edit' => Pages\EditZooplaSettings::route('/{record}/edit'),
+            'index' => ListZooplaSettings::route('/'),
+            'create' => CreateZooplaSettings::route('/create'),
+            'edit' => EditZooplaSettings::route('/{record}/edit'),
         ];
     }
 }

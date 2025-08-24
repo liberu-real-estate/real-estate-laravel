@@ -2,10 +2,20 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use App\Filament\Staff\Resources\LeadResource\Pages\ListLeads;
+use App\Filament\Staff\Resources\LeadResource\Pages\CreateLead;
+use App\Filament\Staff\Resources\LeadResource\Pages\EditLead;
 use App\Filament\Staff\Resources\LeadResource\Pages;
 use App\Models\Lead;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -14,24 +24,24 @@ class LeadResource extends Resource
 {
     protected static ?string $model = Lead::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user-group';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')->required(),
-                Forms\Components\TextInput::make('email')->email()->required(),
-                Forms\Components\TextInput::make('phone'),
-                Forms\Components\Select::make('interest')
+        return $schema
+            ->components([
+                TextInput::make('name')->required(),
+                TextInput::make('email')->email()->required(),
+                TextInput::make('phone'),
+                Select::make('interest')
                     ->options([
                         'buying' => 'Buying',
                         'selling' => 'Selling',
                         'renting' => 'Renting',
                         'other' => 'Other',
                     ]),
-                Forms\Components\Textarea::make('message'),
-                Forms\Components\Select::make('status')
+                Textarea::make('message'),
+                Select::make('status')
                     ->options([
                         'new' => 'New',
                         'contacted' => 'Contacted',
@@ -40,23 +50,23 @@ class LeadResource extends Resource
                         'converted' => 'Converted',
                     ])
                     ->required(),
-                Forms\Components\TextInput::make('score')
+                TextInput::make('score')
                     ->disabled()
                     ->helperText('Score is automatically calculated'),
-                Forms\Components\Select::make('category')
+                Select::make('category')
                     ->options([
                         'hot' => 'Hot',
                         'warm' => 'Warm',
                         'cold' => 'Cold',
                     ])
                     ->required(),
-                Forms\Components\DateTimePicker::make('last_contacted_at'),
-                Forms\Components\Repeater::make('activities')
+                DateTimePicker::make('last_contacted_at'),
+                Repeater::make('activities')
                     ->relationship('activities')
                     ->schema([
-                        Forms\Components\TextInput::make('type'),
-                        Forms\Components\Textarea::make('description'),
-                        Forms\Components\DateTimePicker::make('created_at'),
+                        TextInput::make('type'),
+                        Textarea::make('description'),
+                        DateTimePicker::make('created_at'),
                     ])
                     ->columnSpan(2),
             ]);
@@ -66,17 +76,17 @@ class LeadResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('interest'),
-                Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('score')->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('email')->sortable()->searchable(),
+                TextColumn::make('interest'),
+                TextColumn::make('status'),
+                TextColumn::make('score')->sortable(),
+                TextColumn::make('created_at')
                     ->dateTime('d-M-Y')
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options([
                         'new' => 'New',
                         'contacted' => 'Contacted',
@@ -84,7 +94,7 @@ class LeadResource extends Resource
                         'lost' => 'Lost',
                         'converted' => 'Converted',
                     ]),
-                Tables\Filters\SelectFilter::make('interest')
+                SelectFilter::make('interest')
                     ->options([
                         'buying' => 'Buying',
                         'selling' => 'Selling',
@@ -104,9 +114,9 @@ class LeadResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLeads::route('/'),
-            'create' => Pages\CreateLead::route('/create'),
-            'edit' => Pages\EditLead::route('/{record}/edit'),
+            'index' => ListLeads::route('/'),
+            'create' => CreateLead::route('/create'),
+            'edit' => EditLead::route('/{record}/edit'),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\MarketAnalysisResource\Pages;
 
+use Filament\Actions\EditAction;
 use App\Filament\Staff\Resources\MarketAnalysisResource;
 use App\Services\MarketAnalysisService;
 use Filament\Resources\Pages\ViewRecord;
@@ -33,7 +34,7 @@ class ViewMarketAnalysis extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            EditAction::make(),
         ];
     }
 }

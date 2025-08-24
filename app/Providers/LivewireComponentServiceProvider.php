@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Exception;
+use Log;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use App\Http\Livewire\PropertyBooking;
@@ -29,9 +31,9 @@ class LivewireComponentServiceProvider extends ServiceProvider
                 if (class_exists($class)) {
                     Livewire::component($alias, $class);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // Log the error
-                \Log::error("Error registering Livewire component {$alias}: " . $e->getMessage());
+                Log::error("Error registering Livewire component {$alias}: " . $e->getMessage());
             }
         }
     }

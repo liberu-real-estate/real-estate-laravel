@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use Log;
+use Exception;
 use Livewire\Component;
 use App\Models\Property;
 use App\Models\PropertyFeature;
@@ -95,7 +97,7 @@ class PropertyList extends Component
 
                 $properties = $query->paginate(12);
 
-                \Log::info('Properties query executed', [
+                Log::info('Properties query executed', [
                     'total' => $properties->total(),
                     'current_page' => $properties->currentPage(),
                     'last_page' => $properties->lastPage(),
@@ -104,7 +106,7 @@ class PropertyList extends Component
                 ]);
 
                 return $properties;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 session()->flash('error', 'An error occurred while fetching properties. Please try again.');
                 if (app()->environment('local')) {
                     session()->flash('error_details', $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());

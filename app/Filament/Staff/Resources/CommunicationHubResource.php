@@ -2,10 +2,20 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\CommunicationHubResource\Pages\ListCommunicationHub;
+use App\Filament\Staff\Resources\CommunicationHubResource\Pages\CreateCommunicationHub;
+use App\Filament\Staff\Resources\CommunicationHubResource\Pages\ViewCommunicationHub;
+use App\Filament\Staff\Resources\CommunicationHubResource\Pages\EditCommunicationHub;
 use App\Filament\Staff\Resources\CommunicationHubResource\Pages;
 use App\Models\Message;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -14,19 +24,19 @@ class CommunicationHubResource extends Resource
 {
     protected static ?string $model = Message::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
     protected static ?string $navigationLabel = 'Communication Hub';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('recipient_id')
+        return $schema
+            ->components([
+                Select::make('recipient_id')
                     ->relationship('recipient', 'name')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('content')
+                Textarea::make('content')
                     ->required()
                     ->maxLength(1000)
                     ->columnSpanFull(),
@@ -37,20 +47,20 @@ class CommunicationHubResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('sender.name')->label('From'),
-                Tables\Columns\TextColumn::make('recipient.name')->label('To'),
-                Tables\Columns\TextColumn::make('content')->limit(50),
-                Tables\Columns\TextColumn::make('created_at')->dateTime(),
+                TextColumn::make('sender.name')->label('From'),
+                TextColumn::make('recipient.name')->label('To'),
+                TextColumn::make('content')->limit(50),
+                TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -64,10 +74,10 @@ class CommunicationHubResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCommunicationHub::route('/'),
-            'create' => Pages\CreateCommunicationHub::route('/create'),
-            'view' => Pages\ViewCommunicationHub::route('/{record}'),
-            'edit' => Pages\EditCommunicationHub::route('/{record}/edit'),
+            'index' => ListCommunicationHub::route('/'),
+            'create' => CreateCommunicationHub::route('/create'),
+            'view' => ViewCommunicationHub::route('/{record}'),
+            'edit' => EditCommunicationHub::route('/{record}/edit'),
         ];
     }
 }

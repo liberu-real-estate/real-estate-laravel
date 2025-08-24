@@ -9,15 +9,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "althinect/filament-spatie-roles-permissions": "^2.2",
-        "bezhansalleh/filament-shield": "^3.2",
+        "bezhansalleh/filament-shield": "4.x-dev",
         "docusign/esign-client": "^8.0",
-        "filament/filament": "*",
-        "filament/spatie-laravel-media-library-plugin": "^3.2",
+        "filament/filament": "^4.0",
+        "filament/spatie-laravel-media-library-plugin": "^4.0",
         "guzzlehttp/guzzle": "^7.8",
         "intelrx/sitesettings": "^2.0",
         "joelbutcher/socialstream": "^6.0",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "^12.0",
         "laravel/jetstream": "^5.1",
         "laravel/octane": "^2.3",
         "laravel/sanctum": "^4.0",
@@ -30,17 +29,16 @@
         "spatie/menu": "^3.2",
         "spiral/roadrunner-cli": "^2.6.0",
         "spiral/roadrunner-http": "^3.3.0",
-        "stephenjude/filament-jetstream": "^0.0.16",
         "stripe/stripe-php": "^16.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "filament/upgrade": "~4.0",
         "laravel/pint": "^1.14",
         "laravel/sail": "^1.28",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
-        "phpunit/phpunit": "^11.0",
-        "spatie/laravel-ignition": "^2.4"
+        "phpunit/phpunit": "^12.0"
     },
     "autoload": {
         "psr-4": {

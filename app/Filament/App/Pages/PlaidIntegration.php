@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\View;
 
 class PlaidIntegration extends Page
 {
-    protected static string $view = 'filament.pages.plaid-integration';
+    protected string $view = 'filament.pages.plaid-integration';
 
     public function mount(): void
     {

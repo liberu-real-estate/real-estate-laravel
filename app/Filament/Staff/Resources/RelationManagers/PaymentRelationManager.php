@@ -2,6 +2,16 @@
 
 namespace App\Filament\Staff\Resources\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -14,17 +24,17 @@ class PaymentRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'id';
 
-    public function form(Forms\Form $form): Forms\Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('amount')
+        return $schema
+            ->components([
+                TextInput::make('amount')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
-                Forms\Components\DatePicker::make('payment_date')
+                DatePicker::make('payment_date')
                     ->required(),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->required()
                     ->options([
                         'pending' => 'Pending',
@@ -34,31 +44,31 @@ class PaymentRelationManager extends RelationManager
             ]);
     }
 
-    public function table(Tables\Table $table): Tables\Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('amount')
+                TextColumn::make('amount')
                     ->money('USD')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('payment_date')
+                TextColumn::make('payment_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 }

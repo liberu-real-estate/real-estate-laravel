@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Exception;
 use Livewire\Component;
 use App\Models\AppointmentType;
 use App\Models\Appointment;
@@ -67,7 +68,7 @@ class ValuationBooking extends Component
         try {
             // Check if the time slot is still available
             if (!in_array($this->selectedTime, $this->getAvailableTimeSlots($this->selectedDate))) {
-                throw new \Exception('Selected time slot is no longer available.');
+                throw new Exception('Selected time slot is no longer available.');
             }
 
             // Get the default staff member (you may want to implement a more sophisticated assignment logic)
@@ -86,7 +87,7 @@ class ValuationBooking extends Component
 
             session()->flash('message', 'Valuation appointment requested successfully for ' . $this->selectedDate . ' at ' . $this->selectedTime);
             $this->reset(['selectedDate', 'selectedTime', 'userName', 'userContact', 'notes']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             session()->flash('error', 'Failed to book appointment: ' . $e->getMessage());
         }
     }

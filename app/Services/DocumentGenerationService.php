@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use App\Models\DocumentTemplate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,7 @@ class DocumentGenerationService
     public function generateDocument(DocumentTemplate $template, array $customFields)
     {
         if (!$this->canAccessTemplate($template)) {
-            throw new \Exception('Unauthorized access to template');
+            throw new Exception('Unauthorized access to template');
         }
 
         $content = $template->generateDocument($customFields);

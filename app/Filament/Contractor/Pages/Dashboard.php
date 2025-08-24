@@ -11,7 +11,7 @@ use Filament\Widgets\StatsOverviewWidget as FilamentStatsOverviewWidget;
 
 class Dashboard extends Page
 {
-    protected static string $view = 'filament.contractor.dashboard';
+    protected string $view = 'filament.contractor.dashboard';
 
     public $openJobs;
     public $completedJobs;

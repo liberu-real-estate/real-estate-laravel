@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Mail\Events\MessageSent;
+use App\Listeners\EmailTracker;
 use App\Jobs\CheckPropertyAlerts;
 use App\Jobs\CheckLeaseNotifications;
 use Illuminate\Auth\Events\Registered;
@@ -21,8 +23,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        \Illuminate\Mail\Events\MessageSent::class => [
-            \App\Listeners\EmailTracker::class,
+        MessageSent::class => [
+            EmailTracker::class,
         ],
     ];
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\AppointmentResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Staff\Resources\AppointmentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -13,7 +14,7 @@ class ListAppointments extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

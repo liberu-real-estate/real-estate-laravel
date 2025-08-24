@@ -2,44 +2,56 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\BookingResource\Pages\ListBookings;
+use App\Filament\Resources\BookingResource\Pages\CreateBooking;
+use App\Filament\Resources\BookingResource\Pages\EditBooking;
 use App\Filament\Resources\BookingResource\Pages;
 use App\Models\Booking;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
 
 class BookingResource extends Resource
 {
     protected static ?string $model = Booking::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-calendar';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-calendar';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('property_id')
+        return $schema
+            ->components([
+                Select::make('property_id')
                     ->relationship('property', 'title')
                     ->required(),
-                Forms\Components\DatePicker::make('date')
+                DatePicker::make('date')
                     ->required(),
-                Forms\Components\TimePicker::make('time')
+                TimePicker::make('time')
                     ->required(),
-                Forms\Components\Select::make('user_id')
+                Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('contact')
+                TextInput::make('contact')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('notes')
+                Textarea::make('notes')
                     ->maxLength(65535),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->options([
                         'confirmed' => 'Confirmed',
                         'cancelled' => 'Cancelled',
@@ -53,33 +65,33 @@ class BookingResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('property.title'),
-                Tables\Columns\TextColumn::make('date')
+                TextColumn::make('property.title'),
+                TextColumn::make('date')
                     ->date(),
-                Tables\Columns\TextColumn::make('time'),
-                Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('status'),
+                TextColumn::make('time'),
+                TextColumn::make('user.name'),
+                TextColumn::make('name'),
+                TextColumn::make('status'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options([
                         'confirmed' => 'Confirmed',
                         'cancelled' => 'Cancelled',
                         'rescheduled' => 'Rescheduled',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
                 Action::make('cancel')
                     ->action(fn (Booking $record) => $record->cancel())
                     ->requiresConfirmation()
                     ->visible(fn (Booking $record) => $record->canBeCancelled()),
                 Action::make('reschedule')
-                    ->form([
-                        Forms\Components\DatePicker::make('new_date')
+                    ->schema([
+                        DatePicker::make('new_date')
                             ->required(),
-                        Forms\Components\TimePicker::make('new_time')
+                        TimePicker::make('new_time')
                             ->required(),
                     ])
                     ->action(function (Booking $record, array $data): void {
@@ -87,8 +99,8 @@ class BookingResource extends Resource
                     })
                     ->visible(fn (Booking $record) => $record->canBeRescheduled()),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -102,9 +114,9 @@ class BookingResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBookings::route('/'),
-            'create' => Pages\CreateBooking::route('/create'),
-            'edit' => Pages\EditBooking::route('/{record}/edit'),
+            'index' => ListBookings::route('/'),
+            'create' => CreateBooking::route('/create'),
+            'edit' => EditBooking::route('/{record}/edit'),
         ];
     }
 }

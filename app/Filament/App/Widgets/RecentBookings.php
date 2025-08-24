@@ -7,7 +7,7 @@ use App\Models\Booking;
 
 class RecentBookings extends Widget
 {
-    protected static string $view = 'filament.widgets.recent-bookings';
+    protected string $view = 'filament.widgets.recent-bookings';
 
     public function getRecentBookings()
     {

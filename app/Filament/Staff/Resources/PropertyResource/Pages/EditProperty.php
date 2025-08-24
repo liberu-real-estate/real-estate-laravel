@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\PropertyResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Staff\Resources\PropertyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -13,7 +14,7 @@ class EditProperty extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

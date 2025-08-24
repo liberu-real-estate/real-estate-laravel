@@ -72,7 +72,7 @@ class RightMoveService
                     'error_details' => $e->getDetails(),
                 ]);
                 $results[] = ['id' => $property->id, 'status' => 'error', 'message' => $e->getMessage()];
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error("Failed to sync property {$property->id} with RightMove: " . $e->getMessage(), [
                     'property_id' => $property->id,
                     'exception' => get_class($e),
@@ -96,7 +96,7 @@ class RightMoveService
                 $property->update(['rightmove_id' => $result['id']]);
                 return $result;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new PropertySyncException(
                 "Failed to sync property with RightMove: " . $e->getMessage(),
                 $property->id,

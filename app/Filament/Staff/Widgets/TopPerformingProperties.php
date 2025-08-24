@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 class TopPerformingProperties extends ChartWidget
 {
-    protected static ?string $heading = 'Top Performing Properties';
+    protected ?string $heading = 'Top Performing Properties';
 
     protected function getData(): array
     {

@@ -2,9 +2,19 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\PropertyTemplateResource\Pages\ListPropertyTemplates;
+use App\Filament\Staff\Resources\PropertyTemplateResource\Pages\CreatePropertyTemplate;
+use App\Filament\Staff\Resources\PropertyTemplateResource\Pages\EditPropertyTemplate;
 use App\Models\PropertyTemplate;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -14,16 +24,16 @@ class PropertyTemplateResource extends Resource
 {
     protected static ?string $model = PropertyTemplate::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('content')
+                Textarea::make('content')
                     ->required()
                     ->label('Template Content')
                     ->helperText('Use placeholders like {title}, {description}, {price}, etc.')
@@ -35,20 +45,20 @@ class PropertyTemplateResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('name'),
+                TextColumn::make('created_at')
                     ->dateTime(),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -63,9 +73,9 @@ class PropertyTemplateResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPropertyTemplates::route('/'),
-            'create' => Pages\CreatePropertyTemplate::route('/create'),
-            'edit' => Pages\EditPropertyTemplate::route('/{record}/edit'),
+            'index' => ListPropertyTemplates::route('/'),
+            'create' => CreatePropertyTemplate::route('/create'),
+            'edit' => EditPropertyTemplate::route('/{record}/edit'),
         ];
     }
 

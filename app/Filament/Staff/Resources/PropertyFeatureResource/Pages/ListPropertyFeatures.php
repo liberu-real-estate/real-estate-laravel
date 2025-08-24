@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\PropertyFeatureResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Staff\Resources\PropertyFeatureResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -13,7 +14,7 @@ class ListPropertyFeatures extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

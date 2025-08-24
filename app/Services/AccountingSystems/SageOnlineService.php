@@ -2,6 +2,7 @@
 
 namespace App\Services\AccountingSystems;
 
+use Exception;
 use App\Services\AccountingInterfaces\AccountingSystemInterface;
 use App\Models\Invoice;
 use App\Models\Payment;
@@ -40,7 +41,7 @@ class SageOnlineService implements AccountingSystemInterface
                 Log::error('Sage Online sync failed for invoice ' . $invoice->id . ': ' . $response->body());
                 return false;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Sage Online sync error for invoice ' . $invoice->id . ': ' . $e->getMessage());
             return false;
         }
@@ -67,7 +68,7 @@ class SageOnlineService implements AccountingSystemInterface
                 Log::error('Sage Online sync failed for payment ' . $payment->id . ': ' . $response->body());
                 return false;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Sage Online sync error for payment ' . $payment->id . ': ' . $e->getMessage());
             return false;
         }

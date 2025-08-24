@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use App\Models\Property;
 use Illuminate\Support\Facades\Log;
 
@@ -36,7 +37,7 @@ class JupixPortalSyncService
                 $property->save();
 
                 $synced++;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('Error syncing Jupix property', [
                     'jupix_id' => $jupixProperty['id'],
                     'error' => $e->getMessage()

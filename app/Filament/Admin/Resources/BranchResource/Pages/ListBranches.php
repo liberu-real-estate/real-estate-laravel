@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\BranchResource\Pages;
 
+use Filament\Tables\Columns\TextColumn;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Admin\Resources\BranchResource;
 use Filament\Tables;
@@ -13,9 +14,9 @@ class ListBranches extends ListRecords
     protected function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('name')->label('Name')->sortable(),
-            Tables\Columns\TextColumn::make('address')->label('Address')->sortable(),
-            Tables\Columns\TextColumn::make('phone_number')->label('Phone Number')->sortable(),
+            TextColumn::make('name')->label('Name')->sortable(),
+            TextColumn::make('address')->label('Address')->sortable(),
+            TextColumn::make('phone_number')->label('Phone Number')->sortable(),
         ];
     }
 }

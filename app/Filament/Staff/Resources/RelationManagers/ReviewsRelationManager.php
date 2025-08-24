@@ -2,8 +2,21 @@
 
 namespace App\Filament\Staff\Resources\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\BulkAction;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -14,19 +27,19 @@ class ReviewsRelationManager extends RelationManager
 {
     protected static string $relationship = 'reviews';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('rating')
+        return $schema
+            ->components([
+                TextInput::make('rating')
                     ->required()
                     ->numeric()
                     ->min(1)
                     ->max(5),
-                Forms\Components\Textarea::make('comment')
+                Textarea::make('comment')
                     ->required()
                     ->maxLength(1000),
-                Forms\Components\Toggle::make('approved')
+                Toggle::make('approved')
                     ->required(),
             ]);
     }
@@ -35,47 +48,47 @@ class ReviewsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label('User'),
-                Tables\Columns\TextColumn::make('rating'),
-                Tables\Columns\TextColumn::make('comment')
+                TextColumn::make('rating'),
+                TextColumn::make('comment')
                     ->limit(50),
-                Tables\Columns\IconColumn::make('approved')
+                IconColumn::make('approved')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('approved')
+                SelectFilter::make('approved')
                     ->options([
                         '1' => 'Approved',
                         '0' => 'Not Approved',
                     ]),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('approve')
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
+                Action::make('approve')
                     ->icon('heroicon-o-check')
                     ->action(fn ($record) => $record->update(['approved' => true]))
                     ->requiresConfirmation()
                     ->hidden(fn ($record) => $record->approved),
-                Tables\Actions\Action::make('unapprove')
+                Action::make('unapprove')
                     ->icon('heroicon-o-x-mark')
                     ->action(fn ($record) => $record->update(['approved' => false]))
                     ->requiresConfirmation()
                     ->hidden(fn ($record) => !$record->approved),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('approve')
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    BulkAction::make('approve')
                         ->action(fn ($records) => $records->each->update(['approved' => true]))
                         ->requiresConfirmation(),
-                    Tables\Actions\BulkAction::make('unapprove')
+                    BulkAction::make('unapprove')
                         ->action(fn ($records) => $records->each->update(['approved' => false]))
                         ->requiresConfirmation(),
                 ]),

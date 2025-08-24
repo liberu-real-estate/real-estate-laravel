@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Services\AccountingInterfaces\AccountingSystemInterface;
@@ -31,7 +32,7 @@ class AccountingIntegrationService
             case 'xero':
                 return new XeroService();
             default:
-                throw new \Exception("Unsupported accounting system: {$system}");
+                throw new Exception("Unsupported accounting system: {$system}");
         }
     }
 
@@ -39,7 +40,7 @@ class AccountingIntegrationService
     {
         try {
             return $this->accountingSystem->syncInvoice($invoice);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Accounting sync error for invoice ' . $invoice->id . ': ' . $e->getMessage());
             return false;
         }
@@ -49,7 +50,7 @@ class AccountingIntegrationService
     {
         try {
             return $this->accountingSystem->syncPayment($payment);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Accounting sync error for payment ' . $payment->id . ': ' . $e->getMessage());
             return false;
         }

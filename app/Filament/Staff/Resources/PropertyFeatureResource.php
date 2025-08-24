@@ -2,10 +2,19 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\PropertyFeatureResource\Pages\ListPropertyFeatures;
+use App\Filament\Staff\Resources\PropertyFeatureResource\Pages\CreatePropertyFeature;
+use App\Filament\Staff\Resources\PropertyFeatureResource\Pages\EditPropertyFeature;
 use App\Filament\Staff\Resources\PropertyFeatureResource\Pages;
 use App\Models\PropertyFeature;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -14,16 +23,16 @@ class PropertyFeatureResource extends Resource
 {
     protected static ?string $model = PropertyFeature::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('property_id')
+        return $schema
+            ->components([
+                Select::make('property_id')
                     ->relationship('property', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('feature_name')
+                TextInput::make('feature_name')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -33,15 +42,15 @@ class PropertyFeatureResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('property.name')
+                TextColumn::make('property.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('feature_name')
+                TextColumn::make('feature_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -49,12 +58,12 @@ class PropertyFeatureResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -69,9 +78,9 @@ class PropertyFeatureResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPropertyFeatures::route('/'),
-            'create' => Pages\CreatePropertyFeature::route('/create'),
-            'edit' => Pages\EditPropertyFeature::route('/{record}/edit'),
+            'index' => ListPropertyFeatures::route('/'),
+            'create' => CreatePropertyFeature::route('/create'),
+            'edit' => EditPropertyFeature::route('/{record}/edit'),
         ];
     }
 }

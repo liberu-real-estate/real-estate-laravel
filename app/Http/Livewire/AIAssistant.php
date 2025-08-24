@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Exception;
 use Livewire\Component;
 use App\Services\AIAssistantService;
 use App\Models\Property;
@@ -41,7 +42,7 @@ class AIAssistant extends Component
 
         try {
             $this->response = $this->aiAssistant->generateResponse($this->input, $this->context);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->response = "Error: " . $e->getMessage();
         }
     }

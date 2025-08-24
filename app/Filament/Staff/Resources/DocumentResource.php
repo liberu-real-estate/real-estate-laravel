@@ -2,11 +2,21 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Actions\Action;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\DocumentResource\Pages\ListDocuments;
+use App\Filament\Staff\Resources\DocumentResource\Pages\CreateDocument;
+use App\Filament\Staff\Resources\DocumentResource\Pages\EditDocument;
 use App\Filament\Staff\Resources\DocumentResource\Pages;
 use App\Models\Document;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -17,38 +27,38 @@ class DocumentResource extends Resource
 {
     protected static ?string $model = Document::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
+        return $schema
+            ->components([
+                TextInput::make('title')
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
-                Forms\Components\Select::make('property_id')
+                Select::make('property_id')
                     ->relationship('property', 'title')
                     ->native(false),
-                Forms\Components\Select::make('categories')
+                Select::make('categories')
                     ->multiple()
                     ->preload()
                     ->relationship('categories', 'name')
                     ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('description')
+                        Textarea::make('description')
                             ->maxLength(512)
                             ->rows(5),
                     ])
                     ->createOptionAction(function (Action $action) {
                         return $action->modalHeading('Create document category');
                     }),
-                Forms\Components\Textarea::make('description')
+                Textarea::make('description')
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('document')
+                FileUpload::make('document')
                     ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
                     ->required(),
 
@@ -59,21 +69,21 @@ class DocumentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('file_type'),
-                Tables\Columns\TextColumn::make('size')->formatStateUsing(fn ($state) => number_format($state / 1024 / 1024, 2) . ' MB'),
-                Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('title'),
+                TextColumn::make('file_type'),
+                TextColumn::make('size')->formatStateUsing(fn ($state) => number_format($state / 1024 / 1024, 2) . ' MB'),
+                TextColumn::make('user.name'),
+                TextColumn::make('created_at')
                     ->dateTime(),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -87,9 +97,9 @@ class DocumentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDocuments::route('/'),
-            'create' => Pages\CreateDocument::route('/create'),
-            'edit' => Pages\EditDocument::route('/{record}/edit'),
+            'index' => ListDocuments::route('/'),
+            'create' => CreateDocument::route('/create'),
+            'edit' => EditDocument::route('/{record}/edit'),
         ];
     }
 }

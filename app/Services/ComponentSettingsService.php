@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use App\Models\ComponentSettings;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ class ComponentSettingsService
                 if (Schema::hasTable('component_settings')) {
                     return ComponentSettings::all()->keyBy('component_name')->toArray();
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // Log the error if needed
                 // \Log::error('Error accessing component_settings table: ' . $e->getMessage());
             }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Tenant\Resources\PaymentResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Tenant\Resources\PaymentResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -13,7 +14,7 @@ class ListPayments extends ListRecords
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

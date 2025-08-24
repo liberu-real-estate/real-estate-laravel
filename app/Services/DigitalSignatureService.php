@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use App\Models\DigitalSignature;
 use App\Models\User;
 use App\Models\Document;
@@ -24,7 +25,7 @@ class DigitalSignatureService
             $user->name
         );
         if (!$document->isSignable()) {
-            throw new \Exception('This document is not signable.');
+            throw new Exception('This document is not signable.');
         }
         // Here you would integrate with a third-party service like DocuSign
         // Ensure compliance with UK electronic signature regulations

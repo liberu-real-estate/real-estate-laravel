@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+use DateTime;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,8 +25,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int $year_built
  * @property string $property_type
  * @property string $status
- * @property \DateTime $list_date
- * @property \DateTime|null $sold_date
+ * @property DateTime $list_date
+ * @property DateTime|null $sold_date
  * @property int $user_id
  * @property int $agent_id
  * @property string|null $virtual_tour_url
@@ -32,14 +34,14 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $rightmove_id
  * @property string|null $zoopla_id
  * @property string|null $onthemarket_id
- * @property \DateTime|null $last_synced_at
- * @property \DateTime|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Appointment[] $appointments
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Transaction[] $transactions
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PropertyFeature[] $features
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
+ * @property DateTime|null $last_synced_at
+ * @property DateTime|null $deleted_at
+ * @property-read Collection|Appointment[] $appointments
+ * @property-read Collection|Transaction[] $transactions
+ * @property-read Collection|Review[] $reviews
+ * @property-read Collection|PropertyFeature[] $features
+ * @property-read Collection|Image[] $images
+ * @property-read Collection|Booking[] $bookings
  */
 use Illuminate\Support\Facades\Cache;
 

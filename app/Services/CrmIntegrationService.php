@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
 use App\Models\Lead;
 use App\Models\Activity;
@@ -40,7 +41,7 @@ class CrmIntegrationService
                 Log::error('CRM sync failed for lead ' . $lead->id . ': ' . $response->body());
                 return false;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('CRM sync error for lead ' . $lead->id . ': ' . $e->getMessage());
             return false;
         }
@@ -66,7 +67,7 @@ class CrmIntegrationService
                 Log::error('CRM sync failed for activity ' . $activity->id . ': ' . $response->body());
                 return false;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('CRM sync error for activity ' . $activity->id . ': ' . $e->getMessage());
             return false;
         }

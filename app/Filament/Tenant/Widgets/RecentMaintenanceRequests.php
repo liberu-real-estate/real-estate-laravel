@@ -2,6 +2,8 @@
 
 namespace App\Filament\Tenant\Widgets;
 
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\Action;
 use App\Filament\Tenant\Resources\MaintenanceRequestResource;
 use Filament\Tables;
 use Filament\Widgets\TableWidget;
@@ -21,16 +23,16 @@ class RecentMaintenanceRequests extends TableWidget
     protected function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('title'),
-            Tables\Columns\TextColumn::make('status'),
-            Tables\Columns\TextColumn::make('requested_date')->date(),
+            TextColumn::make('title'),
+            TextColumn::make('status'),
+            TextColumn::make('requested_date')->date(),
         ];
     }
 
     protected function getTableActions(): array
     {
         return [
-            Tables\Actions\Action::make('view')
+            Action::make('view')
                 ->url(fn (MaintenanceRequest $record): string => MaintenanceRequestResource::getUrl('edit', ['record' => $record])),
         ];
     }

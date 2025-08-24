@@ -8,7 +8,7 @@ use App\Models\Booking;
 
 class Dashboard extends Page
 {
-    protected static string $view = 'filament.seller.dashboard';
+    protected string $view = 'filament.seller.dashboard';
 
     protected $myProperties;
     protected $activeListings;

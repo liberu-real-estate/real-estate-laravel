@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\ImageResource\Pages;
 
+use Filament\Actions\EditAction;
 use App\Filament\Staff\Resources\ImageResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
@@ -13,7 +14,7 @@ class ViewImage extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            EditAction::make(),
         ];
     }
 }

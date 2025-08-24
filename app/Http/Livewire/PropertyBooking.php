@@ -2,6 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use Exception;
+use Log;
+use Illuminate\Database\QueryException;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use App\Models\Property;
 use App\Models\Booking;
@@ -54,7 +58,7 @@ class PropertyBooking extends Component
             // Check if the date is still available
             $availableDates = Property::find($this->propertyId)->getAvailableDates();
             if (!in_array($this->selectedDate, $availableDates)) {
-                throw new \Exception('Selected date is no longer available.');
+                throw new Exception('Selected date is no longer available.');
             }
     
             // Get the default staff member using Spatie\Permission
@@ -79,13 +83,13 @@ class PropertyBooking extends Component
 
             session()->flash('message', 'Viewing scheduled successfully for ' . $this->selectedDate);
             $this->reset(['selectedDate', 'userName', 'userContact', 'notes']);
-        } catch (\Exception $e) {
-            \Log::error('Booking failed: ' . $e->getMessage());
+        } catch (Exception $e) {
+            Log::error('Booking failed: ' . $e->getMessage());
 
             $errorMessage = 'Failed to schedule viewing. ';
-            if ($e instanceof \Illuminate\Database\QueryException) {
+            if ($e instanceof QueryException) {
                 $errorMessage .= 'A database error occurred. ';
-            } elseif ($e instanceof \Illuminate\Validation\ValidationException) {
+            } elseif ($e instanceof ValidationException) {
                 $errorMessage .= 'Please check your input and try again. ';
             } elseif ($e->getMessage() === 'Selected date is no longer available.') {
                 $errorMessage .= 'The selected date is no longer available. Please choose another date. ';

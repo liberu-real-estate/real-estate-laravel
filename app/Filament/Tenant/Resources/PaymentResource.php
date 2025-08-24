@@ -2,9 +2,18 @@
 
 namespace App\Filament\Tenant\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\ViewAction;
+use App\Filament\Tenant\Resources\PaymentResource\Pages\ListPayments;
+use App\Filament\Tenant\Resources\PaymentResource\Pages\CreatePayment;
+use App\Filament\Tenant\Resources\PaymentResource\Pages\ViewPayment;
 use App\Models\Payment;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,28 +24,28 @@ class PaymentResource extends Resource
 {
     protected static ?string $model = Payment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-credit-card';
 
     protected static ?string $navigationLabel = 'Payments';
 
-    public static function form(Forms\Form $form): Forms\Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('amount')
+        return $schema
+            ->components([
+                TextInput::make('amount')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
-                Forms\Components\DatePicker::make('payment_date')
+                DatePicker::make('payment_date')
                     ->required(),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->required()
                     ->options([
                         'pending' => 'Pending',
                         'completed' => 'Completed',
                         'failed' => 'Failed',
                     ]),
-                Forms\Components\Select::make('payment_method')
+                Select::make('payment_method')
                     ->required()
                     ->options([
                         'credit_card' => 'Credit Card',
@@ -50,35 +59,35 @@ class PaymentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('amount')
+                TextColumn::make('amount')
                     ->money('USD')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('payment_date')
+                TextColumn::make('payment_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('payment_method'),
+                TextColumn::make('payment_method'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options([
                         'pending' => 'Pending',
                         'completed' => 'Completed',
                         'failed' => 'Failed',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
+            ->recordActions([
+                ViewAction::make(),
             ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPayments::route('/'),
-            'create' => Pages\CreatePayment::route('/create'),
-            'view' => Pages\ViewPayment::route('/{record}'),
+            'index' => ListPayments::route('/'),
+            'create' => CreatePayment::route('/create'),
+            'view' => ViewPayment::route('/{record}'),
         ];
     }
 

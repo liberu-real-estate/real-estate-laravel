@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class EditProfile extends Page
 {
-    protected static string $view = 'filament.pages.edit-profile';
+    protected string $view = 'filament.pages.edit-profile';
     
-    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chart-bar';
 
     protected static bool $shouldRegisterNavigation = false;
 

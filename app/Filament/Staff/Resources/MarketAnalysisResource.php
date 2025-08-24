@@ -2,12 +2,21 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\MarketAnalysisResource\Pages\ListMarketAnalyses;
+use App\Filament\Staff\Resources\MarketAnalysisResource\Pages\CreateMarketAnalysis;
+use App\Filament\Staff\Resources\MarketAnalysisResource\Pages\ViewMarketAnalysis;
 use App\Filament\Staff\Resources\MarketAnalysisResource\Pages;
 use App\Models\Property;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -15,20 +24,20 @@ class MarketAnalysisResource extends Resource
 {
     protected static ?string $model = Property::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chart-bar';
 
     protected static ?string $navigationLabel = 'Market Analysis';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\DatePicker::make('start_date')
+        return $schema
+            ->components([
+                DatePicker::make('start_date')
                     ->required(),
-                Forms\Components\DatePicker::make('end_date')
+                DatePicker::make('end_date')
                     ->required()
                     ->after('start_date'),
-                Forms\Components\Select::make('properties')
+                Select::make('properties')
                     ->multiple()
                     ->relationship('properties', 'title')
                     ->preload(),
@@ -39,21 +48,21 @@ class MarketAnalysisResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('property_type'),
-                Tables\Columns\TextColumn::make('price')
+                TextColumn::make('title'),
+                TextColumn::make('property_type'),
+                TextColumn::make('price')
                     ->money('usd'),
-                Tables\Columns\TextColumn::make('area_sqft'),
+                TextColumn::make('area_sqft'),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
+            ->recordActions([
+                ViewAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -68,9 +77,9 @@ class MarketAnalysisResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMarketAnalyses::route('/'),
-            'create' => Pages\CreateMarketAnalysis::route('/create'),
-            'view' => Pages\ViewMarketAnalysis::route('/{record}'),
+            'index' => ListMarketAnalyses::route('/'),
+            'create' => CreateMarketAnalysis::route('/create'),
+            'view' => ViewMarketAnalysis::route('/{record}'),
         ];
     }
 }

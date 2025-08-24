@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources\ReviewResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Staff\Resources\ReviewResource;
 
 use Filament\Actions;
@@ -14,7 +15,7 @@ class ListReviews extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

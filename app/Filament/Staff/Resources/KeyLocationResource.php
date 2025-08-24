@@ -2,11 +2,16 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use App\Filament\Staff\Resources\KeyLocationResource\Pages\ListKeyLocations;
+use App\Filament\Staff\Resources\KeyLocationResource\Pages\CreateKeyLocation;
+use App\Filament\Staff\Resources\KeyLocationResource\Pages\EditKeyLocation;
 use App\Models\KeyLocation;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Filament\Staff\Resources\KeyLocationResource\Pages;
 
@@ -14,16 +19,16 @@ class KeyLocationResource extends Resource
 {
     protected static ?string $model = KeyLocation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-key';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-key';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('location_name')
+        return $schema
+            ->components([
+                TextInput::make('location_name')
                     ->required()
                     ->label('Location Name'),
-                Forms\Components\TextInput::make('address')
+                TextInput::make('address')
                     ->required()
                     ->label('Address'),
             ]);
@@ -33,8 +38,8 @@ class KeyLocationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('location_name')->label('Location Name'),
-                Tables\Columns\TextColumn::make('address')->label('Address'),
+                TextColumn::make('location_name')->label('Location Name'),
+                TextColumn::make('address')->label('Address'),
             ])
             ->filters([
                 //
@@ -44,9 +49,9 @@ class KeyLocationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListKeyLocations::route('/'),
-            'create' => Pages\CreateKeyLocation::route('/create'),
-            'edit' => Pages\EditKeyLocation::route('/{record}/edit'),
+            'index' => ListKeyLocations::route('/'),
+            'create' => CreateKeyLocation::route('/create'),
+            'edit' => EditKeyLocation::route('/{record}/edit'),
         ];
     }
 }

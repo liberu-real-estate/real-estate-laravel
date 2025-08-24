@@ -2,9 +2,19 @@
 
 namespace App\Filament\Staff\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Staff\Resources\ContractorResource\Pages\ListContractors;
+use App\Filament\Staff\Resources\ContractorResource\Pages\CreateContractor;
+use App\Filament\Staff\Resources\ContractorResource\Pages\EditContractor;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -16,34 +26,34 @@ class ContractorResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-building-office';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-building-office';
 
     protected static ?string $modelLabel = 'Contractor';
 
-public static function form(Form $form): Form
+public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->required()
                     ->label('Name'),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->email()
                     ->required()
                     ->label('Email'),
-                Forms\Components\TextInput::make('password')
+                TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create')
                     ->label('Password'),
-                Forms\Components\TextInput::make('phone')
+                TextInput::make('phone')
                     ->tel()
                     ->label('Phone Number'),
-                Forms\Components\Textarea::make('address')
+                Textarea::make('address')
                     ->rows(5)
                     ->label('Address'),
-                Forms\Components\Select::make('role')
+                Select::make('role')
                     ->options([
                         'contractor' => 'Contractor',
                         'landlord' => 'Landlord',
@@ -58,20 +68,20 @@ public static function form(Form $form): Form
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->searchable(),
-                Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('address')->limit(50),
+                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('email')->searchable(),
+                TextColumn::make('phone'),
+                TextColumn::make('address')->limit(50),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                DeleteBulkAction::make(),
             ]);
     }
 
@@ -93,9 +103,9 @@ public static function form(Form $form): Form
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContractors::route('/'),
-            'create' => Pages\CreateContractor::route('/create'),
-            'edit' => Pages\EditContractor::route('/{record}/edit'),
+            'index' => ListContractors::route('/'),
+            'create' => CreateContractor::route('/create'),
+            'edit' => EditContractor::route('/{record}/edit'),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -36,7 +37,7 @@ class LetsSafeScreeningService
                 Log::error('Let\'s Safe API error: ' . $response->body());
                 return null;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Let\'s Safe screening error: ' . $e->getMessage());
             return null;
         }
