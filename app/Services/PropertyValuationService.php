@@ -3,124 +3,94 @@
 namespace App\Services;
 
 use App\Models\Property;
-use Illuminate\Support\Facades\Http;
+use App\Models\PropertyValuation;
+use Illuminate\Support\Collection;
 
 class PropertyValuationService
 {
-    private $valPalApiKey;
-
-    public function __construct()
+    public function createValuation(Property $property, array $data): PropertyValuation
     {
-        $this->valPalApiKey = config('services.valpal.api_key');
+        // Mark previous valuations of same type as superseded
+        $property->valuations()
+            ->where('valuation_type', $data['valuation_type'])
+            ->where('status', 'active')
+            ->update(['status' => 'superseded']);
+
+        return $property->valuations()->create($data);
     }
 
-    public function calculateValuation(Property $property, array $additionalData = []): array
+    public function getComparableProperties(Property $property, int $limit = 5): Collection
     {
-        // Basic valuation algorithm
-        $baseValue = $property->price;
-
-        // Adjust for location
-        $locationFactor = $this->getLocationFactor($property->location);
-        $baseValue *= $locationFactor;
-
-        // Adjust for property type
-        $propertyTypeFactor = $this->getPropertyTypeFactor($property->property_type);
-        $baseValue *= $propertyTypeFactor;
-
-        // Adjust for area
-        $areaFactor = $this->getAreaFactor($property->area_sqft);
-        $baseValue *= $areaFactor;
-
-        // Adjust for age
-        $ageFactor = $this->getAgeFactor($property->year_built);
-        $baseValue *= $ageFactor;
-
-        // Adjust for number of rooms
-        $roomsFactor = $this->getRoomsFactor($property->bedrooms, $property->bathrooms);
-        $baseValue *= $roomsFactor;
-
-        // Adjust for market trends (simplified)
-        $marketTrendFactor = $additionalData['market_trend_factor'] ?? 1;
-        $baseValue *= $marketTrendFactor;
-
-        // Get ValPal API valuation
-        $valPalValuation = $this->getValPalValuation($property);
-
-        // Calculate final valuation range
-        $lowerBound = min($baseValue, $valPalValuation) * 0.9;
-        $upperBound = max($baseValue, $valPalValuation) * 1.1;
-
-        return [
-            'estimated_value' => round(($lowerBound + $upperBound) / 2, 2),
-            'range_low' => round($lowerBound, 2),
-            'range_high' => round($upperBound, 2),
-        ];
+        return Property::where('id', '!=', $property->id)
+            ->where('property_type', $property->property_type)
+            ->whereBetween('bedrooms', [$property->bedrooms - 1, $property->bedrooms + 1])
+            ->whereBetween('bathrooms', [$property->bathrooms - 1, $property->bathrooms + 1])
+            ->whereBetween('area_sqft', [$property->area_sqft * 0.8, $property->area_sqft * 1.2])
+            ->whereHas('transactions', function ($query) {
+                $query->where('transaction_type', 'sale')
+                    ->where('completed_at', '>=', now()->subMonths(12));
+            })
+            ->with(['transactions' => function ($query) {
+                $query->where('transaction_type', 'sale')
+                    ->latest('completed_at')
+                    ->limit(1);
+            }])
+            ->limit($limit)
+            ->get();
     }
 
-    private function getRoomsFactor(int $bedrooms, int $bathrooms): float
+    public function calculateAutomaticValuation(Property $property): array
     {
-        return 1 + (($bedrooms + $bathrooms) * 0.05);
-    }
+        $comparables = $this->getComparableProperties($property);
 
-    private function getValPalValuation(Property $property): float
-    {
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $this->valPalApiKey,
-        ])->post('https://api.valpal.com/valuation', [
-            'postcode' => $property->postal_code,
-            'property_type' => $property->property_type,
-            'num_bedrooms' => $property->bedrooms,
-            'num_bathrooms' => $property->bathrooms,
-            'floor_area' => $property->area_sqft,
-        ]);
-
-        if ($response->successful()) {
-            return $response->json('estimated_value');
+        if ($comparables->isEmpty()) {
+            return [
+                'estimated_value' => null,
+                'confidence_level' => 0,
+                'method' => 'insufficient_data'
+            ];
         }
 
-        // Return the base price if API call fails
-        return $property->price;
-    }
+        $totalValue = 0;
+        $count = 0;
+        $pricePerSqft = [];
 
-    private function getLocationFactor(string $location): float
-    {
-        // Simplified location factor calculation
-        $locationFactors = [
-            'London' => 1.5,
-            'Manchester' => 1.2,
-            'Birmingham' => 1.1,
-            // Add more locations as needed
+        foreach ($comparables as $comparable) {
+            $lastSale = $comparable->transactions->first();
+            if ($lastSale) {
+                $totalValue += $lastSale->sale_price;
+                $count++;
+
+                if ($comparable->area_sqft > 0) {
+                    $pricePerSqft[] = $lastSale->sale_price / $comparable->area_sqft;
+                }
+            }
+        }
+
+        $averageValue = $count > 0 ? $totalValue / $count : 0;
+        $averagePricePerSqft = count($pricePerSqft) > 0 ? array_sum($pricePerSqft) / count($pricePerSqft) : 0;
+
+        $estimatedValue = $property->area_sqft > 0 && $averagePricePerSqft > 0 
+            ? $averagePricePerSqft * $property->area_sqft 
+            : $averageValue;
+
+        $confidenceLevel = min(90, $count * 15); // Max 90% confidence
+
+        return [
+            'estimated_value' => round($estimatedValue, 2),
+            'confidence_level' => $confidenceLevel,
+            'method' => 'comparable_sales',
+            'comparables_used' => $count,
+            'price_per_sqft' => round($averagePricePerSqft, 2)
         ];
-
-        return $locationFactors[$location] ?? 1.0;
     }
 
-    private function getPropertyTypeFactor(string $propertyType): float
+    public function updatePropertyValue(Property $property, PropertyValuation $valuation): void
     {
-        $propertyTypeFactors = [
-            'house' => 1.2,
-            'apartment' => 1.0,
-            'condo' => 1.1,
-        ];
-
-        return $propertyTypeFactors[$propertyType] ?? 1.0;
-    }
-
-    private function getAreaFactor(float $areaSqFt): float
-    {
-        // Simplified area factor calculation
-        if ($areaSqFt < 500) return 0.8;
-        if ($areaSqFt < 1000) return 1.0;
-        if ($areaSqFt < 2000) return 1.2;
-        return 1.4;
-    }
-
-    private function getAgeFactor(int $yearBuilt): float
-    {
-        $age = date('Y') - $yearBuilt;
-        if ($age < 5) return 1.1;
-        if ($age < 20) return 1.0;
-        if ($age < 50) return 0.9;
-        return 0.8;
+        if ($valuation->valuation_type === 'market' && $valuation->status === 'active') {
+            $property->update([
+                'price' => $valuation->estimated_value ?? $valuation->market_value
+            ]);
+        }
     }
 }

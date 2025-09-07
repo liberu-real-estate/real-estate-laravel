@@ -227,6 +227,80 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         return $this->belongsTo(PropertyCategory::class, 'property_category_id');
     }
 
+    public function valuations()
+    {
+        return $this->hasMany(PropertyValuation::class);
+    }
+
+    public function chainLinks()
+    {
+        return $this->hasMany(ChainLink::class);
+    }
+
+    public function complianceItems()
+    {
+        return $this->hasMany(ComplianceItem::class);
+    }
+
+    public function workOrders()
+    {
+        return $this->hasMany(WorkOrder::class);
+    }
+
+    public function vendorQuotes()
+    {
+        return $this->hasMany(VendorQuote::class);
+    }
+
+    public function propertyMatches()
+    {
+        return $this->hasMany(PropertyMatch::class);
+    }
+
+    public function marketAppraisals()
+    {
+        return $this->hasMany(MarketAppraisal::class);
+    }
+
+    public function getLatestValuation($type = 'market')
+    {
+        return $this->valuations()
+            ->where('valuation_type', $type)
+            ->where('status', 'active')
+            ->latest('valuation_date')
+            ->first();
+    }
+
+    public function getComplianceStatus()
+    {
+        $total = $this->complianceItems()->count();
+        $completed = $this->complianceItems()->where('status', 'completed')->count();
+        $overdue = $this->complianceItems()->where('required_by_date', '<', now())
+            ->where('status', '!=', 'completed')->count();
+
+        return [
+            'total' => $total,
+            'completed' => $completed,
+            'overdue' => $overdue,
+            'completion_rate' => $total > 0 ? ($completed / $total) * 100 : 0
+        ];
+    }
+
+    public function hasActiveWorkOrders()
+    {
+        return $this->workOrders()
+            ->whereIn('status', ['pending', 'approved', 'scheduled', 'in_progress'])
+            ->exists();
+    }
+
+    public function getLatestMarketAppraisal()
+    {
+        return $this->marketAppraisals()
+            ->where('valid_until', '>=', now())
+            ->latest('appraisal_date')
+            ->first();
+    }
+
     // Scopes
     public function scopeSearch(Builder $query, $search): Builder
     {
