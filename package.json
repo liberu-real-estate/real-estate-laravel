@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "@tailwindcss/postcss": "^4.1.12",
-        "alpinejs": "^3.14.1",
+        "alpinejs": "^3.15.0",
         "flowbite": "^2.5.1",
         "leaflet": "^1.9.4",
         "preline": "3.2",
