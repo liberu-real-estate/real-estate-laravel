@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16b80c606acf2030631954baeaa5488e",
+    "content-hash": "c0bd009dda68e0043e136450b2e84fd2",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -7409,27 +7409,31 @@
         },
         {
             "name": "spatie/laravel-googletagmanager",
-            "version": "2.8.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-googletagmanager.git",
-                "reference": "8fe5a953fc1a6b7ef461fd21d9e80bf20c1889a9"
+                "reference": "644d844994bf1195378ab730777697459374ba7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-googletagmanager/zipball/8fe5a953fc1a6b7ef461fd21d9e80bf20c1889a9",
-                "reference": "8fe5a953fc1a6b7ef461fd21d9e80bf20c1889a9",
+                "url": "https://api.github.com/repos/spatie/laravel-googletagmanager/zipball/644d844994bf1195378ab730777697459374ba7c",
+                "reference": "644d844994bf1195378ab730777697459374ba7c",
                 "shasum": ""
             },
             "require": {
-                "illuminate/config": "5.1 - 12",
-                "illuminate/http": "5.1 - 12",
-                "illuminate/session": "5.1 - 12",
-                "illuminate/view": "5.1 - 12",
-                "php": ">=5.5"
+                "illuminate/config": "^12.0",
+                "illuminate/http": "^12.0",
+                "illuminate/session": "^12.0",
+                "illuminate/view": "^12.0",
+                "php": "^8.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^11.0"
+                "laravel/pint": "^1.24",
+                "orchestra/testbench": "^10.6",
+                "pestphp/pest": "^3.0 | ^4.0",
+                "pestphp/pest-plugin-type-coverage": "^3.0 | ^4.0",
+                "phpstan/phpstan": "^2.1"
             },
             "type": "library",
             "extra": {
@@ -7472,7 +7476,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-googletagmanager/issues",
-                "source": "https://github.com/spatie/laravel-googletagmanager/tree/2.8.1"
+                "source": "https://github.com/spatie/laravel-googletagmanager/tree/3.0.0"
             },
             "funding": [
                 {
@@ -7480,7 +7484,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-18T07:52:57+00:00"
+            "time": "2025-09-12T08:08:52+00:00"
         },
         {
             "name": "spatie/laravel-medialibrary",
