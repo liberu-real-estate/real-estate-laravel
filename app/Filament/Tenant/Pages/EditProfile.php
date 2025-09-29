@@ -21,7 +21,7 @@ class EditProfile extends Page
     public static function getRoutes(): array
     {
         return [
-            static::getSlug() => static::getRoutePath(Filament::getCurrentOrDefaultPanel()),
+            static::getSlug() => static::getRoutePath(Filament::getCurrentOrDefaultPanel(), Filament::getCurrentOrDefaultPanel()),
         ];
     }
 
