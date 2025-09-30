@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39f7f12528f97a82060710aa671a3735",
+    "content-hash": "3d71099f93a1f5d30b53d4d6363d15da",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2156,16 +2156,16 @@
         },
         {
             "name": "google/auth",
-            "version": "v1.48.0",
+            "version": "v1.48.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "3053a5bfe284538419d4fee8c9df148488db6d30"
+                "reference": "023f41a2c80fb98a493dfb9dffcab643481a7ab0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/3053a5bfe284538419d4fee8c9df148488db6d30",
-                "reference": "3053a5bfe284538419d4fee8c9df148488db6d30",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/023f41a2c80fb98a493dfb9dffcab643481a7ab0",
+                "reference": "023f41a2c80fb98a493dfb9dffcab643481a7ab0",
                 "shasum": ""
             },
             "require": {
@@ -2211,9 +2211,9 @@
             "support": {
                 "docs": "https://cloud.google.com/php/docs/reference/auth/latest",
                 "issues": "https://github.com/googleapis/google-auth-library-php/issues",
-                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.48.0"
+                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.48.1"
             },
-            "time": "2025-09-16T22:09:18+00:00"
+            "time": "2025-09-30T04:22:33+00:00"
         },
         {
             "name": "google/common-protos",
@@ -2982,54 +2982,6 @@
             "time": "2025-08-22T14:27:06+00:00"
         },
         {
-            "name": "intelrx/sitesettings",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Raza9798/siteconfig.git",
-                "reference": "64c23056e410b52af75487d4a9c6f2935c1098ab"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Raza9798/siteconfig/zipball/64c23056e410b52af75487d4a9c6f2935c1098ab",
-                "reference": "64c23056e410b52af75487d4a9c6f2935c1098ab",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.3"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Intelrx\\Sitesettings\\SitesettingsProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Intelrx\\Sitesettings\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "raza9798",
-                    "email": "m.raza9798@gmail.com"
-                }
-            ],
-            "description": "Application global properties",
-            "support": {
-                "issues": "https://github.com/Raza9798/siteconfig/issues",
-                "source": "https://github.com/Raza9798/siteconfig/tree/2.0.0"
-            },
-            "abandoned": "raza9798/siteconfig",
-            "time": "2024-09-30T20:53:46+00:00"
-        },
-        {
             "name": "joelbutcher/socialstream",
             "version": "v6.3.0",
             "source": {
@@ -3263,16 +3215,16 @@
         },
         {
             "name": "laravel/fortify",
-            "version": "v1.30.0",
+            "version": "v1.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/fortify.git",
-                "reference": "005f4d535ae671312d267d942b964807fc0ef6f8"
+                "reference": "67116b14bd6b480d027f8b8075c2cd75363904e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/fortify/zipball/005f4d535ae671312d267d942b964807fc0ef6f8",
-                "reference": "005f4d535ae671312d267d942b964807fc0ef6f8",
+                "url": "https://api.github.com/repos/laravel/fortify/zipball/67116b14bd6b480d027f8b8075c2cd75363904e8",
+                "reference": "67116b14bd6b480d027f8b8075c2cd75363904e8",
                 "shasum": ""
             },
             "require": {
@@ -3324,20 +3276,20 @@
                 "issues": "https://github.com/laravel/fortify/issues",
                 "source": "https://github.com/laravel/fortify"
             },
-            "time": "2025-08-29T20:15:47+00:00"
+            "time": "2025-09-30T10:06:29+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v12.31.1",
+            "version": "v12.32.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "281b711710c245dd8275d73132e92635be3094df"
+                "reference": "d41e4ba47706ec85bda85fe9362515592871cd21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/281b711710c245dd8275d73132e92635be3094df",
-                "reference": "281b711710c245dd8275d73132e92635be3094df",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d41e4ba47706ec85bda85fe9362515592871cd21",
+                "reference": "d41e4ba47706ec85bda85fe9362515592871cd21",
                 "shasum": ""
             },
             "require": {
@@ -3365,7 +3317,6 @@
                 "monolog/monolog": "^3.0",
                 "nesbot/carbon": "^3.8.4",
                 "nunomaduro/termwind": "^2.0",
-                "phiki/phiki": "^2.0.0",
                 "php": "^8.2",
                 "psr/container": "^1.1.1|^2.0.1",
                 "psr/log": "^1.0|^2.0|^3.0",
@@ -3544,7 +3495,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-09-23T15:33:04+00:00"
+            "time": "2025-09-30T12:22:56+00:00"
         },
         {
             "name": "laravel/jetstream",
@@ -5898,77 +5849,6 @@
                 "source": "https://github.com/paragonie/random_compat"
             },
             "time": "2020-10-15T08:29:30+00:00"
-        },
-        {
-            "name": "phiki/phiki",
-            "version": "v2.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phikiphp/phiki.git",
-                "reference": "160785c50c01077780ab217e5808f00ab8f05a13"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phikiphp/phiki/zipball/160785c50c01077780ab217e5808f00ab8f05a13",
-                "reference": "160785c50c01077780ab217e5808f00ab8f05a13",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "league/commonmark": "^2.5.3",
-                "php": "^8.2",
-                "psr/simple-cache": "^3.0"
-            },
-            "require-dev": {
-                "illuminate/support": "^11.45",
-                "laravel/pint": "^1.18.1",
-                "orchestra/testbench": "^9.15",
-                "pestphp/pest": "^3.5.1",
-                "phpstan/extension-installer": "^1.4.3",
-                "phpstan/phpstan": "^2.0",
-                "symfony/var-dumper": "^7.1.6"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Phiki\\Adapters\\Laravel\\PhikiServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Phiki\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ryan Chandler",
-                    "email": "support@ryangjchandler.co.uk",
-                    "homepage": "https://ryangjchandler.co.uk",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Syntax highlighting using TextMate grammars in PHP.",
-            "support": {
-                "issues": "https://github.com/phikiphp/phiki/issues",
-                "source": "https://github.com/phikiphp/phiki/tree/v2.0.4"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/ryangjchandler",
-                    "type": "github"
-                },
-                {
-                    "url": "https://buymeacoffee.com/ryangjchandler",
-                    "type": "other"
-                }
-            ],
-            "time": "2025-09-20T17:21:02+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

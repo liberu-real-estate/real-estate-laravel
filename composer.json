@@ -15,7 +15,6 @@
         "filament/spatie-laravel-media-library-plugin": "^4.0",
         "filament/spatie-laravel-settings-plugin": "^4.0",
         "guzzlehttp/guzzle": "^7.8",
-        "intelrx/sitesettings": "^2.0",
         "joelbutcher/socialstream": "^6.0",
         "laravel/framework": "^12.0",
         "laravel/jetstream": "^5.1",
@@ -34,7 +33,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "filament/upgrade": "~4.0",
+        "filament/upgrade": "^4.1",
         "laravel/pint": "^1.14",
         "laravel/sail": "^1.28",
         "mockery/mockery": "^1.6",
