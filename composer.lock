@@ -1260,16 +1260,16 @@
         },
         {
             "name": "docusign/esign-client",
-            "version": "v8.4.0",
+            "version": "v8.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/docusign/docusign-esign-php-client.git",
-                "reference": "c95bbdb83e3945231fae03c34c18ec562b67db70"
+                "reference": "cfdc51f4d4535226aad150639127128a53306ac2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/docusign/docusign-esign-php-client/zipball/c95bbdb83e3945231fae03c34c18ec562b67db70",
-                "reference": "c95bbdb83e3945231fae03c34c18ec562b67db70",
+                "url": "https://api.github.com/repos/docusign/docusign-esign-php-client/zipball/cfdc51f4d4535226aad150639127128a53306ac2",
+                "reference": "cfdc51f4d4535226aad150639127128a53306ac2",
                 "shasum": ""
             },
             "require": {
@@ -1313,9 +1313,9 @@
             ],
             "support": {
                 "issues": "https://github.com/docusign/docusign-esign-php-client/issues",
-                "source": "https://github.com/docusign/docusign-esign-php-client/tree/v8.4.0"
+                "source": "https://github.com/docusign/docusign-esign-php-client/tree/v8.5.0"
             },
-            "time": "2025-09-02T10:31:51+00:00"
+            "time": "2025-10-22T20:42:00+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
