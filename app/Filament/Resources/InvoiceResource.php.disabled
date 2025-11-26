@@ -55,4 +55,6 @@ class InvoiceResource extends Resource
                     ->money('usd'),
                 Tables\Columns\TextColumn::make('due_date')
                     ->date(),
-                Tables\Columns\
+        ]);
+    }
+}
