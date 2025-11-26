@@ -188,3 +188,4 @@ class JupixApiService
             return null;
         }
     }
+}
