@@ -176,6 +176,17 @@ return [
         ],
     ],
 
+    'panels' => [
+        "admin" => ['admin'],
+        "app" => ['admin'],
+        "staff" => ['admin', 'staff'],
+        "buyer" => ['admin'],
+        "contractor" => ['admin'],
+        "landlord" => ['admin'],
+        "seller" => ['admin'],
+        "tenant" => ['admin'],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Pages

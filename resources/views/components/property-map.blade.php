@@ -11,7 +11,7 @@
     }).addTo(map);
 
     L.marker([51.5, -0.09]).addTo(map)
-        .bindPopup("{{ SiteConfig::get('name') }}")
+        .bindPopup("{{ app(\App\Settings\GeneralSettings::class)->site_name }}")
         .openPopup();
 
     map.on('locationfound', function(e) {
@@ -23,6 +23,6 @@
 
     properties.forEach(function(loc) {
         L.marker([loc.latitude, loc.longitude]).addTo(map)
-            .bindPopup(`<br> ${loc.title} </b><br> {{SiteConfig::get('currency')}} ${loc.price}`);
+            .bindPopup(`<br> ${loc.title} </b><br> {{ app(\App\Settings\GeneralSettings::class)->site_currency }} ${loc.price}`);
     });
 </script>

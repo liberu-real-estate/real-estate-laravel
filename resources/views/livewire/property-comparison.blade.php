@@ -36,7 +36,7 @@
                         @foreach($properties as $property)
                             <td class="p-2">
                                 @if($feature === 'price')
-                                    {{ \SiteConfig::get('currency')() }}{{ number_format($property->$feature, 2) }}
+                                    {{ app(\App\Settings\GeneralSettings::class)->site_currency }}{{ number_format($property->$feature, 2) }}
                                 @elseif($feature === 'area_sqft')
                                     {{ $property->$feature }} sqft
                                 @else

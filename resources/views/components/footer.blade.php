@@ -5,7 +5,7 @@
                 <a href="#" class="flex items-center">
                     <img src="{{ asset('build/images/logo.png') }}" class="mr-3 h-8" alt="{{ config('app.name') }}" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                        {{ SiteConfig::get('name') }}
+                        {{ app(\App\Settings\GeneralSettings::class)->site_name }}
                      </span>
                 </a>
                
@@ -15,21 +15,20 @@
                 <div></div>
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Contact Details</h2>
-                    <span class="text-xs text-gray-600">Address :  {{ SiteConfig::get('address') }} </span> <br>
-                    <span class="text-xs text-gray-600">UK Non-geographic: {{ SiteConfig::get('phone_01') }} </span>  <br>
-                    <span class="text-xs text-gray-600">UK London: {{ SiteConfig::get('phone_02') }} </span>  <br>
-                    <span class="text-xs text-gray-600">UK Mobile: {{ SiteConfig::get('phone_03') }} </span>  <br>
+                    <span class="text-xs text-gray-600">Address :  {{ app(\App\Settings\GeneralSettings::class)->site_address }} </span> <br>
+                    <span class="text-xs text-gray-600">UK Non-geographic: {{ app(\App\Settings\GeneralSettings::class)->site_phone }} </span>  <br>
+                    <span class="text-xs text-gray-600">UK London:  </span>  <br>
+                    <span class="text-xs text-gray-600">UK Mobile:  </span>  <br>
                 </div>
             </div>
         </div>
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <div class="sm:flex sm:items-center sm:justify-between">
-            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400" title="{{config('app.version')}}">© {{now()->year}} <a href="#"
-                    class="hover:underline">{{ SiteConfig::get('name') }}</a>. All Rights
-                Reserved.
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400" title="{{config('app.version')}}">
+                {{ app(\App\Settings\GeneralSettings::class)->footer_copyright }}
             </span>
             <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
-                <a href="{{ SiteConfig::get('facebook') }}"
+                <a href="{{ app(\App\Settings\GeneralSettings::class)->facebook_url }}"
                     class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill-rule="evenodd"
@@ -38,7 +37,7 @@
                     </svg>
                 </a>
 
-                <a href="{{ SiteConfig::get('twitter') }}"
+                <a href="{{ app(\App\Settings\GeneralSettings::class)->twitter_url }}"
                     class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path
@@ -46,7 +45,7 @@
                     </svg>
                 </a>
 
-                <a href="{{ SiteConfig::get('github') }}"
+                <a href="{{ app(\App\Settings\GeneralSettings::class)->github_url }}"
                     class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill-rule="evenodd"
@@ -55,7 +54,7 @@
                     </svg>
                 </a>
 
-                <a href="{{ SiteConfig::get('youtube') }}"
+                <a href="{{ app(\App\Settings\GeneralSettings::class)->youtube_url }}"
                     class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
                     <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="currentColor" viewBox="0 0 24 24">
