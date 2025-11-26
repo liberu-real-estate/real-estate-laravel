@@ -25,8 +25,10 @@ class MarketAnalysisChart extends Component
         $marketAnalysisService = app(MarketAnalysisService::class);
         $trends = $marketAnalysisService->getMarketTrends($this->startDate, $this->endDate, $this->propertyIds);
 
-        $this->chartData = [
-            'labels' => $trends->pluck('month')->unique()->values()->toArray(),
-            'datasets' => [
-                [
-                    'label
+        // $this->chartData = [
+        //     'labels' => $trends->pluck('month')->unique()->values()->toArray(),
+        //     'datasets' => [
+        //         [
+        //             'label
+    }
+}
