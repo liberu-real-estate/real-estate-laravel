@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -146,7 +148,7 @@ return [
 
     'localization' => [
         'enabled' => false,
-        'key' => 'filament-shield::filament-shield',
+        'key' => 'filament-shield::filament-shield.resource_permission_prefixes_labels',
     ],
 
     /*
@@ -174,17 +176,6 @@ return [
         'exclude' => [
             //
         ],
-    ],
-
-    'panels' => [
-        "admin" => ['admin'],
-        "app" => ['admin'],
-        "staff" => ['admin', 'staff'],
-        "buyer" => ['admin'],
-        "contractor" => ['admin'],
-        "landlord" => ['admin'],
-        "seller" => ['admin'],
-        "tenant" => ['admin'],
     ],
 
     /*

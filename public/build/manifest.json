@@ -12,7 +12,7 @@
     "src": "node_modules/leaflet/dist/images/marker-icon.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-B_VJXClb.css",
+    "file": "assets/app-AbFnb_ri.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "names": [
@@ -20,7 +20,7 @@
     ]
   },
   "resources/css/filament/admin/theme.css": {
-    "file": "assets/theme-ChxtzitH.css",
+    "file": "assets/theme-Bgg6XmB_.css",
     "src": "resources/css/filament/admin/theme.css",
     "isEntry": true,
     "names": [
