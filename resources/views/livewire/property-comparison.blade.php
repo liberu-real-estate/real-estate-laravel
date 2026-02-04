@@ -3,7 +3,7 @@
 
     <!-- Property Search -->
     <div class="mb-4">
-        <input type="text" wire:model.debounce.300ms="searchTerm" wire:keyup="searchProperties" placeholder="Search properties to compare" class="w-full p-2 border rounded">
+        <input type="text" wire:model.live.debounce.300ms="searchTerm" wire:keyup="searchProperties" placeholder="Search properties to compare" class="w-full p-2 border rounded">
         @if(count($searchResults) > 0)
             <div class="mt-2 bg-white shadow-md rounded-lg overflow-hidden">
                 @foreach($searchResults as $result)
