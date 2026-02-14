@@ -88,9 +88,6 @@ class PropertyTest extends TestCase
     {
         $property = Property::factory()->create();
         
-        // Test that the property has the videos media collection registered
-        $this->assertTrue(method_exists($property, 'registerMediaCollections'));
-        
         // Verify media collections are properly registered
         $property->registerMediaCollections();
         
