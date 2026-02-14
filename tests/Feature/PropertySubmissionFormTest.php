@@ -85,7 +85,7 @@ class PropertySubmissionFormTest extends TestCase
     public function test_video_validation_rejects_invalid_mime_type()
     {
         $user = User::factory()->create();
-        $invalidVideo = UploadedFile::fake()->create('property-video.avi', 1000, 'video/avi');
+        $unsupportedFormatVideo = UploadedFile::fake()->create('property-video.avi', 1000, 'video/avi');
 
         Livewire::actingAs($user)
             ->test(PropertySubmissionForm::class)
@@ -98,7 +98,7 @@ class PropertySubmissionFormTest extends TestCase
             ->set('area_sqft', 1500)
             ->set('year_built', 2020)
             ->set('property_type', 'House')
-            ->set('video', $invalidVideo)
+            ->set('video', $unsupportedFormatVideo)
             ->call('submit')
             ->assertHasErrors(['video']);
     }

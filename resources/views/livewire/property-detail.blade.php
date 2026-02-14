@@ -195,7 +195,7 @@
                     <div class="w-full mb-8">
                         <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Property Video</h2>
                         <div class="max-w-4xl mx-auto">
-                            <video controls class="w-full rounded-lg shadow-lg" controlsList="nodownload">
+                            <video controls class="w-full rounded-lg shadow-lg" controlsList="nodownload" aria-label="Property video for {{ $property->title }}">
                                 <source src="{{ $property->getFirstMediaUrl('videos') }}">
                                 Your browser does not support the video tag.
                             </video>
