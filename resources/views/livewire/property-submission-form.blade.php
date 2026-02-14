@@ -76,7 +76,7 @@
 
         <div class="mb-4">
             <label for="video" class="block text-sm font-medium text-gray-700">Video (Optional)</label>
-            <input type="file" id="video" wire:model="video" accept="video/mp4,video/quicktime" class="mt-1 block w-full">
+            <input type="file" id="video" wire:model="video" accept="video/mp4,video/quicktime" class="mt-1 block w-full" aria-required="false">
             <p class="text-xs text-gray-500 mt-1">Upload a property video (MP4 or MOV, max 100MB)</p>
             @error('video') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
