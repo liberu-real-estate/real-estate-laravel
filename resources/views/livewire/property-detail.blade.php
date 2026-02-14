@@ -190,6 +190,19 @@
                             {{ $property->description }}
                         </p>
                     </div>
+
+                    @if($property->getFirstMediaUrl('videos'))
+                    <div class="w-full mb-8">
+                        <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Property Video</h2>
+                        <div class="max-w-4xl mx-auto">
+                            <video controls class="w-full rounded-lg shadow-lg" controlsList="nodownload">
+                                <source src="{{ $property->getFirstMediaUrl('videos') }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                    @endif
+
                     <div class=""></div>
                     @auth
                         @livewire('property-review-form', ['propertyId' => $property->id])
