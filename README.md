@@ -35,9 +35,12 @@ A lightweight, open-source property management platform built with Laravel.
 ## Features
 - Property listings, tenants, bookings and bids
 - **Virtual Staging Tool** - Upload and virtually stage property images with multiple design styles
+- **Neighborhood information display** with demographics, schools, amenities, and walkability scores
 - Admin UI powered by Filament
 - Livewire-driven interactive interfaces
 - Transaction tracking and reporting
+- Automated daily updates of neighborhood data via scheduled tasks
+- News and updates section with CMS for property market insights
 
 ## Quick start (local)
 Prerequisites: PHP 8.3+, Composer, a database (MySQL / SQLite).

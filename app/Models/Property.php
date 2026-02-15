@@ -56,6 +56,13 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'location',
         'latitude',
         'longitude',
+        'walkability_score',
+        'walkability_description',
+        'transit_score',
+        'transit_description',
+        'bike_score',
+        'bike_description',
+        'walkability_updated_at',
         'price',
         'bedrooms',
         'bathrooms',
@@ -77,6 +84,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'neighborhood_id',
         'property_category_id',
         'postal_code',
+        'country',
         'energy_rating',
         'energy_score',
         'energy_rating_date',
@@ -84,6 +92,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_coverage_amount',
         'insurance_premium',
         'insurance_expiry_date',
+        'floor_plan_data',
+        'floor_plan_image',
     ];
 
     protected $casts = [
@@ -94,6 +104,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_expiry_date' => 'date',
         'latitude' => 'float',
         'longitude' => 'float',
+        'walkability_updated_at' => 'datetime',
+        'floor_plan_data' => 'array',
     ];
 
     public function auctions()
@@ -174,7 +186,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
 
     public function reviews()
     {
-        return $this->hasMany(Review::class, 'property_id');
+        return $this->morphMany(Review::class, 'reviewable');
     }
 
     public function features()
@@ -262,6 +274,20 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         return $this->hasMany(MarketAppraisal::class);
     }
 
+    public function histories()
+    {
+        return $this->hasMany(PropertyHistory::class)->orderBy('event_date', 'desc');
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'property_id', 'user_id')
+            ->withTimestamps();
+    }
+
     public function getLatestValuation($type = 'market')
     {
         return $this->valuations()
@@ -299,6 +325,49 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             ->where('valid_until', '>=', now())
             ->latest('appraisal_date')
             ->first();
+    }
+
+    /**
+     * Update walkability scores for this property
+     *
+     * @return void
+     */
+    public function updateWalkabilityScores()
+    {
+        if (!$this->latitude || !$this->longitude) {
+            return;
+        }
+
+        $walkScoreService = app(\App\Services\WalkScoreService::class);
+        $address = $this->location . ', ' . $this->postal_code;
+        
+        $scores = $walkScoreService->getWalkScore($address, $this->latitude, $this->longitude);
+
+        if ($scores) {
+            $this->update([
+                'walkability_score' => $scores['walk_score'],
+                'walkability_description' => $scores['walk_description'],
+                'transit_score' => $scores['transit_score'],
+                'transit_description' => $scores['transit_description'],
+                'bike_score' => $scores['bike_score'],
+                'bike_description' => $scores['bike_description'],
+                'walkability_updated_at' => now(),
+            ]);
+        }
+    }
+
+    /**
+     * Check if walkability scores need updating (older than 30 days)
+     *
+     * @return bool
+     */
+    public function needsWalkabilityUpdate()
+    {
+        if (!$this->walkability_updated_at) {
+            return true;
+        }
+
+        return $this->walkability_updated_at->lt(now()->subDays(30));
     }
 
     // Scopes
@@ -367,6 +436,41 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             $query->whereNull('last_synced_at')
                   ->orWhere('updated_at', '>', 'last_synced_at');
         });
+    }
+
+    public function scopeEnergyRating(Builder $query, $rating): Builder
+    {
+        return $query->where('energy_rating', $rating);
+    }
+
+    public function scopeMinEnergyScore(Builder $query, $minScore): Builder
+    {
+        return $query->where('energy_score', '>=', $minScore);
+    }
+
+    public function scopeWalkabilityScore(Builder $query, $minScore): Builder
+    {
+        return $query->where('walkability_score', '>=', $minScore);
+    }
+
+    public function scopeTransitScore(Builder $query, $minScore): Builder
+    {
+        return $query->where('transit_score', '>=', $minScore);
+    }
+
+    public function scopeBikeScore(Builder $query, $minScore): Builder
+    {
+        return $query->where('bike_score', '>=', $minScore);
+    }
+
+    public function scopeFeatured(Builder $query): Builder
+    {
+        return $query->where('is_featured', true);
+    }
+
+    public function scopeCountry(Builder $query, $country): Builder
+    {
+        return $query->where('country', $country);
     }
 
     public function getAvailableDatesForTeam()

@@ -6,9 +6,11 @@ use Log;
 use Exception;
 use Livewire\Component;
 use App\Models\Property;
+use App\Models\Favorite;
 use App\Models\PropertyFeature;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Services\PropertyFeatureService;
 
 class PropertyList extends Component
@@ -34,8 +36,15 @@ class PropertyList extends Component
     public $latitude = null;
     public $longitude = null;
     public $radius = 10; // Default radius in km
+    public $energyRating = '';
+    public $minEnergyScore = 0;
+    public $minWalkabilityScore = 0;
+    public $minTransitScore = 0;
+    public $minBikeScore = 0;
+    public $featuredOnly = false;
+    public $country = '';
 
-    protected $listeners = ['applyAdvancedFilters'];
+    protected $listeners = ['applyAdvancedFilters', 'favoriteAdded' => '$refresh', 'favoriteRemoved' => '$refresh'];
 
     public function mount()
     {
@@ -54,6 +63,13 @@ class PropertyList extends Component
         'maxArea' => ['except' => 10000],
         'propertyType' => ['except' => ''],
         'selectedAmenities' => ['except' => []],
+        'energyRating' => ['except' => ''],
+        'minEnergyScore' => ['except' => 0],
+        'minWalkabilityScore' => ['except' => 0],
+        'minTransitScore' => ['except' => 0],
+        'minBikeScore' => ['except' => 0],
+        'featuredOnly' => ['except' => false],
+        'country' => ['except' => ''],
     ];
 
     public function applyAdvancedFilters($filters)
@@ -93,6 +109,35 @@ class PropertyList extends Component
                 if ($this->selectedAmenities) {
                     $query->hasAmenities($this->selectedAmenities);
                 }
+
+                if ($this->energyRating) {
+                    $query->energyRating($this->energyRating);
+                }
+
+                if ($this->minEnergyScore > 0) {
+                    $query->minEnergyScore($this->minEnergyScore);
+                }
+
+                if ($this->minWalkabilityScore > 0) {
+                    $query->walkabilityScore($this->minWalkabilityScore);
+                }
+
+                if ($this->minTransitScore > 0) {
+                    $query->transitScore($this->minTransitScore);
+                }
+
+                if ($this->minBikeScore > 0) {
+                    $query->bikeScore($this->minBikeScore);
+                }
+
+                if ($this->featuredOnly) {
+                    $query->featured();
+                }
+
+                if ($this->country) {
+                    $query->country($this->country);
+                }
+
                 $query->with('features', 'images');
 
                 $properties = $query->paginate(12);
@@ -192,5 +237,42 @@ class PropertyList extends Component
         ]);
     
         $this->emit('updateRecommendations');
+    }
+
+    public function toggleFavorite($propertyId)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        $favorite = Favorite::where('user_id', $user->id)
+            ->where('property_id', $propertyId)
+            ->first();
+
+        if ($favorite) {
+            $favorite->delete();
+            session()->flash('message', 'Property removed from wishlist');
+            $this->emit('favoriteRemoved');
+        } else {
+            Favorite::create([
+                'user_id' => $user->id,
+                'property_id' => $propertyId,
+                'team_id' => $user->currentTeam?->id,
+            ]);
+            session()->flash('message', 'Property added to wishlist');
+            $this->emit('favoriteAdded');
+        }
+    }
+
+    public function isFavorited($propertyId)
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+        
+        return Favorite::where('user_id', Auth::id())
+            ->where('property_id', $propertyId)
+            ->exists();
     }
 }
