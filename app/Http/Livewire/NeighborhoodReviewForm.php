@@ -60,6 +60,8 @@ class NeighborhoodReviewForm extends Component
         
         session()->flash('message', 'Thank you for your review! It will be published after moderation.');
         
+        // Emit event to notify parent component that a review was added
+        // Listeners can use this to refresh the review list or update statistics
         $this->emit('reviewAdded', $review->id);
     }
 

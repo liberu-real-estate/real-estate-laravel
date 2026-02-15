@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use App\Models\Property;
 
 return new class extends Migration
 {
@@ -12,10 +13,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // First, add new columns
         Schema::table('reviews', function (Blueprint $table) {
-            // Drop the existing foreign key and property_id column
-            $table->dropForeign(['property_id']);
-            
             // Add polymorphic columns
             $table->unsignedBigInteger('reviewable_id')->after('user_id')->nullable();
             $table->string('reviewable_type')->after('reviewable_id')->nullable();
@@ -32,8 +31,8 @@ return new class extends Migration
             $table->index(['reviewable_id', 'reviewable_type']);
         });
         
-        // Migrate existing data
-        DB::statement("UPDATE reviews SET reviewable_id = property_id, reviewable_type = 'App\\\\Models\\\\Property' WHERE property_id IS NOT NULL");
+        // Migrate existing data using Property::class for better maintainability
+        DB::statement("UPDATE reviews SET reviewable_id = property_id, reviewable_type = '" . addslashes(Property::class) . "' WHERE property_id IS NOT NULL");
         
         // Make polymorphic columns non-nullable for data integrity
         Schema::table('reviews', function (Blueprint $table) {
@@ -41,8 +40,9 @@ return new class extends Migration
             $table->string('reviewable_type')->nullable(false)->change();
         });
         
-        // Now drop the old property_id column
+        // Drop the foreign key and old property_id column
         Schema::table('reviews', function (Blueprint $table) {
+            $table->dropForeign(['property_id']);
             $table->dropColumn('property_id');
         });
     }
@@ -57,8 +57,8 @@ return new class extends Migration
             $table->unsignedBigInteger('property_id')->after('user_id')->nullable();
         });
         
-        // Migrate data back BEFORE dropping columns
-        DB::statement("UPDATE reviews SET property_id = reviewable_id WHERE reviewable_type = 'App\\\\Models\\\\Property'");
+        // Migrate data back BEFORE dropping columns using Property::class for consistency
+        DB::statement("UPDATE reviews SET property_id = reviewable_id WHERE reviewable_type = '" . addslashes(Property::class) . "'");
         
         Schema::table('reviews', function (Blueprint $table) {
             // Drop polymorphic columns
