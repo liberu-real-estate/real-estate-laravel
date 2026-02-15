@@ -33,6 +33,7 @@ use Filament\Tables\Table;
 use App\Filament\Staff\Resources\RelationManagers\ReviewsRelationManager;
 use App\Filament\Staff\Resources\RelationManagers\RoomsRelationManager;
 use Illuminate\Support\Collection;
+use App\Filament\Forms\Components\FloorPlanEditor;
 
 class PropertyResource extends Resource
 {
@@ -157,7 +158,10 @@ class PropertyResource extends Resource
                     ->collection('videos')
                     ->maxFiles(1)
                     ->acceptedFileTypes(['video/mp4', 'video/quicktime'])
-                    ->maxSize(102400) // 100MB
+                    ->maxSize(102400), // 100MB
+                FloorPlanEditor::make('floor_plan_data')
+                    ->label('Interactive Floor Plan')
+                    ->columnSpanFull()
             ]);
     }
     

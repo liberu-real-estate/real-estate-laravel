@@ -77,6 +77,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'neighborhood_id',
         'property_category_id',
         'postal_code',
+        'country',
         'energy_rating',
         'energy_score',
         'energy_rating_date',
@@ -84,6 +85,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_coverage_amount',
         'insurance_premium',
         'insurance_expiry_date',
+        'floor_plan_data',
+        'floor_plan_image',
     ];
 
     protected $casts = [
@@ -94,6 +97,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_expiry_date' => 'date',
         'latitude' => 'float',
         'longitude' => 'float',
+        'floor_plan_data' => 'array',
     ];
 
     public function auctions()
@@ -174,7 +178,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
 
     public function reviews()
     {
-        return $this->hasMany(Review::class, 'property_id');
+        return $this->morphMany(Review::class, 'reviewable');
     }
 
     public function features()

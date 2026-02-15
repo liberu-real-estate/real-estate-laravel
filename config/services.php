@@ -87,6 +87,11 @@ return [
         'api_key' => env('XERO_API_KEY'),
         'endpoint' => env('XERO_ENDPOINT'),
     ],
+
+    'neighborhood_data' => [
+        'base_uri' => env('NEIGHBORHOOD_DATA_BASE_URI', 'https://api.example.com'),
+        'api_key' => env('NEIGHBORHOOD_DATA_API_KEY'),
+    ],
 ];
 
 

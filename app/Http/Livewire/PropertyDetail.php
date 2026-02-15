@@ -18,9 +18,12 @@ class PropertyDetail extends Component
     public $team;
     public $isLettingsProperty;
     public $reviews;
+    public $neighborhoodReviews;
+    public $neighborhoodAverageRating;
     public $neighborhoodData;
     public $showInvestmentSimulation = false;
     public $isFavorited = false;
+    public $investmentAnalytics = null;
 
     // Lead capture form fields
     public $name;
@@ -49,8 +52,20 @@ class PropertyDetail extends Component
         $this->property = Property::with(['neighborhood', 'features', 'team', 'category', 'reviews.user'])->findOrFail($propertyId);
         $this->neighborhood = $this->property->neighborhood;
         $this->team = $this->property->team;
-        $this->isLettingsProperty = $this->property->category->name === 'lettings';
+        $this->isLettingsProperty = $this->property->category && $this->property->category->name === 'lettings';
         $this->reviews = $this->property->reviews()->with('user')->latest()->get();
+        
+        // Load neighborhood reviews if neighborhood exists
+        if ($this->neighborhood) {
+            $this->neighborhoodReviews = $this->neighborhood->reviews()
+                ->where('approved', true)
+                ->with('user')
+                ->latest()
+                ->get();
+            
+            // Compute average rating once to avoid N+1 queries in the view
+            $this->neighborhoodAverageRating = $this->neighborhoodReviews->avg('rating') ?? 0;
+        }
 
         // Check if property is favorited by current user
         if (Auth::check()) {
@@ -60,6 +75,7 @@ class PropertyDetail extends Component
         }
 
         $this->updateNeighborhoodData();
+        $this->loadInvestmentAnalytics();
     }
 
     public function toggleFavorite()
@@ -92,14 +108,23 @@ class PropertyDetail extends Component
 
     public function render()
     {
-        return view('livewire.property-detail', [
-            'investmentAnalysisComponent' => $this->showInvestmentSimulation ? new InvestmentAnalysisComponent($this->property) : null,
-        ])->layout('layouts.app');
+        return view('livewire.property-detail')->layout('layouts.app');
     }
 
     public function toggleInvestmentSimulation()
     {
         $this->showInvestmentSimulation = !$this->showInvestmentSimulation;
+    }
+    
+    public function loadInvestmentAnalytics()
+    {
+        try {
+            $aiInvestmentService = app(\App\Services\AIInvestmentAnalysisService::class);
+            $this->investmentAnalytics = $aiInvestmentService->analyzeInvestment($this->property);
+        } catch (\Exception $e) {
+            \Log::error('Failed to load investment analytics: ' . $e->getMessage());
+            $this->investmentAnalytics = null;
+        }
     }
 
     public function submitLeadForm()
@@ -138,6 +163,18 @@ class PropertyDetail extends Component
         ];
 
         return $colors[$rating] ?? '#808080'; // Default to gray if rating not found
+    }
+    
+    public function getPositionBadgeClass($position)
+    {
+        return match($position) {
+            'excellent' => 'bg-green-100 text-green-800',
+            'good' => 'bg-blue-100 text-blue-800',
+            'average' => 'bg-gray-100 text-gray-800',
+            'above_average' => 'bg-yellow-100 text-yellow-800',
+            'premium' => 'bg-purple-100 text-purple-800',
+            default => 'bg-gray-100 text-gray-800',
+        };
     }
 
     public function updateNeighborhoodData()
