@@ -32,7 +32,12 @@ return new class extends Migration
         });
         
         // Migrate existing data using Property::class for better maintainability
-        DB::statement("UPDATE reviews SET reviewable_id = property_id, reviewable_type = '" . addslashes(Property::class) . "' WHERE property_id IS NOT NULL");
+        DB::table('reviews')
+            ->whereNotNull('property_id')
+            ->update([
+                'reviewable_id' => DB::raw('property_id'),
+                'reviewable_type' => Property::class
+            ]);
         
         // Make polymorphic columns non-nullable for data integrity
         Schema::table('reviews', function (Blueprint $table) {
@@ -58,7 +63,11 @@ return new class extends Migration
         });
         
         // Migrate data back BEFORE dropping columns using Property::class for consistency
-        DB::statement("UPDATE reviews SET property_id = reviewable_id WHERE reviewable_type = '" . addslashes(Property::class) . "'");
+        DB::table('reviews')
+            ->where('reviewable_type', Property::class)
+            ->update([
+                'property_id' => DB::raw('reviewable_id')
+            ]);
         
         Schema::table('reviews', function (Blueprint $table) {
             // Drop polymorphic columns

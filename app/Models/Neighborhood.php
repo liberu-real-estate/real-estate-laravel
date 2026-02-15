@@ -38,11 +38,25 @@ class Neighborhood extends Model
         return $this->morphMany(Review::class, 'reviewable');
     }
 
+    /**
+     * Get the average rating for this neighborhood.
+     * Note: For better performance when displaying multiple neighborhoods,
+     * use eager loading: Neighborhood::withAvg('reviews', 'rating')
+     * 
+     * @return float
+     */
     public function averageRating()
     {
         return $this->reviews()->where('approved', true)->avg('rating') ?? 0;
     }
 
+    /**
+     * Get the count of approved reviews for this neighborhood.
+     * Note: For better performance when displaying multiple neighborhoods,
+     * use eager loading: Neighborhood::withCount('reviews')
+     * 
+     * @return int
+     */
     public function reviewCount()
     {
         return $this->reviews()->where('approved', true)->count();

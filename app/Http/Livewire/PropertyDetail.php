@@ -17,6 +17,7 @@ class PropertyDetail extends Component
     public $isLettingsProperty;
     public $reviews;
     public $neighborhoodReviews;
+    public $neighborhoodAverageRating;
     public $neighborhoodData;
     public $showInvestmentSimulation = false;
 
@@ -57,6 +58,9 @@ class PropertyDetail extends Component
                 ->with('user')
                 ->latest()
                 ->get();
+            
+            // Compute average rating once to avoid N+1 queries in the view
+            $this->neighborhoodAverageRating = $this->neighborhoodReviews->avg('rating') ?? 0;
         }
 
         $this->updateNeighborhoodData();
