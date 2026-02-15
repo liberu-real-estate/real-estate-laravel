@@ -32,4 +32,19 @@ class Neighborhood extends Model
     {
         return $this->hasMany(Property::class);
     }
+
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
+
+    public function averageRating()
+    {
+        return $this->reviews()->where('approved', true)->avg('rating') ?? 0;
+    }
+
+    public function reviewCount()
+    {
+        return $this->reviews()->where('approved', true)->count();
+    }
 }

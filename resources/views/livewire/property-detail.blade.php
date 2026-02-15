@@ -138,6 +138,63 @@
 
                                         <p class="text-sm text-gray-500 mt-2">Last updated:
                                             {{ $neighborhood->last_updated->format('M d, Y H:i') }}</p>
+                                        
+                                        <!-- Neighborhood Reviews Section -->
+                                        <div class="mt-6">
+                                            <div class="flex items-center justify-between mb-4">
+                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Neighborhood Reviews</h3>
+                                                @if($neighborhoodReviews && $neighborhoodReviews->count() > 0)
+                                                    <div class="flex items-center gap-2">
+                                                        <div class="flex items-center">
+                                                            @php
+                                                                $avgRating = $neighborhood->averageRating();
+                                                            @endphp
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <svg class="w-5 h-5 {{ $i <= round($avgRating) ? 'text-yellow-400' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 24 24">
+                                                                    <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                                                                </svg>
+                                                            @endfor
+                                                        </div>
+                                                        <span class="text-sm text-gray-600 dark:text-gray-400">{{ number_format($avgRating, 1) }} ({{ $neighborhoodReviews->count() }} {{ Str::plural('review', $neighborhoodReviews->count()) }})</span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            
+                                            @if($neighborhoodReviews && $neighborhoodReviews->count() > 0)
+                                                <div class="space-y-4 mb-4">
+                                                    @foreach($neighborhoodReviews->take(3) as $review)
+                                                        <div class="bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                                                            <div class="flex items-start justify-between mb-2">
+                                                                <div>
+                                                                    <h4 class="font-semibold text-gray-900 dark:text-white">{{ $review->title }}</h4>
+                                                                    <div class="flex items-center gap-2 mt-1">
+                                                                        <div class="flex">
+                                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                                <svg class="w-4 h-4 {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 24 24">
+                                                                                    <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                                                                                </svg>
+                                                                            @endfor
+                                                                        </div>
+                                                                        <span class="text-sm text-gray-600 dark:text-gray-400">by {{ $review->user->name ?? 'Anonymous' }}</span>
+                                                                        <span class="text-sm text-gray-500">• {{ $review->created_at->diffForHumans() }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <p class="text-gray-700 dark:text-gray-300 text-sm">{{ $review->comment }}</p>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @else
+                                                <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">No reviews yet. Be the first to review this neighborhood!</p>
+                                            @endif
+                                            
+                                            <!-- Neighborhood Review Form -->
+                                            @auth
+                                                @livewire('neighborhood-review-form', ['neighborhoodId' => $neighborhood->id])
+                                            @else
+                                                <p class="mt-4 text-gray-600 dark:text-gray-400">Please <a href="{{ route('login') }}" class="text-primary-600 hover:underline">login</a> to leave a neighborhood review.</p>
+                                            @endauth
+                                        </div>
                                     @else
                                         <ul class="list-disc list-inside grid grid-cols-2 gap-2">
                                             <li class="text-gray-500">No neighborhood details available</li>

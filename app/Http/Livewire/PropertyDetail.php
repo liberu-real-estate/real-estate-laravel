@@ -16,6 +16,7 @@ class PropertyDetail extends Component
     public $team;
     public $isLettingsProperty;
     public $reviews;
+    public $neighborhoodReviews;
     public $neighborhoodData;
     public $showInvestmentSimulation = false;
 
@@ -48,6 +49,15 @@ class PropertyDetail extends Component
         $this->team = $this->property->team;
         $this->isLettingsProperty = $this->property->category->name === 'lettings';
         $this->reviews = $this->property->reviews()->with('user')->latest()->get();
+        
+        // Load neighborhood reviews if neighborhood exists
+        if ($this->neighborhood) {
+            $this->neighborhoodReviews = $this->neighborhood->reviews()
+                ->where('approved', true)
+                ->with('user')
+                ->latest()
+                ->get();
+        }
 
         $this->updateNeighborhoodData();
     }
