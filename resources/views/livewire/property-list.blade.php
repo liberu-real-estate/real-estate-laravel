@@ -100,20 +100,23 @@
                                             <div class="tooltip-arrow" data-popper-arrow=""></div>
                                         </div>
 
-                                        <button type="button" data-tooltip-target="tooltip-add-to-favorites"
-                                            class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                            <span class="sr-only"> Add to Favorites </span>
+                                        <button type="button" 
+                                            wire:click="toggleFavorite({{ $property->id }})"
+                                            data-tooltip-target="tooltip-add-to-favorites-{{ $property->id }}"
+                                            class="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                                            {{ $this->isFavorited($property->id) ? 'text-red-500' : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white' }}">
+                                            <span class="sr-only"> {{ $this->isFavorited($property->id) ? 'Remove from' : 'Add to' }} Favorites </span>
                                             <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="none" viewBox="0 0 24 24">
+                                                fill="{{ $this->isFavorited($property->id) ? 'currentColor' : 'none' }}" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                                     stroke-width="2"
                                                     d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" />
                                             </svg>
                                         </button>
-                                        <div id="tooltip-add-to-favorites" role="tooltip"
+                                        <div id="tooltip-add-to-favorites-{{ $property->id }}" role="tooltip"
                                             class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700"
                                             data-popper-placement="top">
-                                            Add to favorites
+                                            {{ $this->isFavorited($property->id) ? 'Remove from wishlist' : 'Add to wishlist' }}
                                             <div class="tooltip-arrow" data-popper-arrow=""></div>
                                         </div>
                                     </div>
