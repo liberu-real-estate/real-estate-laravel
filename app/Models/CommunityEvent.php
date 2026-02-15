@@ -88,4 +88,12 @@ class CommunityEvent extends Model
 
         return $query->whereBetween('event_date', [$startDate, $endDate]);
     }
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory()
+    {
+        return \Database\Factories\CommunityEventFactory::new();
+    }
 }
