@@ -353,6 +353,10 @@
                             {{ $property->description }}
                         </p>
                     </div>
+                    
+                    <!-- Interactive Floor Plan -->
+                    <x-floor-plan-viewer :floor-plan-data="$property->floor_plan_data" />
+                    
 
                     {{-- Property Video Section --}}
                     @php
