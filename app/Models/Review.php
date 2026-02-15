@@ -10,14 +10,13 @@ class Review extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $primaryKey = 'review_id';
-
     protected $fillable = [
         'user_id',
         'reviewable_id',
         'reviewable_type',
         'rating',
         'comment',
+        'title',
         'review_date',
         'approved',
         'moderation_status',
@@ -63,6 +62,16 @@ class Review extends Model
                 $query->where('name', 'landlord');
             });
         });
+    }
+
+    public function scopeForNeighborhoods($query)
+    {
+        return $query->where('reviewable_type', Neighborhood::class);
+    }
+
+    public function scopeForProperties($query)
+    {
+        return $query->where('reviewable_type', Property::class);
     }
 
     public function scopeApproved($query)

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             DefaultTeamSeeder::class,
             UserSeeder::class,
             PropertyCategorySeeder::class,
+            NeighborhoodSeeder::class,
             PropertySeeder::class,
             AppointmentTypeSeeder::class,
             MenuSeeder::class,

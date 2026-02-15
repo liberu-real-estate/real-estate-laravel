@@ -6,9 +6,11 @@ use Log;
 use Exception;
 use Livewire\Component;
 use App\Models\Property;
+use App\Models\Favorite;
 use App\Models\PropertyFeature;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Services\PropertyFeatureService;
 
 class PropertyList extends Component
@@ -35,7 +37,7 @@ class PropertyList extends Component
     public $longitude = null;
     public $radius = 10; // Default radius in km
 
-    protected $listeners = ['applyAdvancedFilters'];
+    protected $listeners = ['applyAdvancedFilters', 'favoriteAdded' => '$refresh', 'favoriteRemoved' => '$refresh'];
 
     public function mount()
     {
@@ -192,5 +194,42 @@ class PropertyList extends Component
         ]);
     
         $this->emit('updateRecommendations');
+    }
+
+    public function toggleFavorite($propertyId)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        $favorite = Favorite::where('user_id', $user->id)
+            ->where('property_id', $propertyId)
+            ->first();
+
+        if ($favorite) {
+            $favorite->delete();
+            session()->flash('message', 'Property removed from wishlist');
+            $this->emit('favoriteRemoved');
+        } else {
+            Favorite::create([
+                'user_id' => $user->id,
+                'property_id' => $propertyId,
+                'team_id' => $user->currentTeam?->id,
+            ]);
+            session()->flash('message', 'Property added to wishlist');
+            $this->emit('favoriteAdded');
+        }
+    }
+
+    public function isFavorited($propertyId)
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+        
+        return Favorite::where('user_id', Auth::id())
+            ->where('property_id', $propertyId)
+            ->exists();
     }
 }

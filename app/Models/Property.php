@@ -84,6 +84,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'neighborhood_id',
         'property_category_id',
         'postal_code',
+        'country',
         'energy_rating',
         'energy_score',
         'energy_rating_date',
@@ -91,6 +92,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_coverage_amount',
         'insurance_premium',
         'insurance_expiry_date',
+        'floor_plan_data',
+        'floor_plan_image',
     ];
 
     protected $casts = [
@@ -102,6 +105,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'latitude' => 'float',
         'longitude' => 'float',
         'walkability_updated_at' => 'datetime',
+        'floor_plan_data' => 'array',
     ];
 
     public function auctions()
@@ -182,7 +186,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
 
     public function reviews()
     {
-        return $this->hasMany(Review::class, 'property_id');
+        return $this->morphMany(Review::class, 'reviewable');
     }
 
     public function features()
@@ -268,6 +272,17 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     public function marketAppraisals()
     {
         return $this->hasMany(MarketAppraisal::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'property_id', 'user_id')
+            ->withTimestamps();
     }
 
     public function getLatestValuation($type = 'market')

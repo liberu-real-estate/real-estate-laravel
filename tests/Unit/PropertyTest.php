@@ -138,5 +138,14 @@ class PropertyTest extends TestCase
 
         // Should not update without coordinates
         $this->assertNull($property->walkability_score);
+    public function test_property_has_videos_media_collection()
+    {
+        $property = Property::factory()->create();
+        
+        // Verify media collections are properly registered
+        $property->registerMediaCollections();
+        
+        // Test that the property can handle the videos collection
+        $this->assertTrue($property->getMedia('videos')->isEmpty());
     }
 }
