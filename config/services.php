@@ -88,6 +88,9 @@ return [
         'endpoint' => env('XERO_ENDPOINT'),
     ],
 
+    'walkscore' => [
+        'api_key' => env('WALKSCORE_API_KEY'),
+        'base_uri' => env('WALKSCORE_BASE_URI', 'https://api.walkscore.com'),
     'neighborhood_data' => [
         'base_uri' => env('NEIGHBORHOOD_DATA_BASE_URI', 'https://api.example.com'),
         'api_key' => env('NEIGHBORHOOD_DATA_API_KEY'),

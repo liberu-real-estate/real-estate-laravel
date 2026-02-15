@@ -75,6 +75,7 @@ class PropertyDetail extends Component
         }
 
         $this->updateNeighborhoodData();
+        $this->updateWalkabilityScores();
         $this->loadInvestmentAnalytics();
     }
 
@@ -194,6 +195,15 @@ class PropertyDetail extends Component
 
                 $this->neighborhood->refresh();
             }
+        }
+    }
+
+    public function updateWalkabilityScores()
+    {
+        // Update walkability scores if they're missing or outdated
+        if ($this->property->needsWalkabilityUpdate()) {
+            $this->property->updateWalkabilityScores();
+            $this->property->refresh();
         }
     }
 }
