@@ -138,6 +138,8 @@ class PropertyTest extends TestCase
 
         // Should not update without coordinates
         $this->assertNull($property->walkability_score);
+    }
+
     public function test_property_has_videos_media_collection()
     {
         $property = Property::factory()->create();
@@ -147,5 +149,80 @@ class PropertyTest extends TestCase
         
         // Test that the property can handle the videos collection
         $this->assertTrue($property->getMedia('videos')->isEmpty());
+    }
+
+    public function test_energy_rating_scope()
+    {
+        Property::factory()->create(['energy_rating' => 'A']);
+        Property::factory()->create(['energy_rating' => 'B']);
+        Property::factory()->create(['energy_rating' => 'C']);
+
+        $this->assertCount(1, Property::energyRating('A')->get());
+        $this->assertCount(1, Property::energyRating('B')->get());
+        $this->assertCount(0, Property::energyRating('D')->get());
+    }
+
+    public function test_min_energy_score_scope()
+    {
+        Property::factory()->create(['energy_score' => 80]);
+        Property::factory()->create(['energy_score' => 60]);
+        Property::factory()->create(['energy_score' => 40]);
+
+        $this->assertCount(2, Property::minEnergyScore(50)->get());
+        $this->assertCount(1, Property::minEnergyScore(70)->get());
+        $this->assertCount(3, Property::minEnergyScore(30)->get());
+    }
+
+    public function test_walkability_score_scope()
+    {
+        Property::factory()->create(['walkability_score' => 90]);
+        Property::factory()->create(['walkability_score' => 70]);
+        Property::factory()->create(['walkability_score' => 50]);
+
+        $this->assertCount(2, Property::walkabilityScore(60)->get());
+        $this->assertCount(1, Property::walkabilityScore(80)->get());
+        $this->assertCount(3, Property::walkabilityScore(40)->get());
+    }
+
+    public function test_transit_score_scope()
+    {
+        Property::factory()->create(['transit_score' => 85]);
+        Property::factory()->create(['transit_score' => 65]);
+        Property::factory()->create(['transit_score' => 45]);
+
+        $this->assertCount(2, Property::transitScore(50)->get());
+        $this->assertCount(1, Property::transitScore(75)->get());
+        $this->assertCount(3, Property::transitScore(40)->get());
+    }
+
+    public function test_bike_score_scope()
+    {
+        Property::factory()->create(['bike_score' => 88]);
+        Property::factory()->create(['bike_score' => 68]);
+        Property::factory()->create(['bike_score' => 48]);
+
+        $this->assertCount(2, Property::bikeScore(55)->get());
+        $this->assertCount(1, Property::bikeScore(80)->get());
+        $this->assertCount(3, Property::bikeScore(30)->get());
+    }
+
+    public function test_featured_scope()
+    {
+        Property::factory()->create(['is_featured' => true]);
+        Property::factory()->create(['is_featured' => true]);
+        Property::factory()->create(['is_featured' => false]);
+
+        $this->assertCount(2, Property::featured()->get());
+    }
+
+    public function test_country_scope()
+    {
+        Property::factory()->create(['country' => 'UK']);
+        Property::factory()->create(['country' => 'UK']);
+        Property::factory()->create(['country' => 'US']);
+
+        $this->assertCount(2, Property::country('UK')->get());
+        $this->assertCount(1, Property::country('US')->get());
+        $this->assertCount(0, Property::country('FR')->get());
     }
 }

@@ -31,9 +31,18 @@ class AdvancedPropertySearch extends Component
     public $latitude = null;
     public $longitude = null;
     public $radius = 10; // Default radius in km
+    public $energyRating = '';
+    public $minEnergyScore = 0;
+    public $minWalkabilityScore = 0;
+    public $minTransitScore = 0;
+    public $minBikeScore = 0;
+    public $featuredOnly = false;
+    public $country = '';
 
     protected $queryString = [
-        'search', 'minPrice', 'maxPrice', 'minBedrooms', 'propertyType', 'sortBy'
+        'search', 'minPrice', 'maxPrice', 'minBedrooms', 'propertyType', 'sortBy',
+        'energyRating', 'minEnergyScore', 'minWalkabilityScore', 'minTransitScore',
+        'minBikeScore', 'featuredOnly', 'country'
     ];
 
     protected $postalCodeService;
@@ -90,6 +99,27 @@ class AdvancedPropertySearch extends Component
             })
             ->when($this->latitude && $this->longitude, function ($query) {
                 return $query->nearby($this->latitude, $this->longitude, $this->radius);
+            })
+            ->when($this->energyRating, function ($query) {
+                return $query->energyRating($this->energyRating);
+            })
+            ->when($this->minEnergyScore > 0, function ($query) {
+                return $query->minEnergyScore($this->minEnergyScore);
+            })
+            ->when($this->minWalkabilityScore > 0, function ($query) {
+                return $query->walkabilityScore($this->minWalkabilityScore);
+            })
+            ->when($this->minTransitScore > 0, function ($query) {
+                return $query->transitScore($this->minTransitScore);
+            })
+            ->when($this->minBikeScore > 0, function ($query) {
+                return $query->bikeScore($this->minBikeScore);
+            })
+            ->when($this->featuredOnly, function ($query) {
+                return $query->featured();
+            })
+            ->when($this->country, function ($query) {
+                return $query->country($this->country);
             })
             ->with(['features', 'images']);
 

@@ -36,6 +36,13 @@ class PropertyList extends Component
     public $latitude = null;
     public $longitude = null;
     public $radius = 10; // Default radius in km
+    public $energyRating = '';
+    public $minEnergyScore = 0;
+    public $minWalkabilityScore = 0;
+    public $minTransitScore = 0;
+    public $minBikeScore = 0;
+    public $featuredOnly = false;
+    public $country = '';
 
     protected $listeners = ['applyAdvancedFilters', 'favoriteAdded' => '$refresh', 'favoriteRemoved' => '$refresh'];
 
@@ -56,6 +63,13 @@ class PropertyList extends Component
         'maxArea' => ['except' => 10000],
         'propertyType' => ['except' => ''],
         'selectedAmenities' => ['except' => []],
+        'energyRating' => ['except' => ''],
+        'minEnergyScore' => ['except' => 0],
+        'minWalkabilityScore' => ['except' => 0],
+        'minTransitScore' => ['except' => 0],
+        'minBikeScore' => ['except' => 0],
+        'featuredOnly' => ['except' => false],
+        'country' => ['except' => ''],
     ];
 
     public function applyAdvancedFilters($filters)
@@ -95,6 +109,35 @@ class PropertyList extends Component
                 if ($this->selectedAmenities) {
                     $query->hasAmenities($this->selectedAmenities);
                 }
+
+                if ($this->energyRating) {
+                    $query->energyRating($this->energyRating);
+                }
+
+                if ($this->minEnergyScore > 0) {
+                    $query->minEnergyScore($this->minEnergyScore);
+                }
+
+                if ($this->minWalkabilityScore > 0) {
+                    $query->walkabilityScore($this->minWalkabilityScore);
+                }
+
+                if ($this->minTransitScore > 0) {
+                    $query->transitScore($this->minTransitScore);
+                }
+
+                if ($this->minBikeScore > 0) {
+                    $query->bikeScore($this->minBikeScore);
+                }
+
+                if ($this->featuredOnly) {
+                    $query->featured();
+                }
+
+                if ($this->country) {
+                    $query->country($this->country);
+                }
+
                 $query->with('features', 'images');
 
                 $properties = $query->paginate(12);

@@ -435,6 +435,41 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         });
     }
 
+    public function scopeEnergyRating(Builder $query, $rating): Builder
+    {
+        return $query->where('energy_rating', $rating);
+    }
+
+    public function scopeMinEnergyScore(Builder $query, $minScore): Builder
+    {
+        return $query->where('energy_score', '>=', $minScore);
+    }
+
+    public function scopeWalkabilityScore(Builder $query, $minScore): Builder
+    {
+        return $query->where('walkability_score', '>=', $minScore);
+    }
+
+    public function scopeTransitScore(Builder $query, $minScore): Builder
+    {
+        return $query->where('transit_score', '>=', $minScore);
+    }
+
+    public function scopeBikeScore(Builder $query, $minScore): Builder
+    {
+        return $query->where('bike_score', '>=', $minScore);
+    }
+
+    public function scopeFeatured(Builder $query): Builder
+    {
+        return $query->where('is_featured', true);
+    }
+
+    public function scopeCountry(Builder $query, $country): Builder
+    {
+        return $query->where('country', $country);
+    }
+
     public function getAvailableDatesForTeam()
     {
         $bookedDates = $this->bookings()
