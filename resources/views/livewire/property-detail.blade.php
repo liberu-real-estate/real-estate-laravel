@@ -190,6 +190,10 @@
                             {{ $property->description }}
                         </p>
                     </div>
+                    
+                    <!-- Interactive Floor Plan -->
+                    <x-floor-plan-viewer :floorPlanData="$property->floor_plan_data" />
+                    
                     <div class=""></div>
                     @auth
                         @livewire('property-review-form', ['propertyId' => $property->id])
