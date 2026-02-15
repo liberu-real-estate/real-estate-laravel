@@ -114,7 +114,7 @@ class AIInvestmentAnalysisService
         $stdDev = $this->calculateStandardDeviation($prices->toArray());
         $mean = $prices->avg();
         
-        if ($mean == 0) {
+        if ($mean === 0) {
             return 5; // Default medium volatility
         }
         
