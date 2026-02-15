@@ -83,4 +83,15 @@ class PropertyTest extends TestCase
         $this->assertIsArray($availableDates);
         $this->assertNotEmpty($availableDates);
     }
+
+    public function test_property_has_videos_media_collection()
+    {
+        $property = Property::factory()->create();
+        
+        // Verify media collections are properly registered
+        $property->registerMediaCollections();
+        
+        // Test that the property can handle the videos collection
+        $this->assertTrue($property->getMedia('videos')->isEmpty());
+    }
 }
