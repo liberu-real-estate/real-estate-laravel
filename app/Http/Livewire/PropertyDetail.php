@@ -4,7 +4,9 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Property;
+use App\Models\Favorite;
 use App\Services\NeighborhoodDataService;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Lead;
 use App\Services\LeadScoringService;
@@ -18,6 +20,7 @@ class PropertyDetail extends Component
     public $reviews;
     public $neighborhoodData;
     public $showInvestmentSimulation = false;
+    public $isFavorited = false;
 
     // Lead capture form fields
     public $name;
@@ -49,7 +52,42 @@ class PropertyDetail extends Component
         $this->isLettingsProperty = $this->property->category->name === 'lettings';
         $this->reviews = $this->property->reviews()->with('user')->latest()->get();
 
+        // Check if property is favorited by current user
+        if (Auth::check()) {
+            $this->isFavorited = Favorite::where('user_id', Auth::id())
+                ->where('property_id', $this->property->id)
+                ->exists();
+        }
+
         $this->updateNeighborhoodData();
+    }
+
+    public function toggleFavorite()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        $favorite = Favorite::where('user_id', $user->id)
+            ->where('property_id', $this->property->id)
+            ->first();
+
+        if ($favorite) {
+            $favorite->delete();
+            $this->isFavorited = false;
+            session()->flash('message', 'Property removed from wishlist');
+            $this->emit('favoriteRemoved');
+        } else {
+            Favorite::create([
+                'user_id' => $user->id,
+                'property_id' => $this->property->id,
+                'team_id' => $user->currentTeam?->id,
+            ]);
+            $this->isFavorited = true;
+            session()->flash('message', 'Property added to wishlist');
+            $this->emit('favoriteAdded');
+        }
     }
 
     public function render()
