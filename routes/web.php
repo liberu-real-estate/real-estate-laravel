@@ -27,6 +27,8 @@ use App\Http\Livewire\PrivacyPolicy;
 use App\Http\Livewire\WishlistManager;
 use App\Http\Livewire\NewsList;
 use App\Http\Livewire\NewsDetail;
+use App\Http\Livewire\PropertyValuationComponent;
+use App\Http\Controllers\PropertyValuationController;
 
 
 /*
@@ -88,6 +90,15 @@ Route::get('/calculators', CalculatorsComponent::class)->name('calculators');
 // News Routes
 Route::get('/news', NewsList::class)->name('news.list');
 Route::get('/news/{slug}', NewsDetail::class)->name('news.detail');
+
+// Property Valuation Routes
+Route::get('/properties/{propertyId}/valuation', PropertyValuationComponent::class)->name('property.valuation');
+Route::middleware(['auth'])->group(function () {
+    Route::post('/properties/{property}/valuation/generate', [PropertyValuationController::class, 'generateValuation'])->name('property.valuation.generate');
+    Route::get('/properties/{property}/valuation/history', [PropertyValuationController::class, 'getValuationHistory'])->name('property.valuation.history');
+    Route::get('/properties/{property}/valuation/report', [PropertyValuationController::class, 'getDetailedReport'])->name('property.valuation.report');
+    Route::post('/valuation/train-model', [PropertyValuationController::class, 'trainModel'])->name('valuation.train');
+});
 
 require __DIR__.'/socialstream.php';
 
