@@ -188,6 +188,38 @@ The neighborhood data service integrates with an external API to fetch real-time
 }
 ```
 
+## Automated Updates
+
+The system includes a scheduled task that automatically updates neighborhood data daily. This is configured in `app/Console/Kernel.php`:
+
+```php
+$schedule->call(function () {
+    $neighborhoods = Neighborhood::all();
+    $neighborhoodDataService = app(NeighborhoodDataService::class);
+    foreach ($neighborhoods as $neighborhood) {
+        $property = $neighborhood->properties()->first();
+        if ($property) {
+            $zipCode = $property->postal_code;
+            $freshData = $neighborhoodDataService->getNeighborhoodData($zipCode);
+            if ($freshData) {
+                $neighborhood->update([
+                    'median_income' => $freshData['median_income'],
+                    'population' => $freshData['population'],
+                    'walk_score' => $freshData['walk_score'],
+                    'transit_score' => $freshData['transit_score'],
+                    'last_updated' => now(),
+                ]);
+            }
+        }
+    }
+})->daily();
+```
+
+To ensure the scheduler is running, make sure the Laravel cron job is configured:
+```bash
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+
 ## Error Handling
 
 - If the API call fails, the service returns `null` and logs the error
@@ -197,10 +229,10 @@ The neighborhood data service integrates with an external API to fetch real-time
 ## Future Enhancements
 
 Potential improvements:
-1. Automated scheduled updates of neighborhood data
-2. Neighborhood comparison tool
-3. Interactive maps showing neighborhood boundaries
-4. Crime statistics visualization
-5. School ratings with links to detailed information
-6. Nearby amenities with distance calculations
-7. Historical trend data for neighborhood statistics
+1. Neighborhood comparison tool
+2. Interactive maps showing neighborhood boundaries
+3. Crime statistics visualization
+4. School ratings with links to detailed information
+5. Nearby amenities with distance calculations
+6. Historical trend data for neighborhood statistics
+7. Neighborhood search and filtering
