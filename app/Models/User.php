@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\AgentMatchingService;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasDefaultTenant;
 use Filament\Models\Contracts\HasTenants;
@@ -207,4 +208,41 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     {
         return $this->currentTeam();
     }
+
+    /**
+     * Get recommended agents for this user
+     *
+     * @param int $limit
+     * @return Collection
+     */
+    public function getRecommendedAgents(int $limit = 5): Collection
+    {
+        $service = app(AgentMatchingService::class);
+        return $service->findMatches($this, $limit);
+    }
+
+    /**
+     * Generate and save agent matches for this user
+     *
+     * @param int $minScore
+     * @return Collection
+     */
+    public function generateAgentMatches(int $minScore = 60): Collection
+    {
+        $service = app(AgentMatchingService::class);
+        return $service->generateMatchesForUser($this, $minScore);
+    }
+
+    /**
+     * Get agents recommended for a specific property search
+     *
+     * @param array $searchContext
+     * @return Collection
+     */
+    public function getAgentsForPropertySearch(array $searchContext): Collection
+    {
+        $service = app(AgentMatchingService::class);
+        return $service->getRecommendedAgentsForPropertySearch($this, $searchContext);
+    }
 }
+
