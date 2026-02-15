@@ -1,4 +1,7 @@
 <div>
+    @php
+        $currency = app(\App\Settings\GeneralSettings::class)->site_currency;
+    @endphp
     @section('content')
         <section>
             <section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
@@ -17,7 +20,7 @@
                             </h1>
                             <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
                                 <p class="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                                    {{ app(\App\Settings\GeneralSettings::class)->site_currency . ' ' . number_format($property->price, 2) }}
+                                    {{ $currency . ' ' . number_format($property->price, 2) }}
                                 </p>
                                 
                                 <div class="flex items-center gap-2 mt-2 sm:mt-0">
@@ -225,19 +228,19 @@
                                                 <div>
                                                     <p class="text-xs text-gray-500">Est. Annual Rent</p>
                                                     <p class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                        {{ app(\App\Settings\GeneralSettings::class)->site_currency }}{{ number_format($investmentAnalytics['cash_flow_analysis']['estimated_annual_rent'], 0) }}
+                                                        {{ $currency }}{{ number_format($investmentAnalytics['cash_flow_analysis']['estimated_annual_rent'], 0) }}
                                                     </p>
                                                 </div>
                                                 <div>
                                                     <p class="text-xs text-gray-500">Est. Expenses</p>
                                                     <p class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                        {{ app(\App\Settings\GeneralSettings::class)->site_currency }}{{ number_format($investmentAnalytics['cash_flow_analysis']['estimated_expenses'], 0) }}
+                                                        {{ $currency }}{{ number_format($investmentAnalytics['cash_flow_analysis']['estimated_expenses'], 0) }}
                                                     </p>
                                                 </div>
                                                 <div>
                                                     <p class="text-xs text-gray-500">Net Cash Flow</p>
                                                     <p class="text-lg font-semibold text-green-600">
-                                                        {{ app(\App\Settings\GeneralSettings::class)->site_currency }}{{ number_format($investmentAnalytics['cash_flow_analysis']['net_cash_flow'], 0) }}
+                                                        {{ $currency }}{{ number_format($investmentAnalytics['cash_flow_analysis']['net_cash_flow'], 0) }}
                                                     </p>
                                                 </div>
                                                 <div>
@@ -255,12 +258,7 @@
                                         <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
                                             <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Market Position</h4>
                                             <div class="flex items-center justify-between mb-2">
-                                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
-                                                    {{ $investmentAnalytics['market_position']['position'] === 'excellent' ? 'bg-green-100 text-green-800' : '' }}
-                                                    {{ $investmentAnalytics['market_position']['position'] === 'good' ? 'bg-blue-100 text-blue-800' : '' }}
-                                                    {{ $investmentAnalytics['market_position']['position'] === 'average' ? 'bg-gray-100 text-gray-800' : '' }}
-                                                    {{ $investmentAnalytics['market_position']['position'] === 'above_average' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                                    {{ $investmentAnalytics['market_position']['position'] === 'premium' ? 'bg-purple-100 text-purple-800' : '' }}">
+                                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $this->getPositionBadgeClass($investmentAnalytics['market_position']['position']) }}">
                                                     {{ ucfirst(str_replace('_', ' ', $investmentAnalytics['market_position']['position'])) }}
                                                 </span>
                                                 <span class="text-sm {{ $investmentAnalytics['market_position']['price_vs_market'] < 0 ? 'text-green-600' : 'text-red-600' }} font-semibold">

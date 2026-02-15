@@ -114,7 +114,7 @@ class AIInvestmentAnalysisService
         $stdDev = $this->calculateStandardDeviation($prices->toArray());
         $mean = $prices->avg();
         
-        if ($mean === 0) {
+        if (abs($mean) < 0.0001) {
             return 5; // Default medium volatility
         }
         
@@ -143,11 +143,13 @@ class AIInvestmentAnalysisService
         $estimatedExpenses = $estimatedAnnualRent * 0.30; // 30% expenses
         $netCashFlow = $estimatedAnnualRent - $estimatedExpenses;
         
+        $cashOnCashReturn = $property->price > 0 ? round(($netCashFlow / $property->price) * 100, 2) : 0;
+        
         return [
             'estimated_annual_rent' => round($estimatedAnnualRent, 2),
             'estimated_expenses' => round($estimatedExpenses, 2),
             'net_cash_flow' => round($netCashFlow, 2),
-            'cash_on_cash_return' => round(($netCashFlow / $property->price) * 100, 2),
+            'cash_on_cash_return' => $cashOnCashReturn,
         ];
     }
     
@@ -163,7 +165,7 @@ class AIInvestmentAnalysisService
         
         $marketDataItem = $marketAnalysis['market_data']->where('property_type', $property->property_type)->first();
         
-        if (!$marketDataItem) {
+        if (!$marketDataItem || !isset($marketDataItem->avg_price) || $marketDataItem->avg_price <= 0) {
             return [
                 'position' => 'average',
                 'price_vs_market' => 0,

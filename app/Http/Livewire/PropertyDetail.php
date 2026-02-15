@@ -112,6 +112,18 @@ class PropertyDetail extends Component
 
         return $colors[$rating] ?? '#808080'; // Default to gray if rating not found
     }
+    
+    public function getPositionBadgeClass($position)
+    {
+        return match($position) {
+            'excellent' => 'bg-green-100 text-green-800',
+            'good' => 'bg-blue-100 text-blue-800',
+            'average' => 'bg-gray-100 text-gray-800',
+            'above_average' => 'bg-yellow-100 text-yellow-800',
+            'premium' => 'bg-purple-100 text-purple-800',
+            default => 'bg-gray-100 text-gray-800',
+        };
+    }
 
     public function updateNeighborhoodData()
     {
