@@ -84,6 +84,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_coverage_amount',
         'insurance_premium',
         'insurance_expiry_date',
+        'floor_plan_data',
+        'floor_plan_image',
     ];
 
     protected $casts = [
@@ -94,6 +96,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_expiry_date' => 'date',
         'latitude' => 'float',
         'longitude' => 'float',
+        'floor_plan_data' => 'array',
     ];
 
     public function auctions()
