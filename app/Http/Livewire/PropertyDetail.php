@@ -18,6 +18,7 @@ class PropertyDetail extends Component
     public $reviews;
     public $neighborhoodData;
     public $showInvestmentSimulation = false;
+    public $investmentAnalytics = null;
 
     // Lead capture form fields
     public $name;
@@ -46,22 +47,32 @@ class PropertyDetail extends Component
         $this->property = Property::with(['neighborhood', 'features', 'team', 'category', 'reviews.user'])->findOrFail($propertyId);
         $this->neighborhood = $this->property->neighborhood;
         $this->team = $this->property->team;
-        $this->isLettingsProperty = $this->property->category->name === 'lettings';
+        $this->isLettingsProperty = $this->property->category && $this->property->category->name === 'lettings';
         $this->reviews = $this->property->reviews()->with('user')->latest()->get();
 
         $this->updateNeighborhoodData();
+        $this->loadInvestmentAnalytics();
     }
 
     public function render()
     {
-        return view('livewire.property-detail', [
-            'investmentAnalysisComponent' => $this->showInvestmentSimulation ? new InvestmentAnalysisComponent($this->property) : null,
-        ])->layout('layouts.app');
+        return view('livewire.property-detail')->layout('layouts.app');
     }
 
     public function toggleInvestmentSimulation()
     {
         $this->showInvestmentSimulation = !$this->showInvestmentSimulation;
+    }
+    
+    public function loadInvestmentAnalytics()
+    {
+        try {
+            $aiInvestmentService = app(\App\Services\AIInvestmentAnalysisService::class);
+            $this->investmentAnalytics = $aiInvestmentService->analyzeInvestment($this->property);
+        } catch (\Exception $e) {
+            \Log::error('Failed to load investment analytics: ' . $e->getMessage());
+            $this->investmentAnalytics = null;
+        }
     }
 
     public function submitLeadForm()

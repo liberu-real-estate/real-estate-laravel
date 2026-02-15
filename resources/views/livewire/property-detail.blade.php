@@ -180,6 +180,112 @@
                                     <span
                                         class="bg-blue-100 text-blue-800 px-2 py-1 rounded">{{ $team->name ?? 'No team information available' }}</span>
                                 </div>
+                                
+                                <!-- Investment Analytics Section -->
+                                @if($investmentAnalytics)
+                                <hr class="my-2 md:my-2 border-gray-200 dark:border-gray-800" />
+                                <div class="my-2">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-gray-500 font-semibold">Investment Analytics</span>
+                                        <span class="text-xs text-gray-400">AI-Powered Insights</span>
+                                    </div>
+                                    
+                                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-lg p-4 space-y-4">
+                                        <!-- Investment Prediction -->
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Predicted ROI</h4>
+                                                <p class="text-3xl font-bold {{ $investmentAnalytics['prediction']['predicted_roi'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
+                                                    {{ number_format($investmentAnalytics['prediction']['predicted_roi'], 2) }}%
+                                                </p>
+                                                <p class="text-xs text-gray-500 mt-1">Expected return over 5 years</p>
+                                            </div>
+                                            
+                                            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Risk Score</h4>
+                                                <div class="flex items-center">
+                                                    <p class="text-3xl font-bold text-gray-900 dark:text-white">
+                                                        {{ number_format($investmentAnalytics['prediction']['risk_score'], 1) }}/10
+                                                    </p>
+                                                    <div class="ml-3 flex-1">
+                                                        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ ($investmentAnalytics['prediction']['risk_score'] / 10) * 100 }}%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="text-xs text-gray-500 mt-1">Lower is better</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cash Flow Analysis -->
+                                        @if(isset($investmentAnalytics['cash_flow_analysis']))
+                                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Cash Flow Projection</h4>
+                                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                                <div>
+                                                    <p class="text-xs text-gray-500">Est. Annual Rent</p>
+                                                    <p class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                        {{ app(\App\Settings\GeneralSettings::class)->site_currency }}{{ number_format($investmentAnalytics['cash_flow_analysis']['estimated_annual_rent'], 0) }}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs text-gray-500">Est. Expenses</p>
+                                                    <p class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                        {{ app(\App\Settings\GeneralSettings::class)->site_currency }}{{ number_format($investmentAnalytics['cash_flow_analysis']['estimated_expenses'], 0) }}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs text-gray-500">Net Cash Flow</p>
+                                                    <p class="text-lg font-semibold text-green-600">
+                                                        {{ app(\App\Settings\GeneralSettings::class)->site_currency }}{{ number_format($investmentAnalytics['cash_flow_analysis']['net_cash_flow'], 0) }}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs text-gray-500">Cash-on-Cash</p>
+                                                    <p class="text-lg font-semibold text-blue-600">
+                                                        {{ number_format($investmentAnalytics['cash_flow_analysis']['cash_on_cash_return'], 2) }}%
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+
+                                        <!-- Market Position -->
+                                        @if(isset($investmentAnalytics['market_position']))
+                                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Market Position</h4>
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                                                    {{ $investmentAnalytics['market_position']['position'] === 'excellent' ? 'bg-green-100 text-green-800' : '' }}
+                                                    {{ $investmentAnalytics['market_position']['position'] === 'good' ? 'bg-blue-100 text-blue-800' : '' }}
+                                                    {{ $investmentAnalytics['market_position']['position'] === 'average' ? 'bg-gray-100 text-gray-800' : '' }}
+                                                    {{ $investmentAnalytics['market_position']['position'] === 'above_average' ? 'bg-yellow-100 text-yellow-800' : '' }}
+                                                    {{ $investmentAnalytics['market_position']['position'] === 'premium' ? 'bg-purple-100 text-purple-800' : '' }}">
+                                                    {{ ucfirst(str_replace('_', ' ', $investmentAnalytics['market_position']['position'])) }}
+                                                </span>
+                                                <span class="text-sm {{ $investmentAnalytics['market_position']['price_vs_market'] < 0 ? 'text-green-600' : 'text-red-600' }} font-semibold">
+                                                    {{ $investmentAnalytics['market_position']['price_vs_market'] >= 0 ? '+' : '' }}{{ number_format($investmentAnalytics['market_position']['price_vs_market'], 1) }}% vs market
+                                                </span>
+                                            </div>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                                {{ $investmentAnalytics['market_position']['competitive_advantage'] }}
+                                            </p>
+                                        </div>
+                                        @endif
+                                        
+                                        <!-- Investment Simulator Link -->
+                                        <div class="text-center pt-2">
+                                            <button wire:click="toggleInvestmentSimulation" 
+                                                class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition duration-150 ease-in-out">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                                </svg>
+                                                {{ $showInvestmentSimulation ? 'Hide' : 'Show' }} Advanced Investment Simulator
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                             <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
                         </div>
@@ -190,6 +296,16 @@
                             {{ $property->description }}
                         </p>
                     </div>
+                    
+                    <!-- Advanced Investment Simulator -->
+                    @if($showInvestmentSimulation)
+                    <div class="w-full mb-8">
+                        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
+                            @livewire('investment-analysis-component', ['property' => $property])
+                        </div>
+                    </div>
+                    @endif
+                    
                     <div class=""></div>
                     @auth
                         @livewire('property-review-form', ['propertyId' => $property->id])
