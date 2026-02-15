@@ -10,10 +10,12 @@ class FloorPlanTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_property_can_have_floor_plan_data()
+    private const SAMPLE_BASE64_IMAGE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+
+    private function getSampleFloorPlanData(): array
     {
-        $floorPlanData = [
-            'image' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+        return [
+            'image' => self::SAMPLE_BASE64_IMAGE,
             'annotations' => [
                 [
                     'type' => 'room',
@@ -29,6 +31,11 @@ class FloorPlanTest extends TestCase
                 ]
             ]
         ];
+    }
+
+    public function test_property_can_have_floor_plan_data()
+    {
+        $floorPlanData = $this->getSampleFloorPlanData();
 
         $property = Property::factory()->create([
             'floor_plan_data' => $floorPlanData
@@ -90,7 +97,7 @@ class FloorPlanTest extends TestCase
         ];
 
         $floorPlanData = [
-            'image' => 'test-image.png',
+            'image' => self::SAMPLE_BASE64_IMAGE,
             'annotations' => $annotations
         ];
 

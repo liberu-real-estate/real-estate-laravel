@@ -192,7 +192,7 @@
                     </div>
                     
                     <!-- Interactive Floor Plan -->
-                    <x-floor-plan-viewer :floorPlanData="$property->floor_plan_data" />
+                    <x-floor-plan-viewer :floor-plan-data="$property->floor_plan_data" />
                     
                     <div class=""></div>
                     @auth

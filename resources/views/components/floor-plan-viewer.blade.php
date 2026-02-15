@@ -1,4 +1,8 @@
-@props(['floorPlanData'])
+@props(['floorPlanData' => null])
+
+@php
+    $floorPlanData = $floorPlanData ?? $attributes->get('floor-plan-data');
+@endphp
 
 @if($floorPlanData && is_array($floorPlanData) && isset($floorPlanData['image']))
 <div class="floor-plan-viewer my-6">
