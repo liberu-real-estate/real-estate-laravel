@@ -112,4 +112,31 @@ class WalkScoreServiceTest extends TestCase
         $this->assertIsArray($result);
         $this->assertArrayHasKey('walk_score', $result);
     }
+
+    public function test_validates_scores_within_range()
+    {
+        Config::set('services.walkscore.api_key', 'test_key');
+        Config::set('services.walkscore.base_uri', 'https://api.walkscore.com');
+
+        // Mock API response with out-of-range scores
+        Http::fake([
+            'api.walkscore.com/*' => Http::response([
+                'walkscore' => 150, // Invalid: > 100
+                'description' => 'Test',
+                'transit' => ['score' => -10, 'description' => 'Test'], // Invalid: < 0
+                'bike' => ['score' => 75, 'description' => 'Test'], // Valid
+            ], 200)
+        ]);
+
+        $result = $this->walkScoreService->getWalkScore(
+            '123 Main St, London',
+            51.5074,
+            -0.1278
+        );
+
+        // Scores should be clamped to valid range
+        $this->assertEquals(100, $result['walk_score']); // Clamped from 150
+        $this->assertEquals(0, $result['transit_score']); // Clamped from -10
+        $this->assertEquals(75, $result['bike_score']); // Unchanged (valid)
+    }
 }

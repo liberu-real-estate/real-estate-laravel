@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->integer('walkability_score')->nullable()->after('longitude');
+            $table->unsignedTinyInteger('walkability_score')->nullable()->after('longitude');
             $table->string('walkability_description')->nullable()->after('walkability_score');
-            $table->integer('transit_score')->nullable()->after('walkability_description');
+            $table->unsignedTinyInteger('transit_score')->nullable()->after('walkability_description');
             $table->string('transit_description')->nullable()->after('transit_score');
-            $table->integer('bike_score')->nullable()->after('transit_description');
+            $table->unsignedTinyInteger('bike_score')->nullable()->after('transit_description');
             $table->string('bike_description')->nullable()->after('bike_score');
             $table->timestamp('walkability_updated_at')->nullable()->after('bike_description');
         });

@@ -52,11 +52,11 @@ class WalkScoreService
             $data = $response->json();
 
             return [
-                'walk_score' => $data['walkscore'] ?? null,
+                'walk_score' => $this->validateScore($data['walkscore'] ?? null),
                 'walk_description' => $data['description'] ?? null,
-                'transit_score' => $data['transit']['score'] ?? null,
+                'transit_score' => $this->validateScore($data['transit']['score'] ?? null),
                 'transit_description' => $data['transit']['description'] ?? null,
-                'bike_score' => $data['bike']['score'] ?? null,
+                'bike_score' => $this->validateScore($data['bike']['score'] ?? null),
                 'bike_description' => $data['bike']['description'] ?? null,
             ];
         } catch (Exception $e) {
@@ -132,5 +132,21 @@ class WalkScoreService
         if ($score >= 70) return 'Very Bikeable';
         if ($score >= 50) return 'Bikeable';
         return 'Somewhat Bikeable';
+    }
+
+    /**
+     * Validate and clamp score to 0-100 range
+     *
+     * @param mixed $score
+     * @return int|null
+     */
+    protected function validateScore($score)
+    {
+        if ($score === null) {
+            return null;
+        }
+
+        $score = (int) $score;
+        return max(0, min(100, $score));
     }
 }
