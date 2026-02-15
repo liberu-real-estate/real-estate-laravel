@@ -288,6 +288,30 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             ->withTimestamps();
     }
 
+    public function communityEvents()
+    {
+        return $this->hasMany(CommunityEvent::class);
+    }
+
+    public function getNearbyCommunityEvents($radius = 10)
+    {
+        if (!$this->latitude || !$this->longitude) {
+            return collect([]);
+        }
+
+        // Use the nearby scope which includes distance calculation
+        return CommunityEvent::public()
+            ->upcoming()
+            ->nearby($this->latitude, $this->longitude, $radius)
+            ->get()
+            ->map(function ($event) {
+                // Distance is already calculated by the nearby scope
+                // but we need to make it accessible as a property
+                $event->distance_from_property = $event->distance ?? 0;
+                return $event;
+            });
+    }
+
     public function getLatestValuation($type = 'market')
     {
         return $this->valuations()

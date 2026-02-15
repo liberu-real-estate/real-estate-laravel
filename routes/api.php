@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\CommunityEventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,15 @@ Route::prefix('news')->group(function () {
     Route::get('/featured', [NewsController::class, 'featured']);
     Route::get('/{slug}', [NewsController::class, 'show']);
 });
+
+// Public Community Events API Routes
+Route::prefix('community-events')->group(function () {
+    Route::get('/', [CommunityEventController::class, 'index']);
+    Route::get('/{id}', [CommunityEventController::class, 'show']);
+});
+
+// Property-specific community events route
+Route::get('/properties/{propertyId}/community-events', [CommunityEventController::class, 'propertyEvents']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // Virtual Staging API Routes
