@@ -274,6 +274,9 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         return $this->hasMany(MarketAppraisal::class);
     }
 
+    public function histories()
+    {
+        return $this->hasMany(PropertyHistory::class)->orderBy('event_date', 'desc');
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
