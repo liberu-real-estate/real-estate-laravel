@@ -262,6 +262,17 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         return $this->hasMany(MarketAppraisal::class);
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'property_id', 'user_id')
+            ->withTimestamps();
+    }
+
     public function getLatestValuation($type = 'market')
     {
         return $this->valuations()

@@ -7,25 +7,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Favorite extends Model
 {
-    protected $primaryKey = 'favorite_id';
-
     protected $fillable = [
         'user_id',
         'property_id',
         'team_id',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function agent()
-    {
-        return $this->belongsTo(User::class, 'agent_id');
-    }
-
-    public function property()
+    public function property(): BelongsTo
     {
         return $this->belongsTo(Property::class, 'property_id');
     }

@@ -24,6 +24,7 @@ use App\Http\Livewire\CalculatorsComponent;
 use App\Http\Livewire\About;
 use App\Http\Livewire\TermsAndConditions;
 use App\Http\Livewire\PrivacyPolicy;
+use App\Http\Livewire\WishlistManager;
 
 
 /*
@@ -53,6 +54,9 @@ Route::get('/properties/{propertyId}', PropertyDetail::class)->name('property.de
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/apply/{property}', RentalApplicationForm::class)->name('rental.apply');
     Route::get('/applications', [App\Http\Controllers\TenantController::class, 'applications'])->name('tenant.applications');
+
+    // Wishlist
+    Route::get('/wishlist', WishlistManager::class)->name('wishlist');
 
     // Custom Reports
     Route::get('/custom-reports', [CustomReportController::class, 'index'])->name('custom-reports.index');
