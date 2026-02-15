@@ -3,9 +3,10 @@
     <h1 class="text-3xl font-bold mb-6">Property Calculators</h1>
 
     <div class="mb-6">
-        <button x-on:click="calculatorType = 'mortgage'" class="px-4 py-2 mr-2" x-bind:class="calculatorType === 'mortgage' ? 'bg-blue-500 text-white' : 'bg-gray-200'">Mortgage Calculator</button>
-        <button x-on:click="calculatorType = 'costOfMoving'" class="px-4 py-2 mr-2" x-bind:class="calculatorType === 'costOfMoving' ? 'bg-blue-500 text-white' : 'bg-gray-200'">Cost of Moving Calculator</button>
-        <button x-on:click="calculatorType = 'stampDuty'" class="px-4 py-2" x-bind:class="calculatorType === 'stampDuty' ? 'bg-blue-500 text-white' : 'bg-gray-200'">Stamp Duty Calculator</button>
+        <button x-on:click="calculatorType = 'mortgage'" class="px-4 py-2 mr-2 mb-2" x-bind:class="calculatorType === 'mortgage' ? 'bg-blue-500 text-white' : 'bg-gray-200'">Mortgage Calculator</button>
+        <button x-on:click="calculatorType = 'costOfMoving'" class="px-4 py-2 mr-2 mb-2" x-bind:class="calculatorType === 'costOfMoving' ? 'bg-blue-500 text-white' : 'bg-gray-200'">Cost of Moving Calculator</button>
+        <button x-on:click="calculatorType = 'stampDuty'" class="px-4 py-2 mr-2 mb-2" x-bind:class="calculatorType === 'stampDuty' ? 'bg-blue-500 text-white' : 'bg-gray-200'">Stamp Duty Calculator</button>
+        <button x-on:click="calculatorType = 'homeValuation'" class="px-4 py-2 mb-2" x-bind:class="calculatorType === 'homeValuation' ? 'bg-blue-500 text-white' : 'bg-gray-200'">Home Valuation</button>
     </div>
 
     <div x-show="calculatorType === 'mortgage'" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
