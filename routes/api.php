@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CommunityEventController;
+use App\Http\Controllers\ChatbotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,15 @@ Route::prefix('community-events')->group(function () {
 
 // Property-specific community events route
 Route::get('/properties/{propertyId}/community-events', [CommunityEventController::class, 'propertyEvents']);
+
+// Chatbot API Routes
+Route::prefix('chatbot')->group(function () {
+    Route::post('/start', [ChatbotController::class, 'startConversation']);
+    Route::post('/message', [ChatbotController::class, 'sendMessage']);
+    Route::get('/history/{sessionId}', [ChatbotController::class, 'getHistory']);
+    Route::post('/escalate', [ChatbotController::class, 'escalate']);
+    Route::post('/close', [ChatbotController::class, 'closeConversation']);
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     // Virtual Staging API Routes
