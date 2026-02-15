@@ -288,6 +288,23 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             ->withTimestamps();
     }
 
+    public function communityEvents()
+    {
+        return $this->hasMany(CommunityEvent::class);
+    }
+
+    public function getNearbyCommunityEvents($radius = 10)
+    {
+        if (!$this->latitude || !$this->longitude) {
+            return collect([]);
+        }
+
+        return CommunityEvent::public()
+            ->upcoming()
+            ->nearby($this->latitude, $this->longitude, $radius)
+            ->get();
+    }
+
     public function getLatestValuation($type = 'market')
     {
         return $this->valuations()
