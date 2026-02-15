@@ -348,6 +348,26 @@
                             {{ $property->description }}
                         </p>
                     </div>
+
+                    {{-- Property Video Section --}}
+                    @php
+                        $video = $property->getFirstMedia('videos');
+                    @endphp
+                    @if($video)
+                        <div class="w-full mb-8">
+                            <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Property Video</h2>
+                            {{-- 16:9 aspect ratio container (9/16 * 100 = 56.25%) --}}
+                            <div class="relative w-full" style="padding-bottom: 56.25%;">
+                                <video 
+                                    class="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
+                                    controls
+                                    preload="metadata"
+                                    aria-label="Property video tour for {{ $property->title }}">
+                                    <source src="{{ $video->getUrl() }}" type="{{ $video->mime_type }}">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
                     
                     <!-- Advanced Investment Simulator -->
                     @if($showInvestmentSimulation)
