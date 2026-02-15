@@ -56,6 +56,13 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'location',
         'latitude',
         'longitude',
+        'walkability_score',
+        'walkability_description',
+        'transit_score',
+        'transit_description',
+        'bike_score',
+        'bike_description',
+        'walkability_updated_at',
         'price',
         'bedrooms',
         'bathrooms',
@@ -94,6 +101,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_expiry_date' => 'date',
         'latitude' => 'float',
         'longitude' => 'float',
+        'walkability_updated_at' => 'datetime',
     ];
 
     public function auctions()
@@ -299,6 +307,49 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             ->where('valid_until', '>=', now())
             ->latest('appraisal_date')
             ->first();
+    }
+
+    /**
+     * Update walkability scores for this property
+     *
+     * @return void
+     */
+    public function updateWalkabilityScores()
+    {
+        if (!$this->latitude || !$this->longitude) {
+            return;
+        }
+
+        $walkScoreService = app(\App\Services\WalkScoreService::class);
+        $address = $this->location . ', ' . $this->postal_code;
+        
+        $scores = $walkScoreService->getWalkScore($address, $this->latitude, $this->longitude);
+
+        if ($scores) {
+            $this->update([
+                'walkability_score' => $scores['walk_score'],
+                'walkability_description' => $scores['walk_description'],
+                'transit_score' => $scores['transit_score'],
+                'transit_description' => $scores['transit_description'],
+                'bike_score' => $scores['bike_score'],
+                'bike_description' => $scores['bike_description'],
+                'walkability_updated_at' => now(),
+            ]);
+        }
+    }
+
+    /**
+     * Check if walkability scores need updating (older than 30 days)
+     *
+     * @return bool
+     */
+    public function needsWalkabilityUpdate()
+    {
+        if (!$this->walkability_updated_at) {
+            return true;
+        }
+
+        return $this->walkability_updated_at->lt(now()->subDays(30));
     }
 
     // Scopes

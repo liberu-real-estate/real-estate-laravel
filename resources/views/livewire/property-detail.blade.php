@@ -147,6 +147,63 @@
 
                                 <hr class="my-2 md:my-2 border-gray-200 dark:border-gray-800" />
                                 <div class="my-2">
+                                    <span class="text-gray-500 font-semibold">Walkability Scores</span>
+                                    @if ($property->walkability_score)
+                                        <div class="mt-3 space-y-3">
+                                            <!-- Walk Score -->
+                                            <div class="flex items-center">
+                                                <div class="w-16 h-16 rounded-lg flex flex-col items-center justify-center text-white font-bold mr-4"
+                                                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                                    <span class="text-2xl">{{ $property->walkability_score }}</span>
+                                                    <span class="text-xs">Walk</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <p class="font-semibold text-gray-900 dark:text-white">{{ $property->walkability_description }}</p>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Daily errands and amenities</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Transit Score -->
+                                            @if ($property->transit_score)
+                                            <div class="flex items-center">
+                                                <div class="w-16 h-16 rounded-lg flex flex-col items-center justify-center text-white font-bold mr-4"
+                                                    style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                                    <span class="text-2xl">{{ $property->transit_score }}</span>
+                                                    <span class="text-xs">Transit</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <p class="font-semibold text-gray-900 dark:text-white">{{ $property->transit_description }}</p>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Public transportation options</p>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            <!-- Bike Score -->
+                                            @if ($property->bike_score)
+                                            <div class="flex items-center">
+                                                <div class="w-16 h-16 rounded-lg flex flex-col items-center justify-center text-white font-bold mr-4"
+                                                    style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                                    <span class="text-2xl">{{ $property->bike_score }}</span>
+                                                    <span class="text-xs">Bike</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <p class="font-semibold text-gray-900 dark:text-white">{{ $property->bike_description }}</p>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Bike lanes and biking infrastructure</p>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            <p class="text-xs text-gray-500 mt-2">
+                                                Last updated: {{ $property->walkability_updated_at ? $property->walkability_updated_at->format('M d, Y') : 'N/A' }}
+                                            </p>
+                                        </div>
+                                    @else
+                                        <p class="text-gray-500 mt-2">Walkability scores not available for this property</p>
+                                    @endif
+                                </div>
+
+                                <hr class="my-2 md:my-2 border-gray-200 dark:border-gray-800" />
+                                <div class="my-2">
                                     <span class="text-gray-500">Energy Efficiency</span>
                                     @if ($property->energy_rating && $property->energy_score)
                                         <div class="flex items-center">

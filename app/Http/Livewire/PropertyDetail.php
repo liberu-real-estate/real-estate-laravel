@@ -50,6 +50,7 @@ class PropertyDetail extends Component
         $this->reviews = $this->property->reviews()->with('user')->latest()->get();
 
         $this->updateNeighborhoodData();
+        $this->updateWalkabilityScores();
     }
 
     public function render()
@@ -119,6 +120,15 @@ class PropertyDetail extends Component
 
                 $this->neighborhood->refresh();
             }
+        }
+    }
+
+    public function updateWalkabilityScores()
+    {
+        // Update walkability scores if they're missing or outdated
+        if ($this->property->needsWalkabilityUpdate()) {
+            $this->property->updateWalkabilityScores();
+            $this->property->refresh();
         }
     }
 }
