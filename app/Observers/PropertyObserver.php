@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Property;
 use App\Services\PropertyHistoryService;
+use Illuminate\Support\Facades\Cache;
 
 class PropertyObserver
 {
@@ -19,11 +20,11 @@ class PropertyObserver
      */
     public function updating(Property $property): void
     {
-        // Store original values before update
+        // Store original values in cache before update
         $original = $property->getOriginal();
         
-        // We'll track changes after the update in the updated event
-        $property->_originalBeforeUpdate = $original;
+        // Store in cache with unique key for this property update
+        Cache::put("property_update_{$property->id}", $original, now()->addMinutes(5));
     }
 
     /**
@@ -31,9 +32,11 @@ class PropertyObserver
      */
     public function updated(Property $property): void
     {
-        // Get the original values stored in updating event
-        if (isset($property->_originalBeforeUpdate)) {
-            $this->historyService->autoTrackChanges($property, $property->_originalBeforeUpdate);
+        // Get the original values from cache
+        $original = Cache::pull("property_update_{$property->id}");
+        
+        if ($original) {
+            $this->historyService->autoTrackChanges($property, $original);
         }
     }
 

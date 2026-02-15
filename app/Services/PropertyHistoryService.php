@@ -10,6 +10,11 @@ class PropertyHistoryService
 {
     /**
      * Record a property history event
+     * 
+     * @param Property $property The property being tracked
+     * @param string $eventType Type of event (price_change, status_change, sale, listing, update)
+     * @param string $description Description of the event
+     * @param array $additionalData Additional data including optional 'event_date'
      */
     public function recordEvent(
         Property $property,
@@ -17,11 +22,14 @@ class PropertyHistoryService
         string $description,
         array $additionalData = []
     ): PropertyHistory {
+        // If event_date is not provided in additionalData, use current date
+        $eventDate = $additionalData['event_date'] ?? now()->toDateString();
+        
         $data = array_merge([
             'property_id' => $property->id,
             'event_type' => $eventType,
             'description' => $description,
-            'event_date' => now()->toDateString(),
+            'event_date' => $eventDate,
             'user_id' => Auth::id(),
         ], $additionalData);
 
