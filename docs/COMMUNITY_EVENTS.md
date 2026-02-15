@@ -39,7 +39,7 @@ GET /api/community-events/{id}
 
 ### Get Events for Property
 ```
-GET /api/community-events/property/{propertyId}
+GET /api/properties/{propertyId}/community-events
 ```
 
 Query Parameters:
