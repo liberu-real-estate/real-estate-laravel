@@ -24,6 +24,9 @@ use App\Http\Livewire\CalculatorsComponent;
 use App\Http\Livewire\About;
 use App\Http\Livewire\TermsAndConditions;
 use App\Http\Livewire\PrivacyPolicy;
+use App\Http\Livewire\WishlistManager;
+use App\Http\Livewire\NewsList;
+use App\Http\Livewire\NewsDetail;
 
 
 /*
@@ -54,6 +57,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/apply/{property}', RentalApplicationForm::class)->name('rental.apply');
     Route::get('/applications', [App\Http\Controllers\TenantController::class, 'applications'])->name('tenant.applications');
 
+    // Wishlist
+    Route::get('/wishlist', WishlistManager::class)->name('wishlist');
+
     // Custom Reports
     Route::get('/custom-reports', [CustomReportController::class, 'index'])->name('custom-reports.index');
     Route::post('/custom-reports/generate', [CustomReportController::class, 'generateReport'])->name('custom-reports.generate');
@@ -78,6 +84,10 @@ Route::get('/privacy', [PageController::class, 'privacy'])->name('privacypolicy'
 Route::get('/services', [PageController::class, 'services'])->name('services');
 
 Route::get('/calculators', CalculatorsComponent::class)->name('calculators');
+
+// News Routes
+Route::get('/news', NewsList::class)->name('news.list');
+Route::get('/news/{slug}', NewsDetail::class)->name('news.detail');
 
 require __DIR__.'/socialstream.php';
 

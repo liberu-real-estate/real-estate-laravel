@@ -173,6 +173,17 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
         return $this->hasMany(PriceAlert::class);
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function favoriteProperties()
+    {
+        return $this->belongsToMany(Property::class, 'favorites', 'user_id', 'property_id')
+            ->withTimestamps();
+    }
+
     public function team()
     {
         return $this->currentTeam();

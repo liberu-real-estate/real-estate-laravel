@@ -111,6 +111,54 @@
                     <option value="Pending">Pending</option>
                 </select>
             </div>
+            
+            <!-- Enhanced Filters -->
+            <div>
+                <label for="energyRating" class="block text-sm font-medium text-gray-700">Energy Rating</label>
+                <select id="energyRating" wire:model="energyRating" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <option value="">All Ratings</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                </select>
+            </div>
+            <div>
+                <label for="minEnergyScore" class="block text-sm font-medium text-gray-700">Min Energy Score</label>
+                <input type="number" id="minEnergyScore" wire:model="minEnergyScore" min="0" max="100" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="0-100">
+            </div>
+            <div>
+                <label for="minWalkabilityScore" class="block text-sm font-medium text-gray-700">Min Walkability Score</label>
+                <input type="number" id="minWalkabilityScore" wire:model="minWalkabilityScore" min="0" max="100" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="0-100">
+            </div>
+            <div>
+                <label for="minTransitScore" class="block text-sm font-medium text-gray-700">Min Transit Score</label>
+                <input type="number" id="minTransitScore" wire:model="minTransitScore" min="0" max="100" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="0-100">
+            </div>
+            <div>
+                <label for="minBikeScore" class="block text-sm font-medium text-gray-700">Min Bike Score</label>
+                <input type="number" id="minBikeScore" wire:model="minBikeScore" min="0" max="100" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="0-100">
+            </div>
+            <div>
+                <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                <select id="country" wire:model="country" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <option value="">All Countries</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="US">United States</option>
+                    <option value="FR">France</option>
+                    <option value="DE">Germany</option>
+                    <option value="ES">Spain</option>
+                </select>
+            </div>
+            <div>
+                <label for="featuredOnly" class="flex items-center">
+                    <input type="checkbox" id="featuredOnly" wire:model="featuredOnly" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Featured Properties Only</span>
+                </label>
+            </div>
         </div>
         <div class="mt-4">
             <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
