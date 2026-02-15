@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Property;
 use App\Models\PropertyCategory;
+use App\Models\Neighborhood;
 use Illuminate\Support\Carbon;
 use Faker\Factory as Faker;
 
@@ -24,6 +25,8 @@ public function run()
 private function createProperties($category, $count)
 {
     $faker = Faker::create();
+    $neighborhoods = Neighborhood::all();
+    
     for ($i = 0; $i < $count; $i++) {
         Property::create([
             'title' => $faker->sentence(4),
@@ -42,12 +45,16 @@ private function createProperties($category, $count)
             'property_category_id' => $category->id,
             'latitude' => $faker->latitude,
             'longitude' => $faker->longitude,
+            'postal_code' => $faker->postcode,
+            'neighborhood_id' => $neighborhoods->count() > 0 ? $neighborhoods->random()->id : null,
         ]);
     }
 }
 private function createHmoProperties($category, $count)
 {
     $faker = Faker::create();
+    $neighborhoods = Neighborhood::all();
+    
     for ($i = 0; $i < $count; $i++) {
         $property = Property::create([
             'title' => 'HMO ' . $faker->sentence(3),
@@ -66,6 +73,8 @@ private function createHmoProperties($category, $count)
             'property_category_id' => $category->id,
             'latitude' => $faker->latitude,
             'longitude' => $faker->longitude,
+            'postal_code' => $faker->postcode,
+            'neighborhood_id' => $neighborhoods->count() > 0 ? $neighborhoods->random()->id : null,
         ]);
         for ($j = 0; $j < $property->bedrooms; $j++) {
             $property->rooms()->create([
