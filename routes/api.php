@@ -19,5 +19,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    // Define your protected API routes here
+    // Virtual Staging API Routes
+    Route::prefix('properties/{property}')->group(function () {
+        Route::post('images/upload', [App\Http\Controllers\API\VirtualStagingController::class, 'uploadImage']);
+        Route::get('images', [App\Http\Controllers\API\VirtualStagingController::class, 'getPropertyImages']);
+    });
+    
+    Route::prefix('images')->group(function () {
+        Route::post('{image}/stage', [App\Http\Controllers\API\VirtualStagingController::class, 'stageImage']);
+        Route::delete('{image}', [App\Http\Controllers\API\VirtualStagingController::class, 'deleteImage']);
+    });
+    
+    Route::get('staging/styles', [App\Http\Controllers\API\VirtualStagingController::class, 'getStagingStyles']);
 });
