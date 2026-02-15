@@ -182,6 +182,11 @@
                                 </div>
                             </div>
                             <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
+                            
+                            <!-- Property Tax Estimator Section -->
+                            <div class="mt-6">
+                                @livewire('property-tax-estimator', ['property' => $property])
+                            </div>
                         </div>
                     </div>
 

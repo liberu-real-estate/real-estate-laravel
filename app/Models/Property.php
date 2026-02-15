@@ -77,6 +77,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'neighborhood_id',
         'property_category_id',
         'postal_code',
+        'country',
         'energy_rating',
         'energy_score',
         'energy_rating_date',
