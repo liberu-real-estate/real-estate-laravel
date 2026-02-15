@@ -18,6 +18,9 @@ class PropertyDetail extends Component
     public $reviews;
     public $neighborhoodData;
     public $showInvestmentSimulation = false;
+    public $propertyHistory = [];
+    public $priceHistory = [];
+    public $salesHistory = [];
 
     // Lead capture form fields
     public $name;
@@ -43,11 +46,16 @@ class PropertyDetail extends Component
 
     public function mount($propertyId)
     {
-        $this->property = Property::with(['neighborhood', 'features', 'team', 'category', 'reviews.user'])->findOrFail($propertyId);
+        $this->property = Property::with(['neighborhood', 'features', 'team', 'category', 'reviews.user', 'histories'])->findOrFail($propertyId);
         $this->neighborhood = $this->property->neighborhood;
         $this->team = $this->property->team;
         $this->isLettingsProperty = $this->property->category->name === 'lettings';
         $this->reviews = $this->property->reviews()->with('user')->latest()->get();
+        
+        // Load property history
+        $this->propertyHistory = $this->property->histories()->take(10)->get();
+        $this->priceHistory = $this->property->histories()->priceChanges()->take(5)->get();
+        $this->salesHistory = $this->property->histories()->sales()->get();
 
         $this->updateNeighborhoodData();
     }
