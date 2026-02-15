@@ -45,6 +45,7 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
         'name',
         'email',
         'password',
+        'agent_preferences',
     ];
 
     /**
@@ -77,6 +78,7 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     {
         return [
             'email_verified_at' => 'datetime',
+            'agent_preferences' => 'array',
         ];
     }
 
@@ -182,6 +184,23 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     {
         return $this->belongsToMany(Property::class, 'favorites', 'user_id', 'property_id')
             ->withTimestamps();
+    }
+
+    public function agentMatches()
+    {
+        return $this->hasMany(AgentMatch::class);
+    }
+
+    public function matchedAgents()
+    {
+        return $this->belongsToMany(User::class, 'agent_matches', 'user_id', 'agent_id')
+            ->withPivot(['match_score', 'status', 'match_reasons'])
+            ->withTimestamps();
+    }
+
+    public function clientMatches()
+    {
+        return $this->hasMany(AgentMatch::class, 'agent_id');
     }
 
     public function team()
