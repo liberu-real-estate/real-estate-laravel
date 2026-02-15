@@ -33,8 +33,10 @@ Route::prefix('news')->group(function () {
 Route::prefix('community-events')->group(function () {
     Route::get('/', [CommunityEventController::class, 'index']);
     Route::get('/{id}', [CommunityEventController::class, 'show']);
-    Route::get('/property/{propertyId}', [CommunityEventController::class, 'propertyEvents']);
 });
+
+// Property-specific community events route
+Route::get('/properties/{propertyId}/community-events', [CommunityEventController::class, 'propertyEvents']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // Virtual Staging API Routes

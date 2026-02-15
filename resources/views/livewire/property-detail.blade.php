@@ -611,12 +611,9 @@
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                                         </svg>
                                                         {{ $event->location }}
-                                                        @if($event->latitude && $event->longitude && $property->latitude && $property->longitude)
-                                                            @php
-                                                                $distance = \Illuminate\Support\Facades\DB::selectOne('SELECT ( 6371 * acos( cos( radians(?) ) * cos( radians( ? ) ) * cos( radians( ? ) - radians(?) ) + sin( radians(?) ) * sin( radians( ? ) ) ) ) AS distance', [$property->latitude, $event->latitude, $event->longitude, $property->longitude, $property->latitude, $event->latitude])->distance;
-                                                            @endphp
+                                                        @if(isset($event->distance_from_property))
                                                             <span class="ml-2 text-xs text-blue-600 dark:text-blue-400">
-                                                                ({{ number_format($distance, 1) }} km away)
+                                                                ({{ number_format($event->distance_from_property, 1) }} km away)
                                                             </span>
                                                         @endif
                                                     </div>

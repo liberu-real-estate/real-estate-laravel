@@ -86,7 +86,7 @@ class CommunityEventTest extends TestCase
             'is_public' => true,
         ]);
 
-        $response = $this->getJson("/api/community-events/property/{$property->id}");
+        $response = $this->getJson("/api/properties/{$property->id}/community-events");
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
