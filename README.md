@@ -34,6 +34,7 @@ A lightweight, open-source property management platform built with Laravel.
 
 ## Features
 - Property listings, tenants, bookings and bids
+- **Virtual Staging Tool** - Upload and virtually stage property images with multiple design styles
 - Admin UI powered by Filament
 - Livewire-driven interactive interfaces
 - Transaction tracking and reporting
@@ -67,6 +68,9 @@ Note: `./setup.sh` automates these steps (it may overwrite `.env` and run seeder
 
 ## Demo
 - Live demo: https://agent.liberu.co.uk
+
+## Documentation
+- [Virtual Staging Tool](docs/VIRTUAL_STAGING.md) - Upload and stage property images with AI-powered design styles
 
 ## Our projects
 
