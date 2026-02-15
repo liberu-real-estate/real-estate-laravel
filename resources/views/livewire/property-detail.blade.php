@@ -200,8 +200,9 @@
                                 <video 
                                     class="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
                                     controls
-                                    preload="metadata">
-                                    <source src="{{ $property->getFirstMediaUrl('videos') }}">
+                                    preload="metadata"
+                                    aria-label="Property video tour for {{ $property->title }}">
+                                    <source src="{{ $property->getFirstMediaUrl('videos') }}" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
