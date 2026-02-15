@@ -192,7 +192,10 @@
                     </div>
 
                     {{-- Property Video Section --}}
-                    @if($property->getFirstMediaUrl('videos'))
+                    @php
+                        $video = $property->getFirstMedia('videos');
+                    @endphp
+                    @if($video)
                         <div class="w-full mb-8">
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Property Video</h2>
                             {{-- 16:9 aspect ratio container (9/16 * 100 = 56.25%) --}}
@@ -202,7 +205,7 @@
                                     controls
                                     preload="metadata"
                                     aria-label="Property video tour for {{ $property->title }}">
-                                    <source src="{{ $property->getFirstMediaUrl('videos') }}" type="video/mp4">
+                                    <source src="{{ $video->getUrl() }}" type="{{ $video->mime_type }}">
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
