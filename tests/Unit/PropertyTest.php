@@ -83,4 +83,60 @@ class PropertyTest extends TestCase
         $this->assertIsArray($availableDates);
         $this->assertNotEmpty($availableDates);
     }
+
+    public function test_property_needs_walkability_update()
+    {
+        // Property without walkability data needs update
+        $property = Property::factory()->create([
+            'latitude' => 51.5074,
+            'longitude' => -0.1278,
+            'walkability_updated_at' => null,
+        ]);
+        $this->assertTrue($property->needsWalkabilityUpdate());
+
+        // Property with recent walkability data doesn't need update
+        $property->walkability_updated_at = now();
+        $property->save();
+        $this->assertFalse($property->needsWalkabilityUpdate());
+
+        // Property with old walkability data needs update
+        $property->walkability_updated_at = now()->subDays(31);
+        $property->save();
+        $this->assertTrue($property->needsWalkabilityUpdate());
+    }
+
+    public function test_update_walkability_scores()
+    {
+        $property = Property::factory()->create([
+            'latitude' => 51.5074,
+            'longitude' => -0.1278,
+            'location' => '123 Main St',
+            'postal_code' => 'SW1A 1AA',
+        ]);
+
+        $property->updateWalkabilityScores();
+        $property->refresh();
+
+        $this->assertNotNull($property->walkability_score);
+        $this->assertNotNull($property->walkability_description);
+        $this->assertNotNull($property->transit_score);
+        $this->assertNotNull($property->bike_score);
+        $this->assertNotNull($property->walkability_updated_at);
+    }
+
+    public function test_update_walkability_scores_requires_coordinates()
+    {
+        $property = Property::factory()->create([
+            'latitude' => null,
+            'longitude' => null,
+            'location' => '123 Main St',
+            'postal_code' => 'SW1A 1AA',
+        ]);
+
+        $property->updateWalkabilityScores();
+        $property->refresh();
+
+        // Should not update without coordinates
+        $this->assertNull($property->walkability_score);
+    }
 }
