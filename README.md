@@ -37,6 +37,7 @@ A lightweight, open-source property management platform built with Laravel.
 - Admin UI powered by Filament
 - Livewire-driven interactive interfaces
 - Transaction tracking and reporting
+- News and updates section with CMS for property market insights
 
 ## Quick start (local)
 Prerequisites: PHP 8.3+, Composer, a database (MySQL / SQLite).
