@@ -95,6 +95,10 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'floor_plan_data',
         'floor_plan_image',
         'model_3d_url',
+        'holographic_tour_url',
+        'holographic_provider',
+        'holographic_metadata',
+        'holographic_enabled',
     ];
 
     protected $casts = [
@@ -107,6 +111,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'longitude' => 'float',
         'walkability_updated_at' => 'datetime',
         'floor_plan_data' => 'array',
+        'holographic_metadata' => 'array',
+        'holographic_enabled' => 'boolean',
     ];
 
     public function auctions()
@@ -535,6 +541,16 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         $this->addMediaCollection('3d_models')
             ->acceptsMimeTypes(['model/gltf-binary', 'model/gltf+json', 'application/octet-stream'])
             ->singleFile();
+    }
+
+    /**
+     * Check if property has holographic tour available
+     *
+     * @return bool
+     */
+    public function hasHolographicTour(): bool
+    {
+        return $this->holographic_enabled && !empty($this->holographic_tour_url);
     }
 
     protected static function boot()

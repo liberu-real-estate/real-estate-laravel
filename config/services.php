@@ -95,6 +95,13 @@ return [
         'base_uri' => env('NEIGHBORHOOD_DATA_BASE_URI', 'https://api.example.com'),
         'api_key' => env('NEIGHBORHOOD_DATA_API_KEY'),
     ],
+
+    'holographic' => [
+        'provider' => env('HOLOGRAPHIC_PROVIDER', 'looking_glass'),
+        'api_key' => env('HOLOGRAPHIC_API_KEY'),
+        'base_uri' => env('HOLOGRAPHIC_BASE_URI', 'https://api.lookingglassfactory.com'),
+        'enable_web_viewer' => env('HOLOGRAPHIC_WEB_VIEWER', true),
+    ],
 ];
 
 
