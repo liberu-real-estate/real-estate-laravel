@@ -34,6 +34,7 @@ A lightweight, open-source property management platform built with Laravel.
 
 ## Features
 - Property listings, tenants, bookings and bids
+- **Neural Network Property Valuation** - AI-powered property valuations using machine learning algorithms with confidence scoring and market insights
 - **Smart Contracts for Rental Agreements** - Blockchain-based automated rental contracts with digital signatures
 - **Virtual Staging Tool** - Upload and virtually stage property images with multiple design styles
 - **Neighborhood information display** with demographics, schools, amenities, and walkability scores
