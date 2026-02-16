@@ -34,6 +34,7 @@ A lightweight, open-source property management platform built with Laravel.
 
 ## Features
 - Property listings, tenants, bookings and bids
+- **Smart Contracts for Rental Agreements** - Blockchain-based automated rental contracts with digital signatures
 - **Virtual Staging Tool** - Upload and virtually stage property images with multiple design styles
 - **Neighborhood information display** with demographics, schools, amenities, and walkability scores
 - Admin UI powered by Filament
@@ -74,6 +75,7 @@ Note: `./setup.sh` automates these steps (it may overwrite `.env` and run seeder
 
 ## Documentation
 - [Virtual Staging Tool](docs/VIRTUAL_STAGING.md) - Upload and stage property images with AI-powered design styles
+- [Smart Contracts](docs/SMART_CONTRACTS.md) - Blockchain-based rental agreements with automated transactions
 - [Community Events Calendar](docs/COMMUNITY_EVENTS.md) - Display community events near properties on detail pages
 
 ## Our projects
