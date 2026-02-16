@@ -563,18 +563,33 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
      */
     protected function generateEmbedCode($url)
     {
+        // Validate URL
+        if (empty($url) || !filter_var($url, FILTER_VALIDATE_URL)) {
+            return null;
+        }
+
         // Matterport
         if (str_contains($url, 'matterport.com')) {
-            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url) . '" frameborder="0" allowfullscreen allow="xr-spatial-tracking"></iframe>';
+            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" frameborder="0" allowfullscreen allow="xr-spatial-tracking"></iframe>';
         }
 
         // Kuula
         if (str_contains($url, 'kuula.co')) {
-            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url) . '" frameborder="0" allowfullscreen></iframe>';
+            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" frameborder="0" allowfullscreen></iframe>';
         }
 
-        // Generic iframe embed
-        return '<iframe width="100%" height="480" src="' . htmlspecialchars($url) . '" frameborder="0" allowfullscreen></iframe>';
+        // 3D Vista
+        if (str_contains($url, '3dvista.com') || str_contains($url, '3dv.st')) {
+            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" frameborder="0" allowfullscreen></iframe>';
+        }
+
+        // Seekbeak
+        if (str_contains($url, 'seekbeak.com')) {
+            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" frameborder="0" allowfullscreen></iframe>';
+        }
+
+        // Generic iframe embed for other providers
+        return '<iframe width="100%" height="480" src="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" frameborder="0" allowfullscreen></iframe>';
     }
 
     public function registerMediaCollections(): void
