@@ -102,7 +102,8 @@ class NeuralNetworkValuationTest extends TestCase
         $this->assertArrayHasKey('price_range', $result);
         $this->assertArrayHasKey('min', $result['price_range']);
         $this->assertArrayHasKey('max', $result['price_range']);
-        $this->assertLessThan($result['price_range']['max'], $result['price_range']['min']);
+        // Assert that min is less than max
+        $this->assertGreaterThan($result['price_range']['min'], $result['price_range']['max']);
     }
 
     public function test_valuation_includes_market_trend(): void
