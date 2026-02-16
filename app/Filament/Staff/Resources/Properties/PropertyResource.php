@@ -159,6 +159,14 @@ class PropertyResource extends Resource
                     ->maxFiles(1)
                     ->acceptedFileTypes(['video/mp4', 'video/quicktime'])
                     ->maxSize(102400), // 100MB
+                SpatieMediaLibraryFileUpload::make('3d_model')
+                    ->collection('3d_models')
+                    ->maxFiles(1)
+                    ->acceptedFileTypes(['model/gltf-binary', 'model/gltf+json', 'application/octet-stream'])
+                    ->maxSize(51200) // 50MB
+                    ->label('3D Model (.glb or .gltf)')
+                    ->helperText('Upload a 3D model file in GLB or GLTF format for interactive viewing')
+                    ->columnSpanFull(),
                 FloorPlanEditor::make('floor_plan_data')
                     ->label('Interactive Floor Plan')
                     ->columnSpanFull()
@@ -203,6 +211,12 @@ class PropertyResource extends Resource
                     ->trueIcon('heroicon-o-video-camera')
                     ->falseIcon('heroicon-o-x-circle')
                     ->getStateUsing(fn (Property $record): bool => $record->hasMedia('videos')),
+                IconColumn::make('has_3d_model')
+                    ->label('Has 3D Model')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-cube')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->getStateUsing(fn (Property $record): bool => $record->hasMedia('3d_models')),
             ])
             ->filters([
                 SelectFilter::make('property_type'),
