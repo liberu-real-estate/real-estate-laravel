@@ -277,6 +277,13 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     public function histories()
     {
         return $this->hasMany(PropertyHistory::class)->orderBy('event_date', 'desc');
+    }
+
+    public function vrDesigns()
+    {
+        return $this->hasMany(VRDesign::class);
+    }
+
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
