@@ -112,7 +112,28 @@ class PropertyResource extends Resource
                 DatePicker::make('sold_date'),
                 TextInput::make('virtual_tour_url')
                     ->url()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Virtual Tour URL')
+                    ->helperText('Enter the URL for the virtual tour (Matterport, Kuula, etc.)'),
+                Select::make('virtual_tour_provider')
+                    ->options([
+                        'matterport' => 'Matterport',
+                        'kuula' => 'Kuula',
+                        '3d_vista' => '3D Vista',
+                        'seekbeak' => 'Seekbeak',
+                        'other' => 'Other',
+                    ])
+                    ->label('Virtual Tour Provider')
+                    ->helperText('Select the provider of your virtual tour'),
+                Textarea::make('virtual_tour_embed_code')
+                    ->rows(3)
+                    ->maxLength(2000)
+                    ->label('Virtual Tour Embed Code')
+                    ->helperText('Paste custom embed code if auto-generation from URL doesn\'t work'),
+                Toggle::make('live_tour_available')
+                    ->label('Live Virtual Tours Available')
+                    ->helperText('Enable this to allow users to schedule live virtual tours with agents')
+                    ->default(false),
                 Toggle::make('is_featured')
                     ->required(),
                 Select::make('property_category_id')

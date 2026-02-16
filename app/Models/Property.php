@@ -76,6 +76,9 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'team_id',
         'agent_id',
         'virtual_tour_url',
+        'virtual_tour_provider',
+        'virtual_tour_embed_code',
+        'live_tour_available',
         'is_featured',
         'rightmove_id',
         'zoopla_id',
@@ -101,6 +104,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'list_date' => 'date',
         'sold_date' => 'date',
         'is_featured' => 'boolean',
+        'live_tour_available' => 'boolean',
         'insurance_expiry_date' => 'date',
         'latitude' => 'float',
         'longitude' => 'float',
@@ -520,6 +524,57 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         }
 
         return $availableDates;
+    }
+
+    /**
+     * Check if property has a virtual tour
+     *
+     * @return bool
+     */
+    public function hasVirtualTour()
+    {
+        return !empty($this->virtual_tour_url) || !empty($this->virtual_tour_embed_code);
+    }
+
+    /**
+     * Get the embedded virtual tour HTML
+     *
+     * @return string|null
+     */
+    public function getVirtualTourEmbed()
+    {
+        if ($this->virtual_tour_embed_code) {
+            return $this->virtual_tour_embed_code;
+        }
+
+        // Auto-generate embed code for known providers
+        if ($this->virtual_tour_url) {
+            return $this->generateEmbedCode($this->virtual_tour_url);
+        }
+
+        return null;
+    }
+
+    /**
+     * Generate embed code from URL for common virtual tour providers
+     *
+     * @param string $url
+     * @return string|null
+     */
+    protected function generateEmbedCode($url)
+    {
+        // Matterport
+        if (str_contains($url, 'matterport.com')) {
+            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url) . '" frameborder="0" allowfullscreen allow="xr-spatial-tracking"></iframe>';
+        }
+
+        // Kuula
+        if (str_contains($url, 'kuula.co')) {
+            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url) . '" frameborder="0" allowfullscreen></iframe>';
+        }
+
+        // Generic iframe embed
+        return '<iframe width="100%" height="480" src="' . htmlspecialchars($url) . '" frameborder="0" allowfullscreen></iframe>';
     }
 
     public function registerMediaCollections(): void
