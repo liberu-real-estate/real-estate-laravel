@@ -27,6 +27,9 @@ class PropertyDetail extends Component
     public $salesHistory = [];
     public $isFavorited = false;
     public $investmentAnalytics = null;
+    public $communityEvents = [];
+    public $selectedMonth;
+    public $selectedYear;
 
     // Lead capture form fields
     public $name;
@@ -81,9 +84,14 @@ class PropertyDetail extends Component
                 ->exists();
         }
 
+        // Initialize calendar month/year
+        $this->selectedMonth = now()->month;
+        $this->selectedYear = now()->year;
+
         $this->updateNeighborhoodData();
         $this->updateWalkabilityScores();
         $this->loadInvestmentAnalytics();
+        $this->loadCommunityEvents();
     }
 
     public function toggleFavorite()
@@ -212,5 +220,38 @@ class PropertyDetail extends Component
             $this->property->updateWalkabilityScores();
             $this->property->refresh();
         }
+    }
+
+    public function loadCommunityEvents()
+    {
+        // Load events relevant to the property location
+        $this->communityEvents = $this->property->getNearbyCommunityEvents(10);
+    }
+
+    public function changeMonth($direction)
+    {
+        if ($direction === 'next') {
+            if ($this->selectedMonth === 12) {
+                $this->selectedMonth = 1;
+                $this->selectedYear++;
+            } else {
+                $this->selectedMonth++;
+            }
+        } else {
+            if ($this->selectedMonth === 1) {
+                $this->selectedMonth = 12;
+                $this->selectedYear--;
+            } else {
+                $this->selectedMonth--;
+            }
+        }
+    }
+
+    public function getEventsForCalendar()
+    {
+        return $this->communityEvents->filter(function ($event) {
+            return $event->event_date->month === $this->selectedMonth &&
+                   $event->event_date->year === $this->selectedYear;
+        });
     }
 }

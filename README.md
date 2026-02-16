@@ -76,6 +76,7 @@ Note: `./setup.sh` automates these steps (it may overwrite `.env` and run seeder
 ## Documentation
 - [Virtual Staging Tool](docs/VIRTUAL_STAGING.md) - Upload and stage property images with AI-powered design styles
 - [Smart Contracts](docs/SMART_CONTRACTS.md) - Blockchain-based rental agreements with automated transactions
+- [Community Events Calendar](docs/COMMUNITY_EVENTS.md) - Display community events near properties on detail pages
 
 ## Our projects
 

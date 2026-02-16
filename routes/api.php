@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\CommunityEventController;
+use App\Http\Controllers\ChatbotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,24 @@ Route::prefix('news')->group(function () {
     Route::get('/latest', [NewsController::class, 'latest']);
     Route::get('/featured', [NewsController::class, 'featured']);
     Route::get('/{slug}', [NewsController::class, 'show']);
+});
+
+// Public Community Events API Routes
+Route::prefix('community-events')->group(function () {
+    Route::get('/', [CommunityEventController::class, 'index']);
+    Route::get('/{id}', [CommunityEventController::class, 'show']);
+});
+
+// Property-specific community events route
+Route::get('/properties/{propertyId}/community-events', [CommunityEventController::class, 'propertyEvents']);
+
+// Chatbot API Routes
+Route::prefix('chatbot')->group(function () {
+    Route::post('/start', [ChatbotController::class, 'startConversation']);
+    Route::post('/message', [ChatbotController::class, 'sendMessage']);
+    Route::get('/history/{sessionId}', [ChatbotController::class, 'getHistory']);
+    Route::post('/escalate', [ChatbotController::class, 'escalate']);
+    Route::post('/close', [ChatbotController::class, 'closeConversation']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {

@@ -30,6 +30,9 @@
         @include('components.footer')
     </div>
 
+    <!-- Chatbot Widget -->
+    @include('components.chatbot-widget')
+
     <!-- Scripts -->
     @vite('resources/js/app.js')
     @livewireScripts
