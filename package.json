@@ -18,6 +18,7 @@
         "vite": "7.1"
     },
     "dependencies": {
+        "@google/model-viewer": "^4.0.0",
         "@tailwindcss/postcss": "^4.1.12",
         "alpinejs": "^3.14.1",
         "flowbite": "^3.1.2",

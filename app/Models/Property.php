@@ -96,6 +96,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_expiry_date',
         'floor_plan_data',
         'floor_plan_image',
+        'model_3d_url',
     ];
 
     protected $casts = [
@@ -531,6 +532,10 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
 
         $this->addMediaCollection('videos')
             ->acceptsMimeTypes(['video/mp4', 'video/quicktime'])
+            ->singleFile();
+
+        $this->addMediaCollection('3d_models')
+            ->acceptsMimeTypes(['model/gltf-binary', 'model/gltf+json', 'application/octet-stream'])
             ->singleFile();
     }
 
