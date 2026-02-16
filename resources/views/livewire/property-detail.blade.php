@@ -49,7 +49,10 @@
                                             @endif
                                             shadow-intensity="{{ $arTourConfig['shadow_intensity'] ?? 1 }}"
                                             interaction-prompt="{{ $arTourConfig['interaction_prompt'] ?? 'auto' }}"
-                                            scale="{{ $property->ar_model_scale ?? 1.0 }} {{ $property->ar_model_scale ?? 1.0 }} {{ $property->ar_model_scale ?? 1.0 }}"
+                                            @php
+                                                $scale = $property->ar_model_scale ?? 1.0;
+                                            @endphp
+                                            scale="{{ $scale }} {{ $scale }} {{ $scale }}"
                                         @else
                                             camera-controls
                                             touch-action="pan-y"
