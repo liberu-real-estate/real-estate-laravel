@@ -225,4 +225,112 @@ class PropertyTest extends TestCase
         $this->assertCount(1, Property::country('US')->get());
         $this->assertCount(0, Property::country('FR')->get());
     }
+
+    public function test_has_virtual_tour_with_url()
+    {
+        $property = Property::factory()->create([
+            'virtual_tour_url' => 'https://my.matterport.com/show/?m=example123',
+        ]);
+
+        $this->assertTrue($property->hasVirtualTour());
+    }
+
+    public function test_has_virtual_tour_with_embed_code()
+    {
+        $property = Property::factory()->create([
+            'virtual_tour_url' => null,
+            'virtual_tour_embed_code' => '<iframe src="https://example.com/tour"></iframe>',
+        ]);
+
+        $this->assertTrue($property->hasVirtualTour());
+    }
+
+    public function test_has_no_virtual_tour()
+    {
+        $property = Property::factory()->create([
+            'virtual_tour_url' => null,
+            'virtual_tour_embed_code' => null,
+        ]);
+
+        $this->assertFalse($property->hasVirtualTour());
+    }
+
+    public function test_get_virtual_tour_embed_with_custom_code()
+    {
+        $embedCode = '<iframe src="https://example.com/tour"></iframe>';
+        $property = Property::factory()->create([
+            'virtual_tour_embed_code' => $embedCode,
+        ]);
+
+        $this->assertEquals($embedCode, $property->getVirtualTourEmbed());
+    }
+
+    public function test_generate_embed_code_for_matterport()
+    {
+        $property = Property::factory()->create([
+            'virtual_tour_url' => 'https://my.matterport.com/show/?m=example123',
+        ]);
+
+        $embed = $property->getVirtualTourEmbed();
+        $this->assertStringContainsString('iframe', $embed);
+        $this->assertStringContainsString('matterport.com', $embed);
+        $this->assertStringContainsString('allowfullscreen', $embed);
+        $this->assertStringContainsString('xr-spatial-tracking', $embed);
+    }
+
+    public function test_generate_embed_code_for_kuula()
+    {
+        $property = Property::factory()->create([
+            'virtual_tour_url' => 'https://kuula.co/share/example123',
+        ]);
+
+        $embed = $property->getVirtualTourEmbed();
+        $this->assertStringContainsString('iframe', $embed);
+        $this->assertStringContainsString('kuula.co', $embed);
+        $this->assertStringContainsString('allowfullscreen', $embed);
+    }
+
+    public function test_generate_generic_embed_code()
+    {
+        $property = Property::factory()->create([
+            'virtual_tour_url' => 'https://example.com/virtual-tour',
+        ]);
+
+        $embed = $property->getVirtualTourEmbed();
+        $this->assertStringContainsString('iframe', $embed);
+        $this->assertStringContainsString('example.com/virtual-tour', $embed);
+        $this->assertStringContainsString('allowfullscreen', $embed);
+    }
+
+    public function test_virtual_tour_fields_are_fillable()
+    {
+        $property = Property::factory()->create([
+            'virtual_tour_url' => 'https://example.com/tour',
+            'virtual_tour_provider' => 'matterport',
+            'virtual_tour_embed_code' => '<iframe src="test"></iframe>',
+            'live_tour_available' => true,
+        ]);
+
+        $this->assertEquals('https://example.com/tour', $property->virtual_tour_url);
+        $this->assertEquals('matterport', $property->virtual_tour_provider);
+        $this->assertStringContainsString('iframe', $property->virtual_tour_embed_code);
+        $this->assertTrue($property->live_tour_available);
+    }
+
+    public function test_live_tour_available_casts_to_boolean()
+    {
+        $property = Property::factory()->create([
+            'live_tour_available' => 1,
+        ]);
+
+        $this->assertTrue($property->live_tour_available);
+        $this->assertIsBool($property->live_tour_available);
+
+        $property->live_tour_available = 0;
+        $property->save();
+        $property->refresh();
+
+        $this->assertFalse($property->live_tour_available);
+        $this->assertIsBool($property->live_tour_available);
+    }
 }
