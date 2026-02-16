@@ -27,6 +27,14 @@ private function createProperties($category, $count)
     $faker = Faker::create();
     $neighborhoods = Neighborhood::all();
     
+    // Sample 3D model URLs for demonstration
+    $sample3DModels = [
+        'https://threejs.org/examples/models/gltf/LittlestTokyo.glb',
+        'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb',
+        null, // Some properties won't have 3D models
+        null,
+    ];
+    
     for ($i = 0; $i < $count; $i++) {
         Property::create([
             'title' => $faker->sentence(4),
@@ -47,6 +55,7 @@ private function createProperties($category, $count)
             'longitude' => $faker->longitude,
             'postal_code' => $faker->postcode,
             'neighborhood_id' => $neighborhoods->count() > 0 ? $neighborhoods->random()->id : null,
+            'model_3d_url' => $faker->randomElement($sample3DModels),
         ]);
     }
 }
@@ -54,6 +63,12 @@ private function createHmoProperties($category, $count)
 {
     $faker = Faker::create();
     $neighborhoods = Neighborhood::all();
+    
+    // Sample 3D model URLs for demonstration
+    $sample3DModels = [
+        'https://threejs.org/examples/models/gltf/LittlestTokyo.glb',
+        null,
+    ];
     
     for ($i = 0; $i < $count; $i++) {
         $property = Property::create([
@@ -75,6 +90,7 @@ private function createHmoProperties($category, $count)
             'longitude' => $faker->longitude,
             'postal_code' => $faker->postcode,
             'neighborhood_id' => $neighborhoods->count() > 0 ? $neighborhoods->random()->id : null,
+            'model_3d_url' => $faker->randomElement($sample3DModels),
         ]);
         for ($j = 0; $j < $property->bedrooms; $j++) {
             $property->rooms()->create([
