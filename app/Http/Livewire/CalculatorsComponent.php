@@ -7,6 +7,7 @@ use App\Services\MortgageCalculatorService;
 use App\Services\CostOfMovingCalculatorService;
 use App\Services\StampDutyCalculatorService;
 use App\Services\RentalYieldCalculatorService;
+use App\Services\HomeValuationService;
 
 class CalculatorsComponent extends Component
 {
@@ -15,6 +16,7 @@ class CalculatorsComponent extends Component
     public $costOfMovingResult = null;
     public $stampDutyResult = null;
     public $rentalYieldResult = null;
+    public $homeValuationResult = null;
 
     // Mortgage calculator inputs
     public $propertyPrice;
@@ -36,6 +38,16 @@ class CalculatorsComponent extends Component
     public $annualRentalIncome;
     public $annualExpenses;
 
+    // Home valuation calculator inputs
+    public $valuationPropertySize;
+    public $valuationBedrooms;
+    public $valuationBathrooms;
+    public $valuationYearBuilt;
+    public $valuationPropertyType = 'terraced';
+    public $valuationCondition = 'good';
+    public $valuationLocation = 'average';
+    public $valuationBasePrice = 3000;
+
     protected $rules = [
         'propertyPrice' => 'required|numeric|min:0',
         'loanAmount' => 'required|numeric|min:0',
@@ -49,6 +61,14 @@ class CalculatorsComponent extends Component
         'rentalPropertyValue' => 'required|numeric|min:0',
         'annualRentalIncome' => 'required|numeric|min:0',
         'annualExpenses' => 'required|numeric|min:0',
+        'valuationPropertySize' => 'required|numeric|min:0',
+        'valuationBedrooms' => 'required|integer|min:0',
+        'valuationBathrooms' => 'required|integer|min:0',
+        'valuationYearBuilt' => 'required|integer|min:1800|max:2031',
+        'valuationPropertyType' => 'required|in:detached,semi-detached,terraced,apartment,bungalow',
+        'valuationCondition' => 'required|in:excellent,good,fair,poor',
+        'valuationLocation' => 'required|in:prime,good,average,below-average',
+        'valuationBasePrice' => 'required|numeric|min:0',
     ];
 
     public function render()
@@ -122,6 +142,32 @@ class CalculatorsComponent extends Component
         );
     }
 
+    public function calculateHomeValuation()
+    {
+        $this->validate([
+            'valuationPropertySize' => $this->rules['valuationPropertySize'],
+            'valuationBedrooms' => $this->rules['valuationBedrooms'],
+            'valuationBathrooms' => $this->rules['valuationBathrooms'],
+            'valuationYearBuilt' => $this->rules['valuationYearBuilt'],
+            'valuationPropertyType' => $this->rules['valuationPropertyType'],
+            'valuationCondition' => $this->rules['valuationCondition'],
+            'valuationLocation' => $this->rules['valuationLocation'],
+            'valuationBasePrice' => $this->rules['valuationBasePrice'],
+        ]);
+
+        $homeValuationService = new HomeValuationService();
+        $this->homeValuationResult = $homeValuationService->calculateHomeValuation(
+            $this->valuationPropertySize,
+            $this->valuationBedrooms,
+            $this->valuationBathrooms,
+            $this->valuationYearBuilt,
+            $this->valuationPropertyType,
+            $this->valuationCondition,
+            $this->valuationLocation,
+            $this->valuationBasePrice
+        );
+    }
+
     public function setCalculatorType($type)
     {
         $this->calculatorType = $type;
@@ -130,10 +176,11 @@ class CalculatorsComponent extends Component
 
     private function resetCalculatorInputs()
     {
-        $this->reset(['propertyPrice', 'loanAmount', 'interestRate', 'loanTerm', 'propertyValue', 'isFirstTimeBuyer', 'movingDistance', 'purchasePrice', 'buyerType', 'rentalPropertyValue', 'annualRentalIncome', 'annualExpenses']);
+        $this->reset(['propertyPrice', 'loanAmount', 'interestRate', 'loanTerm', 'propertyValue', 'isFirstTimeBuyer', 'movingDistance', 'purchasePrice', 'buyerType', 'rentalPropertyValue', 'annualRentalIncome', 'annualExpenses', 'valuationPropertySize', 'valuationBedrooms', 'valuationBathrooms', 'valuationYearBuilt', 'valuationPropertyType', 'valuationCondition', 'valuationLocation', 'valuationBasePrice']);
         $this->mortgageResult = null;
         $this->costOfMovingResult = null;
         $this->stampDutyResult = null;
         $this->rentalYieldResult = null;
+        $this->homeValuationResult = null;
     }
 }
