@@ -37,6 +37,7 @@ A lightweight, open-source property management platform built with Laravel.
 - **Neural Network Property Valuation** - AI-powered property valuations using machine learning algorithms with confidence scoring and market insights
 - **Smart Contracts for Rental Agreements** - Blockchain-based automated rental contracts with digital signatures
 - **Virtual Staging Tool** - Upload and virtually stage property images with multiple design styles
+- **Holographic Property Tours** - Immersive 3D property viewing with support for holographic display devices (Looking Glass, HoloFan, HoloLamp) and web-based viewer
 - **Neighborhood information display** with demographics, schools, amenities, and walkability scores
 - Admin UI powered by Filament
 - Livewire-driven interactive interfaces
