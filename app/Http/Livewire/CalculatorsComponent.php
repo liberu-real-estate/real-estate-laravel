@@ -64,7 +64,7 @@ class CalculatorsComponent extends Component
         'valuationPropertySize' => 'required|numeric|min:0',
         'valuationBedrooms' => 'required|integer|min:0',
         'valuationBathrooms' => 'required|integer|min:0',
-        'valuationYearBuilt' => 'required|integer|min:1800|max:' . (date('Y') + 5),
+        'valuationYearBuilt' => 'required|integer|min:1800|max:2031',
         'valuationPropertyType' => 'required|in:detached,semi-detached,terraced,apartment,bungalow',
         'valuationCondition' => 'required|in:excellent,good,fair,poor',
         'valuationLocation' => 'required|in:prime,good,average,below-average',
