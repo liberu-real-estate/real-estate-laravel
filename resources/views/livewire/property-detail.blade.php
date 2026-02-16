@@ -468,6 +468,14 @@
                         </p>
                     </div>
 
+                    {{-- 3D Model Viewer Section --}}
+                    @if($property->model_3d_url)
+                        <div class="w-full mt-8 mb-8">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">3D Property Model</h2>
+                            <x-model-3d-viewer :modelUrl="$property->model_3d_url" :propertyTitle="$property->title" />
+                        </div>
+                    @endif
+
                     {{-- Property History Section --}}
                     @if($propertyHistory->count() > 0 || $priceHistory->count() > 0 || $salesHistory->count() > 0)
                         <div class="w-full mt-8 mb-8">

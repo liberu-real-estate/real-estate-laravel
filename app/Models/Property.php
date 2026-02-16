@@ -30,6 +30,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int $user_id
  * @property int $agent_id
  * @property string|null $virtual_tour_url
+ * @property string|null $model_3d_url
  * @property bool $is_featured
  * @property string|null $rightmove_id
  * @property string|null $zoopla_id
@@ -76,6 +77,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'team_id',
         'agent_id',
         'virtual_tour_url',
+        'model_3d_url',
         'is_featured',
         'rightmove_id',
         'zoopla_id',

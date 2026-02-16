@@ -113,6 +113,11 @@ class PropertyResource extends Resource
                 TextInput::make('virtual_tour_url')
                     ->url()
                     ->maxLength(255),
+                TextInput::make('model_3d_url')
+                    ->label('3D Model URL')
+                    ->url()
+                    ->maxLength(255)
+                    ->helperText('URL to GLB/GLTF 3D model file'),
                 Toggle::make('is_featured')
                     ->required(),
                 Select::make('property_category_id')
