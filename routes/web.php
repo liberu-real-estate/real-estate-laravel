@@ -100,5 +100,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/valuation/train-model', [PropertyValuationController::class, 'trainModel'])->name('valuation.train');
 });
 
+// AR Tour Routes
+Route::get('/properties/{property}/ar-tour/config', [\App\Http\Controllers\ARTourController::class, 'getConfig'])->name('property.ar-tour.config');
+Route::get('/properties/{property}/ar-tour/availability', [\App\Http\Controllers\ARTourController::class, 'checkAvailability'])->name('property.ar-tour.availability');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/properties/{property}/ar-tour/enable', [\App\Http\Controllers\ARTourController::class, 'enable'])->name('property.ar-tour.enable');
+    Route::post('/properties/{property}/ar-tour/disable', [\App\Http\Controllers\ARTourController::class, 'disable'])->name('property.ar-tour.disable');
+    Route::put('/properties/{property}/ar-tour/settings', [\App\Http\Controllers\ARTourController::class, 'updateSettings'])->name('property.ar-tour.update-settings');
+});
+
 require __DIR__.'/socialstream.php';
 

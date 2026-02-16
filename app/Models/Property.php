@@ -107,6 +107,9 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'longitude' => 'float',
         'walkability_updated_at' => 'datetime',
         'floor_plan_data' => 'array',
+        'ar_tour_enabled' => 'boolean',
+        'ar_tour_settings' => 'array',
+        'ar_model_scale' => 'float',
     ];
 
     public function auctions()
