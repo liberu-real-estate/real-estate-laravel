@@ -61,6 +61,32 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     
     Route::get('staging/styles', [App\Http\Controllers\API\VirtualStagingController::class, 'getStagingStyles']);
+    
+    // VR Property Design API Routes
+    Route::prefix('vr-design')->group(function () {
+        Route::get('styles', [App\Http\Controllers\API\VRPropertyDesignController::class, 'getStyles']);
+        Route::get('furniture-categories', [App\Http\Controllers\API\VRPropertyDesignController::class, 'getFurnitureCategories']);
+        Route::get('room-types', [App\Http\Controllers\API\VRPropertyDesignController::class, 'getRoomTypes']);
+        Route::get('devices', [App\Http\Controllers\API\VRPropertyDesignController::class, 'getSupportedDevices']);
+        Route::get('templates', [App\Http\Controllers\API\VRPropertyDesignController::class, 'getTemplates']);
+    });
+    
+    Route::prefix('properties/{property}')->group(function () {
+        Route::post('vr-designs', [App\Http\Controllers\API\VRPropertyDesignController::class, 'createDesign']);
+        Route::get('vr-designs', [App\Http\Controllers\API\VRPropertyDesignController::class, 'getPropertyDesigns']);
+    });
+    
+    Route::prefix('vr-designs')->group(function () {
+        Route::get('{design}', [App\Http\Controllers\API\VRPropertyDesignController::class, 'getDesign']);
+        Route::put('{design}', [App\Http\Controllers\API\VRPropertyDesignController::class, 'updateDesign']);
+        Route::delete('{design}', [App\Http\Controllers\API\VRPropertyDesignController::class, 'deleteDesign']);
+        Route::post('{design}/furniture', [App\Http\Controllers\API\VRPropertyDesignController::class, 'addFurniture']);
+        Route::delete('{design}/furniture/{furnitureId}', [App\Http\Controllers\API\VRPropertyDesignController::class, 'removeFurniture']);
+        Route::post('{design}/clone', [App\Http\Controllers\API\VRPropertyDesignController::class, 'cloneDesign']);
+        Route::post('{design}/thumbnail', [App\Http\Controllers\API\VRPropertyDesignController::class, 'uploadThumbnail']);
+        Route::get('{design}/export', [App\Http\Controllers\API\VRPropertyDesignController::class, 'exportDesign']);
+    });
+    
     // Wishlist/Favorites routes
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorites', [FavoriteController::class, 'store']);
