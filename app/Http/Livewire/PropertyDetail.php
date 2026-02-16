@@ -311,7 +311,7 @@ class PropertyDetail extends Component
             'property_id' => $this->property->id,
             'appointment_date' => $this->tourDate . ' ' . $this->tourTime,
             'status' => 'scheduled',
-            'team_id' => $this->team->id ?? null,
+            'team_id' => $this->team?->id,
             'appointment_type_id' => $appointmentType->id,
         ]);
 
