@@ -32,6 +32,8 @@ class PropertyDetail extends Component
     public $selectedYear;
     public $showVirtualTour = false;
     public $showScheduleLiveTourModal = false;
+    public $holographicTourAvailable = false;
+    public $showHolographicViewer = false;
 
     // Lead capture form fields
     public $name;
@@ -99,6 +101,7 @@ class PropertyDetail extends Component
         $this->updateWalkabilityScores();
         $this->loadInvestmentAnalytics();
         $this->loadCommunityEvents();
+        $this->checkHolographicTourAvailability();
     }
 
     public function toggleFavorite()
@@ -336,5 +339,38 @@ class PropertyDetail extends Component
         
         $this->closeScheduleLiveTourModal();
         $this->emit('tourScheduled');
+    public function checkHolographicTourAvailability()
+    {
+        $holographicService = app(\App\Services\HolographicTourService::class);
+        $this->holographicTourAvailable = $holographicService->isAvailable($this->property);
+    }
+
+    public function toggleHolographicViewer()
+    {
+        $this->showHolographicViewer = !$this->showHolographicViewer;
+        
+        if ($this->showHolographicViewer) {
+            $this->emit('holographicViewerOpened');
+        }
+    }
+
+    public function generateHolographicTour()
+    {
+        try {
+            $holographicService = app(\App\Services\HolographicTourService::class);
+            $url = $holographicService->getHolographicTourUrl($this->property);
+            
+            if ($url) {
+                $this->property->refresh();
+                $this->holographicTourAvailable = true;
+                session()->flash('message', 'Holographic tour generated successfully!');
+                $this->emit('holographicTourGenerated');
+            } else {
+                session()->flash('error', 'Failed to generate holographic tour. Please ensure a 3D model is available.');
+            }
+        } catch (\Exception $e) {
+            \Log::error('Failed to generate holographic tour: ' . $e->getMessage());
+            session()->flash('error', 'An error occurred while generating the holographic tour.');
+        }
     }
 }

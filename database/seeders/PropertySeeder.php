@@ -37,6 +37,14 @@ private function createProperties($category, $count)
     
     $virtualTourProviders = ['matterport', 'kuula', null, null];
     
+    // Sample 3D model URLs for demonstration
+    $sample3DModels = [
+        'https://threejs.org/examples/models/gltf/LittlestTokyo.glb',
+        'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb',
+        null, // Some properties won't have 3D models
+        null,
+    ];
+    
     for ($i = 0; $i < $count; $i++) {
         // Add virtual tours to about 30% of properties
         $hasVirtualTour = $faker->boolean(30);
@@ -64,6 +72,7 @@ private function createProperties($category, $count)
             'virtual_tour_url' => $hasVirtualTour ? $virtualTourUrls[$tourIndex] : null,
             'virtual_tour_provider' => $hasVirtualTour ? $virtualTourProviders[$tourIndex] : null,
             'live_tour_available' => $hasVirtualTour ? $faker->boolean(60) : false,
+            'model_3d_url' => $faker->randomElement($sample3DModels),
         ]);
     }
 }
@@ -79,6 +88,12 @@ private function createHmoProperties($category, $count)
     ];
     
     $virtualTourProviders = ['matterport', 'kuula'];
+    
+    // Sample 3D model URLs for demonstration
+    $sample3DModels = [
+        'https://threejs.org/examples/models/gltf/LittlestTokyo.glb',
+        null,
+    ];
     
     for ($i = 0; $i < $count; $i++) {
         // HMO properties are more likely to have virtual tours (50%)
@@ -107,6 +122,7 @@ private function createHmoProperties($category, $count)
             'virtual_tour_url' => $hasVirtualTour ? $virtualTourUrls[$tourIndex] : null,
             'virtual_tour_provider' => $hasVirtualTour ? $virtualTourProviders[$tourIndex] : null,
             'live_tour_available' => $hasVirtualTour ? $faker->boolean(70) : false,
+            'model_3d_url' => $faker->randomElement($sample3DModels),
         ]);
         for ($j = 0; $j < $property->bedrooms; $j++) {
             $property->rooms()->create([

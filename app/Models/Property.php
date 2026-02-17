@@ -30,6 +30,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int $user_id
  * @property int $agent_id
  * @property string|null $virtual_tour_url
+ * @property string|null $model_3d_url
  * @property bool $is_featured
  * @property string|null $rightmove_id
  * @property string|null $zoopla_id
@@ -79,6 +80,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'virtual_tour_provider',
         'virtual_tour_embed_code',
         'live_tour_available',
+        'model_3d_url',
         'is_featured',
         'rightmove_id',
         'zoopla_id',
@@ -97,6 +99,11 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'insurance_expiry_date',
         'floor_plan_data',
         'floor_plan_image',
+        'model_3d_url',
+        'holographic_tour_url',
+        'holographic_provider',
+        'holographic_metadata',
+        'holographic_enabled',
     ];
 
     protected $casts = [
@@ -110,6 +117,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'longitude' => 'float',
         'walkability_updated_at' => 'datetime',
         'floor_plan_data' => 'array',
+        'holographic_metadata' => 'array',
+        'holographic_enabled' => 'boolean',
     ];
 
     public function auctions()
@@ -281,6 +290,11 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     public function histories()
     {
         return $this->hasMany(PropertyHistory::class)->orderBy('event_date', 'desc');
+    }
+
+    public function vrDesigns()
+    {
+        return $this->hasMany(VRDesign::class);
     }
 
     public function favorites()
@@ -602,6 +616,20 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         $this->addMediaCollection('videos')
             ->acceptsMimeTypes(['video/mp4', 'video/quicktime'])
             ->singleFile();
+
+        $this->addMediaCollection('3d_models')
+            ->acceptsMimeTypes(['model/gltf-binary', 'model/gltf+json', 'application/octet-stream'])
+            ->singleFile();
+    }
+
+    /**
+     * Check if property has holographic tour available
+     *
+     * @return bool
+     */
+    public function hasHolographicTour(): bool
+    {
+        return $this->holographic_enabled && !empty($this->holographic_tour_url);
     }
 
     protected static function boot()

@@ -37,6 +37,8 @@ A lightweight, open-source property management platform built with Laravel.
 - **Neural Network Property Valuation** - AI-powered property valuations using machine learning algorithms with confidence scoring and market insights
 - **Smart Contracts for Rental Agreements** - Blockchain-based automated rental contracts with digital signatures
 - **Virtual Staging Tool** - Upload and virtually stage property images with multiple design styles
+- **Holographic Property Tours** - Immersive 3D property viewing with support for holographic display devices (Looking Glass, HoloFan, HoloLamp) and web-based viewer
+- **VR Property Design** - Create and visualize custom interior designs in a virtual reality environment with furniture, lighting, and material customization
 - **Neighborhood information display** with demographics, schools, amenities, and walkability scores
 - Admin UI powered by Filament
 - Livewire-driven interactive interfaces
@@ -75,6 +77,7 @@ Note: `./setup.sh` automates these steps (it may overwrite `.env` and run seeder
 - Live demo: https://agent.liberu.co.uk
 
 ## Documentation
+- [VR Property Design](docs/VR_DESIGN.md) - Create and customize interior designs in virtual reality with 8 design styles and full furniture management
 - [Virtual Staging Tool](docs/VIRTUAL_STAGING.md) - Upload and stage property images with AI-powered design styles
 - [Smart Contracts](docs/SMART_CONTRACTS.md) - Blockchain-based rental agreements with automated transactions
 - [Community Events Calendar](docs/COMMUNITY_EVENTS.md) - Display community events near properties on detail pages
