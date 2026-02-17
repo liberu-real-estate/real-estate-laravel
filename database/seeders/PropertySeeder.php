@@ -27,6 +27,16 @@ private function createProperties($category, $count)
     $faker = Faker::create();
     $neighborhoods = Neighborhood::all();
     
+    // Sample virtual tour URLs for demo purposes
+    $virtualTourUrls = [
+        'https://my.matterport.com/show/?m=SxQL3iGyoDo', // Matterport example
+        'https://kuula.co/share/collection/7l2nJ?logo=1&info=1&fs=1&vr=0&sd=1&thumbs=1', // Kuula example
+        null, // No virtual tour
+        null,
+    ];
+    
+    $virtualTourProviders = ['matterport', 'kuula', null, null];
+    
     // Sample 3D model URLs for demonstration
     $sample3DModels = [
         'https://threejs.org/examples/models/gltf/LittlestTokyo.glb',
@@ -36,6 +46,10 @@ private function createProperties($category, $count)
     ];
     
     for ($i = 0; $i < $count; $i++) {
+        // Add virtual tours to about 30% of properties
+        $hasVirtualTour = $faker->boolean(30);
+        $tourIndex = $faker->numberBetween(0, 1);
+        
         Property::create([
             'title' => $faker->sentence(4),
             'description' => $faker->paragraph(3),
@@ -55,6 +69,9 @@ private function createProperties($category, $count)
             'longitude' => $faker->longitude,
             'postal_code' => $faker->postcode,
             'neighborhood_id' => $neighborhoods->count() > 0 ? $neighborhoods->random()->id : null,
+            'virtual_tour_url' => $hasVirtualTour ? $virtualTourUrls[$tourIndex] : null,
+            'virtual_tour_provider' => $hasVirtualTour ? $virtualTourProviders[$tourIndex] : null,
+            'live_tour_available' => $hasVirtualTour ? $faker->boolean(60) : false,
             'model_3d_url' => $faker->randomElement($sample3DModels),
         ]);
     }
@@ -64,6 +81,14 @@ private function createHmoProperties($category, $count)
     $faker = Faker::create();
     $neighborhoods = Neighborhood::all();
     
+    // Sample virtual tour URLs for demo purposes
+    $virtualTourUrls = [
+        'https://my.matterport.com/show/?m=SxQL3iGyoDo',
+        'https://kuula.co/share/collection/7l2nJ?logo=1&info=1&fs=1&vr=0&sd=1&thumbs=1',
+    ];
+    
+    $virtualTourProviders = ['matterport', 'kuula'];
+    
     // Sample 3D model URLs for demonstration
     $sample3DModels = [
         'https://threejs.org/examples/models/gltf/LittlestTokyo.glb',
@@ -71,6 +96,10 @@ private function createHmoProperties($category, $count)
     ];
     
     for ($i = 0; $i < $count; $i++) {
+        // HMO properties are more likely to have virtual tours (50%)
+        $hasVirtualTour = $faker->boolean(50);
+        $tourIndex = $faker->numberBetween(0, 1);
+        
         $property = Property::create([
             'title' => 'HMO ' . $faker->sentence(3),
             'description' => $faker->paragraph(3),
@@ -90,6 +119,9 @@ private function createHmoProperties($category, $count)
             'longitude' => $faker->longitude,
             'postal_code' => $faker->postcode,
             'neighborhood_id' => $neighborhoods->count() > 0 ? $neighborhoods->random()->id : null,
+            'virtual_tour_url' => $hasVirtualTour ? $virtualTourUrls[$tourIndex] : null,
+            'virtual_tour_provider' => $hasVirtualTour ? $virtualTourProviders[$tourIndex] : null,
+            'live_tour_available' => $hasVirtualTour ? $faker->boolean(70) : false,
             'model_3d_url' => $faker->randomElement($sample3DModels),
         ]);
         for ($j = 0; $j < $property->bedrooms; $j++) {

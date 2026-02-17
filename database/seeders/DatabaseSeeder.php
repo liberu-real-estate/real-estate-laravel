@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             NeighborhoodSeeder::class,
             PropertySeeder::class,
             AppointmentTypeSeeder::class,
+            VirtualTourAppointmentTypeSeeder::class,
             MenuSeeder::class,
             DocumentTemplateSeeder::class,
             ComponentSettingsSeeder::class,

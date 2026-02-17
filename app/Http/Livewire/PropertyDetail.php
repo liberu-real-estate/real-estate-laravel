@@ -30,6 +30,8 @@ class PropertyDetail extends Component
     public $communityEvents = [];
     public $selectedMonth;
     public $selectedYear;
+    public $showVirtualTour = false;
+    public $showScheduleLiveTourModal = false;
     public $holographicTourAvailable = false;
     public $showHolographicViewer = false;
 
@@ -38,6 +40,11 @@ class PropertyDetail extends Component
     public $email;
     public $phone;
     public $message;
+
+    // Live tour scheduling fields
+    public $tourDate;
+    public $tourTime;
+    public $tourNotes;
 
     protected $neighborhoodDataService;
     protected $leadScoringService;
@@ -258,6 +265,80 @@ class PropertyDetail extends Component
         });
     }
 
+    public function toggleVirtualTour()
+    {
+        $this->showVirtualTour = !$this->showVirtualTour;
+    }
+
+    public function openScheduleLiveTourModal()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        $this->showScheduleLiveTourModal = true;
+    }
+
+    public function closeScheduleLiveTourModal()
+    {
+        $this->showScheduleLiveTourModal = false;
+        $this->reset(['tourDate', 'tourTime', 'tourNotes']);
+    }
+
+    public function scheduleLiveTour()
+    {
+        $this->validate([
+            'tourDate' => 'required|date|after:today',
+            'tourTime' => 'required',
+            'tourNotes' => 'nullable|string|max:500',
+        ]);
+
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        
+        // Find or get default agent
+        $agentId = $this->property->agent_id ?? $user->id;
+        
+        // Get or create 'Live Virtual Tour' appointment type
+        $appointmentType = \App\Models\AppointmentType::firstOrCreate(
+            ['name' => 'Live Virtual Tour'],
+            ['description' => 'Live virtual tour appointment with an agent']
+        );
+
+        // Create appointment
+        $appointment = \App\Models\Appointment::create([
+            'user_id' => $user->id,
+            'agent_id' => $agentId,
+            'property_id' => $this->property->id,
+            'appointment_date' => $this->tourDate . ' ' . $this->tourTime,
+            'status' => 'scheduled',
+            'team_id' => $this->team?->id,
+            'appointment_type_id' => $appointmentType->id,
+        ]);
+
+        // Create a lead entry for tracking
+        if ($this->team) {
+            $lead = \App\Models\Lead::firstOrCreate(
+                ['email' => $user->email, 'team_id' => $this->team->id],
+                [
+                    'name' => $user->name,
+                    'phone' => $user->phone ?? null,
+                    'message' => $this->tourNotes,
+                    'interest' => 'virtual_tour',
+                    'status' => 'contacted',
+                ]
+            );
+            
+            $lead->addActivity('live_tour_scheduled', 
+                "Scheduled live virtual tour for property {$this->property->id} on {$this->tourDate} at {$this->tourTime}");
+        }
+
+        session()->flash('message', 'Live virtual tour scheduled successfully! You will receive a confirmation email shortly.');
+        
+        $this->closeScheduleLiveTourModal();
+        $this->emit('tourScheduled');
     public function checkHolographicTourAvailability()
     {
         $holographicService = app(\App\Services\HolographicTourService::class);
