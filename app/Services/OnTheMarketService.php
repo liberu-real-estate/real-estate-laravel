@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Property;
+use App\Exceptions\OnTheMarketApiException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Exception;
@@ -18,7 +19,20 @@ class OnTheMarketService
         $this->apiKey = config('services.onthemarket.api_key');
     }
 
-    public function syncAllProperties()
+    public function fetchProperties(): array
+    {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $this->apiKey,
+        ])->get("{$this->baseUri}/listings");
+
+        if ($response->failed()) {
+            throw new OnTheMarketApiException('Failed to fetch properties from OnTheMarket', $response->status());
+        }
+
+        return $response->json();
+    }
+
+    public function syncAllProperties(): array
     {
         $properties = Property::all();
         $results = [];
@@ -35,61 +49,74 @@ class OnTheMarketService
         return $results;
     }
 
-    protected function syncProperty(Property $property)
+    public function syncProperty(Property $property): array
     {
         $onTheMarketId = $property->onthemarket_id;
 
         if ($onTheMarketId) {
-            return $this->updateListing($onTheMarketId, $property->toArray());
+            return $this->updateListing($onTheMarketId, $property);
         } else {
-            $result = $this->createListing($property->toArray());
+            $result = $this->createListing($property);
             $property->update(['onthemarket_id' => $result['id']]);
             return $result;
         }
     }
 
-    protected function createListing(array $data)
+    protected function createListing(Property $property): array
     {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->apiKey,
-        ])->post("{$this->baseUri}/listings", $this->preparePropertyData($data));
+        ])->post("{$this->baseUri}/listings", $this->preparePropertyData($property));
 
         if ($response->failed()) {
-            throw new Exception('Failed to create listing on OnTheMarket');
+            throw new OnTheMarketApiException('Failed to create listing on OnTheMarket', $response->status());
         }
 
         return $response->json();
     }
 
-    protected function updateListing($listingId, array $data)
+    protected function updateListing(string $listingId, Property $property): array
     {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->apiKey,
-        ])->put("{$this->baseUri}/listings/{$listingId}", $this->preparePropertyData($data));
+        ])->put("{$this->baseUri}/listings/{$listingId}", $this->preparePropertyData($property));
 
         if ($response->failed()) {
-            throw new Exception('Failed to update listing on OnTheMarket');
+            throw new OnTheMarketApiException('Failed to update listing on OnTheMarket', $response->status());
         }
 
         return $response->json();
     }
 
-    protected function preparePropertyData(array $data)
+    public function deleteListing(string $listingId): bool
     {
-        // Map our database fields to OnTheMarket's required fields
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $this->apiKey,
+        ])->delete("{$this->baseUri}/listings/{$listingId}");
+
+        if ($response->failed()) {
+            throw new OnTheMarketApiException('Failed to delete listing on OnTheMarket', $response->status());
+        }
+
+        return true;
+    }
+
+    protected function preparePropertyData(Property $property): array
+    {
         return [
-            'propertyType' => $data['property_type'],
-            'description' => $data['description'],
-            'price' => $data['price'],
+            'propertyType' => $property->property_type,
+            'description' => $property->description,
+            'price' => $property->price,
             'address' => [
-                'street' => $data['location'],
-                // Add more address fields as needed
+                'street' => $property->location,
+                'postalCode' => $property->postal_code,
+                'country' => $property->country,
             ],
-            'bedrooms' => $data['bedrooms'],
-            'bathrooms' => $data['bathrooms'],
-            'area' => $data['area_sqft'],
-            'yearBuilt' => $data['year_built'],
-            // Add more fields as required by OnTheMarket
+            'bedrooms' => $property->bedrooms,
+            'bathrooms' => $property->bathrooms,
+            'area' => $property->area_sqft,
+            'yearBuilt' => $property->year_built,
+            'status' => $property->status,
         ];
     }
 }

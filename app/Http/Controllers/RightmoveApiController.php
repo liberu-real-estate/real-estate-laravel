@@ -31,7 +31,8 @@ class RightmoveApiController extends Controller
     public function createListing(Request $request)
     {
         try {
-            $listing = $this->rightMoveService->createListing($request->all());
+            $property = Property::findOrFail($request->input('property_id'));
+            $listing = $this->rightMoveService->createListing($property);
             return response()->json($listing);
         } catch (Exception $e) {
             Log::error('Failed to create listing on RightMove: ' . $e->getMessage());
@@ -42,7 +43,8 @@ class RightmoveApiController extends Controller
     public function updateListing(Request $request, $listingId)
     {
         try {
-            $listing = $this->rightMoveService->updateListing($listingId, $request->all());
+            $property = Property::findOrFail($request->input('property_id'));
+            $listing = $this->rightMoveService->updateListing($listingId, $property);
             return response()->json($listing);
         } catch (Exception $e) {
             Log::error('Failed to update listing on RightMove: ' . $e->getMessage());
