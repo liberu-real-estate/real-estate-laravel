@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Property;
+use App\Exceptions\RightMoveApiException;
+use App\Exceptions\PropertySyncException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Exception;
@@ -31,30 +33,43 @@ class RightMoveService
         return $response->json();
     }
 
-    public function createListing(array $data)
+    public function createListing(Property $property): array
     {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->apiKey,
-        ])->post("{$this->baseUri}/listings", $this->preparePropertyData($data));
+        ])->post("{$this->baseUri}/listings", $this->preparePropertyData($property));
 
         if ($response->failed()) {
-            throw new Exception('Failed to create listing on RightMove');
+            throw new RightMoveApiException('Failed to create listing on RightMove', $response->status());
         }
 
         return $response->json();
     }
 
-    public function updateListing($listingId, array $data)
+    public function updateListing(string $listingId, Property $property): array
     {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->apiKey,
-        ])->put("{$this->baseUri}/listings/{$listingId}", $this->preparePropertyData($data));
+        ])->put("{$this->baseUri}/listings/{$listingId}", $this->preparePropertyData($property));
 
         if ($response->failed()) {
-            throw new Exception('Failed to update listing on RightMove');
+            throw new RightMoveApiException('Failed to update listing on RightMove', $response->status());
         }
 
         return $response->json();
+    }
+
+    public function deleteListing(string $listingId): bool
+    {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $this->apiKey,
+        ])->delete("{$this->baseUri}/listings/{$listingId}");
+
+        if ($response->failed()) {
+            throw new RightMoveApiException('Failed to delete listing on RightMove', $response->status());
+        }
+
+        return true;
     }
 
     public function syncAllProperties()
@@ -84,15 +99,15 @@ class RightMoveService
         return $results;
     }
 
-    public function syncProperty(Property $property)
+    public function syncProperty(Property $property): array
     {
         try {
             $rightMoveId = $property->rightmove_id;
-    
+
             if ($rightMoveId) {
-                return $this->updateListing($rightMoveId, $property->toArray());
+                return $this->updateListing($rightMoveId, $property);
             } else {
-                $result = $this->createListing($property->toArray());
+                $result = $this->createListing($property);
                 $property->update(['rightmove_id' => $result['id']]);
                 return $result;
             }
@@ -107,22 +122,22 @@ class RightMoveService
         }
     }
 
-    protected function preparePropertyData(array $data)
+    protected function preparePropertyData(Property $property): array
     {
-        // Map our database fields to RightMove's required fields
         return [
-            'propertyType' => $data['property_type'],
-            'description' => $data['description'],
-            'price' => $data['price'],
+            'propertyType' => $property->property_type,
+            'description' => $property->description,
+            'price' => $property->price,
             'address' => [
-                'street' => $data['location'],
-                // Add more address fields as needed
+                'street' => $property->location,
+                'postalCode' => $property->postal_code,
+                'country' => $property->country,
             ],
-            'bedrooms' => $data['bedrooms'],
-            'bathrooms' => $data['bathrooms'],
-            'area' => $data['area_sqft'],
-            'yearBuilt' => $data['year_built'],
-            // Add more fields as required by RightMove
+            'bedrooms' => $property->bedrooms,
+            'bathrooms' => $property->bathrooms,
+            'area' => $property->area_sqft,
+            'yearBuilt' => $property->year_built,
+            'status' => $property->status,
         ];
     }
 }

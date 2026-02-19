@@ -91,9 +91,17 @@ return [
     'walkscore' => [
         'api_key' => env('WALKSCORE_API_KEY'),
         'base_uri' => env('WALKSCORE_BASE_URI', 'https://api.walkscore.com'),
+    ],
+
     'neighborhood_data' => [
         'base_uri' => env('NEIGHBORHOOD_DATA_BASE_URI', 'https://api.example.com'),
         'api_key' => env('NEIGHBORHOOD_DATA_API_KEY'),
+    ],
+
+    'zoopla' => [
+        'base_uri' => env('ZOOPLA_BASE_URI'),
+        'api_key' => env('ZOOPLA_API_KEY'),
+        'sync_frequency' => env('ZOOPLA_SYNC_FREQUENCY', 'daily'),
     ],
 
     'holographic' => [
@@ -103,6 +111,3 @@ return [
         'enable_web_viewer' => env('HOLOGRAPHIC_WEB_VIEWER', true),
     ],
 ];
-
-
-

@@ -6,6 +6,11 @@ use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use App\Filament\Admin\Resources\OnTheMarketSettings\Pages\ListOnTheMarketSettings;
 use App\Filament\Admin\Resources\OnTheMarketSettings\Pages\CreateOnTheMarketSettings;
 use App\Filament\Admin\Resources\OnTheMarketSettings\Pages\EditOnTheMarketSettings;
@@ -33,7 +38,25 @@ class OnTheMarketSettingsResource extends Resource
     {
         return $schema
             ->components([
-                // Add form fields here
+                TextInput::make('api_key')
+                    ->required()
+                    ->label('OnTheMarket API Key')
+                    ->password(),
+                TextInput::make('base_uri')
+                    ->required()
+                    ->label('OnTheMarket API Base URI')
+                    ->url(),
+                Select::make('sync_frequency')
+                    ->options([
+                        'hourly' => 'Hourly',
+                        'daily' => 'Daily',
+                        'weekly' => 'Weekly',
+                    ])
+                    ->required()
+                    ->label('Sync Frequency'),
+                Toggle::make('is_active')
+                    ->label('Active')
+                    ->default(true),
             ]);
     }
 
@@ -41,7 +64,9 @@ class OnTheMarketSettingsResource extends Resource
     {
         return $table
             ->columns([
-                // Add table columns here
+                TextColumn::make('base_uri')->label('Base URI'),
+                TextColumn::make('sync_frequency')->label('Sync Frequency'),
+                ToggleColumn::make('is_active')->label('Active'),
             ])
             ->filters([
                 //

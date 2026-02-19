@@ -5,7 +5,9 @@ namespace App\Filament\Admin\Resources\ZooplaSettings;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Actions\EditAction;
 use App\Filament\Admin\Resources\ZooplaSettings\Pages\ListZooplaSettings;
 use App\Filament\Admin\Resources\ZooplaSettings\Pages\CreateZooplaSettings;
@@ -37,10 +39,15 @@ class ZooplaSettingsResource extends Resource
             ->components([
                 TextInput::make('api_key')
                     ->required()
-                    ->label('Zoopla API Key'),
+                    ->label('Zoopla API Key')
+                    ->password(),
                 TextInput::make('base_uri')
                     ->required()
-                    ->label('Zoopla API Base URI'),
+                    ->label('Zoopla API Base URI')
+                    ->url(),
+                TextInput::make('feed_id')
+                    ->nullable()
+                    ->label('Feed ID'),
                 Select::make('sync_frequency')
                     ->options([
                         'hourly' => 'Hourly',
@@ -49,6 +56,9 @@ class ZooplaSettingsResource extends Resource
                     ])
                     ->required()
                     ->label('Sync Frequency'),
+                Toggle::make('is_active')
+                    ->label('Active')
+                    ->default(true),
             ]);
     }
 
@@ -56,9 +66,10 @@ class ZooplaSettingsResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('api_key')->label('API Key'),
                 TextColumn::make('base_uri')->label('Base URI'),
+                TextColumn::make('feed_id')->label('Feed ID'),
                 TextColumn::make('sync_frequency')->label('Sync Frequency'),
+                ToggleColumn::make('is_active')->label('Active'),
             ])
             ->recordActions([
                 EditAction::make(),

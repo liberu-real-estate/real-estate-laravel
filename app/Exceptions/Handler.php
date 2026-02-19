@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Closure;
+use App\Exceptions\OnTheMarketApiException;
 use Illuminate\Database\QueryException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
