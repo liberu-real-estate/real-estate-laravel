@@ -30,6 +30,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int $user_id
  * @property int $agent_id
  * @property string|null $virtual_tour_url
+ * @property string|null $model_3d_url
  * @property bool $is_featured
  * @property string|null $rightmove_id
  * @property string|null $zoopla_id
@@ -76,6 +77,10 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'team_id',
         'agent_id',
         'virtual_tour_url',
+        'virtual_tour_provider',
+        'virtual_tour_embed_code',
+        'live_tour_available',
+        'model_3d_url',
         'is_featured',
         'rightmove_id',
         'zoopla_id',
@@ -99,6 +104,10 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'ar_tour_settings',
         'ar_placement_guide',
         'ar_model_scale',
+        'holographic_tour_url',
+        'holographic_provider',
+        'holographic_metadata',
+        'holographic_enabled',
     ];
 
     protected $casts = [
@@ -106,6 +115,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'list_date' => 'date',
         'sold_date' => 'date',
         'is_featured' => 'boolean',
+        'live_tour_available' => 'boolean',
         'insurance_expiry_date' => 'date',
         'latitude' => 'float',
         'longitude' => 'float',
@@ -114,6 +124,8 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'ar_tour_enabled' => 'boolean',
         'ar_tour_settings' => 'array',
         'ar_model_scale' => 'float',
+        'holographic_metadata' => 'array',
+        'holographic_enabled' => 'boolean',
     ];
 
     public function auctions()
@@ -285,6 +297,13 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
     public function histories()
     {
         return $this->hasMany(PropertyHistory::class)->orderBy('event_date', 'desc');
+    }
+
+    public function vrDesigns()
+    {
+        return $this->hasMany(VRDesign::class);
+    }
+
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
@@ -530,6 +549,72 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         return $availableDates;
     }
 
+    /**
+     * Check if property has a virtual tour
+     *
+     * @return bool
+     */
+    public function hasVirtualTour()
+    {
+        return !empty($this->virtual_tour_url) || !empty($this->virtual_tour_embed_code);
+    }
+
+    /**
+     * Get the embedded virtual tour HTML
+     *
+     * @return string|null
+     */
+    public function getVirtualTourEmbed()
+    {
+        if ($this->virtual_tour_embed_code) {
+            return $this->virtual_tour_embed_code;
+        }
+
+        // Auto-generate embed code for known providers
+        if ($this->virtual_tour_url) {
+            return $this->generateEmbedCode($this->virtual_tour_url);
+        }
+
+        return null;
+    }
+
+    /**
+     * Generate embed code from URL for common virtual tour providers
+     *
+     * @param string $url
+     * @return string|null
+     */
+    protected function generateEmbedCode($url)
+    {
+        // Validate URL
+        if (empty($url) || !filter_var($url, FILTER_VALIDATE_URL)) {
+            return null;
+        }
+
+        // Matterport
+        if (str_contains($url, 'matterport.com')) {
+            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" frameborder="0" allowfullscreen allow="xr-spatial-tracking"></iframe>';
+        }
+
+        // Kuula
+        if (str_contains($url, 'kuula.co')) {
+            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" frameborder="0" allowfullscreen></iframe>';
+        }
+
+        // 3D Vista
+        if (str_contains($url, '3dvista.com') || str_contains($url, '3dv.st')) {
+            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" frameborder="0" allowfullscreen></iframe>';
+        }
+
+        // Seekbeak
+        if (str_contains($url, 'seekbeak.com')) {
+            return '<iframe width="100%" height="480" src="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" frameborder="0" allowfullscreen></iframe>';
+        }
+
+        // Generic iframe embed for other providers
+        return '<iframe width="100%" height="480" src="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" frameborder="0" allowfullscreen></iframe>';
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')
@@ -542,6 +627,16 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         $this->addMediaCollection('3d_models')
             ->acceptsMimeTypes(['model/gltf-binary', 'model/gltf+json', 'application/octet-stream'])
             ->singleFile();
+    }
+
+    /**
+     * Check if property has holographic tour available
+     *
+     * @return bool
+     */
+    public function hasHolographicTour(): bool
+    {
+        return $this->holographic_enabled && !empty($this->holographic_tour_url);
     }
 
     protected static function boot()

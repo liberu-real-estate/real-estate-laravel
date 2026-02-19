@@ -33,12 +33,21 @@ class PropertyDetail extends Component
     public $selectedYear;
     public $arTourAvailable = false;
     public $arTourConfig = null;
+    public $showVirtualTour = false;
+    public $showScheduleLiveTourModal = false;
+    public $holographicTourAvailable = false;
+    public $showHolographicViewer = false;
 
     // Lead capture form fields
     public $name;
     public $email;
     public $phone;
     public $message;
+
+    // Live tour scheduling fields
+    public $tourDate;
+    public $tourTime;
+    public $tourNotes;
 
     protected $neighborhoodDataService;
     protected $leadScoringService;
@@ -98,6 +107,7 @@ class PropertyDetail extends Component
         $this->loadInvestmentAnalytics();
         $this->loadCommunityEvents();
         $this->loadARTourData();
+        $this->checkHolographicTourAvailability();
     }
 
     public function toggleFavorite()
@@ -267,6 +277,112 @@ class PropertyDetail extends Component
         
         if ($this->arTourAvailable) {
             $this->arTourConfig = $this->arTourService->getARTourConfig($this->property);
+    public function toggleVirtualTour()
+    {
+        $this->showVirtualTour = !$this->showVirtualTour;
+    }
+
+    public function openScheduleLiveTourModal()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        $this->showScheduleLiveTourModal = true;
+    }
+
+    public function closeScheduleLiveTourModal()
+    {
+        $this->showScheduleLiveTourModal = false;
+        $this->reset(['tourDate', 'tourTime', 'tourNotes']);
+    }
+
+    public function scheduleLiveTour()
+    {
+        $this->validate([
+            'tourDate' => 'required|date|after:today',
+            'tourTime' => 'required',
+            'tourNotes' => 'nullable|string|max:500',
+        ]);
+
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        
+        // Find or get default agent
+        $agentId = $this->property->agent_id ?? $user->id;
+        
+        // Get or create 'Live Virtual Tour' appointment type
+        $appointmentType = \App\Models\AppointmentType::firstOrCreate(
+            ['name' => 'Live Virtual Tour'],
+            ['description' => 'Live virtual tour appointment with an agent']
+        );
+
+        // Create appointment
+        $appointment = \App\Models\Appointment::create([
+            'user_id' => $user->id,
+            'agent_id' => $agentId,
+            'property_id' => $this->property->id,
+            'appointment_date' => $this->tourDate . ' ' . $this->tourTime,
+            'status' => 'scheduled',
+            'team_id' => $this->team?->id,
+            'appointment_type_id' => $appointmentType->id,
+        ]);
+
+        // Create a lead entry for tracking
+        if ($this->team) {
+            $lead = \App\Models\Lead::firstOrCreate(
+                ['email' => $user->email, 'team_id' => $this->team->id],
+                [
+                    'name' => $user->name,
+                    'phone' => $user->phone ?? null,
+                    'message' => $this->tourNotes,
+                    'interest' => 'virtual_tour',
+                    'status' => 'contacted',
+                ]
+            );
+            
+            $lead->addActivity('live_tour_scheduled', 
+                "Scheduled live virtual tour for property {$this->property->id} on {$this->tourDate} at {$this->tourTime}");
+        }
+
+        session()->flash('message', 'Live virtual tour scheduled successfully! You will receive a confirmation email shortly.');
+        
+        $this->closeScheduleLiveTourModal();
+        $this->emit('tourScheduled');
+    public function checkHolographicTourAvailability()
+    {
+        $holographicService = app(\App\Services\HolographicTourService::class);
+        $this->holographicTourAvailable = $holographicService->isAvailable($this->property);
+    }
+
+    public function toggleHolographicViewer()
+    {
+        $this->showHolographicViewer = !$this->showHolographicViewer;
+        
+        if ($this->showHolographicViewer) {
+            $this->emit('holographicViewerOpened');
+        }
+    }
+
+    public function generateHolographicTour()
+    {
+        try {
+            $holographicService = app(\App\Services\HolographicTourService::class);
+            $url = $holographicService->getHolographicTourUrl($this->property);
+            
+            if ($url) {
+                $this->property->refresh();
+                $this->holographicTourAvailable = true;
+                session()->flash('message', 'Holographic tour generated successfully!');
+                $this->emit('holographicTourGenerated');
+            } else {
+                session()->flash('error', 'Failed to generate holographic tour. Please ensure a 3D model is available.');
+            }
+        } catch (\Exception $e) {
+            \Log::error('Failed to generate holographic tour: ' . $e->getMessage());
+            session()->flash('error', 'An error occurred while generating the holographic tour.');
         }
     }
 }

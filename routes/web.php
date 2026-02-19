@@ -29,6 +29,7 @@ use App\Http\Livewire\NewsList;
 use App\Http\Livewire\NewsDetail;
 use App\Http\Livewire\PropertyValuationComponent;
 use App\Http\Controllers\PropertyValuationController;
+use App\Http\Livewire\HolographicViewer;
 
 
 /*
@@ -55,6 +56,7 @@ Route::get('/booking-calendar', BookingCalendar::class)->middleware('auth')->nam
 Route::get('/properties', PropertyList::class)->name('property.list');
 Route::get('/properties/search', [App\Http\Controllers\PropertyController::class, 'search'])->name('property.search');
 Route::get('/properties/{propertyId}', PropertyDetail::class)->name('property.detail');
+Route::get('/properties/{propertyId}/holographic-tour', HolographicViewer::class)->name('property.holographic-tour');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/apply/{property}', RentalApplicationForm::class)->name('rental.apply');
     Route::get('/applications', [App\Http\Controllers\TenantController::class, 'applications'])->name('tenant.applications');

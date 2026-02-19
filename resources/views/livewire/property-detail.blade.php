@@ -100,6 +100,84 @@
                                     @endif
                                 </div>
                             @endif
+
+                            {{-- Holographic Tour Section --}}
+                            @if($holographicTourAvailable || $property->hasMedia('3d_models') || $property->model_3d_url)
+                                <div class="mt-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                                        <svg class="w-5 h-5 inline mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Holographic Property Tour
+                                    </h3>
+                                    
+                                    @if($holographicTourAvailable)
+                                        <div class="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg p-6 border-2 border-purple-200 dark:border-purple-800">
+                                            <div class="flex items-start justify-between mb-4">
+                                                <div class="flex-1">
+                                                    <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                                                        Experience this property in stunning holographic detail
+                                                    </p>
+                                                    <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                                                        <span class="flex items-center gap-1">
+                                                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                            360° Interactive View
+                                                        </span>
+                                                        <span class="flex items-center gap-1">
+                                                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                            Multi-Device Support
+                                                        </span>
+                                                        <span class="flex items-center gap-1">
+                                                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                            4K Resolution
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100">
+                                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                    </svg>
+                                                    Premium Feature
+                                                </span>
+                                            </div>
+                                            
+                                            <button wire:click="toggleHolographicViewer" 
+                                                class="w-full inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg hover:from-purple-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-300 dark:focus:ring-purple-800 transition-all duration-200">
+                                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                                Launch Holographic Tour
+                                            </button>
+
+                                            <div class="mt-4 pt-4 border-t border-purple-200 dark:border-purple-800">
+                                                <p class="text-xs text-gray-600 dark:text-gray-400 text-center">
+                                                    Supported on: Looking Glass Display • HoloFan • HoloLamp • Web Viewer
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                                                Holographic tour not yet available for this property. Generate one now to provide an immersive viewing experience.
+                                            </p>
+                                            <button wire:click="generateHolographicTour" 
+                                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-purple-700 bg-purple-100 rounded-lg hover:bg-purple-200 focus:ring-4 focus:ring-purple-300 dark:bg-purple-900 dark:text-purple-200 dark:hover:bg-purple-800 dark:focus:ring-purple-800 transition-colors">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                                </svg>
+                                                Generate Holographic Tour
+                                            </button>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
                         </div>
 
                         <div class="mt-6 sm:mt-8 lg:mt-0">
@@ -200,6 +278,47 @@
                                     AI Valuation
                                 </a>
                             </div>
+
+                            <!-- Virtual Tour Section -->
+                            @if($property->hasVirtualTour())
+                            <div class="mt-6">
+                                <div class="flex gap-4">
+                                    <button wire:click="toggleVirtualTour" 
+                                        class="flex-1 flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:ring-4 focus:ring-purple-300 rounded-lg dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800"
+                                        title="View 3D virtual tour">
+                                        <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                        {{ $showVirtualTour ? 'Hide' : 'View' }} Virtual Tour
+                                    </button>
+
+                                    @if($property->live_tour_available)
+                                    <button wire:click="openScheduleLiveTourModal" 
+                                        class="flex-1 flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 focus:ring-4 focus:ring-green-300 rounded-lg focus:outline-none"
+                                        title="Schedule a live virtual tour with an agent">
+                                        <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M14 6H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1Zm7 11-6-2V9l6-2v10Z" />
+                                        </svg>
+                                        Schedule Live Tour
+                                    </button>
+                                    @endif
+                                </div>
+
+                                @if($showVirtualTour)
+                                <div class="mt-4 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden" style="height: 480px;">
+                                    <div class="w-full h-full">
+                                        {!! $property->getVirtualTourEmbed() !!}
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                            @endif
                             <hr class="my-2 md:my-2 border-gray-200 dark:border-gray-800" />
                             <div class="">
                                 <div class="">
@@ -526,6 +645,14 @@
                             {{ $property->description }}
                         </p>
                     </div>
+
+                    {{-- 3D Model Viewer Section --}}
+                    @if($property->model_3d_url)
+                        <div class="w-full mt-8 mb-8">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">3D Property Model</h2>
+                            <x-model-3d-viewer :modelUrl="$property->model_3d_url" :propertyTitle="$property->title" />
+                        </div>
+                    @endif
 
                     {{-- Property History Section --}}
                     @if($propertyHistory->count() > 0 || $priceHistory->count() > 0 || $salesHistory->count() > 0)
@@ -908,5 +1035,71 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Schedule Live Virtual Tour Modal -->
+            @if($showScheduleLiveTourModal)
+            <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-900 bg-opacity-50" wire:click.self="closeScheduleLiveTourModal">
+                <div class="relative p-4 w-full max-w-2xl max-h-full">
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <form wire:submit.prevent="scheduleLiveTour" class="space-y-4">
+                            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    Schedule Live Virtual Tour
+                                </h3>
+                                <button type="button" wire:click="closeScheduleLiveTourModal"
+                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <div class="p-4 md:p-5 space-y-4">
+                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                    Schedule a live virtual tour with one of our agents who will guide you through the property in real-time via video call.
+                                </p>
+
+                                <div>
+                                    <label for="tourDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preferred Date</label>
+                                    <input type="date" id="tourDate" wire:model="tourDate"
+                                        min="{{ date('Y-m-d', strtotime('+1 day')) }}"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        required>
+                                    @error('tourDate') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
+
+                                <div>
+                                    <label for="tourTime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preferred Time</label>
+                                    <input type="time" id="tourTime" wire:model="tourTime"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        required>
+                                    @error('tourTime') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
+
+                                <div>
+                                    <label for="tourNotes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Additional Notes (Optional)</label>
+                                    <textarea id="tourNotes" wire:model="tourNotes" rows="3"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        placeholder="Any specific areas you'd like to focus on or questions you have..."></textarea>
+                                    @error('tourNotes') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                <button type="submit"
+                                    class="text-white bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                    Schedule Tour
+                                </button>
+                                <button type="button" wire:click="closeScheduleLiveTourModal"
+                                    class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @endif
         </section>
     @endsection
