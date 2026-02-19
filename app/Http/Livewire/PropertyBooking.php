@@ -10,20 +10,32 @@ use Livewire\Component;
 use App\Models\Property;
 use App\Models\Booking;
 use App\Models\User;
+use App\Events\BookingCreated;
+use App\Notifications\BookingNotification;
+use App\Services\CalendarIntegrationService;
 use Carbon\Carbon;
 
 class PropertyBooking extends Component
 {
     public $propertyId;
     public $selectedDate;
+    public $selectedTime;
     public $userName;
+    public $userEmail;
     public $userContact;
     public $notes;
     public $availableDates = [];
+    public $availableTimeSlots = [];
+    public $bookingConfirmed = false;
+    public $confirmedBookingId = null;
+    public $googleCalendarUrl = null;
+    public $outlookCalendarUrl = null;
 
     protected $rules = [
         'selectedDate' => 'required|date|after_or_equal:today',
+        'selectedTime' => 'required|string',
         'userName' => 'required|string|max:255',
+        'userEmail' => 'nullable|email|max:255',
         'userContact' => 'required|string|max:255',
         'notes' => 'nullable|string|max:1000',
     ];
@@ -35,54 +47,83 @@ class PropertyBooking extends Component
         $this->availableDates = $property->getAvailableDatesForTeam();
     }
 
-    private function getAvailableDates()
+    public function updatedSelectedDate($value)
     {
-        $startDate = Carbon::today();
-        $endDate = Carbon::today()->addDays(30);
-        return collect($startDate->range($endDate))->map(function ($date) {
-            return $date->format('Y-m-d');
-        })->toArray();
+        $this->selectedTime = null;
+        if ($value) {
+            $this->availableTimeSlots = $this->getAvailableTimeSlots($value);
+        } else {
+            $this->availableTimeSlots = [];
+        }
+    }
+
+    private function getAvailableTimeSlots($date)
+    {
+        $workingHours = [
+            '09:00', '10:00', '11:00', '12:00', '13:00',
+            '14:00', '15:00', '16:00', '17:00',
+        ];
+
+        $bookedSlots = Booking::where('property_id', $this->propertyId)
+            ->whereDate('date', $date)
+            ->whereNotIn('status', ['cancelled'])
+            ->pluck('time')
+            ->map(fn($t) => Carbon::parse($t)->format('H:i'))
+            ->toArray();
+
+        return array_values(array_diff($workingHours, $bookedSlots));
     }
 
     public function selectDate($date)
     {
         $this->selectedDate = $date;
         $this->validate(['selectedDate' => $this->rules['selectedDate']]);
+        $this->updatedSelectedDate($date);
     }
 
     public function bookViewing()
     {
         $this->validate();
-    
+
         try {
-            // Check if the date is still available
             $availableDates = Property::find($this->propertyId)->getAvailableDates();
             if (!in_array($this->selectedDate, $availableDates)) {
                 throw new Exception('Selected date is no longer available.');
             }
-    
-            // Get the default staff member using Spatie\Permission
+
+            if (!in_array($this->selectedTime, $this->getAvailableTimeSlots($this->selectedDate))) {
+                throw new Exception('Selected time slot is no longer available.');
+            }
+
             $defaultStaffId = User::role('staff')->first()->id ?? null;
-    
+
             $booking = Booking::create([
                 'property_id' => $this->propertyId,
                 'date' => Carbon::parse($this->selectedDate)->format('Y-m-d'),
+                'time' => $this->selectedTime,
                 'user_id' => auth()->id(),
                 'name' => $this->userName,
                 'contact' => $this->userContact,
                 'notes' => $this->notes,
                 'staff_id' => $defaultStaffId,
+                'status' => 'confirmed',
+                'booking_type' => 'viewing',
             ]);
-    
-            // Broadcast the new booking
+
+            $calendarService = app(CalendarIntegrationService::class);
+            $this->googleCalendarUrl = $calendarService->getBookingGoogleCalendarUrl($booking);
+            $this->outlookCalendarUrl = $calendarService->getBookingOutlookCalendarUrl($booking);
+            $this->confirmedBookingId = $booking->id;
+            $this->bookingConfirmed = true;
+
             broadcast(new BookingCreated($booking))->toOthers();
 
-            // Send notification
-            $user = User::find(auth()->id());
-            $user->notify(new BookingNotification($booking, 'confirmed'));
+            if (auth()->check()) {
+                auth()->user()->notify(new BookingNotification($booking, 'confirmed'));
+            }
 
-            session()->flash('message', 'Viewing scheduled successfully for ' . $this->selectedDate);
-            $this->reset(['selectedDate', 'userName', 'userContact', 'notes']);
+            session()->flash('message', 'Viewing scheduled successfully for ' . Carbon::parse($this->selectedDate)->format('F j, Y') . ' at ' . $this->selectedTime);
+            $this->reset(['selectedDate', 'selectedTime', 'userName', 'userEmail', 'userContact', 'notes', 'availableTimeSlots']);
         } catch (Exception $e) {
             Log::error('Booking failed: ' . $e->getMessage());
 
@@ -93,6 +134,8 @@ class PropertyBooking extends Component
                 $errorMessage .= 'Please check your input and try again. ';
             } elseif ($e->getMessage() === 'Selected date is no longer available.') {
                 $errorMessage .= 'The selected date is no longer available. Please choose another date. ';
+            } elseif ($e->getMessage() === 'Selected time slot is no longer available.') {
+                $errorMessage .= 'The selected time slot is no longer available. Please choose another time. ';
             } else {
                 $errorMessage .= 'An unexpected error occurred. ';
             }
@@ -106,6 +149,7 @@ class PropertyBooking extends Component
     {
         return view('livewire.property-booking', [
             'availableDates' => $this->availableDates,
+            'availableTimeSlots' => $this->availableTimeSlots,
         ]);
     }
 }
