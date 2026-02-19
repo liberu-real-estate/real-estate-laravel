@@ -153,4 +153,3 @@ class PropertyBooking extends Component
         ]);
     }
 }
-

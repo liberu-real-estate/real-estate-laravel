@@ -104,4 +104,3 @@ class Appointment extends Model
         return $query->where('status', $status);
     }
 }
-

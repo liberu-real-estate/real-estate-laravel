@@ -190,6 +190,13 @@ class PropertyList extends Component
             'maxArea' => $this->maxArea,
             'propertyType' => $this->propertyType,
             'selectedAmenities' => $this->selectedAmenities,
+            'energyRating' => $this->energyRating,
+            'minEnergyScore' => $this->minEnergyScore,
+            'minWalkabilityScore' => $this->minWalkabilityScore,
+            'minTransitScore' => $this->minTransitScore,
+            'minBikeScore' => $this->minBikeScore,
+            'featuredOnly' => $this->featuredOnly,
+            'country' => $this->country,
         ];
     }
 
@@ -207,6 +214,13 @@ class PropertyList extends Component
             $this->maxArea,
             $this->propertyType,
             $this->selectedAmenities,
+            $this->energyRating,
+            $this->minEnergyScore,
+            $this->minWalkabilityScore,
+            $this->minTransitScore,
+            $this->minBikeScore,
+            $this->featuredOnly,
+            $this->country,
         ]));
     }
     
