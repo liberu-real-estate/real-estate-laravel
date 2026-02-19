@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->boolean('ar_tour_enabled')->default(false)->after('model_3d_url');
+            // Check if model_3d_url exists, otherwise add after virtual_tour_url
+            if (Schema::hasColumn('properties', 'model_3d_url')) {
+                $table->boolean('ar_tour_enabled')->default(false)->after('model_3d_url');
+            } else {
+                $table->boolean('ar_tour_enabled')->default(false);
+            }
             $table->text('ar_tour_settings')->nullable()->after('ar_tour_enabled');
             $table->string('ar_placement_guide')->nullable()->after('ar_tour_settings');
             $table->float('ar_model_scale')->default(1.0)->after('ar_placement_guide');

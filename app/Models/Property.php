@@ -95,6 +95,10 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'floor_plan_data',
         'floor_plan_image',
         'model_3d_url',
+        'ar_tour_enabled',
+        'ar_tour_settings',
+        'ar_placement_guide',
+        'ar_model_scale',
     ];
 
     protected $casts = [

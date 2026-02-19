@@ -139,8 +139,8 @@ class ARTourService
             ];
         }
 
-        // Check file size (recommend under 10MB for good mobile performance)
-        if (file_exists($filePath)) {
+        // Check file size only if file exists (recommend under 10MB for good mobile performance)
+        if (file_exists($filePath) && is_file($filePath)) {
             $fileSizeMB = filesize($filePath) / (1024 * 1024);
             
             if ($fileSizeMB > 10) {
