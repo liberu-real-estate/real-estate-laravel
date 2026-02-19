@@ -194,6 +194,30 @@ class PropertyResource extends Resource
                     ->label('3D Model (.glb or .gltf)')
                     ->helperText('Upload a 3D model file in GLB or GLTF format for interactive viewing')
                     ->columnSpanFull(),
+                Toggle::make('ar_tour_enabled')
+                    ->label('Enable AR Tour')
+                    ->helperText('Allow users to view this property in augmented reality on their mobile devices')
+                    ->reactive()
+                    ->columnSpanFull(),
+                TextInput::make('ar_model_scale')
+                    ->label('AR Model Scale')
+                    ->numeric()
+                    ->default(1.0)
+                    ->minValue(0.1)
+                    ->maxValue(10)
+                    ->step(0.1)
+                    ->helperText('Adjust the scale of the 3D model in AR view (1.0 = original size)')
+                    ->visible(fn ($get) => $get('ar_tour_enabled')),
+                Select::make('ar_placement_guide')
+                    ->label('AR Placement Guide')
+                    ->options([
+                        'floor' => 'Floor',
+                        'wall' => 'Wall',
+                        'ceiling' => 'Ceiling',
+                    ])
+                    ->default('floor')
+                    ->helperText('Suggest where the model should be placed in AR')
+                    ->visible(fn ($get) => $get('ar_tour_enabled')),
                 FloorPlanEditor::make('floor_plan_data')
                     ->label('Interactive Floor Plan')
                     ->columnSpanFull()
@@ -244,6 +268,12 @@ class PropertyResource extends Resource
                     ->trueIcon('heroicon-o-cube')
                     ->falseIcon('heroicon-o-x-circle')
                     ->getStateUsing(fn (Property $record): bool => $record->hasMedia('3d_models')),
+                IconColumn::make('ar_tour_enabled')
+                    ->label('AR Tour')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-device-phone-mobile')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->tooltip(fn (Property $record): string => $record->ar_tour_enabled ? 'AR Tour Enabled' : 'AR Tour Disabled'),
             ])
             ->filters([
                 SelectFilter::make('property_type'),
