@@ -35,6 +35,16 @@ class Appointment extends Model
         'status',
         'team_id',
         'appointment_type_id',
+        'name',
+        'contact',
+        'notes',
+        'staff_id',
+        'property_address',
+        'property_type',
+        'area_sqft',
+        'bedrooms',
+        'bathrooms',
+        'calendar_event_id',
     ];
 
     protected $casts = [
@@ -49,6 +59,11 @@ class Appointment extends Model
     public function agent()
     {
         return $this->belongsTo(User::class, 'agent_id');
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo(User::class, 'staff_id');
     }
 
     public function property()

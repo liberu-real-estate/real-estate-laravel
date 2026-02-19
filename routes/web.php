@@ -46,6 +46,8 @@ use App\Http\Livewire\HolographicViewer;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/bookings/{booking}/calendar.ics', [BookingController::class, 'downloadIcs'])->name('booking.ics');
+Route::get('/appointments/{appointment}/calendar.ics', [App\Http\Controllers\AppointmentController::class, 'downloadIcs'])->name('appointment.ics');
 Route::post('/bookings', [BookingController::class, 'store']);
 Route::put('/bookings/{booking}', [BookingController::class, 'update']);
 Route::get('/bookings', [BookingController::class, 'index']);

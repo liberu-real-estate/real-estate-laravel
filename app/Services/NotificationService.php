@@ -33,6 +33,11 @@ class NotificationService
         Notification::send($tenant, new MaintenanceRequestSubmitted($request));
     }
 
+    public function notifyAppointmentCreated(User $user, Appointment $appointment)
+    {
+        Notification::send($user, new AppointmentCreated($appointment));
+    }
+
     public function notifyTenantRequestUpdated(User $tenant, MaintenanceRequest $request)
     {
         Notification::send($tenant, new MaintenanceRequestUpdated($request));
