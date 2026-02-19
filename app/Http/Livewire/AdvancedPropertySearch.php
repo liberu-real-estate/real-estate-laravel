@@ -166,6 +166,13 @@ class AdvancedPropertySearch extends Component
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'radius' => $this->radius,
+            'energyRating' => $this->energyRating,
+            'minEnergyScore' => $this->minEnergyScore,
+            'minWalkabilityScore' => $this->minWalkabilityScore,
+            'minTransitScore' => $this->minTransitScore,
+            'minBikeScore' => $this->minBikeScore,
+            'featuredOnly' => $this->featuredOnly,
+            'country' => $this->country,
         ];
     }
 
