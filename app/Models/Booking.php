@@ -26,6 +26,8 @@ class Booking extends Model
         'status',
         'visit_type',
         'feedback',
+        'calendar_event_id',
+        'booking_type',
     ];
 
     protected $casts = [

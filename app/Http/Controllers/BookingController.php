@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Services\CalendarIntegrationService;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -50,5 +51,15 @@ class BookingController extends Controller
     {
         $bookings = Booking::all();
         return response()->json(['bookings' => $bookings], 200);
+    }
+
+    public function downloadIcs(Booking $booking, CalendarIntegrationService $calendarService)
+    {
+        $icsContent = $calendarService->generateBookingIcs($booking);
+
+        return response($icsContent, 200, [
+            'Content-Type' => 'text/calendar; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="property-viewing.ics"',
+        ]);
     }
 }
