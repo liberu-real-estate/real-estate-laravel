@@ -224,7 +224,7 @@ class AgentMatchingService
             ->count();
         
         $recentAppointments = $agent->appointments()
-            ->where('start_time', '>=', now()->subDays(7))
+            ->where('appointment_date', '>=', now()->subDays(7))
             ->count();
         
         // Lower score for agents with high workload

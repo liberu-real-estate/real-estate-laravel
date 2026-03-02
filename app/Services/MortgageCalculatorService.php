@@ -6,12 +6,16 @@ class MortgageCalculatorService
 {
     public function calculateMortgage(float $propertyPrice, float $loanAmount, float $interestRate, int $loanTerm): array
     {
-        $monthlyInterestRate = $interestRate / 100 / 12;
         $numberOfPayments = $loanTerm * 12;
 
-        $monthlyPayment = $loanAmount * ($monthlyInterestRate * pow(1 + $monthlyInterestRate, $numberOfPayments)) / (pow(1 + $monthlyInterestRate, $numberOfPayments) - 1);
+        if ($interestRate == 0) {
+            $monthlyPayment = $numberOfPayments > 0 ? $loanAmount / $numberOfPayments : 0;
+        } else {
+            $monthlyInterestRate = $interestRate / 100 / 12;
+            $monthlyPayment = $loanAmount * ($monthlyInterestRate * pow(1 + $monthlyInterestRate, $numberOfPayments)) / (pow(1 + $monthlyInterestRate, $numberOfPayments) - 1);
+        }
 
-        $amortizationSchedule = $this->generateAmortizationSchedule($loanAmount, $monthlyInterestRate, $numberOfPayments, $monthlyPayment);
+        $amortizationSchedule = $this->generateAmortizationSchedule($loanAmount, $interestRate > 0 ? $interestRate / 100 / 12 : 0, $numberOfPayments, $monthlyPayment);
 
         return [
             'monthly_payment' => round($monthlyPayment, 2),

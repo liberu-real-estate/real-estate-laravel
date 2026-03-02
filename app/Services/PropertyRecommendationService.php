@@ -22,7 +22,7 @@ class PropertyRecommendationService
             $recommendedProperties = Property::query()
                 ->with(['images', 'features'])
                 ->where('status', 'approved')
-                ->where('id', '!=', $user->viewed_properties->pluck('id'))
+                ->whereNotIn('id', $user->activities()->where('type', 'property_view')->pluck('property_id'))
                 ->orderByRaw($this->buildOrderByClause($userPreferences, $searchHistory, $browsingBehavior))
                 ->limit($limit)
                 ->get();
@@ -79,30 +79,45 @@ class PropertyRecommendationService
 
     private function buildOrderByClause($preferences, $searchHistory, $browsingBehavior)
     {
+        $pdo = DB::connection()->getPdo();
         $clause = [];
-        $clause[] = "ABS(price - {$preferences['avg_price']})";
-        $clause[] = "ABS(bedrooms - {$preferences['avg_bedrooms']})";
-        $clause[] = "ABS(bathrooms - {$preferences['avg_bathrooms']})";
-        $clause[] = "ABS(area_sqft - {$preferences['avg_area']})";
+        $clause[] = "ABS(price - " . (float) $preferences['avg_price'] . ")";
+        $clause[] = "ABS(bedrooms - " . (float) $preferences['avg_bedrooms'] . ")";
+        $clause[] = "ABS(bathrooms - " . (float) $preferences['avg_bathrooms'] . ")";
+        $clause[] = "ABS(area_sqft - " . (float) $preferences['avg_area'] . ")";
 
-        $locationScores = implode(' + ', array_map(function ($location) {
-            return "CASE WHEN location LIKE '%{$location}%' THEN 1 ELSE 0 END";
-        }, $preferences['preferred_locations']->toArray()));
-        $clause[] = "({$locationScores}) DESC";
+        $locationParts = array_map(function ($location) use ($pdo) {
+            $safe = $pdo->quote('%' . $location . '%');
+            return "CASE WHEN location LIKE {$safe} THEN 1 ELSE 0 END";
+        }, $preferences['preferred_locations']->toArray());
+
+        if (!empty($locationParts)) {
+            $locationScores = implode(' + ', $locationParts);
+            $clause[] = "({$locationScores}) DESC";
+        }
 
         // Add search history weight
         $searchTerms = collect($searchHistory)->pluck('search')->filter()->unique();
-        $searchScores = implode(' + ', $searchTerms->map(function ($term) {
-            return "CASE WHEN title LIKE '%{$term}%' OR description LIKE '%{$term}%' THEN 1 ELSE 0 END";
-        })->toArray());
-        $clause[] = "({$searchScores}) DESC";
+        $searchParts = $searchTerms->map(function ($term) use ($pdo) {
+            $safe = $pdo->quote('%' . $term . '%');
+            return "CASE WHEN title LIKE {$safe} OR description LIKE {$safe} THEN 1 ELSE 0 END";
+        })->toArray();
+
+        if (!empty($searchParts)) {
+            $searchScores = implode(' + ', $searchParts);
+            $clause[] = "({$searchScores}) DESC";
+        }
 
         // Add browsing behavior weight
         $viewedProperties = $browsingBehavior->pluck('property_id')->toArray();
-        $viewScores = implode(' + ', array_map(function ($propertyId) {
-            return "CASE WHEN id = {$propertyId} THEN 1 ELSE 0 END";
-        }, $viewedProperties));
-        $clause[] = "({$viewScores}) DESC";
+        $viewParts = array_map(function ($propertyId) {
+            return "CASE WHEN id = " . (int) $propertyId . " THEN 1 ELSE 0 END";
+        }, $viewedProperties);
+
+        if (!empty($viewParts)) {
+            $viewScores = implode(' + ', $viewParts);
+            $clause[] = "({$viewScores}) DESC";
+        }
 
         return implode(', ', $clause);
     }
