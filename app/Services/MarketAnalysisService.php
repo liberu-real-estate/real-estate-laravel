@@ -9,14 +9,18 @@ class MarketAnalysisService
 {
     public function generateMarketAnalysis($startDate, $endDate, $propertyIds = null)
     {
-        $query = Property::query()
-            ->whereBetween('created_at', [$startDate, $endDate]);
+        $baseQuery = function () use ($startDate, $endDate, $propertyIds) {
+            $query = Property::query()
+                ->whereBetween('created_at', [$startDate, $endDate]);
 
-        if ($propertyIds) {
-            $query->whereIn('id', $propertyIds);
-        }
+            if ($propertyIds) {
+                $query->whereIn('id', $propertyIds);
+            }
 
-        $marketData = $query->select(
+            return $query;
+        };
+
+        $marketData = $baseQuery()->select(
             DB::raw('AVG(price) as avg_price'),
             DB::raw('MIN(price) as min_price'),
             DB::raw('MAX(price) as max_price'),
@@ -27,7 +31,7 @@ class MarketAnalysisService
         ->groupBy('property_type')
         ->get();
 
-        $pricePerSqFt = $query->select(
+        $pricePerSqFt = $baseQuery()->select(
             DB::raw('AVG(price / area_sqft) as avg_price_per_sqft'),
             'property_type'
         )

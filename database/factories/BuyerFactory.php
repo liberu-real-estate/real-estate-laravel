@@ -23,9 +23,12 @@ class BuyerFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
+            'status' => 'active',
             'created_at' => now(),
             'updated_at' => now(),
         ];
