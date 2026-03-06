@@ -103,13 +103,13 @@ class Booking extends Model
 
     public function canBeCancelled()
     {
-        $cancellationDeadline = Carbon::parse($this->date->format('Y-m-d') . ' ' . $this->time)->subHours(24);
+        $cancellationDeadline = Carbon::parse((is_string($this->date) ? $this->date : $this->date->format('Y-m-d')) . ' ' . $this->time)->subHours(24);
         return Carbon::now()->lt($cancellationDeadline);
     }
 
     public function canBeRescheduled()
     {
-        $reschedulingDeadline = Carbon::parse($this->date->format('Y-m-d') . ' ' . $this->time)->subHours(48);
+        $reschedulingDeadline = Carbon::parse((is_string($this->date) ? $this->date : $this->date->format('Y-m-d')) . ' ' . $this->time)->subHours(48);
         return Carbon::now()->lt($reschedulingDeadline);
     }
 

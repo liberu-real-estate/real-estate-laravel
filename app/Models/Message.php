@@ -31,4 +31,7 @@ class Message extends Model
     {
         $this->attributes['sender_id'] = $value ?? Auth::id();
     }
+
+    public function scopeReceivedBy($query, $userId) { return $query->where('receiver_id', $userId); }
+    public function markAsRead() { $this->update(['read_at' => now()]); }
 }

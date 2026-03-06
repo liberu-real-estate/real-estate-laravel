@@ -116,3 +116,8 @@ class RentalApplication extends Model
                $this->rental_history_status === 'good';
     }
 }
+
+    public function scopePending($query) { return $query->where('status', 'pending'); }
+    public function scopeApproved($query) { return $query->where('status', 'approved'); }
+    public function scopeRejected($query) { return $query->where('status', 'rejected'); }
+}
