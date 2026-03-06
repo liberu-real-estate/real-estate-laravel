@@ -8,19 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('appointments', function (Blueprint $table) {
-            $table->unsignedBigInteger('agent_id')->nullable()->change();
-            $table->unsignedBigInteger('property_id')->nullable()->change();
-            $table->unsignedBigInteger('user_id')->nullable()->change();
-        });
+        // Columns are already nullable in the base appointments migration
+        // This migration is a no-op to maintain compatibility
     }
 
     public function down(): void
     {
-        Schema::table('appointments', function (Blueprint $table) {
-            $table->unsignedBigInteger('agent_id')->nullable(false)->change();
-            $table->unsignedBigInteger('property_id')->nullable(false)->change();
-            $table->unsignedBigInteger('user_id')->nullable(false)->change();
-        });
+        // No-op
     }
 };

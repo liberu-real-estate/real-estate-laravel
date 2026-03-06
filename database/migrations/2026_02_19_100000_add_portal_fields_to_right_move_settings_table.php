@@ -25,7 +25,7 @@ return new class extends Migration
                 $table->string('feed_url')->nullable();
             }
             if (!Schema::hasColumn('right_move_settings', 'is_active')) {
-                $table->boolean('is_active')->default(true);
+                $table->boolean('is_active')->nullable()->default(true);
             }
         });
     }

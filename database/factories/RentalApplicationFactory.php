@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\RentalApplication;
 use App\Models\Property;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -15,7 +16,7 @@ class RentalApplicationFactory extends Factory
     {
         return [
             'property_id' => Property::factory(),
-            'applicant_id' => User::factory(),
+            'tenant_id' => User::factory(),
             'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
             'application_date' => $this->faker->dateTimeThisYear(),
             'desired_move_in_date' => $this->faker->dateTimeBetween('+1 week', '+2 months'),

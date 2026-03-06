@@ -6,41 +6,35 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('images', function (Blueprint $table) {
-            $table->boolean('is_staged')->default(false)->after('property_id');
-            $table->unsignedBigInteger('original_image_id')->nullable()->after('is_staged');
-            $table->foreign('original_image_id')->references('image_id')->on('images')->onDelete('cascade');
-            $table->string('staging_style')->nullable()->after('original_image_id');
-            $table->json('staging_metadata')->nullable()->after('staging_style');
-            $table->string('staging_provider')->nullable()->default('mock')->after('staging_metadata');
-            $table->string('file_path')->nullable()->after('staging_provider');
-            $table->string('file_name')->nullable()->after('file_path');
-            $table->string('mime_type')->nullable()->after('file_name');
+            $cols = [
+                'is_virtually_staged' => fn($t) => $t->boolean('is_virtually_staged')->default(false),
+                'original_image_path' => fn($t) => $t->string('original_image_path')->nullable(),
+                'staging_style' => fn($t) => $t->string('staging_style')->nullable(),
+                'staging_provider' => fn($t) => $t->string('staging_provider')->nullable(),
+                'staging_job_id' => fn($t) => $t->string('staging_job_id')->nullable(),
+                'staging_status' => fn($t) => $t->string('staging_status')->nullable(),
+                'staging_metadata' => fn($t) => $t->json('staging_metadata')->nullable(),
+                'staged_at' => fn($t) => $t->timestamp('staged_at')->nullable(),
+            ];
+            foreach ($cols as $col => $fn) {
+                if (!Schema::hasColumn('images', $col)) {
+                    $fn($table);
+                }
+            }
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('images', function (Blueprint $table) {
-            $table->dropForeign(['original_image_id']);
-            $table->dropColumn([
-                'is_staged',
-                'original_image_id',
-                'staging_style',
-                'staging_metadata',
-                'staging_provider',
-                'file_path',
-                'file_name',
-                'mime_type',
-            ]);
+            $cols = array_filter(
+                ['is_virtually_staged', 'original_image_path', 'staging_style', 'staging_provider', 'staging_job_id', 'staging_status', 'staging_metadata', 'staged_at'],
+                fn($c) => Schema::hasColumn('images', $c)
+            );
+            if (!empty($cols)) $table->dropColumn(array_values($cols));
         });
     }
 };

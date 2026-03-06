@@ -44,6 +44,7 @@ return new class extends Migration
             $table->unsignedBigInteger('property_template_id')->nullable();
             $table->string('property_template')->nullable();
             $table->unsignedBigInteger('agent_id')->nullable();
+            $table->unsignedBigInteger('branch_id')->nullable();
             $table->string('insurance_provider')->nullable();
             $table->string('insurance_policy_number')->nullable();
             $table->decimal('insurance_value', 10, 2)->nullable();

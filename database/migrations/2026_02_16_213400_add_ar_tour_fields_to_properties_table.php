@@ -6,31 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            // Check if model_3d_url exists, otherwise add after virtual_tour_url
-            if (Schema::hasColumn('properties', 'model_3d_url')) {
-                $table->boolean('ar_tour_enabled')->default(false)->after('model_3d_url');
-            } else {
-                $table->boolean('ar_tour_enabled')->default(false);
+            $cols = [
+                'ar_tour_enabled' => fn($t) => $t->boolean('ar_tour_enabled')->default(false),
+                'ar_tour_settings' => fn($t) => $t->text('ar_tour_settings')->nullable(),
+                'ar_placement_guide' => fn($t) => $t->string('ar_placement_guide')->nullable(),
+                'ar_model_scale' => fn($t) => $t->float('ar_model_scale')->default(1.0),
+            ];
+            foreach ($cols as $col => $fn) {
+                if (!Schema::hasColumn('properties', $col)) {
+                    $fn($table);
+                }
             }
-            $table->text('ar_tour_settings')->nullable()->after('ar_tour_enabled');
-            $table->string('ar_placement_guide')->nullable()->after('ar_tour_settings');
-            $table->float('ar_model_scale')->default(1.0)->after('ar_placement_guide');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->dropColumn(['ar_tour_enabled', 'ar_tour_settings', 'ar_placement_guide', 'ar_model_scale']);
+            $cols = array_filter(
+                ['ar_tour_enabled', 'ar_tour_settings', 'ar_placement_guide', 'ar_model_scale'],
+                fn($c) => Schema::hasColumn('properties', $c)
+            );
+            if (!empty($cols)) $table->dropColumn(array_values($cols));
         });
     }
 };

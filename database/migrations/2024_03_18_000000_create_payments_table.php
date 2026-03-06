@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('payment_method')->nullable();
             $table->foreignId('tenant_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('invoice_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('accounting_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

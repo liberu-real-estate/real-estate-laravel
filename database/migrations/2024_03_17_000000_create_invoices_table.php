@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('due_date')->nullable();
             $table->string('status')->default('pending');
             $table->text('description')->nullable();
+            $table->string('accounting_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -332,7 +332,7 @@ class SmartContractService
     protected function recordTransaction(
         SmartContract $smartContract,
         string $type,
-        int $userId,
+        ?int $userId,
         ?float $amount,
         string $description,
         array $metadata = []

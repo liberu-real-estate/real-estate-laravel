@@ -6,31 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->string('holographic_tour_url')->nullable()->after('virtual_tour_url');
-            $table->string('holographic_provider')->nullable()->after('holographic_tour_url');
-            $table->json('holographic_metadata')->nullable()->after('holographic_provider');
-            $table->boolean('holographic_enabled')->default(false)->after('holographic_metadata');
+            $cols = [
+                'holographic_tour_url' => fn($t) => $t->string('holographic_tour_url')->nullable(),
+                'holographic_provider' => fn($t) => $t->string('holographic_provider')->nullable(),
+                'holographic_metadata' => fn($t) => $t->json('holographic_metadata')->nullable(),
+                'holographic_enabled' => fn($t) => $t->boolean('holographic_enabled')->default(false),
+            ];
+            foreach ($cols as $col => $fn) {
+                if (!Schema::hasColumn('properties', $col)) {
+                    $fn($table);
+                }
+            }
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->dropColumn([
-                'holographic_tour_url',
-                'holographic_provider',
-                'holographic_metadata',
-                'holographic_enabled',
-            ]);
+            $cols = array_filter(
+                ['holographic_tour_url', 'holographic_provider', 'holographic_metadata', 'holographic_enabled'],
+                fn($c) => Schema::hasColumn('properties', $c)
+            );
+            if (!empty($cols)) $table->dropColumn(array_values($cols));
         });
     }
 };

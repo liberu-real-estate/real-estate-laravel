@@ -60,7 +60,7 @@ return new class extends Migration
             $table->foreignId('smart_contract_id')->constrained()->onDelete('cascade');
             $table->string('transaction_type'); // deploy, sign, rent_payment, terminate, maintenance
             $table->string('transaction_hash')->nullable();
-            $table->foreignId('initiated_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('initiated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->decimal('amount', 10, 2)->nullable();
             $table->text('description')->nullable();
             $table->json('metadata')->nullable();
