@@ -277,6 +277,9 @@ class PropertyDetail extends Component
         
         if ($this->arTourAvailable) {
             $this->arTourConfig = $this->arTourService->getARTourConfig($this->property);
+        }
+    }
+
     public function toggleVirtualTour()
     {
         $this->showVirtualTour = !$this->showVirtualTour;
@@ -351,6 +354,8 @@ class PropertyDetail extends Component
         
         $this->closeScheduleLiveTourModal();
         $this->emit('tourScheduled');
+    }
+
     public function checkHolographicTourAvailability()
     {
         $holographicService = app(\App\Services\HolographicTourService::class);

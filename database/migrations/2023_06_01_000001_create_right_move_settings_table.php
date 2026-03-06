@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('right_move_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('api_key');
-            $table->string('base_uri');
+            $table->string('api_key')->nullable();
+            $table->string('base_uri')->nullable();
             $table->string('sync_frequency')->default('daily');
             $table->timestamps();
         });

@@ -6,37 +6,34 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->unsignedTinyInteger('walkability_score')->nullable()->after('longitude');
-            $table->string('walkability_description')->nullable()->after('walkability_score');
-            $table->unsignedTinyInteger('transit_score')->nullable()->after('walkability_description');
-            $table->string('transit_description')->nullable()->after('transit_score');
-            $table->unsignedTinyInteger('bike_score')->nullable()->after('transit_description');
-            $table->string('bike_description')->nullable()->after('bike_score');
-            $table->timestamp('walkability_updated_at')->nullable()->after('bike_description');
+            $cols = [
+                'walkability_score' => fn($t) => $t->unsignedTinyInteger('walkability_score')->nullable(),
+                'walkability_description' => fn($t) => $t->string('walkability_description')->nullable(),
+                'transit_score' => fn($t) => $t->unsignedTinyInteger('transit_score')->nullable(),
+                'transit_description' => fn($t) => $t->string('transit_description')->nullable(),
+                'bike_score' => fn($t) => $t->unsignedTinyInteger('bike_score')->nullable(),
+                'bike_description' => fn($t) => $t->string('bike_description')->nullable(),
+                'walkability_updated_at' => fn($t) => $t->timestamp('walkability_updated_at')->nullable(),
+            ];
+            foreach ($cols as $col => $fn) {
+                if (!Schema::hasColumn('properties', $col)) {
+                    $fn($table);
+                }
+            }
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->dropColumn([
-                'walkability_score',
-                'walkability_description',
-                'transit_score',
-                'transit_description',
-                'bike_score',
-                'bike_description',
-                'walkability_updated_at'
-            ]);
+            $cols = array_filter(
+                ['walkability_score', 'walkability_description', 'transit_score', 'transit_description', 'bike_score', 'bike_description', 'walkability_updated_at'],
+                fn($c) => Schema::hasColumn('properties', $c)
+            );
+            if (!empty($cols)) $table->dropColumn(array_values($cols));
         });
     }
 };

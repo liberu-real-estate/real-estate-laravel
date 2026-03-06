@@ -9,21 +9,41 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('buyers', function (Blueprint $table) {
-            $table->string('first_name')->nullable()->after('name');
-            $table->string('last_name')->nullable()->after('first_name');
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete()->after('address');
-            $table->foreignId('team_id')->nullable()->constrained()->nullOnDelete()->after('user_id');
-            $table->string('status')->default('active')->after('team_id');
-            $table->json('search_criteria')->nullable()->after('status');
+            if (!Schema::hasColumn('buyers', 'first_name')) {
+                $table->string('first_name')->nullable();
+            }
+            if (!Schema::hasColumn('buyers', 'last_name')) {
+                $table->string('last_name')->nullable();
+            }
+            if (!Schema::hasColumn('buyers', 'user_id')) {
+                $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            }
+            if (!Schema::hasColumn('buyers', 'team_id')) {
+                $table->foreignId('team_id')->nullable()->constrained()->nullOnDelete();
+            }
+            if (!Schema::hasColumn('buyers', 'status')) {
+                $table->string('status')->default('active');
+            }
+            if (!Schema::hasColumn('buyers', 'search_criteria')) {
+                $table->json('search_criteria')->nullable();
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('buyers', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropForeign(['team_id']);
-            $table->dropColumn(['first_name', 'last_name', 'user_id', 'team_id', 'status', 'search_criteria']);
+            $columnsToDrop = [];
+            foreach (['first_name', 'last_name', 'user_id', 'team_id', 'status', 'search_criteria'] as $col) {
+                if (Schema::hasColumn('buyers', $col)) {
+                    $columnsToDrop[] = $col;
+                }
+            }
+            if (!empty($columnsToDrop)) {
+                try { $table->dropForeign(['user_id']); } catch (\Exception $e) {}
+                try { $table->dropForeign(['team_id']); } catch (\Exception $e) {}
+                $table->dropColumn($columnsToDrop);
+            }
         });
     }
 };

@@ -6,28 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id('id');
-            $table->unsignedBigInteger('property_id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('property_id')->references('id')->on('properties');
+            $table->unsignedBigInteger('property_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('reviewable_id')->nullable();
+            $table->string('reviewable_type')->nullable();
+            $table->string('title')->nullable();
             $table->integer('rating');
-            $table->text('comment');
-            $table->date('review_date');
+            $table->text('comment')->nullable();
+            $table->date('review_date')->nullable();
+            $table->boolean('approved')->default(false);
+            $table->string('moderation_status')->default('pending');
+            $table->string('ip_address')->nullable();
+            $table->integer('helpful_votes')->default(0);
+            $table->integer('unhelpful_votes')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('reviews');

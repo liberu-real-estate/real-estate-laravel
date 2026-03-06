@@ -11,6 +11,8 @@ class VRDesign extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'vr_designs';
+
     protected $fillable = [
         'property_id',
         'user_id',

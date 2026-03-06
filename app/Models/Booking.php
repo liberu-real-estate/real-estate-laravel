@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
@@ -13,6 +14,8 @@ use Carbon\Carbon;
 
 class Booking extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'date',
         'time',
@@ -32,7 +35,7 @@ class Booking extends Model
 
     protected $casts = [
         'date' => 'date',
-        'time' => 'datetime:H:i',
+        'time' => 'string',
     ];
 
     public function scopeVisits($query)

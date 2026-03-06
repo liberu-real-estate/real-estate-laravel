@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('sender_id')->constrained('users');
             $table->foreignId('recipient_id')->constrained('users');
             $table->text('content');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }

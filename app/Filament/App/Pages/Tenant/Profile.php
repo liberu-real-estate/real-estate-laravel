@@ -54,12 +54,12 @@ class Profile extends Page
         $this->notify('success', 'Profile updated successfully.');
     }
 
-    public static function getUrl(array $parameters = [], bool $isAbsolute = true, ?string $panel = null, $tenant = null): string
+    public static function getUrl(array $parameters = [], bool $isAbsolute = true, ?string $panel = null, ?\Illuminate\Database\Eloquent\Model $tenant = null, bool $shouldGuessMissingParameters = false, ?string $configuration = null): string
     {
         if ($tenant) {
             $parameters['tenant'] = $tenant;
         }
-        return parent::getUrl($parameters, $isAbsolute, $panel);
+        return parent::getUrl($parameters, $isAbsolute, $panel, $tenant, $shouldGuessMissingParameters, $configuration);
     }
 
 }

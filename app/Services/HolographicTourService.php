@@ -21,9 +21,9 @@ class HolographicTourService
 
     public function __construct()
     {
-        $this->apiKey = config('services.holographic.api_key', '');
-        $this->baseUri = config('services.holographic.base_uri', '');
-        $this->provider = config('services.holographic.provider', 'looking_glass');
+        $this->apiKey = config('services.holographic.api_key') ?? '';
+        $this->baseUri = config('services.holographic.base_uri') ?? '';
+        $this->provider = config('services.holographic.provider') ?? 'looking_glass';
     }
 
     /**

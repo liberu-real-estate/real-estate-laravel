@@ -134,7 +134,6 @@ class PropertyResource extends Resource
                     ->label('Live Virtual Tours Available')
                     ->helperText('Enable this to allow users to schedule live virtual tours with agents')
                     ->default(false),
-                    ->maxLength(255),
                 TextInput::make('model_3d_url')
                     ->label('3D Model URL')
                     ->url()

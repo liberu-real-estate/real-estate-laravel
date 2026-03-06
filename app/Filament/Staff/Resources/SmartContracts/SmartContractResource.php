@@ -4,7 +4,7 @@ namespace App\Filament\Staff\Resources\SmartContracts;
 
 use App\Models\SmartContract;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,15 +16,15 @@ class SmartContractResource extends Resource
 {
     protected static ?string $model = SmartContract::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-code-bracket';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-code-bracket';
 
     protected static ?string $navigationLabel = 'Smart Contracts';
 
-    protected static ?string $navigationGroup = 'Contract Management';
+    protected static string | \UnitEnum | null $navigationGroup = 'Contract Management';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\Section::make('Contract Details')
                     ->schema([

@@ -6,23 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->string('country')->default('UK')->after('postal_code');
+            if (!Schema::hasColumn('properties', 'country')) {
+                $table->string('country')->default('UK')->nullable();
+            }
+            if (!Schema::hasColumn('properties', 'postal_code')) {
+                $table->string('postal_code')->nullable();
+            }
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->dropColumn('country');
+            foreach (['country', 'postal_code'] as $col) {
+                if (Schema::hasColumn('properties', $col)) {
+                    $table->dropColumn($col);
+                }
+            }
         });
     }
 };

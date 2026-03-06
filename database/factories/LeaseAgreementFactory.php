@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\LeaseAgreement;
 use App\Models\Property;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
