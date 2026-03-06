@@ -35,6 +35,11 @@ class DocuSignService
         return 'your_access_token_here';
     }
 
+    public function setApiClient($apiClient): void
+    {
+        $this->apiClient = $apiClient;
+    }
+
     public function createEnvelope($documentPath, $signerEmail, $signerName)
     {
         $envelopeDefinition = $this->createEnvelopeDefinition($documentPath, $signerEmail, $signerName);

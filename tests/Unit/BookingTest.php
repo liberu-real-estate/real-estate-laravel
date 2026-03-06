@@ -20,15 +20,19 @@ class BookingTest extends TestCase
         $bookingData = [
             'property_id' => $property->id,
             'user_id' => $user->id,
-            'date' => now(),
-            'time' => now()->format('H:i'),
+            'date' => now()->format('Y-m-d'),
+            'time' => now()->format('H:i:s'),
             'status' => 'confirmed',
         ];
 
         $booking = Booking::create($bookingData);
 
         $this->assertInstanceOf(Booking::class, $booking);
-        $this->assertDatabaseHas('bookings', $bookingData);
+        $this->assertDatabaseHas('bookings', [
+            'property_id' => $property->id,
+            'user_id' => $user->id,
+            'status' => 'confirmed',
+        ]);
     }
 
     public function test_cancel_booking()

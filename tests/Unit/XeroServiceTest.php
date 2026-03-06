@@ -7,9 +7,11 @@ use App\Models\Invoice;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class XeroServiceTest extends TestCase
 {
+    use RefreshDatabase;
     protected $xeroService;
 
     protected function setUp(): void

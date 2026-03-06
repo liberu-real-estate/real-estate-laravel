@@ -20,15 +20,18 @@ class AppointmentTest extends TestCase
         $appointmentData = [
             'property_id' => $property->id,
             'user_id' => $user->id,
-            'date' => '2023-06-01',
-            'time' => '14:00:00',
+            'appointment_date' => '2023-06-01 14:00:00',
             'status' => 'scheduled',
         ];
 
         $appointment = Appointment::create($appointmentData);
 
         $this->assertInstanceOf(Appointment::class, $appointment);
-        $this->assertDatabaseHas('appointments', $appointmentData);
+        $this->assertDatabaseHas('appointments', [
+            'property_id' => $property->id,
+            'user_id' => $user->id,
+            'status' => 'scheduled',
+        ]);
     }
 
     public function test_appointment_relationships()
@@ -41,8 +44,8 @@ class AppointmentTest extends TestCase
 
     public function test_appointment_scope_upcoming()
     {
-        Appointment::factory()->create(['date' => now()->addDays(1)]);
-        Appointment::factory()->create(['date' => now()->subDays(1)]);
+        Appointment::factory()->create(['appointment_date' => now()->addDays(1)]);
+        Appointment::factory()->create(['appointment_date' => now()->subDays(1)]);
 
         $upcomingAppointments = Appointment::upcoming()->get();
 

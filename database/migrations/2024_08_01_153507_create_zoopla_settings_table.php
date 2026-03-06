@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('zoopla_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('base_uri');
-            $table->string('api_key');
-            $table->integer('sync_frequency');
+            $table->string('base_uri')->nullable();
+            $table->string('api_key')->nullable();
+            $table->integer('sync_frequency')->nullable();
             $table->timestamps();
         });
     }

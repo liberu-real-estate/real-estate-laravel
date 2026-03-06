@@ -18,7 +18,8 @@ class ReviewTest extends TestCase
         $user = User::factory()->create();
 
         $reviewData = [
-            'property_id' => $property->id,
+            'reviewable_id' => $property->id,
+            'reviewable_type' => Property::class,
             'user_id' => $user->id,
             'rating' => 4,
             'comment' => 'Great property!',
@@ -27,14 +28,18 @@ class ReviewTest extends TestCase
         $review = Review::create($reviewData);
 
         $this->assertInstanceOf(Review::class, $review);
-        $this->assertDatabaseHas('reviews', $reviewData);
+        $this->assertDatabaseHas('reviews', [
+            'user_id' => $user->id,
+            'rating' => 4,
+            'comment' => 'Great property!',
+        ]);
     }
 
     public function test_review_relationships()
     {
         $review = Review::factory()->create();
 
-        $this->assertInstanceOf(Property::class, $review->property);
+        $this->assertInstanceOf(Property::class, $review->reviewable);
         $this->assertInstanceOf(User::class, $review->user);
     }
 

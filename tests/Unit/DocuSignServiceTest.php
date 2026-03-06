@@ -15,7 +15,10 @@ class DocuSignServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->mockApiClient = Mockery::mock('DocuSign\eSign\Client\ApiClient');
+        $this->mockApiClient = Mockery::mock('DocuSign\eSign\Client\ApiClient[selectHeaderAccept,selectHeaderContentType]');
+        $this->mockApiClient->shouldReceive('selectHeaderAccept')->andReturn('application/json');
+        $this->mockApiClient->shouldReceive('selectHeaderContentType')->andReturn('application/json');
+
         $this->docuSignService = new DocuSignService([
             'account_id' => 'test_account_id',
             'base_path' => 'https://demo.docusign.net/restapi',
@@ -26,7 +29,6 @@ class DocuSignServiceTest extends TestCase
     public function testCreateEnvelope()
     {
         $mockEnvelopesApi = Mockery::mock('DocuSign\eSign\Api\EnvelopesApi');
-        $mockEnvelopeDefinition = Mockery::mock('DocuSign\eSign\Model\EnvelopeDefinition');
         $mockEnvelope = Mockery::mock('DocuSign\eSign\Model\Envelope');
 
         $this->mockApiClient->shouldReceive('getApiClient')->andReturn($mockEnvelopesApi);

@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->string('model_3d_url')->nullable()->after('virtual_tour_url');
+            if (!Schema::hasColumn('properties', 'model_3d_url')) {
+                $table->string('model_3d_url')->nullable()->after('virtual_tour_url');
+            }
         });
     }
 

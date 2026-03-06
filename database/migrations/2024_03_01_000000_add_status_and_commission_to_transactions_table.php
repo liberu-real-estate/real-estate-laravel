@@ -9,15 +9,23 @@ class AddStatusAndCommissionToTransactionsTable extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->string('status')->default('pending');
-            $table->decimal('commission_amount', 10, 2)->nullable();
+            if (!Schema::hasColumn('transactions', 'status')) {
+                $table->string('status')->default('pending');
+            }
+            if (!Schema::hasColumn('transactions', 'commission_amount')) {
+                $table->decimal('commission_amount', 10, 2)->nullable();
+            }
         });
     }
 
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->dropColumn(['status', 'commission_amount']);
+            foreach (['status', 'commission_amount'] as $col) {
+                if (Schema::hasColumn('transactions', $col)) {
+                    $table->dropColumn($col);
+                }
+            }
         });
     }
 }

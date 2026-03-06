@@ -13,9 +13,9 @@ class CreateDocumentTemplatesTable extends Migration
             $table->string('name');
             $table->string('file_path')->nullable();
             $table->text('description')->nullable();
-            $table->string('type');
-            $table->longText('content');
-            $table->foreignId('team_id')->constrained();
+            $table->string('type')->nullable();
+            $table->longText('content')->nullable();
+            $table->foreignId('team_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

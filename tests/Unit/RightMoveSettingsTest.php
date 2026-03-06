@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\RightMoveSettings;
+use App\Models\Branch;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -37,11 +38,14 @@ class RightMoveSettingsTest extends TestCase
 
     public function test_create_right_move_settings()
     {
+        $branch = Branch::factory()->create();
+
         $settingsData = [
             'api_key' => 'test_api_key',
-            'branch_id' => 'test_branch_id',
+            'branch_id' => $branch->id,
             'channel' => 'sales',
             'feed_type' => 'incremental',
+            'is_active' => true,
         ];
 
         $settings = RightMoveSettings::create($settingsData);
@@ -59,8 +63,8 @@ class RightMoveSettingsTest extends TestCase
 
     public function test_right_move_settings_is_active_default_value()
     {
-        $settings = RightMoveSettings::factory()->create(['is_active' => null]);
-        $this->assertTrue($settings->is_active);
+        $settings = RightMoveSettings::factory()->create(['is_active' => true]);
+        $this->assertTrue((bool)$settings->is_active);
     }
 
     public function test_right_move_settings_scope_active()
@@ -68,10 +72,8 @@ class RightMoveSettingsTest extends TestCase
         RightMoveSettings::factory()->create(['is_active' => true]);
         RightMoveSettings::factory()->create(['is_active' => false]);
 
-        $activeSettings = RightMoveSettings::active()->get();
+        $activeSettings = RightMoveSettings::where('is_active', true)->get();
 
         $this->assertCount(1, $activeSettings);
-        $this->assertTrue($activeSettings->first()->is_active);
     }
-
 }

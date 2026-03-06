@@ -32,6 +32,8 @@ class Appointment extends Model
         'agent_id',
         'property_id',
         'appointment_date',
+        'date',
+        'time',
         'status',
         'team_id',
         'appointment_type_id',
@@ -49,6 +51,7 @@ class Appointment extends Model
 
     protected $casts = [
         'appointment_date' => 'datetime',
+        'date' => 'date',
     ];
 
     public function user()

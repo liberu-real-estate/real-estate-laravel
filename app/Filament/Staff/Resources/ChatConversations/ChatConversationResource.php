@@ -4,7 +4,7 @@ namespace App\Filament\Staff\Resources\ChatConversations;
 
 use App\Models\ChatConversation;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -14,15 +14,15 @@ class ChatConversationResource extends Resource
 {
     protected static ?string $model = ChatConversation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
-    protected static ?string $navigationGroup = 'Support';
+    protected static string | \UnitEnum | null $navigationGroup = 'Support';
 
     protected static ?string $navigationLabel = 'Chat Conversations';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Forms\Components\Section::make('Conversation Details')
                     ->schema([

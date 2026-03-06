@@ -5,16 +5,16 @@ namespace App\Filament\Staff\Resources\ChatConversations\ChatConversationResourc
 use App\Filament\Staff\Resources\ChatConversations\ChatConversationResource;
 use App\Models\ChatMessage;
 use Filament\Resources\Pages\ViewRecord;
-use Filament\Infolists\Infolist;
+use Filament\Schemas\Schema;
 use Filament\Infolists\Components;
 
 class ViewChatConversation extends ViewRecord
 {
     protected static string $resource = ChatConversationResource::class;
 
-    public function infolist(Infolist $infolist): Infolist
+    public function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->schema([
                 Components\Section::make('Conversation Info')
                     ->schema([

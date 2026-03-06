@@ -2,19 +2,28 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 
 class LeaseAgreement extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'tenant_id',
         'property_id',
+        'landlord_id',
         'start_date',
         'end_date',
         'monthly_rent',
+        'rent_amount',
+        'security_deposit',
+        'status',
+        'payment_frequency',
         'terms',
         'content',
+        'terms_and_conditions',
         'is_signed',
         'smart_contract_address',
         'contract_status',
@@ -23,7 +32,6 @@ class LeaseAgreement extends Model
         'contract_deployed_at',
         'agreement_hash',
         'blockchain_network',
-        'security_deposit',
         'team_id',
     ];
 

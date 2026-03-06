@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
@@ -13,6 +14,8 @@ use Carbon\Carbon;
 
 class Booking extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'date',
         'time',
@@ -32,7 +35,7 @@ class Booking extends Model
 
     protected $casts = [
         'date' => 'date',
-        'time' => 'datetime:H:i',
+        'time' => 'string',
     ];
 
     public function scopeVisits($query)
@@ -100,13 +103,13 @@ class Booking extends Model
 
     public function canBeCancelled()
     {
-        $cancellationDeadline = Carbon::parse($this->date . ' ' . $this->time)->subHours(24);
+        $cancellationDeadline = Carbon::parse((is_string($this->date) ? $this->date : $this->date->format('Y-m-d')) . ' ' . $this->time)->subHours(24);
         return Carbon::now()->lt($cancellationDeadline);
     }
 
     public function canBeRescheduled()
     {
-        $reschedulingDeadline = Carbon::parse($this->date . ' ' . $this->time)->subHours(48);
+        $reschedulingDeadline = Carbon::parse((is_string($this->date) ? $this->date : $this->date->format('Y-m-d')) . ' ' . $this->time)->subHours(48);
         return Carbon::now()->lt($reschedulingDeadline);
     }
 

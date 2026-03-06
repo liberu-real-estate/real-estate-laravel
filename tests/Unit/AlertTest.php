@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Alert;
+use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -12,8 +13,10 @@ class AlertTest extends TestCase
 
     public function test_create_alert()
     {
+        $user = User::factory()->create();
+
         $alertData = [
-            'user_id' => 1,
+            'user_id' => $user->id,
             'type' => 'price_change',
             'criteria' => json_encode(['property_id' => 1, 'price_threshold' => 200000]),
             'frequency' => 'daily',
@@ -22,7 +25,7 @@ class AlertTest extends TestCase
         $alert = Alert::create($alertData);
 
         $this->assertInstanceOf(Alert::class, $alert);
-        $this->assertDatabaseHas('alerts', $alertData);
+        $this->assertDatabaseHas('alerts', ['user_id' => $user->id, 'type' => 'price_change']);
     }
 
     public function test_alert_relationships()

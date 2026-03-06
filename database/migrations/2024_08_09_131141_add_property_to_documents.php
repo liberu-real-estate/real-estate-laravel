@@ -6,26 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('documents', function (Blueprint $table) {
-            $table->foreignId('property_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            if (!Schema::hasColumn('documents', 'property_id')) {
+                $table->foreignId('property_id')->nullable()->constrained()->nullOnDelete();
+            }
+            if (!Schema::hasColumn('documents', 'user_id')) {
+                $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            }
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('documents', function (Blueprint $table) {
-            // $table->dropColumn('content');
-            $table->dropForeign(['property_id', 'user_id']);
-            $table->dropColumn(['property_id', 'user_id']);
+            foreach (['property_id', 'user_id'] as $col) {
+                if (Schema::hasColumn('documents', $col)) {
+                    try { $table->dropForeign([$col]); } catch (\Exception $e) {}
+                    $table->dropColumn($col);
+                }
+            }
         });
     }
 };

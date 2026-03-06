@@ -85,6 +85,12 @@ class PropertyValuationService
         ];
     }
 
+    public function calculateValuation(Property $property): float
+    {
+        $result = $this->calculateAutomaticValuation($property);
+        return (float)($result['estimated_value'] ?? $property->price ?? 0);
+    }
+
     public function updatePropertyValue(Property $property, PropertyValuation $valuation): void
     {
         if ($valuation->valuation_type === 'market' && $valuation->status === 'active') {

@@ -12,6 +12,10 @@ class Alert extends Model
 
     protected $fillable = [
         'user_id',
+        'type',
+        'frequency',
+        'criteria',
+        'is_active',
         'property_type',
         'min_price',
         'max_price',
@@ -26,6 +30,8 @@ class Alert extends Model
         'max_price' => 'float',
         'min_bedrooms' => 'integer',
         'max_bedrooms' => 'integer',
+        'is_active' => 'boolean',
+        'criteria' => 'array',
     ];
 
     public function user(): BelongsTo

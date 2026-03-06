@@ -655,4 +655,6 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             Cache::flush();
         });
     }
+
+    public function isHmo(): bool { return ($this->property_type ?? '') === 'HMO'; }
 }

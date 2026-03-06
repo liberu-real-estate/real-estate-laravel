@@ -8,15 +8,34 @@ use Illuminate\Database\Eloquent\Model;
 class Tenant extends Model
 {
     use HasFactory;
+
     protected $table = 'tenants';
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'first_name', 'last_name', 'email', 'password', 'phone', 'team_id',
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getFullNameAttribute(): string
+    {
+        if ($this->first_name && $this->last_name) {
+            return $this->first_name . ' ' . $this->last_name;
+        }
+        return $this->name ?? '';
+    }
+
+    public function leases()
+    {
+        return $this->hasMany(Lease::class, 'tenant_id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'tenant_id');
+    }
 
     public function reviews()
     {

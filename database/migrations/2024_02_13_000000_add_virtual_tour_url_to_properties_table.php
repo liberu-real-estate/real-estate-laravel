@@ -6,23 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->string('virtual_tour_url')->nullable()->after('team_id');
+            if (!Schema::hasColumn('properties', 'virtual_tour_url')) {
+                $table->string('virtual_tour_url')->nullable();
+            }
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->dropColumn('virtual_tour_url');
+            if (Schema::hasColumn('properties', 'virtual_tour_url')) {
+                $table->dropColumn('virtual_tour_url');
+            }
         });
     }
 };

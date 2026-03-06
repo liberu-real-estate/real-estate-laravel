@@ -11,10 +11,12 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->decimal('amount', 10, 2);
-            $table->date('payment_date');
-            $table->string('status');
-            $table->string('payment_method');
-            $table->foreignId('tenant_id')->constrained('users');
+            $table->date('payment_date')->nullable();
+            $table->string('status')->nullable();
+            $table->string('payment_method')->nullable();
+            $table->foreignId('tenant_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('invoice_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('accounting_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

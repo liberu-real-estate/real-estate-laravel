@@ -9,15 +9,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->string('calendar_event_id')->nullable()->after('feedback');
-            $table->string('booking_type')->default('viewing')->after('calendar_event_id');
+            if (!Schema::hasColumn('bookings', 'calendar_event_id')) {
+                $table->string('calendar_event_id')->nullable();
+            }
+            if (!Schema::hasColumn('bookings', 'booking_type')) {
+                $table->string('booking_type')->default('viewing');
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->dropColumn(['calendar_event_id', 'booking_type']);
+            $cols = array_filter(['calendar_event_id', 'booking_type'], 
+                fn($c) => Schema::hasColumn('bookings', $c));
+            if ($cols) $table->dropColumn(array_values($cols));
         });
     }
 };

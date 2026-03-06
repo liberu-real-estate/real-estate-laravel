@@ -7,7 +7,7 @@ use App\Services\SmartContractService;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Infolists;
-use Filament\Infolists\Infolist;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 
 class ViewSmartContract extends ViewRecord
@@ -71,9 +71,9 @@ class ViewSmartContract extends ViewRecord
         ];
     }
 
-    public function infolist(Infolist $infolist): Infolist
+    public function infolist(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->schema([
                 Infolists\Components\Section::make('Contract Information')
                     ->schema([
