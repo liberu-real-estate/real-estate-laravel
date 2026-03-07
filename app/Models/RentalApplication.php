@@ -34,7 +34,12 @@ class RentalApplication extends Model
 
     public function tenant()
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsTo(User::class, 'tenant_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'tenant_id');
     }
 
     public function isPending()
@@ -115,7 +120,6 @@ class RentalApplication extends Model
                $this->credit_report_status !== 'poor' &&
                $this->rental_history_status === 'good';
     }
-}
 
     public function scopePending($query) { return $query->where('status', 'pending'); }
     public function scopeApproved($query) { return $query->where('status', 'approved'); }

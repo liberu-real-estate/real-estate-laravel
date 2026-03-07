@@ -12,19 +12,32 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v4
     
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.5'
+        php-version: '8.3'
+        extensions: mbstring, bcmath, pdo, pdo_mysql, dom, curl
         
     - name: Setup Node.js
-      uses: actions/setup-node@v5
+      uses: actions/setup-node@v4
       with:
-        node-version: '24'
+        node-version: '20'
+        cache: 'npm'
 
-    
+    - name: Get Composer cache directory
+      id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
     - name: Start database
       run: sudo /etc/init.d/mysql start
 
@@ -35,8 +48,8 @@ jobs:
       run: cp .env.testing .env
       
     - name: Install dependencies
-      run: composer install
-      
+      run: composer install --no-interaction
+
     - name: Generate application key
       run: php artisan key:generate
       
@@ -51,3 +64,4 @@ jobs:
       
     - name: Build frontend assets
       run: npm run build
+

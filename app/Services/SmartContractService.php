@@ -68,6 +68,8 @@ class SmartContractService
                 'lease_start_date' => $leaseAgreement->start_date,
                 'lease_end_date' => $leaseAgreement->end_date,
                 'status' => 'pending',
+                'landlord_signed' => false,
+                'tenant_signed' => false,
                 'blockchain_network' => $this->blockchainService->getNetwork(),
                 'transaction_hash' => $deploymentResult['transaction_hash'],
                 'agreement_hash' => $agreementHash,

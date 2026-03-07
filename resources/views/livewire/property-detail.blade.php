@@ -910,7 +910,8 @@
                                 </video>
                             </div>
                         </div>
-                    
+                    @endif
+
                     <!-- Advanced Investment Simulator -->
                     @if($showInvestmentSimulation)
                     <div class="w-full mb-8">

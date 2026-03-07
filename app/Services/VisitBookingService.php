@@ -17,12 +17,6 @@ class VisitBookingService
         $this->notificationService = $notificationService;
         $this->calendarService = $calendarService;
     }
-    protected $notificationService;
-
-    public function __construct(NotificationService $notificationService)
-    {
-        $this->notificationService = $notificationService;
-    }
 
     public function getAvailableTimeSlots(Property $property, $date)
     {

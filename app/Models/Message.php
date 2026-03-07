@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Message extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $fillable = ['sender_id', 'recipient_id', 'content'];
+    protected $fillable = ['sender_id', 'recipient_id', 'content', 'read_at'];
 
     public function sender()
     {
@@ -32,6 +33,7 @@ class Message extends Model
         $this->attributes['sender_id'] = $value ?? Auth::id();
     }
 
-    public function scopeReceivedBy($query, $userId) { return $query->where('receiver_id', $userId); }
+    public function scopeReceivedBy($query, $userId) { return $query->where('recipient_id', $userId); }
+    public function scopeSentBy($query, $userId) { return $query->where('sender_id', $userId); }
     public function markAsRead() { $this->update(['read_at' => now()]); }
 }

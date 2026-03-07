@@ -68,7 +68,7 @@ return new class extends Migration
             $table->timestamp('confirmed_at')->nullable();
             $table->timestamps();
             
-            $table->index(['smart_contract_id', 'transaction_type']);
+            $table->index(['smart_contract_id', 'transaction_type'], 'sct_smart_contract_type_idx');
         });
     }
 

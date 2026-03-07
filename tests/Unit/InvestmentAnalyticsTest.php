@@ -44,7 +44,7 @@ class InvestmentAnalyticsTest extends TestCase
             ]);
 
         $propertyValuationService->method('calculateValuation')
-            ->willReturn(300000);
+            ->willReturn(300000.0);
 
         $propertyRecommendationService->method('getRecommendations')
             ->willReturn([]);
@@ -105,7 +105,7 @@ class InvestmentAnalyticsTest extends TestCase
             ]);
 
         $propertyValuationService->method('calculateValuation')
-            ->willReturn(250000);
+            ->willReturn(250000.0);
 
         $propertyRecommendationService->method('getRecommendations')
             ->willReturn([]);
@@ -144,7 +144,7 @@ class InvestmentAnalyticsTest extends TestCase
             ]);
 
         $propertyValuationService->method('calculateValuation')
-            ->willReturn(200000);
+            ->willReturn(200000.0);
 
         $propertyRecommendationService->method('getRecommendations')
             ->willReturn([]);

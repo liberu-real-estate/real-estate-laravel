@@ -47,8 +47,16 @@ return new class extends Migration
                     'reviewable_type' => Property::class
                 ]);
 
+            // Drop FK if it exists (it may not, since the original migration didn't create one)
+            try {
+                Schema::table('reviews', function (Blueprint $table) {
+                    $table->dropForeign(['property_id']);
+                });
+            } catch (\Throwable $e) {
+                // FK did not exist; that's fine
+            }
+
             Schema::table('reviews', function (Blueprint $table) {
-                try { $table->dropForeign(['property_id']); } catch (\Exception $e) {}
                 $table->dropColumn('property_id');
             });
         }
