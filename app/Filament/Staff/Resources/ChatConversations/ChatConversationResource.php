@@ -23,7 +23,7 @@ class ChatConversationResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
+            ->components([
                 Forms\Components\Section::make('Conversation Details')
                     ->schema([
                         Forms\Components\Select::make('user_id')
@@ -63,12 +63,13 @@ class ChatConversationResource extends Resource
                     ->label('User')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\BadgeColumn::make('status')
-                    ->colors([
-                        'success' => 'active',
-                        'warning' => 'escalated',
-                        'secondary' => 'closed',
-                    ])
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'active' => 'success',
+                        'escalated' => 'warning',
+                        default => 'secondary',
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('assignedAgent.name')
                     ->label('Assigned Agent')
@@ -96,14 +97,12 @@ class ChatConversationResource extends Resource
                         'closed' => 'Closed',
                     ]),
             ])
-            ->actions([
+            ->recordActions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+            ->toolbarActions([
+                Tables\Actions\DeleteBulkAction::make(),
             ])
             ->defaultSort('created_at', 'desc');
     }

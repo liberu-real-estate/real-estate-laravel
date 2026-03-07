@@ -6,7 +6,6 @@ use App\Filament\Staff\Resources\Landlords\LandlordResource;
 use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Filament\Forms\ComponentContainer;
 use Filament\Tables\Table;
 
 class LandlordResourceTest extends TestCase

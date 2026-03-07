@@ -177,14 +177,12 @@ class SmartContractResource extends Resource
                     ->query(fn ($query) => $query->where('landlord_signed', true)->where('tenant_signed', true))
                     ->label('Fully Signed'),
             ])
-            ->actions([
+            ->recordActions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+            ->toolbarActions([
+                Tables\Actions\DeleteBulkAction::make(),
             ])
             ->defaultSort('deployed_at', 'desc');
     }
