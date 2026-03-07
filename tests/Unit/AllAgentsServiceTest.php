@@ -15,8 +15,7 @@ class AllAgentsServiceTest extends TestCase
         $this->service = new AllAgentsService('test-api-key');
     }
 
-    /** @test */
-    public function it_throws_exception_for_empty_branch_id()
+    public function test_throws_exception_for_empty_branch_id()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Branch ID cannot be empty');
@@ -24,8 +23,7 @@ class AllAgentsServiceTest extends TestCase
         $this->service->getBranchReviews('');
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_limit()
+    public function test_throws_exception_for_invalid_limit()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Limit must be between 1 and 100');
@@ -33,8 +31,7 @@ class AllAgentsServiceTest extends TestCase
         $this->service->getBranchReviews('branch-123', 0);
     }
 
-    /** @test */
-    public function it_throws_exception_for_limit_too_high()
+    public function test_throws_exception_for_limit_too_high()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Limit must be between 1 and 100');
@@ -42,8 +39,7 @@ class AllAgentsServiceTest extends TestCase
         $this->service->getBranchReviews('branch-123', 101);
     }
 
-    /** @test */
-    public function it_throws_exception_for_empty_agent_id()
+    public function test_throws_exception_for_empty_agent_id()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Agent ID cannot be empty');
@@ -51,8 +47,7 @@ class AllAgentsServiceTest extends TestCase
         $this->service->getAgentReviews('');
     }
 
-    /** @test */
-    public function it_generates_embed_html()
+    public function test_generates_embed_html()
     {
         $html = $this->service->getEmbedHtml('branch-123');
 
@@ -61,8 +56,7 @@ class AllAgentsServiceTest extends TestCase
         $this->assertStringContainsString('<script>', $html);
     }
 
-    /** @test */
-    public function it_generates_embed_html_with_custom_options()
+    public function test_generates_embed_html_with_custom_options()
     {
         $html = $this->service->getEmbedHtml('branch-123', [
             'theme' => 'dark',
@@ -75,8 +69,7 @@ class AllAgentsServiceTest extends TestCase
         $this->assertStringContainsString('80%', $html);
     }
 
-    /** @test */
-    public function it_formats_reviews_for_display()
+    public function test_formats_reviews_for_display()
     {
         $rawReviews = [
             [
@@ -106,8 +99,7 @@ class AllAgentsServiceTest extends TestCase
         $this->assertTrue($formatted[0]['verified']);
     }
 
-    /** @test */
-    public function it_formats_rating_summary()
+    public function test_formats_rating_summary()
     {
         $ratingData = [
             'average_rating' => 4.2,
@@ -128,8 +120,7 @@ class AllAgentsServiceTest extends TestCase
         $this->assertEquals(88, $summary['recommendation_percentage']);
     }
 
-    /** @test */
-    public function it_returns_error_when_api_key_not_configured()
+    public function test_returns_error_when_api_key_not_configured()
     {
         $service = new AllAgentsService('');
 

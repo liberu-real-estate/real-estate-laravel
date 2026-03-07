@@ -17,8 +17,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->service = new PropertyTaxEstimatorService($stampDutyCalculator);
     }
 
-    /** @test */
-    public function it_calculates_uk_property_taxes_for_first_time_buyer()
+    public function test_calculates_uk_property_taxes_for_first_time_buyer()
     {
         $result = $this->service->estimatePropertyTax(250000, 'UK', ['buyer_type' => 'first_time_buyer']);
 
@@ -31,8 +30,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->assertArrayHasKey('breakdown', $result);
     }
 
-    /** @test */
-    public function it_calculates_uk_property_taxes_for_home_mover()
+    public function test_calculates_uk_property_taxes_for_home_mover()
     {
         $result = $this->service->estimatePropertyTax(300000, 'UK', ['buyer_type' => 'home_mover']);
 
@@ -44,8 +42,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->assertArrayHasKey('additional_costs', $result);
     }
 
-    /** @test */
-    public function it_calculates_uk_property_taxes_for_additional_property()
+    public function test_calculates_uk_property_taxes_for_additional_property()
     {
         $result = $this->service->estimatePropertyTax(300000, 'UK', ['buyer_type' => 'additional_property']);
 
@@ -55,8 +52,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->assertGreaterThan(2500, $result['stamp_duty']); // Should be more than home_mover
     }
 
-    /** @test */
-    public function it_includes_uk_additional_costs()
+    public function test_includes_uk_additional_costs()
     {
         $result = $this->service->estimatePropertyTax(400000, 'UK');
 
@@ -70,8 +66,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->assertGreaterThan(0, $result['additional_costs']['land_registry_fees']);
     }
 
-    /** @test */
-    public function it_calculates_us_property_taxes()
+    public function test_calculates_us_property_taxes()
     {
         $result = $this->service->estimatePropertyTax(500000, 'US');
 
@@ -88,8 +83,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->assertEquals(5500, $result['annual_property_tax']);
     }
 
-    /** @test */
-    public function it_calculates_generic_property_taxes_for_other_countries()
+    public function test_calculates_generic_property_taxes_for_other_countries()
     {
         $result = $this->service->estimatePropertyTax(300000, 'FR', ['country_name' => 'France']);
 
@@ -102,8 +96,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->assertEquals(9000, $result['property_transfer_tax']);
     }
 
-    /** @test */
-    public function it_handles_different_country_code_formats()
+    public function test_handles_different_country_code_formats()
     {
         $resultUK = $this->service->estimatePropertyTax(200000, 'uk');
         $resultGB = $this->service->estimatePropertyTax(200000, 'GB');
@@ -114,16 +107,14 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->assertEquals('United Kingdom', $resultFull['country']);
     }
 
-    /** @test */
-    public function it_defaults_to_home_mover_for_invalid_buyer_type()
+    public function test_defaults_to_home_mover_for_invalid_buyer_type()
     {
         $result = $this->service->estimatePropertyTax(300000, 'UK', ['buyer_type' => 'invalid_type']);
 
         $this->assertEquals('home_mover', $result['buyer_type']);
     }
 
-    /** @test */
-    public function it_calculates_total_cost_correctly()
+    public function test_calculates_total_cost_correctly()
     {
         $result = $this->service->estimatePropertyTax(300000, 'UK', ['buyer_type' => 'home_mover']);
 
@@ -134,8 +125,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->assertEquals($expectedTotal, $result['total_cost']);
     }
 
-    /** @test */
-    public function it_provides_breakdown_of_all_costs()
+    public function test_provides_breakdown_of_all_costs()
     {
         $result = $this->service->estimatePropertyTax(350000, 'UK');
 
@@ -147,8 +137,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->assertEquals($result['total_cost'], $breakdownTotal);
     }
 
-    /** @test */
-    public function it_scales_legal_fees_with_property_price()
+    public function test_scales_legal_fees_with_property_price()
     {
         $result100k = $this->service->estimatePropertyTax(100000, 'UK');
         $result500k = $this->service->estimatePropertyTax(500000, 'UK');
@@ -159,8 +148,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_scales_survey_fees_with_property_price()
+    public function test_scales_survey_fees_with_property_price()
     {
         $result100k = $this->service->estimatePropertyTax(100000, 'UK');
         $result500k = $this->service->estimatePropertyTax(500000, 'UK');
@@ -171,8 +159,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_calculates_land_registry_fees_correctly()
+    public function test_calculates_land_registry_fees_correctly()
     {
         $result50k = $this->service->estimatePropertyTax(50000, 'UK');
         $result150k = $this->service->estimatePropertyTax(150000, 'UK');
@@ -183,8 +170,7 @@ class PropertyTaxEstimatorServiceTest extends TestCase
         $this->assertEquals(540, $result600k['additional_costs']['land_registry_fees']);
     }
 
-    /** @test */
-    public function it_calculates_effective_tax_rate()
+    public function test_calculates_effective_tax_rate()
     {
         $result = $this->service->estimatePropertyTax(300000, 'UK', ['buyer_type' => 'home_mover']);
 

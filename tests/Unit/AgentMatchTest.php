@@ -36,8 +36,7 @@ class AgentMatchTest extends TestCase
         $this->agent->assignRole('agent');
     }
 
-    /** @test */
-    public function it_can_create_an_agent_match()
+    public function test_can_create_an_agent_match()
     {
         $match = AgentMatch::create([
             'user_id' => $this->user->id,
@@ -60,8 +59,7 @@ class AgentMatchTest extends TestCase
         $this->assertTrue($match->auto_generated);
     }
 
-    /** @test */
-    public function it_belongs_to_a_user()
+    public function test_belongs_to_a_user()
     {
         $match = AgentMatch::factory()->create([
             'user_id' => $this->user->id,
@@ -73,8 +71,7 @@ class AgentMatchTest extends TestCase
         $this->assertEquals($this->user->id, $match->user->id);
     }
 
-    /** @test */
-    public function it_belongs_to_an_agent()
+    public function test_belongs_to_an_agent()
     {
         $match = AgentMatch::factory()->create([
             'user_id' => $this->user->id,
@@ -86,8 +83,7 @@ class AgentMatchTest extends TestCase
         $this->assertEquals($this->agent->id, $match->agent->id);
     }
 
-    /** @test */
-    public function it_belongs_to_a_team()
+    public function test_belongs_to_a_team()
     {
         $match = AgentMatch::factory()->create([
             'user_id' => $this->user->id,
@@ -99,8 +95,7 @@ class AgentMatchTest extends TestCase
         $this->assertEquals($this->team->id, $match->team->id);
     }
 
-    /** @test */
-    public function it_casts_match_reasons_to_array()
+    public function test_casts_match_reasons_to_array()
     {
         $reasons = ['Great location knowledge', 'Excellent reviews'];
         
@@ -116,8 +111,7 @@ class AgentMatchTest extends TestCase
         $this->assertEquals($reasons, $match->match_reasons);
     }
 
-    /** @test */
-    public function it_can_be_accepted()
+    public function test_can_be_accepted()
     {
         $match = AgentMatch::factory()->create([
             'user_id' => $this->user->id,
@@ -132,8 +126,7 @@ class AgentMatchTest extends TestCase
         $this->assertEquals('accepted', $match->fresh()->status);
     }
 
-    /** @test */
-    public function it_can_be_rejected()
+    public function test_can_be_rejected()
     {
         $match = AgentMatch::factory()->create([
             'user_id' => $this->user->id,
@@ -148,8 +141,7 @@ class AgentMatchTest extends TestCase
         $this->assertEquals('rejected', $match->fresh()->status);
     }
 
-    /** @test */
-    public function it_can_scope_pending_matches()
+    public function test_can_scope_pending_matches()
     {
         AgentMatch::factory()->create([
             'user_id' => $this->user->id,
@@ -171,8 +163,7 @@ class AgentMatchTest extends TestCase
         $this->assertEquals('pending', $pendingMatches->first()->status);
     }
 
-    /** @test */
-    public function it_can_scope_accepted_matches()
+    public function test_can_scope_accepted_matches()
     {
         AgentMatch::factory()->create([
             'user_id' => $this->user->id,
@@ -194,8 +185,7 @@ class AgentMatchTest extends TestCase
         $this->assertEquals('accepted', $acceptedMatches->first()->status);
     }
 
-    /** @test */
-    public function it_enforces_unique_user_agent_combination()
+    public function test_enforces_unique_user_agent_combination()
     {
         AgentMatch::create([
             'user_id' => $this->user->id,

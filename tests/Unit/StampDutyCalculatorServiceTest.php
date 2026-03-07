@@ -15,8 +15,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->service = new StampDutyCalculatorService();
     }
 
-    /** @test */
-    public function it_calculates_zero_stamp_duty_for_first_time_buyer_under_300k()
+    public function test_calculates_zero_stamp_duty_for_first_time_buyer_under_300k()
     {
         $result = $this->service->calculateStampDuty(250000, 'first_time_buyer');
         
@@ -24,8 +23,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(0, $result['effective_tax_rate']);
     }
 
-    /** @test */
-    public function it_calculates_stamp_duty_for_first_time_buyer_between_300k_and_500k()
+    public function test_calculates_stamp_duty_for_first_time_buyer_between_300k_and_500k()
     {
         $result = $this->service->calculateStampDuty(400000, 'first_time_buyer');
         
@@ -34,8 +32,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(1.25, $result['effective_tax_rate']); // 5000/400000 * 100
     }
 
-    /** @test */
-    public function it_calculates_stamp_duty_for_home_mover_under_250k()
+    public function test_calculates_stamp_duty_for_home_mover_under_250k()
     {
         $result = $this->service->calculateStampDuty(200000, 'home_mover');
         
@@ -43,8 +40,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(0, $result['effective_tax_rate']);
     }
 
-    /** @test */
-    public function it_calculates_stamp_duty_for_home_mover_at_300k()
+    public function test_calculates_stamp_duty_for_home_mover_at_300k()
     {
         $result = $this->service->calculateStampDuty(300000, 'home_mover');
         
@@ -52,8 +48,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(2500, $result['stamp_duty']);
     }
 
-    /** @test */
-    public function it_calculates_stamp_duty_for_home_mover_at_500k()
+    public function test_calculates_stamp_duty_for_home_mover_at_500k()
     {
         $result = $this->service->calculateStampDuty(500000, 'home_mover');
         
@@ -61,8 +56,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(12500, $result['stamp_duty']);
     }
 
-    /** @test */
-    public function it_calculates_stamp_duty_for_home_mover_over_925k()
+    public function test_calculates_stamp_duty_for_home_mover_over_925k()
     {
         $result = $this->service->calculateStampDuty(1000000, 'home_mover');
         
@@ -73,8 +67,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(41250, $result['stamp_duty']);
     }
 
-    /** @test */
-    public function it_calculates_stamp_duty_for_additional_property_under_250k()
+    public function test_calculates_stamp_duty_for_additional_property_under_250k()
     {
         $result = $this->service->calculateStampDuty(200000, 'additional_property');
         
@@ -82,8 +75,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(6000, $result['stamp_duty']);
     }
 
-    /** @test */
-    public function it_calculates_stamp_duty_for_additional_property_at_300k()
+    public function test_calculates_stamp_duty_for_additional_property_at_300k()
     {
         $result = $this->service->calculateStampDuty(300000, 'additional_property');
         
@@ -93,8 +85,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(11500, $result['stamp_duty']);
     }
 
-    /** @test */
-    public function it_calculates_stamp_duty_for_additional_property_at_500k()
+    public function test_calculates_stamp_duty_for_additional_property_at_500k()
     {
         $result = $this->service->calculateStampDuty(500000, 'additional_property');
         
@@ -104,8 +95,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(27500, $result['stamp_duty']);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_buyer_type()
+    public function test_throws_exception_for_invalid_buyer_type()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid buyer type');
@@ -113,8 +103,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->service->calculateStampDuty(300000, 'invalid_buyer');
     }
 
-    /** @test */
-    public function it_calculates_effective_tax_rate_correctly()
+    public function test_calculates_effective_tax_rate_correctly()
     {
         $result = $this->service->calculateStampDuty(400000, 'home_mover');
         
@@ -123,8 +112,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(1.88, $result['effective_tax_rate']); // 7500/400000 * 100 = 1.875 rounded to 1.88
     }
 
-    /** @test */
-    public function it_handles_zero_purchase_price()
+    public function test_handles_zero_purchase_price()
     {
         $result = $this->service->calculateStampDuty(0, 'home_mover');
         
@@ -132,8 +120,7 @@ class StampDutyCalculatorServiceTest extends TestCase
         $this->assertEquals(0, $result['effective_tax_rate']);
     }
 
-    /** @test */
-    public function it_calculates_stamp_duty_for_very_high_value_property()
+    public function test_calculates_stamp_duty_for_very_high_value_property()
     {
         $result = $this->service->calculateStampDuty(2000000, 'home_mover');
         

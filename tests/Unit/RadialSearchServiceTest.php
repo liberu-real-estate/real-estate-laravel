@@ -21,8 +21,7 @@ class RadialSearchServiceTest extends TestCase
         $this->service = new RadialSearchService();
     }
 
-    /** @test */
-    public function it_calculates_distance_between_two_points_in_miles()
+    public function test_calculates_distance_between_two_points_in_miles()
     {
         // London to Manchester (approx. 163 miles)
         $distance = $this->service->calculateDistance(51.5074, -0.1278, 53.4808, -2.2426, 'miles');
@@ -31,8 +30,7 @@ class RadialSearchServiceTest extends TestCase
         $this->assertLessThan(170, $distance);
     }
 
-    /** @test */
-    public function it_calculates_distance_between_two_points_in_km()
+    public function test_calculates_distance_between_two_points_in_km()
     {
         // London to Manchester (approx. 263 km)
         $distance = $this->service->calculateDistance(51.5074, -0.1278, 53.4808, -2.2426, 'km');
@@ -41,16 +39,14 @@ class RadialSearchServiceTest extends TestCase
         $this->assertLessThan(270, $distance);
     }
 
-    /** @test */
-    public function it_returns_zero_distance_for_same_coordinates()
+    public function test_returns_zero_distance_for_same_coordinates()
     {
         $distance = $this->service->calculateDistance(51.5074, -0.1278, 51.5074, -0.1278, 'miles');
 
         $this->assertEquals(0, $distance);
     }
 
-    /** @test */
-    public function it_throws_exception_for_zero_radius()
+    public function test_throws_exception_for_zero_radius()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Radius must be greater than zero');
@@ -58,16 +54,14 @@ class RadialSearchServiceTest extends TestCase
         $this->service->findPropertiesWithinRadius(51.5074, -0.1278, 0);
     }
 
-    /** @test */
-    public function it_throws_exception_for_negative_radius()
+    public function test_throws_exception_for_negative_radius()
     {
         $this->expectException(\InvalidArgumentException::class);
 
         $this->service->findPropertiesWithinRadius(51.5074, -0.1278, -1);
     }
 
-    /** @test */
-    public function it_throws_exception_for_polygon_with_fewer_than_3_points()
+    public function test_throws_exception_for_polygon_with_fewer_than_3_points()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('A polygon must have at least 3 vertices');
@@ -78,8 +72,7 @@ class RadialSearchServiceTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_finds_properties_within_radius()
+    public function test_finds_properties_within_radius()
     {
         $team = Team::create(['name' => 'Test Team', 'user_id' => 1, 'personal_team' => false]);
         $user = User::factory()->create(['current_team_id' => $team->id]);
@@ -106,8 +99,7 @@ class RadialSearchServiceTest extends TestCase
         $this->assertFalse($results->contains('id', $farProperty->id));
     }
 
-    /** @test */
-    public function it_finds_properties_within_polygon()
+    public function test_finds_properties_within_polygon()
     {
         $team = Team::create(['name' => 'Test Team', 'user_id' => 1, 'personal_team' => false]);
         $user = User::factory()->create(['current_team_id' => $team->id]);
