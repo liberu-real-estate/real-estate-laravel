@@ -427,7 +427,7 @@
                                             @auth
                                                 @livewire('neighborhood-review-form', ['neighborhoodId' => $neighborhood->id])
                                             @else
-                                                <p class="mt-4 text-gray-600 dark:text-gray-400">Please <a href="{{ route('login') }}" class="text-primary-600 hover:underline">login</a> to leave a neighborhood review.</p>
+                                                <p class="mt-4 text-gray-600 dark:text-gray-400">Please <a href="{{ url('/login') }}" class="text-primary-600 hover:underline">login</a> to leave a neighborhood review.</p>
                                             @endauth
                                         </div>
                                     @else
@@ -939,7 +939,7 @@
                     @auth
                         @livewire('property-review-form', ['propertyId' => $property->id])
                     @else
-                        <p class="mt-4 text-gray-600">Please <a href="{{ route('login') }}"
+                        <p class="mt-4 text-gray-600">Please <a href="{{ url('/login') }}"
                                 class="text-blue-500 hover:underline">login</a> to leave a review.</p>
                     @endauth
                 </div>
