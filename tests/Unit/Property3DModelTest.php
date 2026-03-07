@@ -60,8 +60,8 @@ class Property3DModelTest extends TestCase
         $file = UploadedFile::fake()->create('model.glb', 1024, 'model/gltf-binary');
         $property->addMedia($file)->toMediaCollection('3d_models');
 
-        // Now should have 3D model
-        $this->assertTrue($property->hasMedia('3d_models'));
+        // Now should have 3D model (refresh to clear cached relationships)
+        $this->assertTrue($property->fresh()->hasMedia('3d_models'));
     }
 
     public function test_property_can_retrieve_3d_model_url()

@@ -53,11 +53,12 @@ class PropertyResourceTest extends TestCase
 
         $this->assertTrue(PropertyResource::canViewRelation('reviews', $property));
 
-        // Assuming isHmo() method exists on Property model
-        $property->isHmo = true;
-        $this->assertTrue(PropertyResource::canViewRelation('rooms', $property));
+        // Test HMO property type shows rooms relation
+        $hmoProperty = Property::factory()->create(['property_type' => 'HMO']);
+        $this->assertTrue(PropertyResource::canViewRelation('rooms', $hmoProperty));
 
-        $property->isHmo = false;
-        $this->assertFalse(PropertyResource::canViewRelation('rooms', $property));
+        // Test non-HMO property type hides rooms relation
+        $nonHmoProperty = Property::factory()->create(['property_type' => 'detached']);
+        $this->assertFalse(PropertyResource::canViewRelation('rooms', $nonHmoProperty));
     }
 }

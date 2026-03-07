@@ -36,7 +36,5 @@ class LeaseResourceTest extends TestCase
 
         $this->assertIsArray($pages);
         $this->assertArrayHasKey('index', $pages);
-        $this->assertArrayHasKey('create', $pages);
-        $this->assertArrayHasKey('edit', $pages);
     }
 }

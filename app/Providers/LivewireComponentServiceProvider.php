@@ -9,6 +9,10 @@ use Livewire\Livewire;
 use App\Http\Livewire\PropertyBooking;
 use App\Http\Livewire\ValuationBooking;
 use App\Http\Livewire\PropertyReviewForm;
+use App\Http\Livewire\PropertyTaxEstimator;
+use App\Http\Livewire\PropertyPreviewComponent;
+use App\Http\Livewire\InvestmentAnalysisComponent;
+use App\Http\Livewire\NeighborhoodReviewForm;
 
 class LivewireComponentServiceProvider extends ServiceProvider
 {
@@ -23,7 +27,10 @@ class LivewireComponentServiceProvider extends ServiceProvider
             'property-booking' => PropertyBooking::class,
             'valuation-booking' => ValuationBooking::class,
             'property-review-form' => PropertyReviewForm::class,
-            // Add other Livewire components here
+            'property-tax-estimator' => PropertyTaxEstimator::class,
+            'property-preview-component' => PropertyPreviewComponent::class,
+            'investment-analysis-component' => InvestmentAnalysisComponent::class,
+            'neighborhood-review-form' => NeighborhoodReviewForm::class,
         ];
 
         foreach ($components as $alias => $class) {

@@ -35,8 +35,20 @@ class Booking extends Model
 
     protected $casts = [
         'date' => 'date',
-        'time' => 'string',
     ];
+
+    public function getTimeAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+        return Carbon::parse($value);
+    }
+
+    public function setTimeAttribute($value)
+    {
+        $this->attributes['time'] = $value instanceof Carbon ? $value->format('H:i:s') : $value;
+    }
 
     public function scopeVisits($query)
     {
@@ -103,13 +115,15 @@ class Booking extends Model
 
     public function canBeCancelled()
     {
-        $cancellationDeadline = Carbon::parse((is_string($this->date) ? $this->date : $this->date->format('Y-m-d')) . ' ' . $this->time)->subHours(24);
+        $time = $this->getRawOriginal('time') ?? ($this->time instanceof \Carbon\Carbon ? $this->time->format('H:i:s') : $this->time);
+        $cancellationDeadline = Carbon::parse((is_string($this->date) ? $this->date : $this->date->format('Y-m-d')) . ' ' . $time)->subHours(24);
         return Carbon::now()->lt($cancellationDeadline);
     }
 
     public function canBeRescheduled()
     {
-        $reschedulingDeadline = Carbon::parse((is_string($this->date) ? $this->date : $this->date->format('Y-m-d')) . ' ' . $this->time)->subHours(48);
+        $time = $this->getRawOriginal('time') ?? ($this->time instanceof \Carbon\Carbon ? $this->time->format('H:i:s') : $this->time);
+        $reschedulingDeadline = Carbon::parse((is_string($this->date) ? $this->date : $this->date->format('Y-m-d')) . ' ' . $time)->subHours(48);
         return Carbon::now()->lt($reschedulingDeadline);
     }
 
