@@ -131,13 +131,14 @@ class SmartContractResource extends Resource
                     ->label('Monthly Rent')
                     ->money('USD')
                     ->sortable(),
-                Tables\Columns\BadgeColumn::make('status')
-                    ->colors([
-                        'warning' => 'pending',
-                        'success' => 'active',
-                        'gray' => 'completed',
-                        'danger' => 'terminated',
-                    ]),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'active' => 'success',
+                        'completed' => 'gray',
+                        default => 'danger',
+                    }),
                 Tables\Columns\IconColumn::make('landlord_signed')
                     ->label('Landlord')
                     ->boolean()
