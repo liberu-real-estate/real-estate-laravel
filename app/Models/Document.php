@@ -74,4 +74,9 @@ class Document extends Model implements HasMedia
     {
         return $this->is_signable;
     }
+
+    public function scopeForUser($query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
 }

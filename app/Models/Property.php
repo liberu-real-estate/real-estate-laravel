@@ -625,7 +625,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             ->singleFile();
 
         $this->addMediaCollection('3d_models')
-            ->acceptsMimeTypes(['model/gltf-binary', 'model/gltf+json', 'application/octet-stream'])
+            ->acceptsMimeTypes(['model/gltf-binary', 'model/gltf+json', 'application/octet-stream', 'application/x-empty'])
             ->singleFile();
     }
 

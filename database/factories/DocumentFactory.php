@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Document;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DocumentFactory extends Factory
@@ -15,6 +16,7 @@ class DocumentFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'content' => $this->faker->paragraphs(3, true),
+            'user_id' => User::factory(),
             'team_id' => Team::factory(),
         ];
     }

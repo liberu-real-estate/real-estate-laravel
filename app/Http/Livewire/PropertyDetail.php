@@ -113,7 +113,7 @@ class PropertyDetail extends Component
     public function toggleFavorite()
     {
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect('/login');
         }
 
         $user = Auth::user();
@@ -288,7 +288,7 @@ class PropertyDetail extends Component
     public function openScheduleLiveTourModal()
     {
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect('/login');
         }
         $this->showScheduleLiveTourModal = true;
     }
@@ -308,7 +308,7 @@ class PropertyDetail extends Component
         ]);
 
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect('/login');
         }
 
         $user = Auth::user();

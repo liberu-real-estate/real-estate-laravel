@@ -2,7 +2,7 @@
     @php
         $currency = app(\App\Settings\GeneralSettings::class)->site_currency;
     @endphp
-    @section('content')
+    
         <section>
             <section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
                 <div class="max-w-(--breakpoint-xl) px-4 mx-auto 2xl:px-0">
@@ -427,7 +427,7 @@
                                             @auth
                                                 @livewire('neighborhood-review-form', ['neighborhoodId' => $neighborhood->id])
                                             @else
-                                                <p class="mt-4 text-gray-600 dark:text-gray-400">Please <a href="{{ route('login') }}" class="text-primary-600 hover:underline">login</a> to leave a neighborhood review.</p>
+                                                <p class="mt-4 text-gray-600 dark:text-gray-400">Please <a href="{{ url('/login') }}" class="text-primary-600 hover:underline">login</a> to leave a neighborhood review.</p>
                                             @endauth
                                         </div>
                                     @else
@@ -774,7 +774,8 @@
                                 </div>
                             @endif
                         </div>
-                    
+                    @endif
+
                     {{-- Community Events Calendar Section --}}
                     @if($communityEvents->count() > 0)
                         <div class="w-full mt-8 mb-8">
@@ -910,7 +911,8 @@
                                 </video>
                             </div>
                         </div>
-                    
+                    @endif
+
                     <!-- Advanced Investment Simulator -->
                     @if($showInvestmentSimulation)
                     <div class="w-full mb-8">
@@ -937,7 +939,7 @@
                     @auth
                         @livewire('property-review-form', ['propertyId' => $property->id])
                     @else
-                        <p class="mt-4 text-gray-600">Please <a href="{{ route('login') }}"
+                        <p class="mt-4 text-gray-600">Please <a href="{{ url('/login') }}"
                                 class="text-blue-500 hover:underline">login</a> to leave a review.</p>
                     @endauth
                 </div>
@@ -1102,4 +1104,5 @@
             </div>
             @endif
         </section>
-    @endsection
+    
+</div>

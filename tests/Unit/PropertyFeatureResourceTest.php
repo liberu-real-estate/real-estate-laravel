@@ -42,11 +42,11 @@ class PropertyFeatureResourceTest extends TestCase
 
     public function test_property_feature_resource_filters()
     {
-        $this->markTestSkipped(\'Filament filter tests require Livewire test setup.\');
+        $this->markTestSkipped('Filament filter tests require Livewire test setup.');
     }
 
     public function test_property_feature_resource_actions()
     {
-        $this->markTestSkipped(\'Filament action tests require Livewire test setup.\');
+        $this->markTestSkipped('Filament action tests require Livewire test setup.');
     }
 }

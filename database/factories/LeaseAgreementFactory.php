@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\LeaseAgreement;
 use App\Models\Property;
 use App\Models\Team;
+use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,7 +17,7 @@ class LeaseAgreementFactory extends Factory
     {
         return [
             'property_id' => Property::factory(),
-            'tenant_id' => User::factory(),
+            'tenant_id' => Tenant::factory(),
             'start_date' => $this->faker->dateTimeBetween('now', '+1 month'),
             'end_date' => $this->faker->dateTimeBetween('+1 year', '+2 years'),
             'rent_amount' => $this->faker->numberBetween(500, 5000),

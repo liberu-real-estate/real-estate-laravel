@@ -27,18 +27,21 @@ class WalkScoreService
      */
     public function getWalkScore($address, $latitude, $longitude)
     {
+        $apiKey = config('services.walkscore.api_key');
+        $baseUri = config('services.walkscore.base_uri') ?? $this->baseUri;
+
         try {
             // If API key is not configured, return mock data for development
-            if (empty($this->apiKey)) {
+            if (empty($apiKey)) {
                 return $this->getMockWalkScore($latitude, $longitude);
             }
 
-            $response = Http::get("{$this->baseUri}/score", [
+            $response = Http::get("{$baseUri}/score", [
                 'format' => 'json',
                 'address' => $address,
                 'lat' => $latitude,
                 'lon' => $longitude,
-                'wsapikey' => $this->apiKey,
+                'wsapikey' => $apiKey,
             ]);
 
             if ($response->failed()) {

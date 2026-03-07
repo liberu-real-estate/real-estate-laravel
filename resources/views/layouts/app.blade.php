@@ -24,7 +24,7 @@
         @include('components.home-navbar')
 
         <main class="grow">
-            @yield('content')
+            @yield('content'){{ $slot ?? '' }}
         </main>
 
         @include('components.footer')
