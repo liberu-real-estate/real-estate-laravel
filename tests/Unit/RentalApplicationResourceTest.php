@@ -6,7 +6,6 @@ use App\Filament\Staff\Resources\RentalApplications\RentalApplicationResource;
 use App\Models\RentalApplication;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Filament\Forms\ComponentContainer;
 use Filament\Tables\Table;
 
 class RentalApplicationResourceTest extends TestCase

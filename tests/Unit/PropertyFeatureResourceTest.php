@@ -6,7 +6,6 @@ use App\Filament\Staff\Resources\PropertyFeatures\PropertyFeatureResource;
 use App\Models\PropertyFeature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Filament\Forms\ComponentContainer;
 use Filament\Tables\Table;
 
 class PropertyFeatureResourceTest extends TestCase

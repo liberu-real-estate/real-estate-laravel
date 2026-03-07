@@ -131,13 +131,14 @@ class SmartContractResource extends Resource
                     ->label('Monthly Rent')
                     ->money('USD')
                     ->sortable(),
-                Tables\Columns\BadgeColumn::make('status')
-                    ->colors([
-                        'warning' => 'pending',
-                        'success' => 'active',
-                        'gray' => 'completed',
-                        'danger' => 'terminated',
-                    ]),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'active' => 'success',
+                        'completed' => 'gray',
+                        default => 'danger',
+                    }),
                 Tables\Columns\IconColumn::make('landlord_signed')
                     ->label('Landlord')
                     ->boolean()
@@ -177,14 +178,12 @@ class SmartContractResource extends Resource
                     ->query(fn ($query) => $query->where('landlord_signed', true)->where('tenant_signed', true))
                     ->label('Fully Signed'),
             ])
-            ->actions([
+            ->recordActions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+            ->toolbarActions([
+                Tables\Actions\DeleteBulkAction::make(),
             ])
             ->defaultSort('deployed_at', 'desc');
     }
