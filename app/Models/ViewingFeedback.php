@@ -11,6 +11,8 @@ class ViewingFeedback extends Model
 {
     use HasFactory;
 
+    protected $table = 'viewing_feedbacks';
+
     protected $fillable = [
         'appointment_id',
         'property_id',

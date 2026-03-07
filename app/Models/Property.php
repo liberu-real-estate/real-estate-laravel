@@ -108,6 +108,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
         'holographic_provider',
         'holographic_metadata',
         'holographic_enabled',
+        'jupix_id',
     ];
 
     protected $casts = [

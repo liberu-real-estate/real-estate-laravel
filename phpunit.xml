@@ -32,6 +32,8 @@
     <env name="QUEUE_CONNECTION" value="sync"/>
     <env name="SESSION_DRIVER" value="array"/>
     <env name="TELESCOPE_ENABLED" value="false"/>
+    <env name="JUPIX_BASE_URL" value="https://api.jupix.test"/>
+    <env name="JUPIX_API_KEY" value="test-api-key"/>
   </php>
   <source>
     <include>

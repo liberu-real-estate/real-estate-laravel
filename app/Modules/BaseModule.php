@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\File;
 
 abstract class BaseModule implements ModuleInterface
 {
-    protected string $name;
-    protected string $version;
-    protected string $description;
+    protected string $name = '';
+    protected string $version = '1.0.0';
+    protected string $description = '';
     protected array $dependencies = [];
     protected array $config = [];
 
