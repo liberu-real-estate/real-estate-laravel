@@ -15,8 +15,7 @@ class HomeValuationServiceTest extends TestCase
         $this->service = new HomeValuationService();
     }
 
-    /** @test */
-    public function it_calculates_basic_home_valuation()
+    public function test_calculates_basic_home_valuation()
     {
         $result = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -37,8 +36,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertGreaterThan(0, $result['estimated_value']);
     }
 
-    /** @test */
-    public function it_applies_detached_property_premium()
+    public function test_applies_detached_property_premium()
     {
         $detachedResult = $this->service->calculateHomeValuation(
             propertySize: 2000,
@@ -67,8 +65,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertEquals(1.0, $terracedResult['breakdown']['type_multiplier']);
     }
 
-    /** @test */
-    public function it_applies_condition_multiplier_correctly()
+    public function test_applies_condition_multiplier_correctly()
     {
         $excellentResult = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -97,8 +94,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertEquals(0.85, $poorResult['breakdown']['condition_multiplier']);
     }
 
-    /** @test */
-    public function it_applies_location_multiplier_correctly()
+    public function test_applies_location_multiplier_correctly()
     {
         $primeResult = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -127,8 +123,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertEquals(0.8, $belowAverageResult['breakdown']['location_multiplier']);
     }
 
-    /** @test */
-    public function it_applies_new_build_premium()
+    public function test_applies_new_build_premium()
     {
         $newBuildResult = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -156,8 +151,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertEquals(0.95, $olderResult['breakdown']['age_adjustment']);
     }
 
-    /** @test */
-    public function it_adds_bedroom_bonus_correctly()
+    public function test_adds_bedroom_bonus_correctly()
     {
         $twoBedroomResult = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -186,8 +180,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertEquals(30000, $fourBedroomResult['breakdown']['room_bonus']);
     }
 
-    /** @test */
-    public function it_adds_bathroom_bonus_correctly()
+    public function test_adds_bathroom_bonus_correctly()
     {
         $oneBathroomResult = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -217,8 +210,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertEquals($expectedBonus, $threeBathroomResult['breakdown']['room_bonus']);
     }
 
-    /** @test */
-    public function it_calculates_value_range_correctly()
+    public function test_calculates_value_range_correctly()
     {
         $result = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -239,8 +231,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertEquals(round($expectedMax, 2), $result['max_value']);
     }
 
-    /** @test */
-    public function it_calculates_confidence_level_within_range()
+    public function test_calculates_confidence_level_within_range()
     {
         $result = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -257,8 +248,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertLessThanOrEqual(95, $result['confidence_level']);
     }
 
-    /** @test */
-    public function it_has_higher_confidence_for_apartments()
+    public function test_has_higher_confidence_for_apartments()
     {
         $apartmentResult = $this->service->calculateHomeValuation(
             propertySize: 1000,
@@ -286,8 +276,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertGreaterThanOrEqual($detachedResult['confidence_level'], $apartmentResult['confidence_level']);
     }
 
-    /** @test */
-    public function it_includes_property_details_in_result()
+    public function test_includes_property_details_in_result()
     {
         $result = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -310,8 +299,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertEquals(3000, $result['base_price_per_unit']);
     }
 
-    /** @test */
-    public function it_calculates_property_age_correctly()
+    public function test_calculates_property_age_correctly()
     {
         $yearBuilt = 2010;
         $result = $this->service->calculateHomeValuation(
@@ -329,8 +317,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertEquals($expectedAge, $result['property_age']);
     }
 
-    /** @test */
-    public function it_includes_detailed_breakdown()
+    public function test_includes_detailed_breakdown()
     {
         $result = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -352,8 +339,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertArrayHasKey('room_bonus', $result['breakdown']);
     }
 
-    /** @test */
-    public function it_handles_different_base_prices()
+    public function test_handles_different_base_prices()
     {
         $lowPriceResult = $this->service->calculateHomeValuation(
             propertySize: 1500,
@@ -380,8 +366,7 @@ class HomeValuationServiceTest extends TestCase
         $this->assertGreaterThan($lowPriceResult['estimated_value'], $highPriceResult['estimated_value']);
     }
 
-    /** @test */
-    public function it_handles_all_property_types()
+    public function test_handles_all_property_types()
     {
         $propertyTypes = ['detached', 'semi-detached', 'terraced', 'apartment', 'bungalow'];
 
@@ -403,8 +388,7 @@ class HomeValuationServiceTest extends TestCase
         }
     }
 
-    /** @test */
-    public function it_handles_all_condition_levels()
+    public function test_handles_all_condition_levels()
     {
         $conditions = ['excellent', 'good', 'fair', 'poor'];
 
@@ -426,8 +410,7 @@ class HomeValuationServiceTest extends TestCase
         }
     }
 
-    /** @test */
-    public function it_handles_all_location_types()
+    public function test_handles_all_location_types()
     {
         $locations = ['prime', 'good', 'average', 'below-average'];
 

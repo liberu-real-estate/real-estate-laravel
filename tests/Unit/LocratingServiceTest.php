@@ -15,8 +15,7 @@ class LocratingServiceTest extends TestCase
         $this->service = new LocratingService('test-api-key');
     }
 
-    /** @test */
-    public function it_throws_exception_for_zero_radius()
+    public function test_throws_exception_for_zero_radius()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Radius must be greater than 0');
@@ -24,8 +23,7 @@ class LocratingServiceTest extends TestCase
         $this->service->getSchoolsNearLocation(51.5074, -0.1278, 0);
     }
 
-    /** @test */
-    public function it_throws_exception_for_radius_too_large()
+    public function test_throws_exception_for_radius_too_large()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Radius must be greater than 0');
@@ -33,8 +31,7 @@ class LocratingServiceTest extends TestCase
         $this->service->getSchoolsNearLocation(51.5074, -0.1278, 30);
     }
 
-    /** @test */
-    public function it_throws_exception_for_empty_school_id_when_getting_catchment()
+    public function test_throws_exception_for_empty_school_id_when_getting_catchment()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('School ID cannot be empty');
@@ -42,8 +39,7 @@ class LocratingServiceTest extends TestCase
         $this->service->getSchoolCatchmentArea('');
     }
 
-    /** @test */
-    public function it_throws_exception_for_empty_school_id_when_getting_ofsted()
+    public function test_throws_exception_for_empty_school_id_when_getting_ofsted()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('School ID cannot be empty');
@@ -51,8 +47,7 @@ class LocratingServiceTest extends TestCase
         $this->service->getSchoolOfstedRating('');
     }
 
-    /** @test */
-    public function it_returns_error_when_api_key_not_configured()
+    public function test_returns_error_when_api_key_not_configured()
     {
         $service = new LocratingService('');
 
@@ -62,8 +57,7 @@ class LocratingServiceTest extends TestCase
         $this->assertStringContainsString('API key not configured', $result['error']);
     }
 
-    /** @test */
-    public function it_formats_schools_for_display()
+    public function test_formats_schools_for_display()
     {
         $rawSchools = [
             [
@@ -99,8 +93,7 @@ class LocratingServiceTest extends TestCase
         $this->assertFalse($formatted[1]['is_in_catchment']);
     }
 
-    /** @test */
-    public function it_formats_school_with_unknown_ofsted_rating()
+    public function test_formats_school_with_unknown_ofsted_rating()
     {
         $schools = [
             ['id' => 'school-001', 'name' => 'New School', 'ofsted_rating' => null],
@@ -111,8 +104,7 @@ class LocratingServiceTest extends TestCase
         $this->assertEquals('Not yet inspected', $formatted[0]['ofsted_label']);
     }
 
-    /** @test */
-    public function it_accepts_phase_filter_for_primary()
+    public function test_accepts_phase_filter_for_primary()
     {
         // This test just verifies no exception is thrown with valid phases
         // (API request will fail gracefully without a real key)
@@ -122,8 +114,7 @@ class LocratingServiceTest extends TestCase
         $this->assertArrayHasKey('error', $result);
     }
 
-    /** @test */
-    public function it_accepts_phase_filter_for_secondary()
+    public function test_accepts_phase_filter_for_secondary()
     {
         $service = new LocratingService('');
         $result = $service->getSchoolsNearLocation(51.5074, -0.1278, 1.0, 'secondary');

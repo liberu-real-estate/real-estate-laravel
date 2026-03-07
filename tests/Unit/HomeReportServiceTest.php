@@ -30,8 +30,7 @@ class HomeReportServiceTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_creates_a_home_report()
+    public function test_creates_a_home_report()
     {
         $report = $this->service->createHomeReport($this->property, [
             'surveyor_name' => 'John Surveyor',
@@ -52,8 +51,7 @@ class HomeReportServiceTest extends TestCase
         $this->assertDatabaseHas('home_reports', ['property_id' => $this->property->id]);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_energy_band()
+    public function test_throws_exception_for_invalid_energy_band()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid energy band');
@@ -64,8 +62,7 @@ class HomeReportServiceTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_property_condition()
+    public function test_throws_exception_for_invalid_property_condition()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid property condition');
@@ -76,8 +73,7 @@ class HomeReportServiceTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_detects_expired_report()
+    public function test_detects_expired_report()
     {
         $report = $this->service->createHomeReport($this->property, [
             'survey_date' => now()->subYear()->toDateString(),
@@ -88,8 +84,7 @@ class HomeReportServiceTest extends TestCase
         $this->assertFalse($report->isValid());
     }
 
-    /** @test */
-    public function it_detects_valid_report()
+    public function test_detects_valid_report()
     {
         $report = $this->service->createHomeReport($this->property, [
             'survey_date' => now()->toDateString(),
@@ -100,8 +95,7 @@ class HomeReportServiceTest extends TestCase
         $this->assertTrue($report->isValid());
     }
 
-    /** @test */
-    public function it_updates_condition_ratings()
+    public function test_updates_condition_ratings()
     {
         $report = $this->service->createHomeReport($this->property, []);
 
@@ -116,8 +110,7 @@ class HomeReportServiceTest extends TestCase
         $this->assertEquals('3', $updated->condition_categories['main_walls']);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_condition_section()
+    public function test_throws_exception_for_invalid_condition_section()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid condition section');
@@ -126,8 +119,7 @@ class HomeReportServiceTest extends TestCase
         $this->service->updateConditionRatings($report, ['invalid_section' => '1']);
     }
 
-    /** @test */
-    public function it_gets_overall_condition_from_categories()
+    public function test_gets_overall_condition_from_categories()
     {
         $report = $this->service->createHomeReport($this->property, ['property_condition' => '1']);
         $this->service->updateConditionRatings($report, ['structure' => '2', 'roof_outside' => '3']);
@@ -136,8 +128,7 @@ class HomeReportServiceTest extends TestCase
         $this->assertEquals('3', $overall);
     }
 
-    /** @test */
-    public function it_checks_if_property_has_valid_report()
+    public function test_checks_if_property_has_valid_report()
     {
         $this->assertFalse($this->service->hasValidReport($this->property));
 
@@ -149,8 +140,7 @@ class HomeReportServiceTest extends TestCase
         $this->assertTrue($this->service->hasValidReport($this->property));
     }
 
-    /** @test */
-    public function it_calculates_energy_improvement_points()
+    public function test_calculates_energy_improvement_points()
     {
         $report = $this->service->createHomeReport($this->property, [
             'energy_current_score' => 65,
@@ -160,8 +150,7 @@ class HomeReportServiceTest extends TestCase
         $this->assertEquals(15, $report->getEnergyImprovementPoints());
     }
 
-    /** @test */
-    public function it_gets_latest_report_for_property()
+    public function test_gets_latest_report_for_property()
     {
         $this->service->createHomeReport($this->property, [
             'survey_date' => now()->subYear()->toDateString(),

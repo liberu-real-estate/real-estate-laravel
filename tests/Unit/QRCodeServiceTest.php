@@ -21,8 +21,7 @@ class QRCodeServiceTest extends TestCase
         $this->service = new QRCodeService();
     }
 
-    /** @test */
-    public function it_generates_qr_code_url_for_content()
+    public function test_generates_qr_code_url_for_content()
     {
         $url = $this->service->generateQRCodeUrl('https://example.com/property/1', 200);
 
@@ -31,8 +30,7 @@ class QRCodeServiceTest extends TestCase
         $this->assertStringContainsString('200x200', $url);
     }
 
-    /** @test */
-    public function it_generates_qr_code_data_with_defaults()
+    public function test_generates_qr_code_data_with_defaults()
     {
         $data = $this->service->generateQRCodeData('https://example.com/property/1');
 
@@ -43,8 +41,7 @@ class QRCodeServiceTest extends TestCase
         $this->assertEquals('https://example.com/property/1', $data['content']);
     }
 
-    /** @test */
-    public function it_throws_exception_for_empty_content()
+    public function test_throws_exception_for_empty_content()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('QR code content cannot be empty');
@@ -52,8 +49,7 @@ class QRCodeServiceTest extends TestCase
         $this->service->generateQRCodeUrl('');
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_size_too_small()
+    public function test_throws_exception_for_invalid_size_too_small()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('QR code size must be between 50 and 1000 pixels');
@@ -61,8 +57,7 @@ class QRCodeServiceTest extends TestCase
         $this->service->generateQRCodeUrl('https://example.com', 20);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_size_too_large()
+    public function test_throws_exception_for_invalid_size_too_large()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('QR code size must be between 50 and 1000 pixels');
@@ -70,8 +65,7 @@ class QRCodeServiceTest extends TestCase
         $this->service->generateQRCodeUrl('https://example.com', 2000);
     }
 
-    /** @test */
-    public function it_generates_qr_code_for_property()
+    public function test_generates_qr_code_for_property()
     {
         $team = Team::create(['name' => 'Test Team', 'user_id' => 1, 'personal_team' => false]);
         $user = User::factory()->create(['current_team_id' => $team->id]);
@@ -87,8 +81,7 @@ class QRCodeServiceTest extends TestCase
         $this->assertStringContainsString((string) $property->id, $data['property_url']);
     }
 
-    /** @test */
-    public function it_generates_qr_code_url_for_property()
+    public function test_generates_qr_code_url_for_property()
     {
         $team = Team::create(['name' => 'Test Team', 'user_id' => 1, 'personal_team' => false]);
         $user = User::factory()->create(['current_team_id' => $team->id]);

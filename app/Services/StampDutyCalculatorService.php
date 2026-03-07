@@ -154,11 +154,11 @@ class StampDutyCalculatorService
             case 'additional_property':
                 // Additional Dwelling Supplement (ADS): 6% surcharge on top of standard rates
                 return [
-                    0 => 0.06,
-                    145000 => 0.08,
-                    250000 => 0.11,
-                    325000 => 0.16,
-                    750000 => 0.18,
+                    0 => 0,
+                    145000 => 0.06,
+                    250000 => 0.08,
+                    325000 => 0.11,
+                    750000 => 0.16,
                     PHP_INT_MAX => 0.18,
                 ];
             default:
@@ -184,12 +184,12 @@ class StampDutyCalculatorService
                 ];
             case 'additional_property':
                 return [
-                    0 => 0.04,
-                    225000 => 0.10,
-                    400000 => 0.115,
-                    750000 => 0.14,
-                    1500000 => 0.17,
-                    PHP_INT_MAX => 0.19,
+                    0 => 0,
+                    225000 => 0.04,
+                    400000 => 0.10,
+                    750000 => 0.115,
+                    1500000 => 0.14,
+                    PHP_INT_MAX => 0.17,
                 ];
             default:
                 throw new InvalidArgumentException('Invalid buyer type');

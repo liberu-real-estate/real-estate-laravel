@@ -24,8 +24,7 @@ class VirtualStagingServiceTest extends TestCase
         Storage::fake('public');
     }
 
-    /** @test */
-    public function it_can_get_staging_styles()
+    public function test_can_get_staging_styles()
     {
         $styles = $this->service->getStagingStyles();
 
@@ -35,8 +34,7 @@ class VirtualStagingServiceTest extends TestCase
         $this->assertArrayHasKey('traditional', $styles);
     }
 
-    /** @test */
-    public function it_can_upload_an_image()
+    public function test_can_upload_an_image()
     {
         $team = Team::factory()->create();
         $property = Property::factory()->create(['team_id' => $team->id]);
@@ -52,8 +50,7 @@ class VirtualStagingServiceTest extends TestCase
         Storage::disk('public')->assertExists($image->file_path);
     }
 
-    /** @test */
-    public function it_can_upload_and_auto_stage_an_image()
+    public function test_can_upload_and_auto_stage_an_image()
     {
         $team = Team::factory()->create();
         $property = Property::factory()->create(['team_id' => $team->id]);
@@ -71,8 +68,7 @@ class VirtualStagingServiceTest extends TestCase
         $this->assertEquals('modern', $stagedVersions->first()->staging_style);
     }
 
-    /** @test */
-    public function it_can_stage_an_existing_image()
+    public function test_can_stage_an_existing_image()
     {
         $team = Team::factory()->create();
         $property = Property::factory()->create(['team_id' => $team->id]);
@@ -89,8 +85,7 @@ class VirtualStagingServiceTest extends TestCase
         Storage::disk('public')->assertExists($stagedImage->file_path);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_staging_style()
+    public function test_throws_exception_for_invalid_staging_style()
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -102,8 +97,7 @@ class VirtualStagingServiceTest extends TestCase
         $this->service->stageImage($originalImage, 'invalid_style');
     }
 
-    /** @test */
-    public function it_can_delete_an_image_with_staged_versions()
+    public function test_can_delete_an_image_with_staged_versions()
     {
         $team = Team::factory()->create();
         $property = Property::factory()->create(['team_id' => $team->id]);
@@ -128,8 +122,7 @@ class VirtualStagingServiceTest extends TestCase
         Storage::disk('public')->assertMissing($stagedPath2);
     }
 
-    /** @test */
-    public function it_can_get_property_images()
+    public function test_can_get_property_images()
     {
         $team = Team::factory()->create();
         $property = Property::factory()->create(['team_id' => $team->id]);
@@ -146,8 +139,7 @@ class VirtualStagingServiceTest extends TestCase
         $this->assertCount(3, $images); // 2 originals + 1 staged
     }
 
-    /** @test */
-    public function it_can_get_only_original_images()
+    public function test_can_get_only_original_images()
     {
         $team = Team::factory()->create();
         $property = Property::factory()->create(['team_id' => $team->id]);

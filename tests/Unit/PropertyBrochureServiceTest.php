@@ -37,8 +37,7 @@ class PropertyBrochureServiceTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_generates_brochure_data()
+    public function test_generates_brochure_data()
     {
         $data = $this->service->generateBrochureData($this->property);
 
@@ -50,8 +49,7 @@ class PropertyBrochureServiceTest extends TestCase
         $this->assertEquals(4, $data['property']['bedrooms']);
     }
 
-    /** @test */
-    public function it_generates_html_brochure()
+    public function test_generates_html_brochure()
     {
         $html = $this->service->generateHtmlBrochure($this->property);
 
@@ -61,8 +59,7 @@ class PropertyBrochureServiceTest extends TestCase
         $this->assertStringContainsString('<!DOCTYPE html>', $html);
     }
 
-    /** @test */
-    public function it_generates_window_card()
+    public function test_generates_window_card()
     {
         $html = $this->service->generateWindowCard($this->property);
 
@@ -72,8 +69,7 @@ class PropertyBrochureServiceTest extends TestCase
         $this->assertStringContainsString('card', $html);
     }
 
-    /** @test */
-    public function it_includes_epc_in_brochure_by_default()
+    public function test_includes_epc_in_brochure_by_default()
     {
         $html = $this->service->generateHtmlBrochure($this->property);
 
@@ -81,24 +77,21 @@ class PropertyBrochureServiceTest extends TestCase
         $this->assertStringContainsString('B', $html);
     }
 
-    /** @test */
-    public function it_excludes_epc_when_option_is_false()
+    public function test_excludes_epc_when_option_is_false()
     {
         $html = $this->service->generateHtmlBrochure($this->property, ['include_epc' => false]);
 
         $this->assertStringNotContainsString('EPC Rating', $html);
     }
 
-    /** @test */
-    public function it_uses_standard_template_by_default()
+    public function test_uses_standard_template_by_default()
     {
         $data = $this->service->generateBrochureData($this->property);
 
         $this->assertEquals('standard', $data['template']);
     }
 
-    /** @test */
-    public function it_uses_custom_template()
+    public function test_uses_custom_template()
     {
         $data = $this->service->generateBrochureData($this->property, ['template' => 'premium']);
 
