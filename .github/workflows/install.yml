@@ -10,6 +10,16 @@ jobs:
 
   install:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: liberu
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
     
     steps:
     - uses: actions/checkout@v4
@@ -37,14 +47,6 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
-
-    - name: Start database
-      run: |
-        sudo /etc/init.d/mysql start
-        sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; FLUSH PRIVILEGES;"
-
-    - name: Create database
-      run: mysql -e "CREATE DATABASE IF NOT EXISTS liberu;" -uroot -proot
       
     - name: Copy environment file
       run: cp .env.testing .env
