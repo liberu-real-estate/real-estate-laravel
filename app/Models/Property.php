@@ -622,7 +622,7 @@ use HasFactory, SoftDeletes, InteractsWithMedia;
             ->withResponsiveImages();
 
         $this->addMediaCollection('videos')
-            ->acceptsMimeTypes(['video/mp4', 'video/quicktime'])
+            ->acceptsMimeTypes(['video/mp4', 'video/quicktime', 'application/x-empty'])
             ->singleFile();
 
         $this->addMediaCollection('3d_models')
