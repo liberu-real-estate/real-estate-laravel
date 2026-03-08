@@ -23,6 +23,7 @@ class Lead extends Model
         'crm_id',
         'category',
         'last_contacted_at',
+        'team_id',
     ];
 
     protected $casts = [

@@ -39,9 +39,9 @@
                     {{ ucfirst($role) }} Dashboard
                 </a>
             @else
-                <a href="{{ route('login') }}"
+                <a href="{{ Route::has('login') ? route('login') : url('/app/login') }}"
                     class="hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium">Login</a>
-                <a href="{{ route('register') }}"
+                <a href="{{ Route::has('register') ? route('register') : url('/app/register') }}"
                     class="hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium ml-2">Register</a>
             @endif
 

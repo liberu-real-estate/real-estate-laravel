@@ -9,18 +9,23 @@ use Illuminate\Support\Facades\Auth;
 class RoleBasedRedirect
 {
     protected $roleRedirects = [
-        'admin' => '/admin',
-        'staff' => '/staff',
-        'buyer' => '/buyer',
-        'seller' => '/seller',
-        'tenant' => '/tenant',
-        'landlord' => '/landlord',
-        'contractor' => '/contractor',
+        'admin' => 'admin',
+        'staff' => 'staff',
+        'buyer' => 'buyer',
+        'seller' => 'seller',
+        'tenant' => 'tenant',
+        'landlord' => 'landlord',
+        'contractor' => 'contractor',
     ];
 
     public function handle(Request $request, Closure $next)
     {
         if ($this->isInTenantContext($request)) {
+            return $next($request);
+        }
+
+        // The default app panel is accessible to all authenticated users
+        if ($request->is('app') || $request->is('app/*')) {
             return $next($request);
         }
 
@@ -40,7 +45,7 @@ class RoleBasedRedirect
             $userRoles = $user->getRoleNames();
             if ($userRoles->isNotEmpty()) {
                 $firstRole = $userRoles->first();
-                $roleRedirect = '/' . $firstRole;
+                $roleRedirect = $firstRole;
                 if ($request->is($roleRedirect) || $request->is($roleRedirect . '/*')) {
                     return $next($request);
                 }
