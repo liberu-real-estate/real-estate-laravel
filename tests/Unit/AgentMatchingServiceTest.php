@@ -10,6 +10,7 @@ use App\Models\Team;
 use App\Models\User;
 use App\Services\AgentMatchingService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class AgentMatchingServiceTest extends TestCase
@@ -28,6 +29,8 @@ class AgentMatchingServiceTest extends TestCase
         
         $this->service = new AgentMatchingService();
         
+        Role::create(['name' => 'agent', 'guard_name' => 'web']);
+
         // Create a team
         $this->team = Team::create([
             'name' => 'Test Real Estate Team',

@@ -28,9 +28,8 @@ class ZooplaSettingsTest extends TestCase
     {
         $settings = ZooplaSettings::factory()->create();
 
-        // Add relationship tests here if ZooplaSettings has any relationships
-        // For example:
-        // $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $settings->relatedModel);
+        // ZooplaSettings has no relationships to test
+        $this->assertInstanceOf(ZooplaSettings::class, $settings);
     }
 
     public function test_zoopla_settings_scopes()

@@ -6,6 +6,7 @@ use App\Models\AgentMatch;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class AgentMatchTest extends TestCase
@@ -20,6 +21,8 @@ class AgentMatchTest extends TestCase
     {
         parent::setUp();
         
+        Role::create(['name' => 'agent', 'guard_name' => 'web']);
+
         $this->team = Team::create([
             'name' => 'Test Team',
             'user_id' => 1,

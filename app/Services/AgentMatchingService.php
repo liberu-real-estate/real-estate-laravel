@@ -185,12 +185,12 @@ class AgentMatchingService
             return 50; // Base score for new agents
         }
         
-        // Score based on experience and success rate
-        $experienceScore = min(50, $totalProperties * 2); // Cap at 50
+        // Score based on sold properties (primary metric) and success rate
+        $soldScore = min(60, $soldProperties * 8); // Cap at 60
         $successRate = $soldProperties / $totalProperties;
-        $successScore = $successRate * 50;
+        $successBonus = $successRate * 40; // Max 40 points for 100% success rate
         
-        return min(100, $experienceScore + $successScore);
+        return min(100, $soldScore + $successBonus);
     }
 
     /**
@@ -198,8 +198,8 @@ class AgentMatchingService
      */
     private function calculatePerformanceScore(User $agent): float
     {
-        $averageRating = $agent->reviews()->avg('rating');
-        $reviewCount = $agent->reviews()->count();
+        $averageRating = $agent->reviewsReceived()->avg('rating');
+        $reviewCount = $agent->reviewsReceived()->count();
         
         if (!$averageRating || $reviewCount === 0) {
             return 50; // Base score for agents without reviews
