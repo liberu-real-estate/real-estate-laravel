@@ -233,6 +233,6 @@ class VirtualTourTest extends TestCase
         $component->call('scheduleLiveTour');
 
         $component->assertSet('showScheduleLiveTourModal', false);
-        $component->assertEmitted('tourScheduled');
+        $component->assertDispatched('tourScheduled');
     }
 }
