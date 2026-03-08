@@ -16,7 +16,7 @@ class BookingFactory extends Factory
         return [
             'property_id' => Property::factory(),
             'user_id' => User::factory(),
-            'date' => $this->faker->dateTimeBetween('now', '+1 month'),
+            'date' => $this->faker->dateTimeBetween('+2 days', '+1 month'),
             'time' => $this->faker->time(),
             'status' => $this->faker->randomElement(['pending', 'confirmed', 'cancelled']),
             'notes' => $this->faker->optional()->sentence,

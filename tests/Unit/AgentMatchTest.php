@@ -146,6 +146,10 @@ class AgentMatchTest extends TestCase
 
     public function test_can_scope_pending_matches()
     {
+        $otherAgent = User::factory()->create([
+            'current_team_id' => $this->team->id,
+        ]);
+
         AgentMatch::factory()->create([
             'user_id' => $this->user->id,
             'agent_id' => $this->agent->id,
@@ -155,7 +159,7 @@ class AgentMatchTest extends TestCase
         
         AgentMatch::factory()->create([
             'user_id' => $this->user->id,
-            'agent_id' => $this->agent->id,
+            'agent_id' => $otherAgent->id,
             'team_id' => $this->team->id,
             'status' => 'accepted',
         ]);
@@ -168,6 +172,10 @@ class AgentMatchTest extends TestCase
 
     public function test_can_scope_accepted_matches()
     {
+        $otherAgent = User::factory()->create([
+            'current_team_id' => $this->team->id,
+        ]);
+
         AgentMatch::factory()->create([
             'user_id' => $this->user->id,
             'agent_id' => $this->agent->id,
@@ -177,7 +185,7 @@ class AgentMatchTest extends TestCase
         
         AgentMatch::factory()->create([
             'user_id' => $this->user->id,
-            'agent_id' => $this->agent->id,
+            'agent_id' => $otherAgent->id,
             'team_id' => $this->team->id,
             'status' => 'accepted',
         ]);
