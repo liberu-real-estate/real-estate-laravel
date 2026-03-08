@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class AgentMatchingService
 {
+    private const MAX_SOLD_SCORE = 60;
+    private const SOLD_PROPERTY_WEIGHT = 8;
+    private const MAX_SUCCESS_BONUS = 40;
     /**
      * Find the best matching agents for a user based on their needs
      *
@@ -186,9 +189,9 @@ class AgentMatchingService
         }
         
         // Score based on sold properties (primary metric) and success rate
-        $soldScore = min(60, $soldProperties * 8); // Cap at 60
+        $soldScore = min(self::MAX_SOLD_SCORE, $soldProperties * self::SOLD_PROPERTY_WEIGHT);
         $successRate = $soldProperties / $totalProperties;
-        $successBonus = $successRate * 40; // Max 40 points for 100% success rate
+        $successBonus = $successRate * self::MAX_SUCCESS_BONUS;
         
         return min(100, $soldScore + $successBonus);
     }

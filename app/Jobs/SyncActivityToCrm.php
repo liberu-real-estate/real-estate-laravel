@@ -17,6 +17,8 @@ class SyncActivityToCrm implements ShouldQueue
 
     public function handle(): void
     {
-        // CRM sync logic placeholder
+        // TODO: Implement CRM synchronization for activity records.
+        // This job should send activity data (type, description, timestamps)
+        // to the configured CRM system via CrmIntegrationService.
     }
 }
