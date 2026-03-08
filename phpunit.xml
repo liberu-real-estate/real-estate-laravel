@@ -22,7 +22,7 @@
     <env name="BCRYPT_ROUNDS" value="4"/>
     <env name="CACHE_DRIVER" value="array"/>
     <env name="DB_CONNECTION" value="mysql"/>
-    <env name="DB_HOST" value="localhost"/>
+    <env name="DB_HOST" value="127.0.0.1"/>
     <env name="DB_PORT" value="3306"/>
     <env name="DB_DATABASE" value="liberu"/>
     <env name="DB_USERNAME" value="root"/>
@@ -32,6 +32,8 @@
     <env name="QUEUE_CONNECTION" value="sync"/>
     <env name="SESSION_DRIVER" value="array"/>
     <env name="TELESCOPE_ENABLED" value="false"/>
+    <env name="JUPIX_BASE_URL" value="https://api.jupix.test"/>
+    <env name="JUPIX_API_KEY" value="test-api-key"/>
   </php>
   <source>
     <include>

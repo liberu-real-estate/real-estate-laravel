@@ -10,6 +10,7 @@ use App\Models\Team;
 use App\Models\User;
 use App\Services\AgentMatchingService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class AgentMatchingServiceTest extends TestCase
@@ -28,6 +29,8 @@ class AgentMatchingServiceTest extends TestCase
         
         $this->service = new AgentMatchingService();
         
+        Role::create(['name' => 'agent', 'guard_name' => 'web']);
+
         // Create a team
         $this->team = Team::create([
             'name' => 'Test Real Estate Team',
@@ -57,8 +60,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->agent2->assignRole('agent');
     }
 
-    /** @test */
-    public function it_can_calculate_expertise_score_for_experienced_agent()
+    public function test_can_calculate_expertise_score_for_experienced_agent()
     {
         // Create properties for agent1
         Property::factory()->count(5)->create([
@@ -79,8 +81,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertArrayHasKey('match_score', $scores);
     }
 
-    /** @test */
-    public function it_can_calculate_performance_score_based_on_reviews()
+    public function test_can_calculate_performance_score_based_on_reviews()
     {
         // Create reviews for agent1
         Review::factory()->count(5)->create([
@@ -94,8 +95,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertGreaterThan(70, $scores['performance_score']);
     }
 
-    /** @test */
-    public function it_can_calculate_availability_score_based_on_workload()
+    public function test_can_calculate_availability_score_based_on_workload()
     {
         // Agent with few active listings should have higher availability
         Property::factory()->count(2)->create([
@@ -117,8 +117,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertGreaterThan($scores2['availability_score'], $scores1['availability_score']);
     }
 
-    /** @test */
-    public function it_can_calculate_location_score_based_on_agent_properties()
+    public function test_can_calculate_location_score_based_on_agent_properties()
     {
         // Create properties in user's preferred location
         Property::factory()->count(5)->create([
@@ -142,8 +141,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertGreaterThan($scores2['location_score'], $scores1['location_score']);
     }
 
-    /** @test */
-    public function it_can_calculate_specialization_score_based_on_property_type()
+    public function test_can_calculate_specialization_score_based_on_property_type()
     {
         // Agent specialized in apartments
         Property::factory()->count(8)->create([
@@ -165,8 +163,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertGreaterThan($scores2['specialization_score'], $scores1['specialization_score']);
     }
 
-    /** @test */
-    public function it_can_find_best_matching_agents()
+    public function test_can_find_best_matching_agents()
     {
         // Setup agent1 as highly qualified
         Property::factory()->count(5)->create([
@@ -189,8 +186,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertTrue($matches->first()->match_score > 0);
     }
 
-    /** @test */
-    public function it_can_create_agent_match_record()
+    public function test_can_create_agent_match_record()
     {
         $scores = $this->service->calculateMatchScore($this->user, $this->agent1);
         $match = $this->service->createMatch($this->user, $this->agent1, $scores);
@@ -202,8 +198,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertTrue($match->auto_generated);
     }
 
-    /** @test */
-    public function it_can_update_existing_match_record()
+    public function test_can_update_existing_match_record()
     {
         $scores1 = $this->service->calculateMatchScore($this->user, $this->agent1);
         $match1 = $this->service->createMatch($this->user, $this->agent1, $scores1);
@@ -218,8 +213,7 @@ class AgentMatchingServiceTest extends TestCase
             ->count());
     }
 
-    /** @test */
-    public function it_can_generate_matches_for_user()
+    public function test_can_generate_matches_for_user()
     {
         // Setup multiple agents
         Property::factory()->count(5)->create([
@@ -240,8 +234,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertInstanceOf(AgentMatch::class, $matches->first());
     }
 
-    /** @test */
-    public function it_only_creates_matches_above_minimum_score()
+    public function test_only_creates_matches_above_minimum_score()
     {
         $minScore = 80;
         
@@ -259,8 +252,7 @@ class AgentMatchingServiceTest extends TestCase
         }));
     }
 
-    /** @test */
-    public function it_can_get_recommended_agents_for_property_search()
+    public function test_can_get_recommended_agents_for_property_search()
     {
         Property::factory()->count(5)->create([
             'user_id' => $this->agent1->id,
@@ -280,8 +272,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertLessThanOrEqual(3, $agents->count());
     }
 
-    /** @test */
-    public function it_generates_appropriate_match_reasons()
+    public function test_generates_appropriate_match_reasons()
     {
         // Create a highly qualified agent
         Property::factory()->count(10)->create([
@@ -303,8 +294,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertNotEmpty($scores['match_reasons']);
     }
 
-    /** @test */
-    public function it_returns_base_scores_for_new_agents()
+    public function test_returns_base_scores_for_new_agents()
     {
         // Agent with no properties or reviews
         $newAgent = User::factory()->create([
@@ -319,8 +309,7 @@ class AgentMatchingServiceTest extends TestCase
         $this->assertEquals(50, $scores['performance_score']);
     }
 
-    /** @test */
-    public function it_filters_agents_by_team()
+    public function test_filters_agents_by_team()
     {
         $otherTeam = Team::create([
             'name' => 'Other Team',

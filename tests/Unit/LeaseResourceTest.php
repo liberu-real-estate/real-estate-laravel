@@ -6,7 +6,6 @@ use App\Filament\Tenant\Resources\Leases\LeaseResource;
 use App\Models\Lease;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Filament\Forms\ComponentContainer;
 use Filament\Tables\Table;
 
 class LeaseResourceTest extends TestCase

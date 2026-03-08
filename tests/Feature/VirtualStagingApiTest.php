@@ -31,8 +31,7 @@ class VirtualStagingApiTest extends TestCase
         $this->property = Property::factory()->create(['team_id' => $this->team->id]);
     }
 
-    /** @test */
-    public function it_can_get_staging_styles()
+    public function test_can_get_staging_styles()
     {
         $response = $this->actingAs($this->user)
             ->getJson('/api/staging/styles');
@@ -49,8 +48,7 @@ class VirtualStagingApiTest extends TestCase
         $this->assertIsArray($response->json('data.styles'));
     }
 
-    /** @test */
-    public function it_can_upload_an_image_to_property()
+    public function test_can_upload_an_image_to_property()
     {
         $file = UploadedFile::fake()->image('property.jpg', 800, 600);
 
@@ -79,8 +77,7 @@ class VirtualStagingApiTest extends TestCase
         $this->assertEquals($this->property->id, $response->json('data.image.property_id'));
     }
 
-    /** @test */
-    public function it_can_upload_and_auto_stage_an_image()
+    public function test_can_upload_and_auto_stage_an_image()
     {
         $file = UploadedFile::fake()->image('property.jpg', 800, 600);
 
@@ -101,8 +98,7 @@ class VirtualStagingApiTest extends TestCase
         $this->assertTrue($response->json('data.image.has_staged_versions'));
     }
 
-    /** @test */
-    public function it_validates_image_upload()
+    public function test_validates_image_upload()
     {
         $response = $this->actingAs($this->user)
             ->postJson("/api/properties/{$this->property->id}/images/upload", [
@@ -113,8 +109,7 @@ class VirtualStagingApiTest extends TestCase
             ->assertJsonValidationErrors(['image']);
     }
 
-    /** @test */
-    public function it_validates_staging_style()
+    public function test_validates_staging_style()
     {
         $file = UploadedFile::fake()->image('property.jpg');
 
@@ -129,8 +124,7 @@ class VirtualStagingApiTest extends TestCase
             ->assertJsonValidationErrors(['staging_style']);
     }
 
-    /** @test */
-    public function it_can_stage_an_existing_image()
+    public function test_can_stage_an_existing_image()
     {
         $file = UploadedFile::fake()->image('property.jpg');
         $image = Image::create([
@@ -166,8 +160,7 @@ class VirtualStagingApiTest extends TestCase
         $this->assertEquals('luxury', $response->json('data.staged_image.staging_style'));
     }
 
-    /** @test */
-    public function it_cannot_stage_an_already_staged_image()
+    public function test_cannot_stage_an_already_staged_image()
     {
         $image = Image::create([
             'property_id' => $this->property->id,
@@ -190,8 +183,7 @@ class VirtualStagingApiTest extends TestCase
             ]);
     }
 
-    /** @test */
-    public function it_can_get_property_images()
+    public function test_can_get_property_images()
     {
         $file1 = UploadedFile::fake()->image('property1.jpg');
         $file2 = UploadedFile::fake()->image('property2.jpg');
@@ -229,8 +221,7 @@ class VirtualStagingApiTest extends TestCase
         $this->assertCount(2, $response->json('data.images'));
     }
 
-    /** @test */
-    public function it_can_delete_an_image()
+    public function test_can_delete_an_image()
     {
         $image = Image::create([
             'property_id' => $this->property->id,
@@ -252,8 +243,7 @@ class VirtualStagingApiTest extends TestCase
         $this->assertNull(Image::find($image->image_id));
     }
 
-    /** @test */
-    public function unauthenticated_users_cannot_access_api()
+    public function test_unauthenticated_users_cannot_access_api()
     {
         $response = $this->getJson('/api/staging/styles');
         $response->assertStatus(401);

@@ -32,8 +32,7 @@ class SalesProgressionServiceTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_creates_a_sales_progression_with_default_stage()
+    public function test_creates_a_sales_progression_with_default_stage()
     {
         $progression = $this->service->createProgression($this->property, [
             'team_id' => $this->team->id,
@@ -46,8 +45,7 @@ class SalesProgressionServiceTest extends TestCase
         $this->assertDatabaseHas('sales_progressions', ['property_id' => $this->property->id]);
     }
 
-    /** @test */
-    public function it_advances_to_next_stage()
+    public function test_advances_to_next_stage()
     {
         $progression = $this->service->createProgression($this->property);
 
@@ -58,8 +56,7 @@ class SalesProgressionServiceTest extends TestCase
         $this->assertEquals('solicitors_instructed', $advanced->stage);
     }
 
-    /** @test */
-    public function it_throws_exception_when_advancing_from_final_stage()
+    public function test_throws_exception_when_advancing_from_final_stage()
     {
         $progression = $this->service->createProgression($this->property, ['stage' => 'completed']);
 
@@ -69,8 +66,7 @@ class SalesProgressionServiceTest extends TestCase
         $this->service->advanceStage($progression);
     }
 
-    /** @test */
-    public function it_updates_stage_manually()
+    public function test_updates_stage_manually()
     {
         $progression = $this->service->createProgression($this->property);
 
@@ -79,8 +75,7 @@ class SalesProgressionServiceTest extends TestCase
         $this->assertEquals('exchanged', $updated->stage);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_stage()
+    public function test_throws_exception_for_invalid_stage()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid stage');
@@ -89,8 +84,7 @@ class SalesProgressionServiceTest extends TestCase
         $this->service->updateStage($progression, 'flying_on_a_rocket');
     }
 
-    /** @test */
-    public function it_updates_checklist_item()
+    public function test_updates_checklist_item()
     {
         $progression = $this->service->createProgression($this->property);
 
@@ -101,8 +95,7 @@ class SalesProgressionServiceTest extends TestCase
         $this->assertTrue($item['completed']);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_checklist_key()
+    public function test_throws_exception_for_invalid_checklist_key()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Checklist item 'nonexistent_key' not found");
@@ -111,8 +104,7 @@ class SalesProgressionServiceTest extends TestCase
         $this->service->updateChecklistItem($progression, 'nonexistent_key', true);
     }
 
-    /** @test */
-    public function it_calculates_checklist_completion_percentage()
+    public function test_calculates_checklist_completion_percentage()
     {
         $progression = $this->service->createProgression($this->property);
 
@@ -128,8 +120,7 @@ class SalesProgressionServiceTest extends TestCase
         $this->assertEquals(20, $percentage);
     }
 
-    /** @test */
-    public function it_calculates_stage_progress_percentage()
+    public function test_calculates_stage_progress_percentage()
     {
         $progression = $this->service->createProgression($this->property, ['stage' => 'offer_accepted']);
         $this->assertEquals(9, $progression->getStageProgressPercentage());
@@ -138,8 +129,7 @@ class SalesProgressionServiceTest extends TestCase
         $this->assertEquals(100, $updated->getStageProgressPercentage());
     }
 
-    /** @test */
-    public function it_identifies_completed_progression()
+    public function test_identifies_completed_progression()
     {
         $active = $this->service->createProgression($this->property);
         $this->assertFalse($active->isCompleted());
@@ -148,15 +138,13 @@ class SalesProgressionServiceTest extends TestCase
         $this->assertTrue($completed->isCompleted());
     }
 
-    /** @test */
-    public function it_returns_stage_label()
+    public function test_returns_stage_label()
     {
         $progression = $this->service->createProgression($this->property, ['stage' => 'exchanged']);
         $this->assertEquals('Exchanged', $progression->stage_label);
     }
 
-    /** @test */
-    public function it_scopes_active_progressions()
+    public function test_scopes_active_progressions()
     {
         $this->service->createProgression($this->property, ['stage' => 'offer_accepted']);
 

@@ -92,14 +92,12 @@ class PropertySubmissionForm extends Component
         ]);
     
         foreach ($this->images as $image) {
-            $property->addMedia($image->getRealPath())
-                ->usingName($image->getClientOriginalName())
+            $property->addMedia($image)
                 ->toMediaCollection('images');
         }
     
         if ($this->video) {
-            $property->addMedia($this->video->getRealPath())
-                ->usingName($this->video->getClientOriginalName())
+            $property->addMedia($this->video)
                 ->toMediaCollection('videos');
         }
     

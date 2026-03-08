@@ -6,7 +6,6 @@ use App\Filament\Staff\Resources\Buyers\BuyerResource;
 use App\Models\Buyer;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Filament\Forms\ComponentContainer;
 use Filament\Tables\Table;
 
 class BuyerResourceTest extends TestCase

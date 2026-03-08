@@ -13,6 +13,7 @@ use App\Http\Livewire\PropertyTaxEstimator;
 use App\Http\Livewire\PropertyPreviewComponent;
 use App\Http\Livewire\InvestmentAnalysisComponent;
 use App\Http\Livewire\NeighborhoodReviewForm;
+use App\Http\Livewire\PropertyValuationComponent;
 
 class LivewireComponentServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,7 @@ class LivewireComponentServiceProvider extends ServiceProvider
             'property-preview-component' => PropertyPreviewComponent::class,
             'investment-analysis-component' => InvestmentAnalysisComponent::class,
             'neighborhood-review-form' => NeighborhoodReviewForm::class,
+            'property-valuation-component' => PropertyValuationComponent::class,
         ];
 
         foreach ($components as $alias => $class) {

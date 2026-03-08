@@ -7,7 +7,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\TagsColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
@@ -69,7 +68,7 @@ class UserResource extends Resource
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('email')->searchable()->sortable(),
                 TextColumn::make('latestTeam.name')->label('Team'),
-                TagsColumn::make('roles.name')->label('Roles'),
+                TextColumn::make('roles.name')->badge()->label('Roles'),
                 IconColumn::make('two_factor_enabled')
                     ->boolean()
                     ->label('2FA'),

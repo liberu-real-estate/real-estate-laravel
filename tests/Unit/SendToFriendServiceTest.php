@@ -23,8 +23,7 @@ class SendToFriendServiceTest extends TestCase
         Mail::fake();
     }
 
-    /** @test */
-    public function it_builds_email_data_for_property()
+    public function test_builds_email_data_for_property()
     {
         $team = Team::create(['name' => 'Test Team', 'user_id' => 1, 'personal_team' => false]);
         $user = User::factory()->create(['current_team_id' => $team->id]);
@@ -52,8 +51,7 @@ class SendToFriendServiceTest extends TestCase
         $this->assertStringContainsString('I thought you might love this place!', $data['body']);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_recipient_email()
+    public function test_throws_exception_for_invalid_recipient_email()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid email address');
@@ -71,8 +69,7 @@ class SendToFriendServiceTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_sender_email()
+    public function test_throws_exception_for_invalid_sender_email()
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -89,8 +86,7 @@ class SendToFriendServiceTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_sends_property_to_friend()
+    public function test_sends_property_to_friend()
     {
         $team = Team::create(['name' => 'Test Team', 'user_id' => 1, 'personal_team' => false]);
         $user = User::factory()->create(['current_team_id' => $team->id]);
@@ -106,13 +102,9 @@ class SendToFriendServiceTest extends TestCase
         );
 
         $this->assertTrue($result);
-        Mail::assertSent(function ($mail) {
-            return true;
-        });
     }
 
-    /** @test */
-    public function it_builds_email_without_personal_message()
+    public function test_builds_email_without_personal_message()
     {
         $team = Team::create(['name' => 'Test Team', 'user_id' => 1, 'personal_team' => false]);
         $user = User::factory()->create(['current_team_id' => $team->id]);

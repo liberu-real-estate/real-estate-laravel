@@ -49,8 +49,7 @@ class ViewingFeedbackServiceTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_requests_viewing_feedback()
+    public function test_requests_viewing_feedback()
     {
         $feedback = $this->service->requestFeedback(
             $this->appointment,
@@ -65,8 +64,7 @@ class ViewingFeedbackServiceTest extends TestCase
         $this->assertDatabaseHas('viewing_feedbacks', ['property_id' => $this->property->id]);
     }
 
-    /** @test */
-    public function it_throws_exception_for_invalid_viewer_email()
+    public function test_throws_exception_for_invalid_viewer_email()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid viewer email address');
@@ -74,8 +72,7 @@ class ViewingFeedbackServiceTest extends TestCase
         $this->service->requestFeedback($this->appointment, 'not-an-email', 'Jane Doe');
     }
 
-    /** @test */
-    public function it_submits_feedback()
+    public function test_submits_feedback()
     {
         $feedback = $this->service->requestFeedback(
             $this->appointment,
@@ -102,8 +99,7 @@ class ViewingFeedbackServiceTest extends TestCase
         $this->assertTrue($submitted->would_make_offer);
     }
 
-    /** @test */
-    public function it_throws_exception_when_submitting_twice()
+    public function test_throws_exception_when_submitting_twice()
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Feedback has already been submitted');
@@ -118,8 +114,7 @@ class ViewingFeedbackServiceTest extends TestCase
         $this->service->submitFeedback($feedback->fresh(), ['overall_rating' => 5]);
     }
 
-    /** @test */
-    public function it_finds_feedback_by_token()
+    public function test_finds_feedback_by_token()
     {
         $feedback = $this->service->requestFeedback(
             $this->appointment,
@@ -133,15 +128,13 @@ class ViewingFeedbackServiceTest extends TestCase
         $this->assertEquals($feedback->id, $found->id);
     }
 
-    /** @test */
-    public function it_returns_null_for_invalid_token()
+    public function test_returns_null_for_invalid_token()
     {
         $found = $this->service->findByToken('nonexistent-token-xyz');
         $this->assertNull($found);
     }
 
-    /** @test */
-    public function it_generates_a_unique_token_automatically()
+    public function test_generates_a_unique_token_automatically()
     {
         $feedback1 = $this->service->requestFeedback($this->appointment, 'a@example.com', 'A');
 
@@ -159,8 +152,7 @@ class ViewingFeedbackServiceTest extends TestCase
         $this->assertNotEquals($feedback1->token, $feedback2->token);
     }
 
-    /** @test */
-    public function it_gets_property_feedback_summary()
+    public function test_gets_property_feedback_summary()
     {
         $feedback = $this->service->requestFeedback($this->appointment, 'jane@example.com', 'Jane');
         $this->service->submitFeedback($feedback, [
@@ -193,8 +185,7 @@ class ViewingFeedbackServiceTest extends TestCase
         $this->assertEquals(1, $summary['interested_viewers']);
     }
 
-    /** @test */
-    public function it_calculates_average_rating()
+    public function test_calculates_average_rating()
     {
         $feedback = ViewingFeedback::create([
             'property_id' => $this->property->id,

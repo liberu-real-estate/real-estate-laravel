@@ -9,30 +9,26 @@ use Mockery;
 class DocuSignServiceTest extends TestCase
 {
     protected $docuSignService;
-    protected $mockApiClient;
+    protected $mockEnvelopesApi;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->mockApiClient = Mockery::mock('DocuSign\eSign\Client\ApiClient[selectHeaderAccept,selectHeaderContentType]');
-        $this->mockApiClient->shouldReceive('selectHeaderAccept')->andReturn('application/json');
-        $this->mockApiClient->shouldReceive('selectHeaderContentType')->andReturn('application/json');
-
         $this->docuSignService = new DocuSignService([
             'account_id' => 'test_account_id',
             'base_path' => 'https://demo.docusign.net/restapi',
         ]);
-        $this->docuSignService->setApiClient($this->mockApiClient);
+
+        $this->mockEnvelopesApi = Mockery::mock('DocuSign\eSign\Api\EnvelopesApi');
+        $this->docuSignService->setEnvelopesApi($this->mockEnvelopesApi);
     }
 
     public function testCreateEnvelope()
     {
-        $mockEnvelopesApi = Mockery::mock('DocuSign\eSign\Api\EnvelopesApi');
         $mockEnvelope = Mockery::mock('DocuSign\eSign\Model\Envelope');
 
-        $this->mockApiClient->shouldReceive('getApiClient')->andReturn($mockEnvelopesApi);
-        $mockEnvelopesApi->shouldReceive('createEnvelope')->andReturn($mockEnvelope);
+        $this->mockEnvelopesApi->shouldReceive('createEnvelope')->andReturn($mockEnvelope);
 
         $result = $this->docuSignService->createEnvelope('test.pdf', 'test@example.com', 'Test User');
 
@@ -41,11 +37,9 @@ class DocuSignServiceTest extends TestCase
 
     public function testGetEnvelopeStatus()
     {
-        $mockEnvelopesApi = Mockery::mock('DocuSign\eSign\Api\EnvelopesApi');
         $mockEnvelope = Mockery::mock('DocuSign\eSign\Model\Envelope');
 
-        $this->mockApiClient->shouldReceive('getApiClient')->andReturn($mockEnvelopesApi);
-        $mockEnvelopesApi->shouldReceive('getEnvelope')->andReturn($mockEnvelope);
+        $this->mockEnvelopesApi->shouldReceive('getEnvelope')->andReturn($mockEnvelope);
 
         $result = $this->docuSignService->getEnvelopeStatus('test_envelope_id');
 

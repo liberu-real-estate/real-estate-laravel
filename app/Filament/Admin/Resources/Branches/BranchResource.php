@@ -3,7 +3,7 @@
 namespace App\Filament\Admin\Resources\Branches;
 
 use Filament\Schemas\Schema;
-use App\Filament\Admin\Resources\Forms\Components\TextInput;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use App\Filament\Admin\Resources\Branches\Pages\ListBranches;
 use App\Filament\Admin\Resources\Branches\Pages\CreateBranch;

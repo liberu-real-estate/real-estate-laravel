@@ -21,8 +21,7 @@ class ChatbotTest extends TestCase
         $this->chatbotService = new ChatbotService();
     }
 
-    /** @test */
-    public function it_can_create_a_chat_conversation()
+    public function test_can_create_a_chat_conversation()
     {
         $user = User::factory()->create();
         
@@ -37,8 +36,7 @@ class ChatbotTest extends TestCase
         $this->assertEquals('active', $conversation->status);
     }
 
-    /** @test */
-    public function it_can_create_chat_messages()
+    public function test_can_create_chat_messages()
     {
         $user = User::factory()->create();
         $conversation = ChatConversation::create([
@@ -59,8 +57,7 @@ class ChatbotTest extends TestCase
         $this->assertEquals('user', $message->sender_type);
     }
 
-    /** @test */
-    public function it_detects_greeting_intent()
+    public function test_detects_greeting_intent()
     {
         $response = $this->chatbotService->processMessage('Hello!');
         
@@ -68,8 +65,7 @@ class ChatbotTest extends TestCase
         $this->assertStringContainsString('Welcome', $response['message']);
     }
 
-    /** @test */
-    public function it_detects_property_search_intent()
+    public function test_detects_property_search_intent()
     {
         $response = $this->chatbotService->processMessage('I am looking for a property');
         
@@ -77,16 +73,14 @@ class ChatbotTest extends TestCase
         $this->assertGreaterThan(0, $response['confidence']);
     }
 
-    /** @test */
-    public function it_detects_price_inquiry_intent()
+    public function test_detects_price_inquiry_intent()
     {
         $response = $this->chatbotService->processMessage('How much does it cost?');
         
         $this->assertEquals('price_inquiry', $response['intent']);
     }
 
-    /** @test */
-    public function it_can_escalate_conversation()
+    public function test_can_escalate_conversation()
     {
         $user = User::factory()->create();
         $conversation = ChatConversation::create([
@@ -105,8 +99,7 @@ class ChatbotTest extends TestCase
         $this->assertNotNull($conversation->escalated_at);
     }
 
-    /** @test */
-    public function it_identifies_messages_by_sender_type()
+    public function test_identifies_messages_by_sender_type()
     {
         $user = User::factory()->create();
         $conversation = ChatConversation::create([
@@ -135,8 +128,7 @@ class ChatbotTest extends TestCase
         $this->assertFalse($botMessage->isFromUser());
     }
 
-    /** @test */
-    public function conversation_has_messages_relationship()
+    public function test_conversation_has_messages_relationship()
     {
         $user = User::factory()->create();
         $conversation = ChatConversation::create([

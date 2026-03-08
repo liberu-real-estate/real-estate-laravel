@@ -75,10 +75,8 @@ class VRPropertyDesignController extends Controller
     /**
      * Get all designs for a property.
      */
-    public function getPropertyDesigns(Request $request, int $propertyId): JsonResponse
+    public function getPropertyDesigns(Request $request, Property $property): JsonResponse
     {
-        $property = Property::findOrFail($propertyId);
-
         $publicOnly = $request->boolean('public_only', false);
         $designs = $this->service->getPropertyDesigns($property, $publicOnly);
 
@@ -94,17 +92,8 @@ class VRPropertyDesignController extends Controller
     /**
      * Get a specific design.
      */
-    public function getDesign(int $designId): JsonResponse
+    public function getDesign(VRDesign $design): JsonResponse
     {
-        $design = $this->service->getDesign($designId);
-
-        if (!$design) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Design not found',
-            ], 404);
-        }
-
         // Increment view count
         $design->incrementViewCount();
 
@@ -119,10 +108,8 @@ class VRPropertyDesignController extends Controller
     /**
      * Create a new VR design.
      */
-    public function createDesign(Request $request, int $propertyId): JsonResponse
+    public function createDesign(Request $request, Property $property): JsonResponse
     {
-        $property = Property::findOrFail($propertyId);
-
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
@@ -168,10 +155,8 @@ class VRPropertyDesignController extends Controller
     /**
      * Update an existing VR design.
      */
-    public function updateDesign(Request $request, int $designId): JsonResponse
+    public function updateDesign(Request $request, VRDesign $design): JsonResponse
     {
-        $design = VRDesign::findOrFail($designId);
-
         // Check authorization
         if ($design->user_id !== $request->user()->id) {
             return response()->json([
@@ -221,10 +206,8 @@ class VRPropertyDesignController extends Controller
     /**
      * Delete a VR design.
      */
-    public function deleteDesign(Request $request, int $designId): JsonResponse
+    public function deleteDesign(Request $request, VRDesign $design): JsonResponse
     {
-        $design = VRDesign::findOrFail($designId);
-
         // Check authorization
         if ($design->user_id !== $request->user()->id) {
             return response()->json([
@@ -251,10 +234,8 @@ class VRPropertyDesignController extends Controller
     /**
      * Add furniture to a design.
      */
-    public function addFurniture(Request $request, int $designId): JsonResponse
+    public function addFurniture(Request $request, VRDesign $design): JsonResponse
     {
-        $design = VRDesign::findOrFail($designId);
-
         // Check authorization
         if ($design->user_id !== $request->user()->id) {
             return response()->json([
@@ -312,10 +293,8 @@ class VRPropertyDesignController extends Controller
     /**
      * Remove furniture from a design.
      */
-    public function removeFurniture(Request $request, int $designId, string $furnitureId): JsonResponse
+    public function removeFurniture(Request $request, VRDesign $design, string $furnitureId): JsonResponse
     {
-        $design = VRDesign::findOrFail($designId);
-
         // Check authorization
         if ($design->user_id !== $request->user()->id) {
             return response()->json([
@@ -345,10 +324,8 @@ class VRPropertyDesignController extends Controller
     /**
      * Clone a design.
      */
-    public function cloneDesign(Request $request, int $designId): JsonResponse
+    public function cloneDesign(Request $request, VRDesign $design): JsonResponse
     {
-        $design = VRDesign::findOrFail($designId);
-
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
         ]);
@@ -403,10 +380,8 @@ class VRPropertyDesignController extends Controller
     /**
      * Upload thumbnail for a design.
      */
-    public function uploadThumbnail(Request $request, int $designId): JsonResponse
+    public function uploadThumbnail(Request $request, VRDesign $design): JsonResponse
     {
-        $design = VRDesign::findOrFail($designId);
-
         // Check authorization
         if ($design->user_id !== $request->user()->id) {
             return response()->json([
@@ -448,10 +423,8 @@ class VRPropertyDesignController extends Controller
     /**
      * Export design data.
      */
-    public function exportDesign(Request $request, int $designId): JsonResponse
+    public function exportDesign(Request $request, VRDesign $design): JsonResponse
     {
-        $design = VRDesign::findOrFail($designId);
-
         $format = $request->input('format', 'json');
 
         try {

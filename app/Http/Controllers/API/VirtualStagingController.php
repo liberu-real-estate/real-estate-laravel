@@ -23,10 +23,10 @@ class VirtualStagingController extends Controller
      * Upload and optionally stage an image for a property
      *
      * @param Request $request
-     * @param int $propertyId
+     * @param Property $property
      * @return JsonResponse
      */
-    public function uploadImage(Request $request, int $propertyId): JsonResponse
+    public function uploadImage(Request $request, Property $property): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'image' => 'required|image|mimes:jpeg,png,jpg|max:10240',
@@ -40,8 +40,6 @@ class VirtualStagingController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-
-        $property = Property::findOrFail($propertyId);
 
         try {
             $image = $this->stagingService->uploadImage(
@@ -71,10 +69,10 @@ class VirtualStagingController extends Controller
      * Stage an existing image
      *
      * @param Request $request
-     * @param int $imageId
+     * @param Image $image
      * @return JsonResponse
      */
-    public function stageImage(Request $request, int $imageId): JsonResponse
+    public function stageImage(Request $request, Image $image): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'staging_style' => 'required|string|in:' . implode(',', array_keys(VirtualStagingService::STAGING_STYLES)),
@@ -87,8 +85,6 @@ class VirtualStagingController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-
-        $image = Image::findOrFail($imageId);
 
         if ($image->is_staged) {
             return response()->json([
@@ -123,12 +119,11 @@ class VirtualStagingController extends Controller
     /**
      * Get images for a property
      *
-     * @param int $propertyId
+     * @param Property $property
      * @return JsonResponse
      */
-    public function getPropertyImages(int $propertyId): JsonResponse
+    public function getPropertyImages(Property $property): JsonResponse
     {
-        $property = Property::findOrFail($propertyId);
         $images = $this->stagingService->getPropertyImages($property, true);
 
         return response()->json([
@@ -159,13 +154,11 @@ class VirtualStagingController extends Controller
     /**
      * Delete an image
      *
-     * @param int $imageId
+     * @param Image $image
      * @return JsonResponse
      */
-    public function deleteImage(int $imageId): JsonResponse
+    public function deleteImage(Image $image): JsonResponse
     {
-        $image = Image::findOrFail($imageId);
-
         try {
             $this->stagingService->deleteImage($image);
 

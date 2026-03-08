@@ -125,7 +125,7 @@ class PropertyDetail extends Component
             $favorite->delete();
             $this->isFavorited = false;
             session()->flash('message', 'Property removed from wishlist');
-            $this->emit('favoriteRemoved');
+            $this->dispatch('favoriteRemoved');
         } else {
             Favorite::create([
                 'user_id' => $user->id,
@@ -134,7 +134,7 @@ class PropertyDetail extends Component
             ]);
             $this->isFavorited = true;
             session()->flash('message', 'Property added to wishlist');
-            $this->emit('favoriteAdded');
+            $this->dispatch('favoriteAdded');
         }
     }
 
@@ -353,7 +353,7 @@ class PropertyDetail extends Component
         session()->flash('message', 'Live virtual tour scheduled successfully! You will receive a confirmation email shortly.');
         
         $this->closeScheduleLiveTourModal();
-        $this->emit('tourScheduled');
+        $this->dispatch('tourScheduled');
     }
 
     public function checkHolographicTourAvailability()
@@ -367,7 +367,7 @@ class PropertyDetail extends Component
         $this->showHolographicViewer = !$this->showHolographicViewer;
         
         if ($this->showHolographicViewer) {
-            $this->emit('holographicViewerOpened');
+            $this->dispatch('holographicViewerOpened');
         }
     }
 
@@ -381,7 +381,7 @@ class PropertyDetail extends Component
                 $this->property->refresh();
                 $this->holographicTourAvailable = true;
                 session()->flash('message', 'Holographic tour generated successfully!');
-                $this->emit('holographicTourGenerated');
+                $this->dispatch('holographicTourGenerated');
             } else {
                 session()->flash('error', 'Failed to generate holographic tour. Please ensure a 3D model is available.');
             }
