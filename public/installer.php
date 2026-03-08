@@ -1,3 +1,4 @@
+<?php
 // Standalone installer UI (no Laravel bootstrap required for the pre-composer steps).
 // Place this file at public/installer.php
 //
