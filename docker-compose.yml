@@ -7,12 +7,12 @@ services:
         PHP_VERSION: '8.3'
         WWWUSER: '${WWWUSER:-1000}'
         WWWGROUP: '${WWWGROUP:-1000}'
-    image: liberu/real-estate:latest
+    image: boilerplate-laravel:latest
     ports:
-      - '${APP_PORT:-8000}:8000'
+      - '${APP_PORT:-8000}:80'
     environment:
       CONTAINER_MODE: http
-      OCTANE_SERVER: swoole
+      OCTANE_SERVER: roadrunner
       WITH_SCHEDULER: 'true'
       WITH_HORIZON: 'false'
       RUNNING_MIGRATIONS_AND_SEEDERS: '${RUNNING_MIGRATIONS_AND_SEEDERS:-false}'
@@ -35,7 +35,7 @@ services:
       dockerfile: Dockerfile
       args:
         PHP_VERSION: '8.3'
-    image: liberu/real-estate:latest
+    image: boilerplate-laravel:latest
     environment:
       CONTAINER_MODE: worker
       WORKER_COMMAND: 'php /var/www/html/artisan queue:work --sleep=3 --tries=3 --max-time=3600'
