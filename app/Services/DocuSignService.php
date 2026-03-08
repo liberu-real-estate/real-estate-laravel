@@ -12,6 +12,7 @@ class DocuSignService
     protected $config;
     protected $apiClient;
     protected $accountId;
+    protected ?EnvelopesApi $envelopesApi = null;
 
     public function __construct(array $config)
     {
@@ -40,10 +41,24 @@ class DocuSignService
         $this->apiClient = $apiClient;
     }
 
+    public function setEnvelopesApi(EnvelopesApi $envelopesApi): void
+    {
+        $this->envelopesApi = $envelopesApi;
+    }
+
+    protected function getEnvelopesApi(): EnvelopesApi
+    {
+        if ($this->envelopesApi !== null) {
+            return $this->envelopesApi;
+        }
+
+        return new EnvelopesApi($this->apiClient);
+    }
+
     public function createEnvelope($documentPath, $signerEmail, $signerName)
     {
         $envelopeDefinition = $this->createEnvelopeDefinition($documentPath, $signerEmail, $signerName);
-        $envelopesApi = new EnvelopesApi($this->apiClient);
+        $envelopesApi = $this->getEnvelopesApi();
         $envelope = $envelopesApi->createEnvelope($this->accountId, $envelopeDefinition);
         return $envelope;
     }
@@ -57,7 +72,7 @@ class DocuSignService
 
     public function getEnvelopeStatus($envelopeId)
     {
-        $envelopesApi = new EnvelopesApi($this->apiClient);
+        $envelopesApi = $this->getEnvelopesApi();
         return $envelopesApi->getEnvelope($this->accountId, $envelopeId);
     }
 }

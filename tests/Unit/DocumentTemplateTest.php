@@ -20,11 +20,13 @@ class DocumentTemplateTest extends TestCase
 
     public function test_document_template_relationships()
     {
-        // Add relationship tests here if DocumentTemplate has any relationships
+        // DocumentTemplate has no relationships to test
+        $this->expectNotToPerformAssertions();
     }
 
     public function test_document_template_scopes()
     {
-        // Add scope tests here if DocumentTemplate has any scopes
+        // DocumentTemplate has no custom scopes to test
+        $this->expectNotToPerformAssertions();
     }
 }

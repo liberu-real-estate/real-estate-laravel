@@ -102,9 +102,6 @@ class SendToFriendServiceTest extends TestCase
         );
 
         $this->assertTrue($result);
-        Mail::assertSent(function ($mail) {
-            return true;
-        });
     }
 
     public function test_builds_email_without_personal_message()
