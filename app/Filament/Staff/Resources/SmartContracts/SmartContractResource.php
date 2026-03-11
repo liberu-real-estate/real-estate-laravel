@@ -3,7 +3,11 @@
 namespace App\Filament\Staff\Resources\SmartContracts;
 
 use App\Models\SmartContract;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -26,7 +30,7 @@ class SmartContractResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Contract Details')
+                Section::make('Contract Details')
                     ->schema([
                         Forms\Components\Select::make('lease_agreement_id')
                             ->relationship('leaseAgreement', 'id')
@@ -48,7 +52,7 @@ class SmartContractResource extends Resource
                             ->searchable(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Financial Terms')
+                Section::make('Financial Terms')
                     ->schema([
                         Forms\Components\TextInput::make('rent_amount')
                             ->required()
@@ -65,7 +69,7 @@ class SmartContractResource extends Resource
                             ->required(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Blockchain Details')
+                Section::make('Blockchain Details')
                     ->schema([
                         Forms\Components\TextInput::make('contract_address')
                             ->label('Contract Address')
@@ -95,7 +99,7 @@ class SmartContractResource extends Resource
                             ->dehydrated(false),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Signature Status')
+                Section::make('Signature Status')
                     ->schema([
                         Forms\Components\Toggle::make('landlord_signed')
                             ->label('Landlord Signed')
@@ -179,11 +183,11 @@ class SmartContractResource extends Resource
                     ->label('Fully Signed'),
             ])
             ->recordActions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ViewAction::make(),
+                EditAction::make(),
             ])
             ->toolbarActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                DeleteBulkAction::make(),
             ])
             ->defaultSort('deployed_at', 'desc');
     }

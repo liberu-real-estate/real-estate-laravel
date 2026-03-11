@@ -26,14 +26,14 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements HasDefaultTenant, HasTenants, FilamentUser
 {
     use HasApiTokens;
-    use HasConnectedAccounts;
+    // use HasConnectedAccounts;
     use HasRoles;
     use HasFactory;
     use HasProfilePhoto {
         HasProfilePhoto::profilePhotoUrl as getPhotoUrl;
     }
     use Notifiable;
-    use SetsProfilePhotoFromUrl;
+    // use SetsProfilePhotoFromUrl;
     use TwoFactorAuthenticatable;
     use HasTeams;
 
@@ -125,16 +125,9 @@ class User extends Authenticatable implements HasDefaultTenant, HasTenants, Fila
     }
     public function canAccessFilament(): bool
     {
-        $currentPanel = $this->getCurrentPanel();
-       return $this->canAccessPanelById($currentPanel);
+        return true;
     }
-    private function getCurrentPanel(): string
-    {
-        // This is a placeholder. You need to implement a way to determine the current panel.
-        // It could be based on the current URL, a request parameter, or any other method
-        // that fits your application's structure.
-        return 'default';
-    }
+    
 
     public function getDefaultTenant(Panel $panel): ?Model
     {

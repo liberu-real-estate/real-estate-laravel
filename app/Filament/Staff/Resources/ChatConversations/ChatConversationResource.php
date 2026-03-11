@@ -3,7 +3,11 @@
 namespace App\Filament\Staff\Resources\ChatConversations;
 
 use App\Models\ChatConversation;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -24,7 +28,7 @@ class ChatConversationResource extends Resource
     {
         return $schema
             ->components([
-                Forms\Components\Section::make('Conversation Details')
+                Section::make('Conversation Details')
                     ->schema([
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'name')
@@ -98,11 +102,11 @@ class ChatConversationResource extends Resource
                     ]),
             ])
             ->recordActions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ViewAction::make(),
+                EditAction::make(),
             ])
             ->toolbarActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                DeleteBulkAction::make(),
             ])
             ->defaultSort('created_at', 'desc');
     }
