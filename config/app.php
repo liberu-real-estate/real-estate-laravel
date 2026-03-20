@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Liberu Real Estate'),
     'version' => '1.7.3',
 
     /*
@@ -160,7 +160,7 @@ return [
         /*
          * Package Service Providers...
          */
-        JoelButcher\Socialstream\Filament\SocialstreamPanelProvider::class,
+        // JoelButcher\Socialstream\Filament\SocialstreamPanelProvider::class,
 
         /*
          * Application Service Providers...
