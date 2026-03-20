@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Team;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use BezhanSalleh\FilamentShield\Support\Utils;
 
 class RolesSeeder extends Seeder
 {
@@ -13,12 +15,19 @@ class RolesSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = ['admin', 'staff', 'free', 'buyer', 'seller', 'tenant', 'landlord', 'contractor', 'agent'];
-        $permissions = Permission::where('guard_name', 'web')->pluck('id')->toArray();
+        $roleData = [
+            'name' => 'super_admin',
+            'guard_name' => 'web',
+        ];
 
-        foreach ($roles as $roleName) {
-            $role = Role::firstOrCreate(['name' => $roleName]);
-            $role->syncPermissions($permissions);
+        if (Utils::isTenancyEnabled()) {
+            $team = Team::firstOrFail();
+            $roleData["team_id"] = $team->id;
         }
+
+        $adminRole = Role::firstOrCreate($roleData);
+
+        $permissions = Permission::where('guard_name', 'web')->pluck('id')->toArray();
+        $adminRole->syncPermissions($permissions);
     }
 }
