@@ -3,26 +3,21 @@
 namespace App\Providers;
 
 use Exception;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
-use App\Http\Livewire\PropertyBooking;
-use App\Http\Livewire\ValuationBooking;
-use App\Http\Livewire\PropertyReviewForm;
-use App\Http\Livewire\PropertyTaxEstimator;
-use App\Http\Livewire\PropertyPreviewComponent;
-use App\Http\Livewire\InvestmentAnalysisComponent;
-use App\Http\Livewire\NeighborhoodReviewForm;
-use App\Http\Livewire\PropertyValuationComponent;
+use App\Livewire\PropertyBooking;
+use App\Livewire\ValuationBooking;
+use App\Livewire\PropertyReviewForm;
+use App\Livewire\PropertyTaxEstimator;
+use App\Livewire\PropertyPreviewComponent;
+use App\Livewire\InvestmentAnalysisComponent;
+use App\Livewire\NeighborhoodReviewForm;
+use App\Livewire\PropertyValuationComponent;
 
 class LivewireComponentServiceProvider extends ServiceProvider
 {
-    public function boot()
-    {
-        $this->registerLivewireComponents();
-    }
-
-    private function registerLivewireComponents()
+    public function boot(): void
     {
         $components = [
             'property-booking' => PropertyBooking::class,
@@ -41,7 +36,6 @@ class LivewireComponentServiceProvider extends ServiceProvider
                     Livewire::component($alias, $class);
                 }
             } catch (Exception $e) {
-                // Log the error
                 Log::error("Error registering Livewire component {$alias}: " . $e->getMessage());
             }
         }
