@@ -26,9 +26,9 @@ class InvestmentAnalyticsTest extends TestCase
         ]);
 
         // Mock the required services
-        $marketAnalysisService = $this->createMock(MarketAnalysisService::class);
-        $propertyRecommendationService = $this->createMock(PropertyRecommendationService::class);
-        $propertyValuationService = $this->createMock(PropertyValuationService::class);
+        $marketAnalysisService = $this->createStub(MarketAnalysisService::class);
+        $propertyRecommendationService = $this->createStub(PropertyRecommendationService::class);
+        $propertyValuationService = $this->createStub(PropertyValuationService::class);
 
         // Set up mock expectations
         $marketAnalysisService->method('generateMarketAnalysis')
@@ -94,9 +94,9 @@ class InvestmentAnalyticsTest extends TestCase
         ]);
 
         // Mock the required services with empty market data
-        $marketAnalysisService = $this->createMock(MarketAnalysisService::class);
-        $propertyRecommendationService = $this->createMock(PropertyRecommendationService::class);
-        $propertyValuationService = $this->createMock(PropertyValuationService::class);
+        $marketAnalysisService = $this->createStub(MarketAnalysisService::class);
+        $propertyRecommendationService = $this->createStub(PropertyRecommendationService::class);
+        $propertyValuationService = $this->createStub(PropertyValuationService::class);
 
         $marketAnalysisService->method('generateMarketAnalysis')
             ->willReturn([
@@ -133,9 +133,9 @@ class InvestmentAnalyticsTest extends TestCase
             'year_built' => 2018,
         ]);
 
-        $marketAnalysisService = $this->createMock(MarketAnalysisService::class);
-        $propertyRecommendationService = $this->createMock(PropertyRecommendationService::class);
-        $propertyValuationService = $this->createMock(PropertyValuationService::class);
+        $marketAnalysisService = $this->createStub(MarketAnalysisService::class);
+        $propertyRecommendationService = $this->createStub(PropertyRecommendationService::class);
+        $propertyValuationService = $this->createStub(PropertyValuationService::class);
 
         $marketAnalysisService->method('generateMarketAnalysis')
             ->willReturn([

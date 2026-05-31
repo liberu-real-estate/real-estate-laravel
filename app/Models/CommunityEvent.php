@@ -73,11 +73,15 @@ class CommunityEvent extends Model
      */
     public function scopeNearby(Builder $query, float $latitude, float $longitude, float $radius = 10): Builder
     {
-        $haversine = '( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) )';
+        $lat = (float) $latitude;
+        $lon = (float) $longitude;
+        $rad = (float) $radius;
 
-        return $query->selectRaw("*, {$haversine} AS distance", [$latitude, $longitude, $latitude])
-            ->whereRaw("{$haversine} <= ?", [$latitude, $longitude, $latitude, $radius])
-            ->orderByRaw($haversine, [$latitude, $longitude, $latitude]);
+        $haversine = "( 6371 * acos( cos( radians({$lat}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians({$lon}) ) + sin( radians({$lat}) ) * sin( radians( latitude ) ) ) )";
+
+        return $query->selectRaw("*, {$haversine} AS distance")
+            ->whereRaw("{$haversine} <= {$rad}")
+            ->orderByRaw($haversine);
     }
 
     /**

@@ -10,7 +10,7 @@ use App\Models\AppointmentType;
 use App\Models\Appointment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use App\Http\Livewire\PropertyDetail;
+use App\Livewire\PropertyDetail;
 
 class VirtualTourTest extends TestCase
 {
