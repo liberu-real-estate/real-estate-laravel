@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: real-estate-ingress
+  namespace: real-estate
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "400m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ${DOMAIN:-agent.liberu.co.uk}
+      secretName: real-estate-tls
+  rules:
+    - host: ${DOMAIN:-agent.liberu.co.uk}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: real-estate-app
+                port:
+                  number: 80

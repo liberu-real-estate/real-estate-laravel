@@ -1,0 +1,182 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: real-estate-app
+  namespace: real-estate
+  labels:
+    app: real-estate-app
+    component: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: real-estate-app
+      component: web
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: real-estate-app
+        component: web
+    spec:
+      containers:
+        - name: app
+          image: liberu/real-estate:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+          envFrom:
+            - configMapRef:
+                name: real-estate-config
+            - secretRef:
+                name: real-estate-secrets
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /up
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /up
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          volumeMounts:
+            - name: storage
+              mountPath: /var/www/html/storage/app/public
+            - name: logs
+              mountPath: /var/www/html/storage/logs
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: real-estate-storage-pvc
+        - name: logs
+          emptyDir: {}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: real-estate-horizon
+  namespace: real-estate
+  labels:
+    app: real-estate-app
+    component: horizon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: real-estate-app
+      component: horizon
+  template:
+    metadata:
+      labels:
+        app: real-estate-app
+        component: horizon
+    spec:
+      containers:
+        - name: horizon
+          image: liberu/real-estate:latest
+          imagePullPolicy: Always
+          env:
+            - name: CONTAINER_MODE
+              value: "horizon"
+          envFrom:
+            - configMapRef:
+                name: real-estate-config
+            - secretRef:
+                name: real-estate-secrets
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+          volumeMounts:
+            - name: storage
+              mountPath: /var/www/html/storage/app/public
+            - name: logs
+              mountPath: /var/www/html/storage/logs
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: real-estate-storage-pvc
+        - name: logs
+          emptyDir: {}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: real-estate-scheduler
+  namespace: real-estate
+  labels:
+    app: real-estate-app
+    component: scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: real-estate-app
+      component: scheduler
+  template:
+    metadata:
+      labels:
+        app: real-estate-app
+        component: scheduler
+    spec:
+      containers:
+        - name: scheduler
+          image: liberu/real-estate:latest
+          imagePullPolicy: Always
+          env:
+            - name: CONTAINER_MODE
+              value: "scheduler"
+          envFrom:
+            - configMapRef:
+                name: real-estate-config
+            - secretRef:
+                name: real-estate-secrets
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
+          volumeMounts:
+            - name: logs
+              mountPath: /var/www/html/storage/logs
+      volumes:
+        - name: logs
+          emptyDir: {}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000

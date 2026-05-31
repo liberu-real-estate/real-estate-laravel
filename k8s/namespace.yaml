@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: real-estate
+  labels:
+    app: liberu-real-estate
+    managed-by: liberu-control-panel

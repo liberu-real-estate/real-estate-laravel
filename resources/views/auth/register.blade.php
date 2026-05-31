@@ -51,6 +51,22 @@
                     </x-button>
                 </div>
             </form>
+
+            @if (config('socialstream.providers') && count(config('socialstream.providers')) > 0)
+                <div class="mt-4">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">{{ config('socialstream.prompt', 'Or Register Via') }}</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <x-socialstream::components.socialstream />
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 @endsection
