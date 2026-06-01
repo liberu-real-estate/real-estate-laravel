@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Livewire\CustomReportForm;
+use App\Livewire\CustomReportForm;
 use App\Services\DocumentGenerationService;
 use App\Services\MarketAnalysisService;
 use Illuminate\Http\Request;

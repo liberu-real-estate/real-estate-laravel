@@ -34,18 +34,22 @@ class RadialSearchService
 
         $earthRadius = $unit === 'km' ? self::EARTH_RADIUS_KM : self::EARTH_RADIUS_MILES;
 
+        $lat = (float) $latitude;
+        $lon = (float) $longitude;
+        $rad = (float) $radius;
+
         $haversine = "({$earthRadius} * acos(
-                cos(radians(?)) * cos(radians(latitude)) *
-                cos(radians(longitude) - radians(?)) +
-                sin(radians(?)) * sin(radians(latitude))
+                cos(radians({$lat})) * cos(radians(latitude)) *
+                cos(radians(longitude) - radians({$lon})) +
+                sin(radians({$lat})) * sin(radians(latitude))
             ))";
 
         $query = Property::query()
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
-            ->selectRaw("*, {$haversine} AS distance", [$latitude, $longitude, $latitude])
-            ->whereRaw("{$haversine} <= ?", [$latitude, $longitude, $latitude, $radius])
-            ->orderByRaw($haversine, [$latitude, $longitude, $latitude]);
+            ->selectRaw("*, {$haversine} AS distance")
+            ->whereRaw("{$haversine} <= {$rad}")
+            ->orderByRaw($haversine);
 
         foreach ($filters as $column => $value) {
             $query->where($column, $value);
