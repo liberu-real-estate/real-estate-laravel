@@ -39,8 +39,8 @@ Route::prefix('community-events')->group(function () {
 // Property-specific community events route
 Route::get('/properties/{propertyId}/community-events', [CommunityEventController::class, 'propertyEvents']);
 
-// Chatbot API Routes
-Route::prefix('chatbot')->group(function () {
+// Chatbot API Routes (rate-limited)
+Route::middleware('throttle:chatbot')->prefix('chatbot')->group(function () {
     Route::post('/start', [ChatbotController::class, 'startConversation']);
     Route::post('/message', [ChatbotController::class, 'sendMessage']);
     Route::get('/history/{sessionId}', [ChatbotController::class, 'getHistory']);

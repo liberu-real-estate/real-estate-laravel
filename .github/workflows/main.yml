@@ -57,6 +57,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -68,6 +70,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: liberu/real-estate
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix=sha-
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -75,7 +91,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: liberu/accounting
+          images: liberu/real-estate
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -87,8 +103,17 @@ jobs:
         with:
           context: .
           file: Dockerfile
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=liberu/accounting:buildcache
-          cache-to: type=registry,ref=liberu/accounting:buildcache,mode=max
+          cache-from: type=registry,ref=liberu/real-estate:buildcache
+          cache-to: type=registry,ref=liberu/real-estate:buildcache,mode=max
+          build-args: |
+            PHP_VERSION=8.5
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache

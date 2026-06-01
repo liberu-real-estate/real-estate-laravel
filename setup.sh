@@ -438,15 +438,40 @@ install_kubernetes() {
         read -p "Press Enter to continue after editing .env..."
     fi
 
-    # Apply Kubernetes configurations
+    # Apply Kubernetes configurations in proper order
     print_info "Applying Kubernetes configurations..."
-    if kubectl apply -f "$K8S_DIR/"; then
-        print_success "Kubernetes resources created successfully"
-        print_info "Check status with: kubectl get pods"
-    else
-        print_error "Failed to apply Kubernetes configurations"
-        exit 1
-    fi
+
+    apply_if_exists() {
+        local file="$K8S_DIR/$1"
+        if [ -f "$file" ]; then
+            print_info "Applying $1..."
+            kubectl apply -f "$file"
+        fi
+    }
+
+    # Apply in dependency order
+    apply_if_exists "namespace.yaml"
+    apply_if_exists "configmap.yaml"
+    apply_if_exists "secret.yaml"
+    apply_if_exists "pvc.yaml"
+    apply_if_exists "deployment.yaml"
+    apply_if_exists "service.yaml"
+    apply_if_exists "ingress.yaml"
+    apply_if_exists "hpa.yaml"
+
+    # Apply any remaining files not already applied
+    for f in "$K8S_DIR"/*.yaml; do
+        filename=$(basename "$f")
+        case "$filename" in
+            namespace.yaml|configmap.yaml|secret.yaml|pvc.yaml|deployment.yaml|service.yaml|ingress.yaml|hpa.yaml) ;;
+            *) kubectl apply -f "$f" ;;
+        esac
+    done
+
+    print_success "Kubernetes resources applied successfully"
+    print_info "Check status with: kubectl get pods -n real-estate"
+    print_info "View services with: kubectl get svc -n real-estate"
+    print_info "View ingress with: kubectl get ingress -n real-estate"
 }
 
 # Main installation menu

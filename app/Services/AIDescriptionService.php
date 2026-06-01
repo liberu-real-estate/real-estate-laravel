@@ -43,7 +43,8 @@ class AIDescriptionService
     protected function createPrompt(array $propertyData, string $tone)
     {
         $toneInstruction = $this->getToneInstruction($tone);
-        return "Generate an appealing property description for a {$propertyData['property_type']} with {$propertyData['bedrooms']} bedrooms, {$propertyData['bathrooms']} bathrooms, {$propertyData['area_sqft']} sqft, located in {$propertyData['location']}, priced at ${$propertyData['price']}. {$toneInstruction}";
+        $price = $propertyData['price'];
+        return "Generate an appealing property description for a {$propertyData['property_type']} with {$propertyData['bedrooms']} bedrooms, {$propertyData['bathrooms']} bathrooms, {$propertyData['area_sqft']} sqft, located in {$propertyData['location']}, priced at \${$price}. {$toneInstruction}";
     }
 
     protected function getToneInstruction(string $tone)

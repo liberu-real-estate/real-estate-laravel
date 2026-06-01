@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-
   install:
+    name: Full Install Smoke Test
     runs-on: ubuntu-latest
 
     services:
@@ -17,55 +17,67 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: liberu
+          MYSQL_USER: liberu
+          MYSQL_PASSWORD: secret
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
-    
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.5'
-        extensions: mbstring, bcmath, pdo, pdo_mysql, dom, curl
-        
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
+      - uses: actions/checkout@v4
 
-    - name: Get Composer cache directory
-      id: composer-cache
-      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, bcmath, pdo, pdo_mysql, pdo_sqlite, dom, curl, intl
 
-    - name: Cache Composer dependencies
-      uses: actions/cache@v4
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
-      
-    - name: Copy environment file
-      run: cp .env.testing .env
-      
-    - name: Install dependencies
-      run: composer install --no-interaction
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-    - name: Generate application key
-      run: php artisan key:generate
-      
-    - name: Run database migrations
-      run: php artisan migrate
-      
-    - name: Seed database
-      run: php artisan db:seed
-      
-    - name: Install npm dependencies
-      run: npm install
-      
-    - name: Build frontend assets
-      run: npm run build
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Copy environment file
+        run: cp .env.example .env
+
+      - name: Set database credentials
+        run: |
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=liberu/' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=liberu/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=secret/' .env
+          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Generate application key
+        run: php artisan key:generate
+
+      - name: Run database migrations
+        run: php artisan migrate --force
+
+      - name: Seed database
+        run: php artisan db:seed --force
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build frontend assets
+        run: npm run build
