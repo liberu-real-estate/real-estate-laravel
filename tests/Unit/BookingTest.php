@@ -45,7 +45,13 @@ class BookingTest extends TestCase
 
     public function test_reschedule_booking()
     {
-        $booking = Booking::factory()->create(['status' => 'confirmed']);
+        // ensure the original booking is far enough in the future so it can be rescheduled
+        $booking = Booking::factory()->create([
+            'status' => 'confirmed',
+            'date' => now()->addDays(10),
+            'time' => '10:00:00',
+        ]);
+
         $newDate = now()->addDays(7);
         $newTime = '14:00';
 
