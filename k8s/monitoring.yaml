@@ -1,0 +1,68 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: real-estate-monitor
+  namespace: real-estate
+  labels:
+    app: real-estate-app
+    managed-by: liberu-control-panel
+    liberu.io/type: monitoring
+  annotations:
+    liberu.io/control-panel-managed: "true"
+spec:
+  selector:
+    matchLabels:
+      app: real-estate-app
+      component: web
+  endpoints:
+    - port: http
+      path: /api/metrics
+      interval: 30s
+      scrapeTimeout: 10s
+  namespaceSelector:
+    matchNames:
+      - real-estate
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: real-estate-sa
+  namespace: real-estate
+  labels:
+    app: real-estate-app
+    managed-by: liberu-control-panel
+  annotations:
+    liberu.io/control-panel-managed: "true"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: real-estate-role
+  namespace: real-estate
+  labels:
+    app: real-estate-app
+    managed-by: liberu-control-panel
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services", "configmaps"]
+    verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: real-estate-role-binding
+  namespace: real-estate
+  labels:
+    app: real-estate-app
+    managed-by: liberu-control-panel
+subjects:
+  - kind: ServiceAccount
+    name: real-estate-sa
+    namespace: real-estate
+roleRef:
+  kind: Role
+  name: real-estate-role
+  apiGroup: rbac.authorization.k8s.io

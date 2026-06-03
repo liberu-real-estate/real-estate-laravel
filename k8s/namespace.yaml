@@ -5,3 +5,9 @@ metadata:
   labels:
     app: liberu-real-estate
     managed-by: liberu-control-panel
+    liberu.io/type: application
+    liberu.io/component: real-estate
+  annotations:
+    liberu.io/description: "Liberu Real Estate application namespace"
+    liberu.io/repo: "liberu-real-estate/real-estate-laravel"
+    liberu.io/control-panel-managed: "true"

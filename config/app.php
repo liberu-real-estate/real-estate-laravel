@@ -171,6 +171,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
+        App\Providers\Filament\AgentPanelProvider::class,
         App\Providers\Filament\AppPanelProvider::class,
         App\Providers\Filament\BuyerPanelProvider::class,
         App\Providers\Filament\ContractorPanelProvider::class,

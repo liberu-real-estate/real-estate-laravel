@@ -52,7 +52,7 @@
                 </div>
             </form>
 
-            @if (config('socialstream.providers') && count(config('socialstream.providers')) > 0)
+            @if (\JoelButcher\Socialstream\Socialstream::show())
                 <div class="mt-4">
                     <div class="relative">
                         <div class="absolute inset-0 flex items-center">

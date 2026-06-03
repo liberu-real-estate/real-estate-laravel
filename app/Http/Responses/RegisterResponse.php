@@ -10,14 +10,16 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterResponse implements RegisterResponseContract
 {
-    protected $roleRedirects = [
-        'admin' => '/admin',
-        'staff' => '/staff',
-        'buyer' => '/buyer',
-        'seller' => '/seller',
-        'tenant' => '/tenant',
-        'landlord' => '/landlord',
-        'contractor' => '/contractor',
+    protected array $roleRedirects = [
+        'super_admin' => '/admin',
+        'admin'       => '/admin',
+        'staff'       => '/staff',
+        'agent'       => '/agent',
+        'buyer'       => '/buyer',
+        'seller'      => '/seller',
+        'landlord'    => '/landlord',
+        'tenant'      => '/tenant',
+        'contractor'  => '/contractor',
     ];
 
     protected function shouldRedirect(Request $request, $redirect)

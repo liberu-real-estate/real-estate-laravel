@@ -6,6 +6,8 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CommunityEventController;
 use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\API\MetricsController;
+use App\Http\Controllers\API\ModuleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,18 @@ use App\Http\Controllers\ChatbotController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// Public metrics endpoint (for k8s monitoring/control-panel)
+Route::get('/metrics', [MetricsController::class, 'index'])->name('api.metrics');
+
+// Module management (admin only)
+Route::middleware(['auth:sanctum', 'role:super_admin|admin'])->prefix('modules')->group(function () {
+    Route::get('/', [ModuleController::class, 'index'])->name('api.modules.index');
+    Route::get('/status', [ModuleController::class, 'status'])->name('api.modules.status');
+    Route::get('/{name}', [ModuleController::class, 'show'])->name('api.modules.show');
+    Route::post('/{name}/enable', [ModuleController::class, 'enable'])->name('api.modules.enable');
+    Route::post('/{name}/disable', [ModuleController::class, 'disable'])->name('api.modules.disable');
 });
 
 // Public News API Routes

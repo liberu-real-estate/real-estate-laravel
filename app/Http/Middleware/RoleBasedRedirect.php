@@ -8,68 +8,57 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleBasedRedirect
 {
-    protected $roleRedirects = [
-        'admin' => 'admin',
-        'staff' => 'staff',
-        'buyer' => 'buyer',
-        'seller' => 'seller',
-        'tenant' => 'tenant',
-        'landlord' => 'landlord',
-        'contractor' => 'contractor',
+    protected array $roleRedirects = [
+        'super_admin' => 'admin',
+        'admin'       => 'admin',
+        'staff'       => 'staff',
+        'agent'       => 'agent',
+        'buyer'       => 'buyer',
+        'seller'      => 'seller',
+        'landlord'    => 'landlord',
+        'tenant'      => 'tenant',
+        'contractor'  => 'contractor',
     ];
 
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
-        if ($this->isInTenantContext($request)) {
+        if ($request->expectsJson() || $request->is('api/*')) {
             return $next($request);
         }
 
-        // The default app panel is accessible to all authenticated users
-        if ($request->is('app') || $request->is('app/*')) {
+        if ($this->isInTenantContext($request) || $request->is('app') || $request->is('app/*')) {
             return $next($request);
         }
 
-        if (Auth::check()) {
-            $user = Auth::user();
-            foreach ($this->roleRedirects as $role => $redirect) {
-                if ($user->hasRole($role)) {
-                    if ($request->is($redirect) || $request->is($redirect . '/*')) {
-                        return $next($request);
-                    }
-                   if ($this->shouldRedirect($request, $redirect)) {
-                       return redirect($redirect);
-                   }
-                }
-            }
-            // If user has a role not in $roleRedirects, redirect to /{role}
-            $userRoles = $user->getRoleNames();
-            if ($userRoles->isNotEmpty()) {
-                $firstRole = $userRoles->first();
-                $roleRedirect = $firstRole;
-                if ($request->is($roleRedirect) || $request->is($roleRedirect . '/*')) {
+        if (! Auth::check()) {
+            return $next($request);
+        }
+
+        $user = Auth::user();
+
+        foreach ($this->roleRedirects as $role => $redirect) {
+            if ($user->hasRole($role)) {
+                if ($request->is($redirect) || $request->is($redirect.'/*')) {
                     return $next($request);
                 }
-                if ($this->shouldRedirect($request, $roleRedirect)) {
-                    return redirect($roleRedirect);
-                }
+                return redirect($redirect);
             }
-        return $next($request);
-
         }
+
+        // Fallback: redirect to /{firstRole} for roles not in the map
+        $firstRole = $user->getRoleNames()->first();
+        if ($firstRole) {
+            if ($request->is($firstRole) || $request->is($firstRole.'/*')) {
+                return $next($request);
+            }
+            return redirect($firstRole);
+        }
+
         return $next($request);
-        // If not authenticated, redirect to login
-//        return redirect()->route('login');
     }
 
-  protected function isInTenantContext(Request $request)
+    protected function isInTenantContext(Request $request): bool
     {
-        // Check if the current route is already prefixed with a tenant identifier
-        // This might need to be adjusted based on your exact tenancy implementation
         return $request->segment(1) === 'tenant' || $request->is('tenant/*');
-    }
-    protected function shouldRedirect(Request $request, $redirect)
-    {
-        // Check if the current request path matches the redirect path
-        return !$request->is($redirect) && !$request->is($redirect . '/*');
     }
 }

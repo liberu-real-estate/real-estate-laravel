@@ -27,6 +27,7 @@ use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use App\Http\Middleware\ValidateSignature;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 use App\Http\Middleware\TeamsPermission;
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -47,6 +48,7 @@ class Kernel extends HttpKernel
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
         RoleBasedRedirect::class,
+        SecurityHeaders::class,
     ];
 
     /**
@@ -92,5 +94,8 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
         'role.redirect' => RoleBasedRedirect::class,
         'teams.permission' => TeamsPermission::class,
+        'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
     ];
 }

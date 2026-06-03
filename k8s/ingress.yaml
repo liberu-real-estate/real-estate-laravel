@@ -3,11 +3,24 @@ kind: Ingress
 metadata:
   name: real-estate-ingress
   namespace: real-estate
+  labels:
+    app: real-estate-app
+    managed-by: liberu-control-panel
+    liberu.io/type: ingress
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "400m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Frame-Options: SAMEORIGIN";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    liberu.io/control-panel-managed: "true"
 spec:
   ingressClassName: nginx
   tls:

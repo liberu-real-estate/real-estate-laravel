@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: real-estate-quota
+  namespace: real-estate
+  labels:
+    app: real-estate-app
+    managed-by: liberu-control-panel
+    liberu.io/type: resource-quota
+  annotations:
+    liberu.io/control-panel-managed: "true"
+spec:
+  hard:
+    requests.cpu: "4"
+    requests.memory: 8Gi
+    limits.cpu: "8"
+    limits.memory: 16Gi
+    persistentvolumeclaims: "5"
+    requests.storage: 50Gi
+    pods: "20"
+    services: "10"
+    configmaps: "10"
+    secrets: "10"
+
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: real-estate-limits
+  namespace: real-estate
+  labels:
+    app: real-estate-app
+    managed-by: liberu-control-panel
+  annotations:
+    liberu.io/control-panel-managed: "true"
+spec:
+  limits:
+    - max:
+        cpu: "2"
+        memory: 2Gi
+      min:
+        cpu: "50m"
+        memory: 64Mi
+      default:
+        cpu: "500m"
+        memory: 512Mi
+      defaultRequest:
+        cpu: "250m"
+        memory: 256Mi
+      type: Container
+    - max:
+        cpu: "4"
+        memory: 4Gi
+      min:
+        cpu: "100m"
+        memory: 128Mi
+      type: Pod
+    - max:
+        storage: 20Gi
+      min:
+        storage: 1Gi
+      type: PersistentVolumeClaim

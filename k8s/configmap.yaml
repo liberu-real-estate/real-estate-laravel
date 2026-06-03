@@ -3,6 +3,12 @@ kind: ConfigMap
 metadata:
   name: real-estate-config
   namespace: real-estate
+  labels:
+    app: liberu-real-estate
+    managed-by: liberu-control-panel
+    liberu.io/component: config
+  annotations:
+    liberu.io/control-panel-managed: "true"
 data:
   APP_NAME: "Liberu Real Estate"
   APP_ENV: "production"
@@ -20,3 +26,5 @@ data:
   WITH_HORIZON: "true"
   WITH_SCHEDULER: "true"
   WITH_REVERB: "false"
+  MODULES_CACHE: "true"
+  MODULES_DEVELOPMENT: "false"

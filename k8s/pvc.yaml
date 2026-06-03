@@ -3,6 +3,12 @@ kind: PersistentVolumeClaim
 metadata:
   name: real-estate-storage-pvc
   namespace: real-estate
+  labels:
+    app: real-estate-app
+    managed-by: liberu-control-panel
+    liberu.io/type: storage
+  annotations:
+    liberu.io/control-panel-managed: "true"
 spec:
   accessModes:
     - ReadWriteMany

@@ -6,6 +6,13 @@ metadata:
   labels:
     app: real-estate-app
     component: web
+    managed-by: liberu-control-panel
+    liberu.io/type: service
+  annotations:
+    liberu.io/control-panel-managed: "true"
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8000"
+    prometheus.io/path: "/api/metrics"
 spec:
   type: ClusterIP
   selector:
@@ -14,5 +21,9 @@ spec:
   ports:
     - name: http
       port: 80
+      targetPort: 80
+      protocol: TCP
+    - name: app-direct
+      port: 8000
       targetPort: 8000
       protocol: TCP
