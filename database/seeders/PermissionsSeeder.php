@@ -4,15 +4,19 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
-use App\Models\User;
 
 class PermissionsSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        Artisan::call('permissions:sync');
+        $panels = ['admin', 'staff', 'agent', 'buyer', 'seller', 'landlord', 'tenant', 'contractor', 'app'];
+
+        foreach ($panels as $panel) {
+            Artisan::call('shield:generate', [
+                '--all' => true,
+                '--panel' => $panel,
+                '--ignore-existing-policies' => true,
+            ]);
+        }
     }
 }
