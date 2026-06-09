@@ -33,6 +33,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use JoelButcher\Socialstream\Filament\SocialstreamPlugin;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Jetstream\Features;
@@ -95,6 +96,9 @@ class AppPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
                 TeamsPermission::class,
+            ])
+            ->plugins([
+                new SocialstreamPlugin(),
             ]);
 
         return $panel;

@@ -59,6 +59,15 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
+        // Rate limit registration to prevent abuse (OWASP A07)
+        RateLimiter::for('register', function (Request $request) {
+            return Limit::perMinute(3)->by($request->ip());
+        });
+
+        // Rate limit password reset requests
+        RateLimiter::for('password-reset', function (Request $request) {
+            return Limit::perHour(5)->by($request->input('email') . '|' . $request->ip());
+        });
 
         $this->app->bind(\Filament\Auth\Http\Responses\Contracts\LogoutResponse::class, LogoutResponse::class);
         $this->app->singleton(\Laravel\Fortify\Contracts\LoginResponse::class, LoginResponse::class);

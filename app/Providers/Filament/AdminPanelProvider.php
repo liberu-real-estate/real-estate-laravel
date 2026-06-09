@@ -6,6 +6,7 @@ use App\Filament\App\Pages;
 // use App\Http\Middleware\TeamsPermission;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Facades\Filament;
+use JoelButcher\Socialstream\Filament\SocialstreamPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -79,7 +80,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make()
-                    ->navigationGroup('Administration')
+                    ->navigationGroup('Administration'),
+                new SocialstreamPlugin(),
             ]);
 
         // if (Features::hasApiFeatures()) {

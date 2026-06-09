@@ -32,6 +32,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use JoelButcher\Socialstream\Filament\SocialstreamPlugin;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Jetstream\Features;
@@ -105,6 +106,7 @@ class SellerPanelProvider extends PanelProvider
             ])
             ->plugins([
                 // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+                new SocialstreamPlugin(),
             ]);
 
         return $panel;

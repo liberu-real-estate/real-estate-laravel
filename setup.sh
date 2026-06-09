@@ -1,10 +1,15 @@
 #!/bin/bash
 # Setup script for the Liberu Real Estate project.
 #
-# This script provides installation options for Standalone, Docker, or Kubernetes deployments.
-# It handles composer and npm installations with fallback logic and error checking.
+# Usage:
+#   ./setup.sh                        Interactive mode (shows menu)
+#   ./setup.sh standalone             Standalone installation
+#   ./setup.sh docker                 Docker installation
+#   ./setup.sh k8s                    Kubernetes installation
+#   ./setup.sh standalone --ci        Non-interactive (CI/CD) mode
+#   ./setup.sh --help                 Show this help
 
-set -e  # Exit on error
+set -euo pipefail
 
 # Colors for output
 RED='\e[91m'
@@ -13,7 +18,34 @@ YELLOW='\e[93m'
 BLUE='\e[94m'
 RESET='\e[39m'
 
-# Function to print colored messages
+# Global flags
+NON_INTERACTIVE=false
+SKIP_TESTS=false
+SKIP_BUILD=false
+
+# Parse global flags
+for arg in "$@"; do
+    case $arg in
+        --ci|--non-interactive) NON_INTERACTIVE=true ;;
+        --skip-tests) SKIP_TESTS=true ;;
+        --skip-build) SKIP_BUILD=true ;;
+        --help|-h)
+            echo "Usage: $0 [standalone|docker|k8s] [--ci] [--skip-tests] [--skip-build]"
+            echo ""
+            echo "Commands:"
+            echo "  standalone    Local/standalone installation"
+            echo "  docker        Docker Compose installation"
+            echo "  k8s           Kubernetes installation"
+            echo ""
+            echo "Flags:"
+            echo "  --ci / --non-interactive  Skip interactive prompts (for CI/CD)"
+            echo "  --skip-tests              Skip running tests after install"
+            echo "  --skip-build              Skip npm build step"
+            exit 0
+            ;;
+    esac
+done
+
 print_message() {
     local color=$1
     local message=$2
@@ -29,417 +61,373 @@ print_header() {
 }
 
 print_error() {
-    print_message "$RED" "❌ ERROR: $1"
+    print_message "$RED" "ERROR: $1" >&2
 }
 
 print_success() {
-    print_message "$GREEN" "✅ $1"
+    print_message "$GREEN" "OK: $1"
 }
 
 print_info() {
-    print_message "$BLUE" "ℹ️  $1"
+    print_message "$BLUE" "INFO: $1"
 }
 
 print_warning() {
-    print_message "$YELLOW" "⚠️  $1"
+    print_message "$YELLOW" "WARN: $1"
 }
 
-# Check if a command exists
 command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Download composer.phar if composer is not available
+ask_yes_no() {
+    local prompt=$1
+    local default=${2:-y}
+    if [ "$NON_INTERACTIVE" = true ]; then
+        return 0
+    fi
+    local yn
+    while true; do
+        read -rp "$prompt (y/n) [${default}]: " yn
+        yn="${yn:-$default}"
+        case "$yn" in
+            [Yy]*) return 0 ;;
+            [Nn]*) return 1 ;;
+            *) print_warning "Please answer yes or no." ;;
+        esac
+    done
+}
+
 ensure_composer() {
     if command_exists composer; then
-        print_success "Composer is already installed"
+        print_success "Composer is installed"
         COMPOSER_CMD="composer"
         return 0
     fi
 
-    print_warning "Composer command not found. Attempting to download composer.phar..."
+    print_warning "Composer not found. Downloading composer.phar..."
 
     if ! command_exists curl; then
-        print_error "curl is required to download composer. Please install curl or composer manually."
+        print_error "curl is required to download Composer. Install curl or Composer manually."
         return 1
     fi
-
     if ! command_exists php; then
         print_error "PHP is required. Please install PHP first."
         return 1
     fi
 
-    # Download composer installer
-    print_info "Downloading Composer installer..."
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-
-    # Install Composer locally
-    print_info "Installing Composer locally..."
     php composer-setup.php --quiet
-
-    # Clean up installer
     php -r "unlink('composer-setup.php');"
 
     if [ -f "composer.phar" ]; then
-        print_success "Composer.phar downloaded successfully"
+        print_success "Composer.phar downloaded"
         COMPOSER_CMD="php composer.phar"
         return 0
-    else
-        print_error "Failed to download composer.phar"
-        return 1
     fi
+
+    print_error "Failed to download composer.phar"
+    return 1
 }
 
-# Install composer dependencies
 install_composer_dependencies() {
-    print_header "🎬 COMPOSER INSTALL"
+    print_header "COMPOSER INSTALL"
 
-    # Check if vendor directory exists
-    if [ -d "vendor" ] && [ -f "vendor/autoload.php" ]; then
-        print_info "Vendor directory already exists. Skipping composer install."
-        read -p "Do you want to reinstall composer dependencies? (y/n) " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    if [ -d "vendor" ] && [ -f "vendor/autoload.php" ] && [ "$NON_INTERACTIVE" = false ]; then
+        if ! ask_yes_no "Vendor directory exists. Reinstall composer dependencies?"; then
             print_success "Skipping composer install"
             return 0
         fi
     fi
 
-    # Ensure composer is available
     if ! ensure_composer; then
         print_error "Cannot proceed without Composer"
         return 1
     fi
 
-    # Run composer install
-    print_info "Running: $COMPOSER_CMD install"
-    if eval "$COMPOSER_CMD install --no-interaction --prefer-dist"; then
-        print_success "Composer dependencies installed successfully"
-        return 0
-    else
-        print_error "Composer install failed"
-        return 1
-    fi
+    print_info "Running: $COMPOSER_CMD install --no-interaction --prefer-dist --optimize-autoloader"
+    eval "$COMPOSER_CMD install --no-interaction --prefer-dist --optimize-autoloader"
+    print_success "Composer dependencies installed"
 }
 
-# Install npm dependencies
 install_npm_dependencies() {
-    print_header "🎬 NPM INSTALL"
+    print_header "NPM INSTALL"
 
-    # Check if node_modules directory exists
-    if [ -d "node_modules" ]; then
-        print_info "node_modules directory already exists. Skipping npm install."
-        read -p "Do you want to reinstall npm dependencies? (y/n) " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    if ! command_exists npm; then
+        print_warning "npm not installed. Skipping npm install."
+        return 0
+    fi
+
+    if [ -d "node_modules" ] && [ "$NON_INTERACTIVE" = false ]; then
+        if ! ask_yes_no "node_modules exists. Reinstall npm dependencies?"; then
             print_success "Skipping npm install"
             return 0
         fi
     fi
 
-    # Check if npm is available
-    if ! command_exists npm; then
-        print_error "npm is not installed. Please install Node.js and npm first."
-        print_info "Visit: https://nodejs.org/"
-        return 1
+    print_info "Running: npm ci"
+    if npm ci --prefer-offline 2>/dev/null || npm install; then
+        print_success "NPM dependencies installed"
+        return 0
     fi
 
-    # Run npm install
-    print_info "Running: npm install"
-    if npm install; then
-        print_success "NPM dependencies installed successfully"
-        return 0
-    else
-        print_error "NPM install failed"
-        return 1
-    fi
+    print_warning "NPM install failed"
+    return 1
 }
 
-# Build frontend assets
 build_frontend_assets() {
-    print_header "🎬 NPM BUILD"
-
-    # Check if npm is available
-    if ! command_exists npm; then
-        print_error "npm is not installed. Cannot build assets."
-        return 1
+    if [ "$SKIP_BUILD" = true ]; then
+        print_info "Skipping npm build (--skip-build)"
+        return 0
     fi
 
-    # Run npm build
+    print_header "NPM BUILD"
+
+    if ! command_exists npm; then
+        print_warning "npm not installed. Skipping asset build."
+        return 0
+    fi
+
     print_info "Running: npm run build"
     if npm run build; then
-        print_success "Frontend assets built successfully"
+        print_success "Frontend assets built"
         return 0
+    fi
+
+    print_warning "npm build failed"
+    return 1
+}
+
+setup_env_file() {
+    if [ ! -f ".env" ]; then
+        print_info "Copying .env.example to .env"
+        cp .env.example .env
+        if [ "$NON_INTERACTIVE" = false ]; then
+            print_warning "Please edit .env with your database credentials before continuing."
+            read -rp "Press Enter after editing .env..."
+        fi
     else
-        print_error "NPM build failed"
-        return 1
+        print_success ".env file already exists"
     fi
 }
 
-# Standalone installation
-install_standalone() {
-    print_header "STANDALONE INSTALLATION"
-    print_info "Starting standalone installation process..."
+run_artisan_setup() {
+    print_header "LARAVEL SETUP"
 
-    clear
-    echo "=================================="
-    echo "===== USER: [$(whoami)]"
-    echo "===== [PHP $(php -r 'echo phpversion();')]"
-    echo "=================================="
-    echo ""
+    if ! php artisan key:generate --ansi 2>/dev/null; then
+        if grep -q "^APP_KEY=$" .env 2>/dev/null || ! grep -q "^APP_KEY=" .env 2>/dev/null; then
+            php artisan key:generate --ansi --force
+        fi
+    fi
+    print_success "Application key set"
 
-    # Setup the .env file
-    copy=true
-    while true; do
-        read -p "🎬 DEV ---> DID YOU WANT TO COPY THE .ENV.EXAMPLE TO .ENV? (y/n) " yn
-        case $yn in
-            [Yy]* )
-                print_success "Copying .env.example to .env"
-                cp .env.example .env
-                copy=true
-                break
-                ;;
-            [Nn]* )
-                print_success "Continuing with your .env configuration"
-                copy=false
-                break
-                ;;
-            * )
-                print_warning "Please answer yes or no."
-                ;;
-        esac
+    print_info "Running migrations..."
+    if [ "$NON_INTERACTIVE" = true ]; then
+        php artisan migrate --force
+    else
+        php artisan migrate
+    fi
+    print_success "Database migrated"
+
+    print_info "Seeding database..."
+    if [ "$NON_INTERACTIVE" = true ]; then
+        php artisan db:seed --force
+    else
+        php artisan db:seed
+    fi
+    print_success "Database seeded"
+
+    print_info "Generating Filament Shield permissions..."
+    if php artisan shield:generate --all --no-interaction 2>/dev/null; then
+        print_success "Filament Shield permissions generated"
+    else
+        print_warning "Filament Shield not available or failed — skipping"
+    fi
+
+    print_info "Running optimize:clear..."
+    php artisan optimize:clear
+    php artisan route:clear
+    php artisan config:clear
+    php artisan view:clear
+    print_success "Caches cleared"
+
+    print_info "Creating storage symlink..."
+    php artisan storage:link --force 2>/dev/null || true
+}
+
+run_health_check() {
+    print_header "HEALTH CHECK"
+
+    local errors=0
+
+    # Check PHP version
+    php_version=$(php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION;')
+    if [ "$(echo "$php_version >= 8.2" | bc -l 2>/dev/null || echo 1)" = "1" ]; then
+        print_success "PHP version: $php_version"
+    else
+        print_warning "PHP $php_version detected; PHP >= 8.2 recommended"
+    fi
+
+    # Check required PHP extensions
+    for ext in pdo pdo_mysql mbstring openssl curl fileinfo xml json zip; do
+        if php -m 2>/dev/null | grep -qi "^${ext}$"; then
+            print_success "PHP extension: $ext"
+        else
+            print_warning "PHP extension missing: $ext"
+            ((errors++)) || true
+        fi
     done
 
-    echo ""
-    echo "=================================="
-    echo ""
-
-    # Ask user to confirm that .env file is properly setup before continuing
-    if [ "$copy" = true ]; then
-        while true; do
-            read -p "🎬 DEV ---> DID YOU SETUP YOUR DATABASE CREDENTIALS IN THE .ENV FILE? (y/n) " cond
-            case $cond in
-                [Yy]* )
-                    print_success "Perfect let's continue with the setup"
-                    break
-                    ;;
-                [Nn]* )
-                    print_warning "Please setup your .env file and run this script again"
-                    exit 0
-                    ;;
-                * )
-                    print_warning "Please answer yes or no."
-                    ;;
-            esac
-        done
-    fi
-
-    echo ""
-    echo "=================================="
-    echo ""
-
-    # Install composer dependencies
-    if ! install_composer_dependencies; then
-        print_error "Installation failed at composer install step"
-        exit 1
-    fi
-
-    echo ""
-    echo "=================================="
-    echo ""
-
-    # Install npm dependencies
-    if ! install_npm_dependencies; then
-        print_warning "NPM install failed, but continuing..."
-    fi
-
-    echo ""
-    echo "=================================="
-    echo ""
-
-    # Build frontend assets
-    if ! build_frontend_assets; then
-        print_warning "NPM build failed, but continuing..."
-    fi
-
-    echo ""
-    echo "=================================="
-    echo ""
-
-    # Generate Laravel key
-    print_header "🎬 PHP ARTISAN KEY:GENERATE"
-    if php artisan key:generate; then
-        print_success "Application key generated"
+    # Check .env exists
+    if [ -f ".env" ]; then
+        print_success ".env file present"
     else
-        print_error "Failed to generate application key"
-        exit 1
+        print_error ".env file missing"
+        ((errors++)) || true
     fi
 
-    echo ""
-    echo "=================================="
-    echo ""
-
-    # Run database migrations
-    print_header "🎬 PHP ARTISAN MIGRATE:FRESH"
-    if php artisan migrate:fresh; then
-        print_success "Database migrated successfully"
+    # Check vendor exists
+    if [ -f "vendor/autoload.php" ]; then
+        print_success "Composer dependencies installed"
     else
-        print_error "Database migration failed"
-        exit 1
+        print_error "Composer dependencies not installed"
+        ((errors++)) || true
     fi
 
-    echo ""
-    echo "=================================="
-    echo ""
-
-    # Seeding database
-    print_header "🎬 PHP ARTISAN DB:SEED"
-    if php artisan db:seed; then
-        print_success "Database seeded successfully"
+    # Check storage is writable
+    if [ -w "storage" ]; then
+        print_success "Storage directory writable"
     else
-        print_error "Database seeding failed"
-        exit 1
+        print_warning "Storage directory not writable - run: chmod -R 775 storage bootstrap/cache"
+        ((errors++)) || true
     fi
 
-    echo ""
-    echo "=================================="
-    echo ""
+    if [ "$errors" -gt 0 ]; then
+        print_warning "Health check: $errors issue(s) found"
+    else
+        print_success "Health check: all systems go"
+    fi
+}
 
-    # Run PHPUnit tests
-    print_header "🎬 RUNNING PHPUNIT TESTS"
+run_tests() {
+    if [ "$SKIP_TESTS" = true ]; then
+        print_info "Skipping tests (--skip-tests)"
+        return 0
+    fi
+
+    print_header "RUNNING TESTS"
+
     if [ -f "vendor/bin/phpunit" ]; then
-        if ./vendor/bin/phpunit; then
-            print_success "PHPUnit tests passed"
+        if php artisan test --parallel 2>/dev/null || php artisan test; then
+            print_success "Tests passed"
         else
-            print_warning "PHPUnit tests failed. Please review the errors."
+            print_warning "Some tests failed. Review output above."
         fi
     else
         print_warning "PHPUnit not found. Skipping tests."
     fi
-
-    echo ""
-    echo "=================================="
-    echo ""
-
-    # Run optimization commands for Laravel
-    print_header "🎬 PHP ARTISAN OPTIMIZE:CLEAR"
-    php artisan optimize:clear
-    php artisan route:clear
-
-    echo ""
-    print_success "=================================="
-    print_success "============== DONE =============="
-    print_success "=================================="
-    echo ""
-
-    # Ask if user wants to start the server
-    while true; do
-        read -p "🎬 DEV ---> DID YOU WANT TO START THE SERVER? (y/n) " cond
-        case $cond in
-            [Yy]* )
-                print_success "Starting server..."
-                php artisan serve
-                break
-                ;;
-            [Nn]* )
-                print_success "Installation complete. Start with: php artisan serve"
-                exit 0
-                ;;
-            * )
-                print_warning "Please answer yes or no."
-                ;;
-        esac
-    done
 }
 
-# Docker installation
+install_standalone() {
+    print_header "STANDALONE INSTALLATION"
+
+    run_health_check
+    setup_env_file
+    install_composer_dependencies
+    install_npm_dependencies
+    build_frontend_assets
+    run_artisan_setup
+    run_tests
+
+    echo ""
+    print_success "=================================="
+    print_success "    INSTALLATION COMPLETE"
+    print_success "=================================="
+    echo ""
+    print_info "Start the development server with: php artisan serve"
+    print_info "Start queue workers with: php artisan horizon"
+    print_info "Admin panel available at: /admin"
+
+    if [ "$NON_INTERACTIVE" = false ]; then
+        if ask_yes_no "Start the development server now?"; then
+            php artisan serve
+        fi
+    fi
+}
+
 install_docker() {
     print_header "DOCKER INSTALLATION"
-    print_info "Starting Docker installation process..."
 
-    # Check if Docker is installed
     if ! command_exists docker; then
-        print_error "Docker is not installed. Please install Docker first."
-        print_info "Visit: https://docs.docker.com/get-docker/"
+        print_error "Docker is not installed. Visit: https://docs.docker.com/get-docker/"
         exit 1
     fi
+    print_success "Docker is installed ($(docker --version))"
 
-    print_success "Docker is installed"
-
-    # Check for docker-compose
-    if ! command_exists docker-compose && ! docker compose version >/dev/null 2>&1; then
-        print_error "Docker Compose is not installed. Please install Docker Compose first."
-        print_info "Visit: https://docs.docker.com/compose/install/"
-        exit 1
-    fi
-
-    print_success "Docker Compose is available"
-
-    # Setup .env file
-    if [ ! -f ".env" ]; then
-        print_info "Copying .env.example to .env"
-        cp .env.example .env
-        print_warning "Please edit .env file to configure your Docker environment"
-        read -p "Press Enter to continue after editing .env..."
-    fi
-
-    # Build and start containers
-    print_info "Building and starting Docker containers..."
+    local compose_cmd=""
     if command_exists docker-compose; then
-        docker-compose up -d --build
+        compose_cmd="docker-compose"
+    elif docker compose version >/dev/null 2>&1; then
+        compose_cmd="docker compose"
     else
-        docker compose up -d --build
+        print_error "Docker Compose not found. Visit: https://docs.docker.com/compose/install/"
+        exit 1
     fi
+    print_success "Docker Compose available"
 
-    if [ $? -eq 0 ]; then
-        print_success "Docker containers started successfully"
-        print_info "Your application should be available at http://localhost:8000"
+    setup_env_file
+
+    print_info "Building and starting Docker containers..."
+    if $compose_cmd up -d --build; then
+        print_success "Docker containers started"
+        print_info "Application available at: http://localhost:8000"
+        print_info "View logs: ${compose_cmd} logs -f app"
+        print_info "Stop: ${compose_cmd} down"
     else
         print_error "Failed to start Docker containers"
         exit 1
     fi
+
+    # Wait for app to be ready
+    print_info "Waiting for application to be ready..."
+    local retries=30
+    while [ $retries -gt 0 ]; do
+        if curl -sf http://localhost:8000/up >/dev/null 2>&1; then
+            print_success "Application is ready at http://localhost:8000"
+            break
+        fi
+        retries=$((retries - 1))
+        sleep 2
+    done
+    [ $retries -eq 0 ] && print_warning "Application did not become ready in time; check logs"
 }
 
-# Kubernetes installation
 install_kubernetes() {
     print_header "KUBERNETES INSTALLATION"
-    print_info "Starting Kubernetes installation process..."
 
-    # Check if kubectl is installed
     if ! command_exists kubectl; then
-        print_error "kubectl is not installed. Please install kubectl first."
-        print_info "Visit: https://kubernetes.io/docs/tasks/tools/"
+        print_error "kubectl not installed. Visit: https://kubernetes.io/docs/tasks/tools/"
         exit 1
     fi
+    print_success "kubectl installed ($(kubectl version --client --short 2>/dev/null || kubectl version --client))"
 
-    print_success "kubectl is installed"
-
-    # Check for k8s config files
-    if [ ! -d "k8s" ] && [ ! -d "kubernetes" ]; then
-        print_error "No Kubernetes configuration directory found (k8s/ or kubernetes/)"
-        print_warning "Kubernetes installation requires configuration files."
-        print_info "Please create Kubernetes manifests in a k8s/ or kubernetes/ directory"
-        exit 1
-    fi
-
-    # Determine config directory
     K8S_DIR="k8s"
-    if [ ! -d "$K8S_DIR" ] && [ -d "kubernetes" ]; then
-        K8S_DIR="kubernetes"
+    [ ! -d "$K8S_DIR" ] && [ -d "kubernetes" ] && K8S_DIR="kubernetes"
+
+    if [ ! -d "$K8S_DIR" ]; then
+        print_error "No Kubernetes configuration directory found (k8s/ or kubernetes/)"
+        exit 1
     fi
+    print_info "Using Kubernetes configs from: $K8S_DIR/"
 
-    print_info "Using Kubernetes configurations from: $K8S_DIR/"
+    setup_env_file
 
-    # Setup .env file
-    if [ ! -f ".env" ]; then
-        print_info "Copying .env.example to .env"
-        cp .env.example .env
-        print_warning "Please edit .env file to configure your Kubernetes environment"
-        read -p "Press Enter to continue after editing .env..."
+    # Verify cluster access
+    if ! kubectl cluster-info >/dev/null 2>&1; then
+        print_error "Cannot connect to Kubernetes cluster. Check your kubeconfig."
+        exit 1
     fi
-
-    # Apply Kubernetes configurations in proper order
-    print_info "Applying Kubernetes configurations..."
+    print_success "Kubernetes cluster accessible"
 
     apply_if_exists() {
         local file="$K8S_DIR/$1"
@@ -449,69 +437,99 @@ install_kubernetes() {
         fi
     }
 
-    # Apply in dependency order
-    apply_if_exists "namespace.yaml"
-    apply_if_exists "configmap.yaml"
-    apply_if_exists "secret.yaml"
-    apply_if_exists "pvc.yaml"
-    apply_if_exists "deployment.yaml"
-    apply_if_exists "service.yaml"
-    apply_if_exists "ingress.yaml"
-    apply_if_exists "hpa.yaml"
+    # Use kustomize if kustomization.yaml is present
+    if [ -f "$K8S_DIR/kustomization.yaml" ]; then
+        print_info "Applying via kustomize..."
+        kubectl apply -k "$K8S_DIR/"
+        print_success "Kustomize resources applied"
+    else
+        # Apply in dependency order
+        apply_if_exists "namespace.yaml"
+        apply_if_exists "configmap.yaml"
+        apply_if_exists "secret.yaml"
+        apply_if_exists "pvc.yaml"
+        apply_if_exists "deployment.yaml"
+        apply_if_exists "service.yaml"
+        apply_if_exists "ingress.yaml"
+        apply_if_exists "hpa.yaml"
+        apply_if_exists "monitoring.yaml"
+        apply_if_exists "network-policy.yaml"
+        apply_if_exists "resource-quota.yaml"
 
-    # Apply any remaining files not already applied
-    for f in "$K8S_DIR"/*.yaml; do
-        filename=$(basename "$f")
-        case "$filename" in
-            namespace.yaml|configmap.yaml|secret.yaml|pvc.yaml|deployment.yaml|service.yaml|ingress.yaml|hpa.yaml) ;;
-            *) kubectl apply -f "$f" ;;
-        esac
-    done
+        # Apply any remaining yaml files
+        for f in "$K8S_DIR"/*.yaml; do
+            filename=$(basename "$f")
+            case "$filename" in
+                namespace.yaml|configmap.yaml|secret.yaml|pvc.yaml|deployment.yaml|service.yaml|ingress.yaml|hpa.yaml|monitoring.yaml|network-policy.yaml|resource-quota.yaml|kustomization.yaml) ;;
+                *) print_info "Applying $filename..."; kubectl apply -f "$f" ;;
+            esac
+        done
+    fi
 
-    print_success "Kubernetes resources applied successfully"
-    print_info "Check status with: kubectl get pods -n real-estate"
-    print_info "View services with: kubectl get svc -n real-estate"
-    print_info "View ingress with: kubectl get ingress -n real-estate"
+    print_success "Kubernetes resources applied"
+    echo ""
+    print_info "Check pod status:  kubectl get pods -n real-estate"
+    print_info "View services:     kubectl get svc -n real-estate"
+    print_info "View ingress:      kubectl get ingress -n real-estate"
+    print_info "View logs:         kubectl logs -f deployment/real-estate-app -n real-estate"
+
+    # Wait for rollout if not CI
+    if [ "$NON_INTERACTIVE" = false ] || [ "${WAIT_FOR_ROLLOUT:-false}" = "true" ]; then
+        print_info "Waiting for deployment rollout..."
+        kubectl rollout status deployment/real-estate-app -n real-estate --timeout=300s || \
+            print_warning "Rollout did not complete within 5 minutes; check pod status"
+    fi
 }
 
-# Main installation menu
+# Main entry point
 main() {
-    clear
-    print_header "LIBERU REAL ESTATE - INSTALLER"
+    local command="${1:-}"
 
-    echo "Please select installation type:"
-    echo ""
-    echo "  1) Standalone (Local development/production)"
-    echo "  2) Docker (Containerized deployment)"
-    echo "  3) Kubernetes (K8s cluster deployment)"
-    echo "  4) Exit"
-    echo ""
+    # Strip flags from command
+    case "$command" in
+        --ci|--non-interactive|--skip-tests|--skip-build|--help|-h) command="" ;;
+    esac
 
-    while true; do
-        read -p "Enter your choice (1-4): " choice
-        case $choice in
-            1)
-                install_standalone
-                break
-                ;;
-            2)
-                install_docker
-                break
-                ;;
-            3)
-                install_kubernetes
-                break
-                ;;
-            4)
-                print_info "Installation cancelled"
-                exit 0
-                ;;
-            *)
-                print_warning "Invalid choice. Please enter 1, 2, 3, or 4."
-                ;;
-        esac
-    done
+    case "$command" in
+        standalone)
+            install_standalone
+            ;;
+        docker)
+            install_docker
+            ;;
+        k8s|kubernetes)
+            install_kubernetes
+            ;;
+        "")
+            if [ "$NON_INTERACTIVE" = true ]; then
+                print_error "Non-interactive mode requires a command: standalone, docker, or k8s"
+                exit 1
+            fi
+
+            clear
+            print_header "LIBERU REAL ESTATE - INSTALLER"
+            echo "  1) Standalone (Local development/production)"
+            echo "  2) Docker (Containerized deployment)"
+            echo "  3) Kubernetes (K8s cluster deployment)"
+            echo "  4) Exit"
+            echo ""
+
+            while true; do
+                read -rp "Enter your choice (1-4): " choice
+                case $choice in
+                    1) install_standalone; break ;;
+                    2) install_docker; break ;;
+                    3) install_kubernetes; break ;;
+                    4) print_info "Installation cancelled"; exit 0 ;;
+                    *) print_warning "Invalid choice. Please enter 1, 2, 3, or 4." ;;
+                esac
+            done
+            ;;
+        *)
+            print_error "Unknown command: $command. Run with --help for usage."
+            exit 1
+            ;;
+    esac
 }
 
-# Run main function
-main
+main "$@"

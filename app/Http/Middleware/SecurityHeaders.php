@@ -22,6 +22,10 @@ class SecurityHeaders
             $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
         }
 
+        // Remove headers that reveal server information (OWASP A05)
+        $response->headers->remove('X-Powered-By');
+        $response->headers->remove('Server');
+
         return $response;
     }
 }
